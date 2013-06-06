@@ -69,19 +69,13 @@
 	<!-- Left navigation -->
 	<div class="container-left">
 		<div class="well container-scroll">
-			<ul class="multilist">
+			<ul class="multilist" id="load_logbooks">
 				<li class="multilist_header">LOGBOOKS <i class="icon-wrench float_right"></i></li>
-				<li><span class="list multilist_item">First Logbook</span></li>
-				<li><span class="list multilist_item">Second Logbook</span></li>
-				<li><span class="list multilist_item">Third Logbook</span></li>
-				<li><span class="list multilist_item">Fourth Logbook</span></li>
-				<li><span class="list multilist_item">Fifth Logbook</span></li>
+				<!-- Template -->
+			</ul>
+			<ul class="multilist" id="load_tags">
 				<li class="multilist_header">TAGS <i class="icon-wrench float_right"></i></li>
-				<li><span class="list2 multilist_item">First Tag</span></li>
-				<li><span class="list2 multilist_item">Second Tag</span></li>
-				<li><span class="list2 multilist_item">Third Tag</span></li>
-				<li><span class="list2 multilist_item">Fourth Tag</span></li>
-				<li><span class="list2 multilist_item">Fifth Tag</span></li>
+				<!-- Template -->
 			</ul>
 		</div>
 	</div>
@@ -132,6 +126,7 @@ Integer interdum malesuada dui nec interdum. Suspendisse pharetra vulputate temp
 	<script src="static/js/multilist.js"></script>
 	<script src="static/js/script.js"></script>
 	<script src="static/js/mustache.js"></script>
+	<script src="static/js/configuration.js"></script>
 
 	<!-- Templates
 	==================================================== -->
@@ -141,7 +136,15 @@ Integer interdum malesuada dui nec interdum. Suspendisse pharetra vulputate temp
 			{{body}}
 		</div>
 	</script>
+	<script id="template_logbook" type="text/template">
+		<li><span class="list multilist_item">{{name}}</span></li>
+	</script>
+	<script id="template_tag" type="text/template">
+		<li><span class="list2 multilist_item">{{name}}</span></li>
+	</script>
+	
 	<script src="static/js/fill-templates.js"></script>
+	<script src="static/js/rest.js"></script>
 	
 	</body>
 </html>

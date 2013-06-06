@@ -3,12 +3,12 @@
  * 
  * @author: Dejan Dežman <dejan.dezman@cosylab.com>
  */
-$(document).ready(function(){
+/*$(document).ready(function(){
 
 	multiselect("list");
 	multiselect("list2");
 
-});
+});*/
 
 /**
  * Function will create onclick event listener for mulstiselection list with specific name
