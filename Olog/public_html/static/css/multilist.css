@@ -1,0 +1,41 @@
+/* 
+ * CSS for multiselection list module.
+ * 
+ * @author: Dejan Dežman <dejan.dezman@cosylab.com>
+ */
+
+.multilist {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	display: block;
+}
+
+.multilist_item {
+	padding-left: 10px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	display: block;
+	color: #0088cc;
+}
+
+.multilist_item:hover{
+	background-color: #eeeeee;
+	color: #005580;
+}
+
+.multilist_header {
+	padding-left: 10px;
+	padding-top: 10px;
+	padding-bottom: 3px;
+	font-weight: bold;
+	font-size: 11px;
+	color: #999999;
+}
+
+.multilist_clicked {
+	background-color: #0088cc;
+	color: #ffffff;
+}
+
+.list, .list2 {}

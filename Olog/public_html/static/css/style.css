@@ -1,0 +1,94 @@
+/* 
+    Document   : style
+    Created on : May 31, 2013, 2:32:33 PM
+    Author     : user
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+html, body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	width: 100%;
+}
+
+.top-margin {
+	margin-top: 60px;
+}
+
+.well {
+	padding: 5px;
+	margin: 5px;
+}
+
+.olog-nav {
+	background-color: #eeeeee;
+	margin: 0;
+	padding: 7px;
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+}
+
+.container-left {
+	position: fixed;
+	left: 0px;
+	top: 40px;
+	width: 20%;
+	bottom: 0px;
+}
+
+.container-middle {
+	position: fixed;
+	left: 20%;
+	width: 30%;
+	top: 40px;
+	bottom: 0px;
+}
+
+.container-right {
+	position: fixed;
+	right: 0px;
+	top: 40px;
+	width: 50%;
+	bottom: 0px;
+}
+
+.container-scroll {
+	position: absolute;
+	top: 5px;
+	right: 0px;
+	left: 5px;
+	bottom: 5px;
+	overflow-y: auto;
+}
+
+.container-scroll-last-one {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	left: 5px;
+	bottom: 5px;
+	overflow-y: auto;
+}
+
+/* Style multiselect boxes */
+select.multiselect {
+	height: 20%;
+	width: 100%;
+}
+
+.float_right {
+	float: right;
+}
+
+.close_label, .close_label:hover, .close_label:focus {
+	color: white;
+	text-decoration: none;
+}
+
+.user_dropdown_menu {
+	padding: 10px;
+	padding-bottom: 0px;
+}
