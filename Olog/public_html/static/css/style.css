@@ -22,6 +22,11 @@ html, body {
 	margin: 5px;
 }
 
+.log {
+	display: block;
+	cursor: pointer;
+}
+
 .olog-nav {
 	background-color: #eeeeee;
 	margin: 0;
@@ -91,4 +96,8 @@ select.multiselect {
 .user_dropdown_menu {
 	padding: 10px;
 	padding-bottom: 0px;
+}
+
+.search_input {
+	width: 60%;
 }

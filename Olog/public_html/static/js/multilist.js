@@ -16,12 +16,23 @@
  * @returns {undefined}
  */
 function multiselect(name){
+	
+	$('.' + name).hover(function(e){
+		$(e.target).find(".multilist_icons").show("fast");
+	});
+	
+	$('.' + name).mouseleave(function(e){
+		$(e.target).find(".multilist_icons").hide("fast");
+	});
+	
 	$('.' + name).click(function(e){
 
-		if(!e.ctrlKey){
-			$('.' + name).removeClass("multilist_clicked");
-		}
+		if($(e.target).is("span")){
+			if(!e.ctrlKey){
+				$('.' + name).removeClass("multilist_clicked");
+			}
 
-		$(e.target).addClass("multilist_clicked");
+			$(e.target).addClass("multilist_clicked");
+		}
 	});
 }

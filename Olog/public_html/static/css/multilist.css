@@ -17,6 +17,7 @@
 	padding-bottom: 3px;
 	display: block;
 	color: #0088cc;
+	cursor: pointer;
 }
 
 .multilist_item:hover{
@@ -33,9 +34,13 @@
 	color: #999999;
 }
 
-.multilist_clicked {
+.multilist_clicked, .multilist_clicked:hover {
 	background-color: #0088cc;
 	color: #ffffff;
 }
 
 .list, .list2 {}
+
+.multilist_icons {
+	display: none;
+}

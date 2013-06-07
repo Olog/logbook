@@ -70,11 +70,11 @@
 	<div class="container-left">
 		<div class="well container-scroll">
 			<ul class="multilist" id="load_logbooks">
-				<li class="multilist_header">LOGBOOKS <i class="icon-wrench float_right"></i></li>
+				<li class="multilist_header">LOGBOOKS <a href="#myModal" title="Add New Logbook" data-toggle="modal"><i class="icon-plus float_right"></i></a></li>
 				<!-- Template -->
 			</ul>
 			<ul class="multilist" id="load_tags">
-				<li class="multilist_header">TAGS <i class="icon-wrench float_right"></i></li>
+				<li class="multilist_header">TAGS <a href="#myTagModal" title="Add New Tag" data-toggle="modal"><i class="icon-plus float_right"></i></a></li>
 				<!-- Template -->
 			</ul>
 		</div>
@@ -84,29 +84,22 @@
 	<div class="container-middle">
 		<div id="load_logs" class="well container-scroll">
 			<form class="form-search">
-				<input type="text" class="input-medium search-query">
+				<input type="text" class="input-medium search-query search_input">
 				<button type="submit" class="btn">Search</button>
 			</form>
-			<div class="well">
-				<a href="#" id="pop-button" data-toggle="popover" data-content="data content" title="" data-original-title="title custom">Title</a><br />
-				<a href="#">4.6.2013</a> start of a text ..
-			</div>
+			<!-- Template -->
 		</div>
 	</div>
 
 	<!-- Log view -->
 	<div class="container-right">
 		<div class="well container-scroll-last-one">
-			<h4><i class="icon-pencil"></i> <i class="icon-trash"></i> Log title</h4>
-			<span><i class="icon-tags"></i> <span class="label label-info">tag</span> <span class="label label-info">tag</span> <span class="label label-info">tag <a class="close_label" href="#">&times;</a></span></span>
+			<h4><span id="log_owner"></span>, <span id="log_date"></span><i class="icon-trash float_right"></i> <i class="icon-pencil float_right"></i></h4>
+			<i class="icon-tags"></i><span id="load_log_tags"> <span class="label label-info">tag</span> <span class="label label-info">tag</span> <span class="label label-info">tag <a class="close_label" href="#">&times;</a></span></span>
 			<br />
-			<span><i class="icon-book"></i> <span class="label label-warning">logbook</span> <span class="label label-warning">logbook</span> <span class="label label-warning">logbook</span></span>
+			<i class="icon-book"></i><span id="load_log_logbooks"> <span class="label label-warning">logbook</span> <span class="label label-warning">logbook</span> <span class="label label-warning">logbook</span></span>
 			<hr />
-			<span>
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce eu lorem at massa bibendum sollicitudin. Vestibulum ac augue sed lorem fermentum placerat id laoreet ipsum. Etiam porttitor iaculis blandit. Proin et turpis dolor. Vestibulum varius hendrerit purus, ac imperdiet odio varius at. Nunc mattis quam quis lacus aliquet nec interdum mauris congue. Donec rutrum, massa pharetra lacinia tempor, mi risus lacinia eros, eu posuere neque justo porttitor ligula.
-
-Integer interdum malesuada dui nec interdum. Suspendisse pharetra vulputate tempus. Nulla facilisi. Aenean ut leo nec lorem tincidunt luctus. Quisque auctor facilisis varius. Nullam fermentum dui eget felis faucibus et feugiat ipsum eleifend. In tellus augue, consectetur in aliquet ut, bibendum eget turpis. Aliquam imperdiet lectus non turpis vehicula in venenatis arcu ultrices. Aliquam dictum odio nec erat posuere pretium. Phasellus ut mauris quis massa elementum scelerisque in a magna. Integer tincidunt massa quis tortor faucibus varius. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Suspendisse ante lectus, tincidunt quis egestas sit amet, pellentesque in erat.
-			</span>
+			<span id="log_description"></span>
 			<hr />
 			<img src="static/img/uploaded/one.jpg" width="140" height="140" class="img-rounded">
 			<img src="static/img/uploaded/two.jpg" width="140" height="140" class="img-rounded">
@@ -116,13 +109,122 @@ Integer interdum malesuada dui nec interdum. Suspendisse pharetra vulputate temp
 			<img src="static/img/uploaded/six.jpg" width="140" height="140" class="img-rounded">
 		</div>
 	</div>
+	
+	<!-- Modal windows
+	==================================================== -->
+	
+	<!-- Add logbook ============================================== -->
+	<div id="myModal" class="modal hide fade">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h3>New Logbook</h3>
+		</div>
+		<div class="modal-body">
+			<label>Name</label>
+			<input type="text" placeholder="Logbook name ...">
 
+			<label>Owner</label>
+			<input type="text" placeholder="Logbook owner ..."><br />
 
-	<!-- Le javascript
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn btn-primary">Create</a>
+			<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
+		</div>
+	</div>
+	
+	<!-- Edit logbook ============================================== -->
+	<div id="editLogbookModal" class="modal hide fade">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h3>Edit Logbook</h3>
+		</div>
+		<div class="modal-body">
+			<label>Name</label>
+			<input name="name" type="text" placeholder="Logbook name ...">
+
+			<label>Owner</label>
+			<input name="owner" type="text" placeholder="Logbook owner ..."><br />
+
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn btn-primary">Create</a>
+			<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
+		</div>
+	</div>
+	
+	<!-- Delete logbook ============================================== -->
+	<div id="deleteLogbookModal" class="modal hide fade">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h3>Delete Logbook</h3>
+		</div>
+		<div class="modal-body">
+			<input type="hidden" name="id" value="" />
+			Are you sure you want to delete selected Logbook?
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn btn-primary">Yes</a>
+			<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
+		</div>
+	</div>
+	
+	<!-- Add Tag ============================================== -->
+	<div id="myTagModal" class="modal hide fade">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h3>New Tag</h3>
+		</div>
+		<div class="modal-body">
+			<label>Name</label>
+			<input type="text" placeholder="Tag name ...">
+
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn btn-primary">Create</a>
+			<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
+		</div>
+	</div>
+	
+	<!-- Edit Tag ============================================== -->
+	<div id="editTagModal" class="modal hide fade">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h3>Edit Tag</h3>
+		</div>
+		<div class="modal-body">
+			<label>Name</label>
+			<input name="name" type="text" placeholder="Tag name ...">
+
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn btn-primary">Create</a>
+			<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
+		</div>
+	</div>
+	
+	<!-- Delete Tag ============================================== -->
+	<div id="deleteTagModal" class="modal hide fade">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h3>Delete Tag</h3>
+		</div>
+		<div class="modal-body">
+			<input type="hidden" name="id" value="" />
+			Are you sure you want to delete selected Tag?
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn btn-primary">Yes</a>
+			<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
+		</div>
+	</div>
+
+	<!-- Import javascript files
 	================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
 	<script src="static/js/jquery-2.0.2.js"></script>
 	<script src="static/js/bootstrap.js"></script>
+	<script src="static/js/moment.min.js"></script>
 	<script src="static/js/multilist.js"></script>
 	<script src="static/js/script.js"></script>
 	<script src="static/js/mustache.js"></script>
@@ -132,15 +234,27 @@ Integer interdum malesuada dui nec interdum. Suspendisse pharetra vulputate temp
 	==================================================== -->
 	
 	<script id="template_log" type="text/template">
-		<div class="well">
-			{{body}}
+		<div class="well log">
+			<input type="hidden" name="id" value="{{id}}" />
+			<p class="text-info">{{owner}}, {{createdDate}}</p>
+			{{description}}
 		</div>
 	</script>
+	
 	<script id="template_logbook" type="text/template">
-		<li><span class="list multilist_item">{{name}}</span></li>
+		<li><span class="list multilist_item">{{name}}<a href="#" onclick="showDeleteModal('deleteLogbookModal', '34');"><i class="icon-trash float_right multilist_icons"></i></a><a href="#" onclick="showEditLogbookModal('editLogbookModal', '{{name}}');"><i class="icon-pencil float_right multilist_icons"></i></a></span></li>
 	</script>
+	
 	<script id="template_tag" type="text/template">
-		<li><span class="list2 multilist_item">{{name}}</span></li>
+		<li><span class="list2 multilist_item">{{name}}<a href="#" onclick="showDeleteModal('deleteTagModal', '34');"><i class="icon-trash float_right multilist_icons"></i></a><a href="#" onclick="showEditTagModal('editTagModal', '{{name}}');"><i class="icon-pencil float_right multilist_icons"></i></a></span></li>
+	</script>
+	
+	<script id="template_log_logbook" type="text/template">
+		 <span class="label label-warning">{{name}}</span>
+	</script>
+	
+	<script id="template_log_tag" type="text/template">
+		 <span class="label label-info">{{name}}</span>
 	</script>
 	
 	<script src="static/js/fill-templates.js"></script>
