@@ -12,4 +12,4 @@ var serviceurl = "http://localhost:8080/Olog/resources/";
 var dateFormat = "MMMM Do YYYY, hh:mm";
 
 // How many logs do you want to load per request?
-var numberOfLogsPerLoad = 50;
+var numberOfLogsPerLoad = 5;

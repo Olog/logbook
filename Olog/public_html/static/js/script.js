@@ -5,7 +5,10 @@
  * @author: Dejan Dežman <dejan.dezman@cosylab.com>
  */
 
- $(function() {
+$(document).ready(function(){
+	/**
+	 * Disable closing the login dropdown if user clicks on login form elements
+	 */
 	// Setup drop down menu
 	$('.dropdown-toggle').dropdown();
 	// Fix input element click problem
@@ -61,15 +64,31 @@ function returnFirstXWords(string, count){
 	
 }
 
+/**
+ * When logs are loaded onto the page, start listening for mouse clicks on them
+ * @returns {undefined}
+ */
 function startListeningForLogClicks(){
+	var actionElement = null;
+	
+	$('.log_show_details').click(function(e){
+		$('.log_details').toggle(400, 'swing');
+	});
+	
 	$(".log").click(function(e){
+		$('.log').removeClass("log_click");
 		
 		if($(e.target).is("div")){
-			getLog($(e.target).find("input[name=id]").val());
+			actionElement = $(e.target);
+			//getLog($(e.target).find("input[name=id]").val());
 		
 		}else if($(e.target).parent().is("div")){
-			getLog($(e.target).parent().find("input[name=id]").val());
+			actionElement = $(e.target).parent();
+			//getLog($(e.target).parent().find("input[name=id]").val());
 		}
+		
+		actionElement.toggleClass("log_click");
+		getLog(actionElement.find("input[name=id]").val());
 	});
 }
 

@@ -70,11 +70,11 @@
 	<div class="container-left">
 		<div class="well container-scroll">
 			<ul class="multilist" id="load_logbooks">
-				<li class="multilist_header">LOGBOOKS <a href="#myModal" title="Add New Logbook" data-toggle="modal"><i class="icon-plus float_right"></i></a></li>
+				<li class="multilist_header">LOGBOOKS <a href="#myModal" title="Add New Logbook" data-toggle="modal"><i class="icon-plus float_right float_right_padding"></i></a></li>
 				<!-- Template -->
 			</ul>
 			<ul class="multilist" id="load_tags">
-				<li class="multilist_header">TAGS <a href="#myTagModal" title="Add New Tag" data-toggle="modal"><i class="icon-plus float_right"></i></a></li>
+				<li class="multilist_header">TAGS <a href="#myTagModal" title="Add New Tag" data-toggle="modal"><i class="icon-plus float_right float_right_padding"></i></a></li>
 				<!-- Template -->
 			</ul>
 		</div>
@@ -94,19 +94,31 @@
 	<!-- Log view -->
 	<div class="container-right">
 		<div class="well container-scroll-last-one">
-			<h4><span id="log_owner"></span>, <span id="log_date"></span><i class="icon-trash float_right"></i> <i class="icon-pencil float_right"></i></h4>
-			<i class="icon-tags"></i><span id="load_log_tags"> <span class="label label-info">tag</span> <span class="label label-info">tag</span> <span class="label label-info">tag <a class="close_label" href="#">&times;</a></span></span>
-			<br />
-			<i class="icon-book"></i><span id="load_log_logbooks"> <span class="label label-warning">logbook</span> <span class="label label-warning">logbook</span> <span class="label label-warning">logbook</span></span>
-			<hr />
-			<span id="log_description"></span>
-			<hr />
-			<img src="static/img/uploaded/one.jpg" width="140" height="140" class="img-rounded">
+			
+			<div class="log_title">
+				<h5><span id="log_owner"></span>, <span id="log_date"></span><a class="log_show_details" href="#"><i class="icon-info-sign"></i> Show details</a><i class="icon-trash float_right"></i> <i class="icon-pencil float_right float_right_padding"></i></h5>
+			</div>
+			
+			<div class="log_details">
+				<i class="icon-tags"></i><span id="load_log_tags"> <span class="label label-info">tag</span> <span class="label label-info">tag</span> <span class="label label-info">tag <a class="close_label" href="#">&times;</a></span></span>
+				<br />
+				<i class="icon-book"></i><span id="load_log_logbooks"> <span class="label label-warning">logbook</span> <span class="label label-warning">logbook</span> <span class="label label-warning">logbook</span></span>
+			</div>
+			
+			<div class="log_body">
+				<span id="log_description"></span>
+			</div>
+			
+			<div id="load_log_attachments" class="log_attachments">
+				
+			</div>
+			
+			<!-- <img src="static/img/uploaded/one.jpg" width="140" height="140" class="img-rounded">
 			<img src="static/img/uploaded/two.jpg" width="140" height="140" class="img-rounded">
 			<img src="static/img/uploaded/three.jpg" width="140" height="140" class="img-rounded">
 			<img src="static/img/uploaded/four.jpg" width="140" height="140" class="img-rounded">
 			<img src="static/img/uploaded/five.jpg" width="140" height="140" class="img-rounded">
-			<img src="static/img/uploaded/six.jpg" width="140" height="140" class="img-rounded">
+			<img src="static/img/uploaded/six.jpg" width="140" height="140" class="img-rounded"> -->
 		</div>
 	</div>
 	
@@ -234,19 +246,20 @@
 	==================================================== -->
 	
 	<script id="template_log" type="text/template">
-		<div class="well log">
+		<div class="log">
 			<input type="hidden" name="id" value="{{id}}" />
 			<p class="text-info">{{owner}}, {{createdDate}}</p>
 			{{description}}
+			<div class="attachments">
 		</div>
 	</script>
 	
 	<script id="template_logbook" type="text/template">
-		<li><span class="list multilist_item">{{name}}<a href="#" onclick="showDeleteModal('deleteLogbookModal', '34');"><i class="icon-trash float_right multilist_icons"></i></a><a href="#" onclick="showEditLogbookModal('editLogbookModal', '{{name}}');"><i class="icon-pencil float_right multilist_icons"></i></a></span></li>
+		<li><span class="list multilist_item">{{name}}<a href="#" onclick="showDeleteModal('deleteLogbookModal', '34');"><i class="icon-trash float_right multilist_icons float_right_padding"></i></a><a href="#" onclick="showEditLogbookModal('editLogbookModal', '{{name}}');"><i class="icon-pencil float_right multilist_icons"></i></a></span></li>
 	</script>
 	
 	<script id="template_tag" type="text/template">
-		<li><span class="list2 multilist_item">{{name}}<a href="#" onclick="showDeleteModal('deleteTagModal', '34');"><i class="icon-trash float_right multilist_icons"></i></a><a href="#" onclick="showEditTagModal('editTagModal', '{{name}}');"><i class="icon-pencil float_right multilist_icons"></i></a></span></li>
+		<li><span class="list2 multilist_item">{{name}}<a href="#" onclick="showDeleteModal('deleteTagModal', '34');"><i class="icon-trash float_right multilist_icons float_right_padding"></i></a><a href="#" onclick="showEditTagModal('editTagModal', '{{name}}');"><i class="icon-pencil float_right multilist_icons"></i></a></span></li>
 	</script>
 	
 	<script id="template_log_logbook" type="text/template">
@@ -257,7 +270,14 @@
 		 <span class="label label-info">{{name}}</span>
 	</script>
 	
-	<script src="static/js/fill-templates.js"></script>
+	<script id="template_log_attachment" type="text/template">
+		<a target="_blank" href="{{imageUrl}}"><img width="{{imageWidth}}" height="{{imageHeight}}" src="{{imageUrl}}" class="img-rounded" /></a>
+	</script>
+	
+	<script id="template_log_list_attachment" type="text/template">
+		<img src="{{imageUrl}}" class="img-rounded" />
+	</script>
+	
 	<script src="static/js/rest.js"></script>
 	
 	</body>
