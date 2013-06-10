@@ -97,3 +97,18 @@ function formatDate(input){
 	var formatedDate = day.format(dateFormat);
 	return formatedDate;
 }
+
+/**
+ * Is file we want to upload image or not
+ * @param {type} type MIME type string
+ * @returns {Boolean} is mimetype an image or not
+ */
+function isImage(type) {
+	typeParts = type.split("/");
+	
+	if(typeParts.length === 2 && typeParts[0] === "image"){
+		return true;
+	}else{
+		return false;
+	}
+}
