@@ -14,11 +14,6 @@
 				<script src="../assets/js/html5shiv.js"></script>
 		<![endif]-->
 
-		<!-- Fav and touch icons -->
-		<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
-		<link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
-		<link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
-		<link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
 		<link rel="shortcut icon" href="../assets/ico/favicon.png">
 	</head>
 	<body>
@@ -83,10 +78,10 @@
 	<!-- List of Logs -->
 	<div class="container-middle">
 		<div id="load_logs" class="well container-scroll">
-			<form class="form-search">
-				<input type="text" class="input-medium search-query search_input">
-				<button type="submit" class="btn">Search</button>
-			</form>
+			<div class="form-search" id="form-search">
+				<input type="text" id="search-query" class="input-medium search-query search_input">
+				<button id="search-button" class="btn">Search</button>
+			</div>
 			<!-- Template -->
 		</div>
 	</div>
@@ -100,17 +95,23 @@
 			</div>
 			
 			<div class="log_details">
-				<i class="icon-tags"></i><span id="load_log_tags"> <span class="label label-info">tag</span> <span class="label label-info">tag</span> <span class="label label-info">tag <a class="close_label" href="#">&times;</a></span></span>
+				<i title="Tags" class="icon-tags"></i><span id="load_log_tags"> <span class="label label-info">tag</span> <span class="label label-info">tag</span> <span class="label label-info">tag <a class="close_label" href="#">&times;</a></span></span>
 				<br />
-				<i class="icon-book"></i><span id="load_log_logbooks"> <span class="label label-warning">logbook</span> <span class="label label-warning">logbook</span> <span class="label label-warning">logbook</span></span>
+				<i title="Logbooks" class="icon-book"></i><span id="load_log_logbooks"> <span class="label label-warning">logbook</span> <span class="label label-warning">logbook</span> <span class="label label-warning">logbook</span></span>
+				<div id="log_details_edited"></div>
 			</div>
 			
 			<div class="log_body">
 				<span id="log_description"></span>
+				<!--<br />
+				<br />
+				<div><img src="static/img/mail_attachment.png" title="Attachments" /> <span class="attachment_info">Attachments</span></div>-->
 			</div>
 			
-			<div id="load_log_attachments" class="log_attachments">
-				
+			<div class="log_attachments">
+				<div id="load_log_attachments">
+					
+				</div>
 			</div>
 			
 			<!-- <img src="static/img/uploaded/one.jpg" width="140" height="140" class="img-rounded">
@@ -250,7 +251,16 @@
 			<input type="hidden" name="id" value="{{id}}" />
 			<p class="text-info">{{owner}}, {{createdDate}}</p>
 			{{description}}
-			<div class="attachments">
+			<br />
+			{{#attachments}}
+			<img src="{{imageUrl}}" class="img-rounded" />
+			{{/attachments}}
+		</div>
+	</script>
+	
+	<script id="template_log_add_more" type="text/template">
+		<div class="log-last">
+			<a href="#" onclick="loadLogs({{page}});" id="add_more">Load more Log entries ...</a>
 		</div>
 	</script>
 	
@@ -274,8 +284,17 @@
 		<a target="_blank" href="{{imageUrl}}"><img width="{{imageWidth}}" height="{{imageHeight}}" src="{{imageUrl}}" class="img-rounded" /></a>
 	</script>
 	
+	<script id="template_log_attachment_not_image" type="text/template">
+		<br/ >
+		<i class="icon-file"></i> <a target="_blank" href="{{imageUrl}}">{{fileName}}</a>
+	</script>
+	
 	<script id="template_log_list_attachment" type="text/template">
 		<img src="{{imageUrl}}" class="img-rounded" />
+	</script>
+	
+	<script id="template_log_details_edited" type="text/template">
+		<i title="Edited" class="icon-pencil"></i> {{editedDate}}
 	</script>
 	
 	<script src="static/js/rest.js"></script>

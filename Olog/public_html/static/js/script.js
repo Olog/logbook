@@ -71,10 +71,12 @@ function returnFirstXWords(string, count){
 function startListeningForLogClicks(){
 	var actionElement = null;
 	
+	$('.log_show_details').unbind('click');
 	$('.log_show_details').click(function(e){
 		$('.log_details').toggle(400, 'swing');
 	});
 	
+	$('.log').unbind('click');
 	$(".log").click(function(e){
 		$('.log').removeClass("log_click");
 		
@@ -92,6 +94,11 @@ function startListeningForLogClicks(){
 	});
 }
 
+/**
+ * Format the date according to format specified in configuration.js file
+ * @param {type} input datetime string
+ * @returns {unresolved} formated datetime string
+ */
 function formatDate(input){
 	var day = moment(input);
 	var formatedDate = day.format(dateFormat);

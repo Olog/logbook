@@ -41,6 +41,17 @@ html, body {
 .log_click:hover {
 	background-color: white;
 }
+.log-last {
+	display: block;
+	cursor: pointer;
+	border-top: 1px solid #dddddd;
+	border-bottom: 1px solid #dddddd;
+	padding: 5px;
+}
+
+.log-last:hover {
+	background-color: #eeeeee;
+}
 /* Style log END */
 
 .olog-nav {
@@ -132,6 +143,7 @@ html, body {
 
 .log_body {
 	padding: 10px;
+	border-bottom: 1px solid #dddddd;
 }
 
 .log_title > h5 {
@@ -161,4 +173,11 @@ html, body {
 .log_attachments {
 	padding: 5px;
 	margin: 0;
+	background-color: #eeeeee;
+	border-bottom: 1px solid #dddddd;
+	display: none;
+}
+
+.attachment_info {
+	color: #aaaaaa;
 }
