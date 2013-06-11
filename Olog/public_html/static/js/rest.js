@@ -22,6 +22,8 @@ $(document).ready(function(){
 		multiselect("list2");
 	});
 	
+	singleselect("list3");
+	
 	// Load logs
 	loadLogs(1);
 	

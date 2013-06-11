@@ -8,6 +8,7 @@
 		<link rel="stylesheet" type="text/css" href="static/css/bootstrap-responsive.css">
 		<link rel="stylesheet" type="text/css" href="static/css/style.css">
 		<link rel="stylesheet" type="text/css" href="static/css/multilist.css">
+		<link rel="stylesheet" type="text/css" href="static/css/bootstrap-tagmanager.css">
 
 		<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 		<!--[if lt IE 9]>
@@ -34,7 +35,7 @@
 					<li class="divider-vertical"></li>
 				</ul>
 
-				<button id="new_log" class="btn btn-primary">New Log Entry</button>
+				<button class="btn btn-primary active">New Log Entry</button>
 
 				<div class="pull-right btn-group">
 					<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
@@ -72,41 +73,18 @@
 				<li class="multilist_header">TAGS <a href="#myTagModal" title="Add New Tag" data-toggle="modal"><i class="icon-plus float_right float_right_padding"></i></a></li>
 				<!-- Template -->
 			</ul>
-			<ul class="multilist">
-				<li class="multilist_header">CREATED SINCE</li>
-				<li><span class="list3 multilist_item">Today</span></li>
-				<li><span class="list3 multilist_item">Yesterday</span></li>
-				<li><span class="list3 multilist_item">This week</span></li>
-				<li><span class="list3 multilist_item">Last week</span></li>
-				<li><span class="list3 multilist_item">This month</span></li>
-				<li><span class="list3 multilist_item">Last month</span></li>
-				<li><span class="list3 multilist_item">This year</span></li>
-				<li><span class="list3 multilist_item">Last year</span></li>
-				<li><span class="list3 multilist_item">From <input type="text" /> to <input type="text" /></span></li>
-			</ul>
 		</div>
 	</div>
 
-	<!-- List of Logs -->
-	<div class="container-middle">
-		<div id="load_logs" class="well container-scroll">
-			<div class="form-search" id="form-search">
-				<input type="text" id="search-query" class="input-medium search-query search_input">
-				<button id="search-button" class="btn">Search</button>
-			</div>
-			<!-- Template -->
-		</div>
-	</div>
-
-	<!-- Log view -->
-	<div class="container-right">
+	<!-- New Log view -->
+	<div class="container-middle-right">
 		<div class="well container-scroll-last-one">
 			
 			<div class="log_title">
-				<h5><span id="log_owner"></span>, <span id="log_date"></span><a class="log_show_details" href="#"><i class="icon-info-sign"></i> Show details</a><i class="icon-trash float_right"></i> <i class="icon-pencil float_right float_right_padding"></i></h5>
+				<h5>New Log Entry<i class="icon-remove-sign float_right float_right_padding"></i></h5>
 			</div>
 			
-			<div class="log_details display_none">
+			<div class="log_details">
 				<i title="Tags" class="icon-tags"></i><span id="load_log_tags"> <span class="label label-info">tag</span> <span class="label label-info">tag</span> <span class="label label-info">tag <a class="close_label" href="#">&times;</a></span></span>
 				<br />
 				<i title="Logbooks" class="icon-book"></i><span id="load_log_logbooks"> <span class="label label-warning">logbook</span> <span class="label label-warning">logbook</span> <span class="label label-warning">logbook</span></span>
@@ -114,7 +92,9 @@
 			</div>
 			
 			<div class="log_body">
-				<span id="log_description"></span>
+				<span id="log_description">
+					<input type="text" name="tags" placeholder="Tags" class="tm-input tm-input-info tm-input-mini" data-provide="typeahead" />
+				</span>
 				<!--<br />
 				<br />
 				<div><img src="static/img/mail_attachment.png" title="Attachments" /> <span class="attachment_info">Attachments</span></div>-->
@@ -130,7 +110,112 @@
 	
 	<!-- Modal windows
 	==================================================== -->
-	<div id="modal_container"></div>
+	
+	<!-- Add logbook ============================================== -->
+	<div id="myModal" class="modal hide fade">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h3>New Logbook</h3>
+		</div>
+		<div class="modal-body">
+			<label>Name</label>
+			<input type="text" placeholder="Logbook name ...">
+
+			<label>Owner</label>
+			<input type="text" placeholder="Logbook owner ..."><br />
+
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn btn-primary">Create</a>
+			<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
+		</div>
+	</div>
+	
+	<!-- Edit logbook ============================================== -->
+	<div id="editLogbookModal" class="modal hide fade">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h3>Edit Logbook</h3>
+		</div>
+		<div class="modal-body">
+			<label>Name</label>
+			<input name="name" type="text" placeholder="Logbook name ...">
+
+			<label>Owner</label>
+			<input name="owner" type="text" placeholder="Logbook owner ..."><br />
+
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn btn-primary">Create</a>
+			<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
+		</div>
+	</div>
+	
+	<!-- Delete logbook ============================================== -->
+	<div id="deleteLogbookModal" class="modal hide fade">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h3>Delete Logbook</h3>
+		</div>
+		<div class="modal-body">
+			<input type="hidden" name="id" value="" />
+			Are you sure you want to delete selected Logbook?
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn btn-primary">Yes</a>
+			<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
+		</div>
+	</div>
+	
+	<!-- Add Tag ============================================== -->
+	<div id="myTagModal" class="modal hide fade">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h3>New Tag</h3>
+		</div>
+		<div class="modal-body">
+			<label>Name</label>
+			<input type="text" placeholder="Tag name ...">
+
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn btn-primary">Create</a>
+			<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
+		</div>
+	</div>
+	
+	<!-- Edit Tag ============================================== -->
+	<div id="editTagModal" class="modal hide fade">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h3>Edit Tag</h3>
+		</div>
+		<div class="modal-body">
+			<label>Name</label>
+			<input name="name" type="text" placeholder="Tag name ...">
+
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn btn-primary">Create</a>
+			<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
+		</div>
+	</div>
+	
+	<!-- Delete Tag ============================================== -->
+	<div id="deleteTagModal" class="modal hide fade">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h3>Delete Tag</h3>
+		</div>
+		<div class="modal-body">
+			<input type="hidden" name="id" value="" />
+			Are you sure you want to delete selected Tag?
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn btn-primary">Yes</a>
+			<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
+		</div>
+	</div>
 
 	<!-- Import javascript files
 	================================================== -->
@@ -142,6 +227,8 @@
 	<script src="static/js/script.js"></script>
 	<script src="static/js/mustache.js"></script>
 	<script src="static/js/configuration.js"></script>
+	<script src="static/js/bootstrap-tagmanager.js"></script>
+	<script src="static/js/new_log.js"></script>
 
 	<!-- Templates
 	==================================================== -->

@@ -1,6 +1,5 @@
 /* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Script specific to index.html
  * 
  * @author: Dejan Dežman <dejan.dezman@cosylab.com>
  */
@@ -15,24 +14,31 @@ $(document).ready(function(){
 	$('.dropdown-menu form').click(function(e) {
 		e.stopPropagation();
 	});
+	
+	$('#new_log').click(function(e){
+		window.location.href = "new_log.html";
+	});
 });
 
 function showEditLogbookModal(modalId, name){
-	$('#' + modalId + ' [name=name]').val(name);
-	$('#' + modalId + ' [name=owner]').val("boss");
 	
-	$('#' + modalId).modal('toggle');
+	$('#modal_container').load('static/html/modal_windows.html #' + modalId, function(response, status, xhr){
+
+		$('#' + modalId + ' [name=name]').val(name);
+		$('#' + modalId + ' [name=owner]').val("boss");
+
+		$('#' + modalId).modal('toggle');
+		
+	});
 }
 
 function showEditTagModal(modalId, name){
 	$('#' + modalId + ' [name=name]').val(name);
-	
 	$('#' + modalId).modal('toggle');
 }
 
 function showDeleteModal(modalId, name){
 	$('#' + modalId + ' [name=id]').val(name);
-	
 	$('#' + modalId).modal('toggle');
 }
 

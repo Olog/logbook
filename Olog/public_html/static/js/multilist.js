@@ -36,3 +36,16 @@ function multiselect(name){
 		}
 	});
 }
+
+function singleselect(name){
+	
+	$('.' + name).click(function(e){
+		if($(e.target).is("input")){
+			return;
+		}
+		
+		$('.' + name).removeClass("multilist_clicked");
+		
+		$(e.target).addClass("multilist_clicked");
+	});
+}

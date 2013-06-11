@@ -39,8 +39,14 @@
 	color: #ffffff;
 }
 
-.list, .list2 {}
+.list, .list2, .list3 {}
 
 .multilist_icons {
 	display: none;
+}
+
+.list3 > input {
+	margin:0px;
+	width: 45px;
+	height:15px;
 }

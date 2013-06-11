@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	</head>
+	<body>
+			<!-- Modal windows
+			==================================================== -->
+
+			<!-- Add logbook ============================================== -->
+			<div id="myModal" class="modal hide fade">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h3>New Logbook</h3>
+				</div>
+				<div class="modal-body">
+					<label>Name</label>
+					<input type="text" placeholder="Logbook name ...">
+
+					<label>Owner</label>
+					<input type="text" placeholder="Logbook owner ..."><br />
+
+				</div>
+				<div class="modal-footer">
+					<a href="#" class="btn btn-primary">Create</a>
+					<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
+				</div>
+			</div>
+
+			<!-- Edit logbook ============================================== -->
+			<div id="editLogbookModal" class="modal hide fade">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h3>Edit Logbook</h3>
+				</div>
+				<div class="modal-body">
+					<label>Name</label>
+					<input name="name" type="text" placeholder="Logbook name ...">
+
+					<label>Owner</label>
+					<input name="owner" type="text" placeholder="Logbook owner ..."><br />
+
+				</div>
+				<div class="modal-footer">
+					<a href="#" class="btn btn-primary">Create</a>
+					<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
+				</div>
+			</div>
+
+			<!-- Delete logbook ============================================== -->
+			<div id="deleteLogbookModal" class="modal hide fade">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h3>Delete Logbook</h3>
+				</div>
+				<div class="modal-body">
+					<input type="hidden" name="id" value="" />
+					Are you sure you want to delete selected Logbook?
+				</div>
+				<div class="modal-footer">
+					<a href="#" class="btn btn-primary">Yes</a>
+					<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
+				</div>
+			</div>
+
+			<!-- Add Tag ============================================== -->
+			<div id="myTagModal" class="modal hide fade">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h3>New Tag</h3>
+				</div>
+				<div class="modal-body">
+					<label>Name</label>
+					<input type="text" placeholder="Tag name ...">
+
+				</div>
+				<div class="modal-footer">
+					<a href="#" class="btn btn-primary">Create</a>
+					<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
+				</div>
+			</div>
+
+			<!-- Edit Tag ============================================== -->
+			<div id="editTagModal" class="modal hide fade">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h3>Edit Tag</h3>
+				</div>
+				<div class="modal-body">
+					<label>Name</label>
+					<input name="name" type="text" placeholder="Tag name ...">
+
+				</div>
+				<div class="modal-footer">
+					<a href="#" class="btn btn-primary">Create</a>
+					<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
+				</div>
+			</div>
+
+			<!-- Delete Tag ============================================== -->
+			<div id="deleteTagModal" class="modal hide fade">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h3>Delete Tag</h3>
+				</div>
+				<div class="modal-body">
+					<input type="hidden" name="id" value="" />
+					Are you sure you want to delete selected Tag?
+				</div>
+				<div class="modal-footer">
+					<a href="#" class="btn btn-primary">Yes</a>
+					<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
+				</div>
+			</div>
+	</body>
+</html>

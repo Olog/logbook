@@ -88,6 +88,14 @@ html, body {
 	display:none;
 }
 
+.container-middle-right {
+	position: fixed;
+	right: 0px;
+	top: 40px;
+	width: 80%;
+	bottom: 0px;
+}
+
 /* Scrollable columns START*/
 .container-scroll {
 	position: absolute;
@@ -144,6 +152,7 @@ html, body {
 .log_body {
 	padding: 10px;
 	border-bottom: 1px solid #dddddd;
+	background-color: white;
 }
 
 .log_title > h5 {
@@ -156,6 +165,9 @@ html, body {
 	margin: 0;
 	border-bottom: 1px solid #dddddd;
 	background-color: #eeeeee;
+}
+
+.display_none {
 	display: none;
 }
 
