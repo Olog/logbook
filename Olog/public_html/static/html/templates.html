@@ -1,0 +1,70 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	</head>
+	<body>
+		<!-- Templates
+		==================================================== -->
+
+		<script id="template_log" type="text/template">
+			<div class="log">
+				<input type="hidden" name="id" value="{{id}}" />
+				<p class="text-info">{{owner}}, {{createdDate}}</p>
+				{{description}}
+				<br />
+				{{#attachments}}
+				<img src="{{imageUrl}}" class="img-rounded" />
+				{{/attachments}}
+			</div>
+		</script>
+
+		<script id="template_log_add_more" type="text/template">
+			<div class="log-last">
+				<a href="#" onclick="loadLogs({{page}});" id="add_more">Load more Log entries ...</a>
+			</div>
+		</script>
+
+		<script id="template_logbook" type="text/template">
+			<li><span class="list multilist_item">{{name}}<a href="#" onclick="showDeleteModal('deleteLogbookModal', '34');"><i class="icon-trash float_right multilist_icons float_right_padding"></i></a><a href="#" onclick="showEditLogbookModal('editLogbookModal', '{{name}}');"><i class="icon-pencil float_right multilist_icons"></i></a></span></li>
+		</script>
+
+		<script id="template_tag" type="text/template">
+			<li><span class="list2 multilist_item">{{name}}<a href="#" onclick="showDeleteModal('deleteTagModal', '34');"><i class="icon-trash float_right multilist_icons float_right_padding"></i></a><a href="#" onclick="showEditTagModal('editTagModal', '{{name}}');"><i class="icon-pencil float_right multilist_icons"></i></a></span></li>
+		</script>
+
+		<script id="template_log_logbook" type="text/template">
+			 <span class="label label-warning">{{name}}</span>
+		</script>
+
+		<script id="template_log_tag" type="text/template">
+			 <span class="label label-info">{{name}}</span>
+		</script>
+
+		<script id="template_log_attachment" type="text/template">
+			<a target="_blank" href="{{imageUrl}}"><img width="{{imageWidth}}" height="{{imageHeight}}" src="{{imageUrl}}" class="img-rounded" /></a>
+		</script>
+
+		<script id="template_log_attachment_not_image" type="text/template">
+			<br/ >
+			<i class="icon-file"></i> <a target="_blank" href="{{imageUrl}}">{{fileName}}</a>
+		</script>
+
+		<script id="template_log_list_attachment" type="text/template">
+			<img src="{{imageUrl}}" class="img-rounded" />
+		</script>
+
+		<script id="template_log_details_edited" type="text/template">
+			<i title="Edited" class="icon-pencil"></i> {{editedDate}}
+		</script>
+
+		<script id="template_new_add_attachment" type="text/template">
+			<input class="new_attachment" type="file" /><br/>
+		</script>
+	</body>
+</html>

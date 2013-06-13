@@ -4,29 +4,48 @@
  * @author: Dejan Dežman <dejan.dezman@cosylab.com>
  */
 
+var modalWindows = "static/html/modal_windows.html";
+var templates = "static/html/templates.html";
+
 // Create object for saving logs
 var savedLogs = {};
+var savedTags = new Array();
+var savedLogbooks = new Array();
 var page = 1;
 
-$(document).ready(function(){
-	
+function loadLogbooks(){
 	// Load Logbooks
 	$.getJSON(serviceurl + 'logbooks/', function(books) {
 		repeat("template_logbook", "load_logbooks", books, "logbook");
 		multiselect("list");
+		filterListItems("logbooks_filter_search", "list");
 	});
-	
+}
+
+function loadTags(){
 	// Load tags
 	$.getJSON(serviceurl + 'tags/', function(tags) {
 		repeat("template_tag", "load_tags", tags, "tag");
 		multiselect("list2");
+		filterListItems("tags_filter_search", "list2");
 	});
-	
-	singleselect("list3");
-	
-	// Load logs
-	loadLogs(1);
-	
+}
+
+function loadLogs(page){
+	// Remo all the logs if we are starting from the beginning
+	if(page === 1){
+		$(".log").remove();
+	}
+
+	$.getJSON(serviceurl + 'logs?limit=' + numberOfLogsPerLoad + '&page=' + page, function(logs) {
+		$(".log-last").remove();
+		repeatLogs("template_log", "load_logs", logs);
+		appendAddMoreLog("load_logs");
+		startListeningForLogClicks();
+	});
+}
+
+function activateSearch(){
 	// Simple search
 	$("#search-button").click(function(e){
 		var searchQuery = $("#search-query").val();
@@ -46,19 +65,19 @@ $(document).ready(function(){
 			});
 		}
 	});
-});
+}
 
-function loadLogs(page){
-	// Remo all the logs if we are starting from the beginning
-	if(page === 1){
-		$(".log").remove();
-	}
-
-	$.getJSON(serviceurl + 'logs?limit=' + numberOfLogsPerLoad + '&page=' + page, function(logs) {
-		$(".log-last").remove();
-		repeatLogs("template_log", "load_logs", logs);
-		appendAddMoreLog("load_logs");
-		startListeningForLogClicks();
+function loadLogsAutomatically(){
+	// Automatically load new logs when at the end of the page
+	$('#load_logs').scroll(function(e){
+		var scrollDiv = $('#load_logs');
+		
+		//console.log(scrollDiv.prop('scrollHeight') + " - " + scrollDiv.scrollTop() + " - " + scrollDiv.height());
+		
+		if(scrollDiv.prop('scrollHeight') - scrollDiv.scrollTop() <= scrollDiv.height()){
+			page = page  + 1;
+			loadLogs(page);
+		}
 	});
 }
 
@@ -145,8 +164,17 @@ function repeat(source_id, target_id, data, property){
 	$.each(data[property], function(i, item) {
 		html = Mustache.to_html(template, item);
 	
+		if(property === "tag") {
+			savedTags = savedTags.concat(item.name);
+		
+		} else if(property === "logbook") {
+			savedLogbooks = savedLogbooks.concat(item.name);
+		}
+	
 		$('#'+target_id).append(html);
 	});
+	
+	$('#'+target_id).trigger('dataloaded', null);
 }
 
 /**
@@ -196,6 +224,11 @@ function repeatLogs(source_id, target_id, data){
 	});
 }
 
+/*
+ * Append the last log that enables us to load more logs
+ * @param {type} target_id div id where last log will be appended
+ * @returns {undefined}
+ */
 function appendAddMoreLog(target_id){
 	// Create load more Log
 	var template = getTemplate("template_log_add_more");
@@ -259,5 +292,60 @@ function repeatAttachments(source_id, target_id, data, logId){
  * @returns template as a string
  */
 function getTemplate(id){
-	return $('#'+id).html();
+	$.ajaxSetup({async:false});
+	var template = "";
+	
+	$('#template_container').load(templates + ' #' + id, function(response, status, xhr){
+		template = $('#' + id).html();
+	});
+	
+	return template;
+}
+
+/*
+ * Get Add modal windows from remote site, copy it to index and then show it
+ * @param {type} modalId id of the modal windows
+ * @param {type} name name of the element to be deleted
+ */
+function showAddModal(modalId){
+	$('#modal_container').load(modalWindows + ' #' + modalId, function(response, status, xhr){
+		$('#' + modalId).modal('toggle');
+	});
+}
+
+/*
+ * Get Edit Logbook modal windows from remote site, copy it to index and then show it
+ * @param {type} modalId id of the modal windows
+ * @param {type} name name of the Logbook
+ */
+function showEditLogbookModal(modalId, name){
+	$('#modal_container').load(modalWindows + ' #' + modalId, function(response, status, xhr){
+		$('#' + modalId + ' [name=name]').val(name);
+		$('#' + modalId + ' [name=owner]').val("boss");
+		$('#' + modalId).modal('toggle');
+	});
+}
+
+/*
+ * Get Edit Tag modal windows from remote site, copy it to index and then show it
+ * @param {type} modalId id of the modal windows
+ * @param {type} name name of the Tag
+ */
+function showEditTagModal(modalId, name){
+	$('#modal_container').load(modalWindows + ' #' + modalId, function(response, status, xhr){
+		$('#' + modalId + ' [name=name]').val(name);
+		$('#' + modalId).modal('toggle');
+	});
+}
+
+/*
+ * Get Delete modal windows from remote site, copy it to index and then show it
+ * @param {type} modalId id of the modal windows
+ * @param {type} name name of the element to be deleted
+ */
+function showDeleteModal(modalId, name){
+	$('#modal_container').load(modalWindows + ' #' + modalId, function(response, status, xhr){
+		$('#' + modalId + ' [name=id]').val(name);
+		$('#' + modalId).modal('toggle');
+	});
 }

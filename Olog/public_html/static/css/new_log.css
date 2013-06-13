@@ -1,0 +1,21 @@
+/* 
+    Document   : new_log
+    Created on : Jun 13, 2013, 1:07:20 PM
+    Author     : user
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.log_body > textarea {
+	display: inline-block;
+	width: 98%;
+}
+
+.log_attachments {
+	display: block;
+}
+
+.new_log_button {
+	margin-right: 5px;
+	margin-top: 10px;
+}

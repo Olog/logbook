@@ -9,6 +9,7 @@
 		<link rel="stylesheet" type="text/css" href="static/css/style.css">
 		<link rel="stylesheet" type="text/css" href="static/css/multilist.css">
 		<link rel="stylesheet" type="text/css" href="static/css/bootstrap-tagmanager.css">
+		<link rel="stylesheet" type="text/css" href="static/css/new_log.css">
 
 		<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 		<!--[if lt IE 9]>
@@ -19,23 +20,34 @@
 	</head>
 	<body>
 
+	<!-- Header
+	==================================================== -->
 	<div class="navbar navbar-inverse">
 		<div class="navbar-inner">
 			<div class="container">
-				
+
 				<!-- <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button> -->
-				
-				<a class="brand" href="#">Olog</a>
-				
+
+				<a class="brand" href="index.html">Olog</a>
+
 				<ul class="nav">
 					<li class="divider-vertical"></li>
 				</ul>
 
-				<button class="btn btn-primary active">New Log Entry</button>
+				<div class="btn-group">
+					<button id="new_log" class="btn btn-primary active">New Log Entry</button>
+					<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+						<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu">
+						<li><a onclick="showDeleteModal('myModal');">New Logbook</a></li>
+						<li><a onclick="showDeleteModal('myTagModal');">New Tag</a></li>
+					</ul>
+				</div>
 
 				<div class="pull-right btn-group">
 					<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
@@ -65,12 +77,12 @@
 	<!-- Left navigation -->
 	<div class="container-left">
 		<div class="well container-scroll">
+			<input class="filter_search" id="logbooks_filter_search" type="text" placeholder="Filter Logbooks ..." />
 			<ul class="multilist" id="load_logbooks">
-				<li class="multilist_header">LOGBOOKS <a href="#myModal" title="Add New Logbook" data-toggle="modal"><i class="icon-plus float_right float_right_padding"></i></a></li>
 				<!-- Template -->
 			</ul>
+			<input class="filter_search" id="tags_filter_search" type="text" placeholder="Filter Tags ..." />
 			<ul class="multilist" id="load_tags">
-				<li class="multilist_header">TAGS <a href="#myTagModal" title="Add New Tag" data-toggle="modal"><i class="icon-plus float_right float_right_padding"></i></a></li>
 				<!-- Template -->
 			</ul>
 		</div>
@@ -79,143 +91,41 @@
 	<!-- New Log view -->
 	<div class="container-middle-right">
 		<div class="well container-scroll-last-one">
-			
-			<div class="log_title">
-				<h5>New Log Entry<i class="icon-remove-sign float_right float_right_padding"></i></h5>
-			</div>
-			
-			<div class="log_details">
-				<i title="Tags" class="icon-tags"></i><span id="load_log_tags"> <span class="label label-info">tag</span> <span class="label label-info">tag</span> <span class="label label-info">tag <a class="close_label" href="#">&times;</a></span></span>
-				<br />
-				<i title="Logbooks" class="icon-book"></i><span id="load_log_logbooks"> <span class="label label-warning">logbook</span> <span class="label label-warning">logbook</span> <span class="label label-warning">logbook</span></span>
-				<div id="log_details_edited"></div>
-			</div>
-			
-			<div class="log_body">
-				<span id="log_description">
-					<input type="text" name="tags" placeholder="Tags" class="tm-input tm-input-info tm-input-mini" data-provide="typeahead" />
-				</span>
-				<!--<br />
-				<br />
-				<div><img src="static/img/mail_attachment.png" title="Attachments" /> <span class="attachment_info">Attachments</span></div>-->
-			</div>
-			
-			<div class="log_attachments">
-				<div id="load_log_attachments">
-					
+			<form action="#" method="post">
+
+				<div class="log_title">
+					<h5>New Log Entry<i class="icon-remove-sign float_right float_right_padding"></i></h5>
 				</div>
-			</div>
+
+				<div class="log_details">
+					<i title="Tags" class="icon-tags"></i> <input type="text" name="tags" id="tags_input" placeholder="Enter Tags ..." class="tm-input tm-input-info tm-input-mini" data-provide="typeahead" />
+					<br />
+					<i title="Logbooks" class="icon-book"></i> <input type="text" name="logbooks" id="logbooks_input" placeholder="Enter Logbooks ..." class="tm-input tm-input-warning tm-input-mini" data-provide="typeahead" />
+					<div id="log_details_edited"></div>
+				</div>
+
+				<div class="log_body">
+					<textarea rows="5"></textarea>
+				</div>
+
+				<div class="log_attachments">
+					<div id="list_add_attachments"><!-- Template --></div>
+					<a id="add_attachment" href="#">Attach another file ...</a>
+				</div>
+
+				<button class="btn float_right new_log_button" type="button">Cancel</button>
+				<input type="submit" class="btn float_right btn-primary new_log_button" value="Create" />
+			</form>
 		</div>
 	</div>
 	
 	<!-- Modal windows
 	==================================================== -->
-	
-	<!-- Add logbook ============================================== -->
-	<div id="myModal" class="modal hide fade">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<h3>New Logbook</h3>
-		</div>
-		<div class="modal-body">
-			<label>Name</label>
-			<input type="text" placeholder="Logbook name ...">
+	<div id="modal_container"></div>
 
-			<label>Owner</label>
-			<input type="text" placeholder="Logbook owner ..."><br />
-
-		</div>
-		<div class="modal-footer">
-			<a href="#" class="btn btn-primary">Create</a>
-			<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
-		</div>
-	</div>
-	
-	<!-- Edit logbook ============================================== -->
-	<div id="editLogbookModal" class="modal hide fade">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<h3>Edit Logbook</h3>
-		</div>
-		<div class="modal-body">
-			<label>Name</label>
-			<input name="name" type="text" placeholder="Logbook name ...">
-
-			<label>Owner</label>
-			<input name="owner" type="text" placeholder="Logbook owner ..."><br />
-
-		</div>
-		<div class="modal-footer">
-			<a href="#" class="btn btn-primary">Create</a>
-			<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
-		</div>
-	</div>
-	
-	<!-- Delete logbook ============================================== -->
-	<div id="deleteLogbookModal" class="modal hide fade">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<h3>Delete Logbook</h3>
-		</div>
-		<div class="modal-body">
-			<input type="hidden" name="id" value="" />
-			Are you sure you want to delete selected Logbook?
-		</div>
-		<div class="modal-footer">
-			<a href="#" class="btn btn-primary">Yes</a>
-			<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
-		</div>
-	</div>
-	
-	<!-- Add Tag ============================================== -->
-	<div id="myTagModal" class="modal hide fade">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<h3>New Tag</h3>
-		</div>
-		<div class="modal-body">
-			<label>Name</label>
-			<input type="text" placeholder="Tag name ...">
-
-		</div>
-		<div class="modal-footer">
-			<a href="#" class="btn btn-primary">Create</a>
-			<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
-		</div>
-	</div>
-	
-	<!-- Edit Tag ============================================== -->
-	<div id="editTagModal" class="modal hide fade">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<h3>Edit Tag</h3>
-		</div>
-		<div class="modal-body">
-			<label>Name</label>
-			<input name="name" type="text" placeholder="Tag name ...">
-
-		</div>
-		<div class="modal-footer">
-			<a href="#" class="btn btn-primary">Create</a>
-			<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
-		</div>
-	</div>
-	
-	<!-- Delete Tag ============================================== -->
-	<div id="deleteTagModal" class="modal hide fade">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<h3>Delete Tag</h3>
-		</div>
-		<div class="modal-body">
-			<input type="hidden" name="id" value="" />
-			Are you sure you want to delete selected Tag?
-		</div>
-		<div class="modal-footer">
-			<a href="#" class="btn btn-primary">Yes</a>
-			<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
-		</div>
-	</div>
+	<!-- Templates
+	==================================================== -->
+	<div id="template_container"></div>
 
 	<!-- Import javascript files
 	================================================== -->
@@ -224,67 +134,11 @@
 	<script src="static/js/bootstrap.js"></script>
 	<script src="static/js/moment.min.js"></script>
 	<script src="static/js/multilist.js"></script>
-	<script src="static/js/script.js"></script>
 	<script src="static/js/mustache.js"></script>
 	<script src="static/js/configuration.js"></script>
 	<script src="static/js/bootstrap-tagmanager.js"></script>
-	<script src="static/js/new_log.js"></script>
-
-	<!-- Templates
-	==================================================== -->
-	
-	<script id="template_log" type="text/template">
-		<div class="log">
-			<input type="hidden" name="id" value="{{id}}" />
-			<p class="text-info">{{owner}}, {{createdDate}}</p>
-			{{description}}
-			<br />
-			{{#attachments}}
-			<img src="{{imageUrl}}" class="img-rounded" />
-			{{/attachments}}
-		</div>
-	</script>
-	
-	<script id="template_log_add_more" type="text/template">
-		<div class="log-last">
-			<a href="#" onclick="loadLogs({{page}});" id="add_more">Load more Log entries ...</a>
-		</div>
-	</script>
-	
-	<script id="template_logbook" type="text/template">
-		<li><span class="list multilist_item">{{name}}<a href="#" onclick="showDeleteModal('deleteLogbookModal', '34');"><i class="icon-trash float_right multilist_icons float_right_padding"></i></a><a href="#" onclick="showEditLogbookModal('editLogbookModal', '{{name}}');"><i class="icon-pencil float_right multilist_icons"></i></a></span></li>
-	</script>
-	
-	<script id="template_tag" type="text/template">
-		<li><span class="list2 multilist_item">{{name}}<a href="#" onclick="showDeleteModal('deleteTagModal', '34');"><i class="icon-trash float_right multilist_icons float_right_padding"></i></a><a href="#" onclick="showEditTagModal('editTagModal', '{{name}}');"><i class="icon-pencil float_right multilist_icons"></i></a></span></li>
-	</script>
-	
-	<script id="template_log_logbook" type="text/template">
-		 <span class="label label-warning">{{name}}</span>
-	</script>
-	
-	<script id="template_log_tag" type="text/template">
-		 <span class="label label-info">{{name}}</span>
-	</script>
-	
-	<script id="template_log_attachment" type="text/template">
-		<a target="_blank" href="{{imageUrl}}"><img width="{{imageWidth}}" height="{{imageHeight}}" src="{{imageUrl}}" class="img-rounded" /></a>
-	</script>
-	
-	<script id="template_log_attachment_not_image" type="text/template">
-		<br/ >
-		<i class="icon-file"></i> <a target="_blank" href="{{imageUrl}}">{{fileName}}</a>
-	</script>
-	
-	<script id="template_log_list_attachment" type="text/template">
-		<img src="{{imageUrl}}" class="img-rounded" />
-	</script>
-	
-	<script id="template_log_details_edited" type="text/template">
-		<i title="Edited" class="icon-pencil"></i> {{editedDate}}
-	</script>
-	
 	<script src="static/js/rest.js"></script>
+	<script src="static/js/new_log.js"></script>
 	
 	</body>
 </html>

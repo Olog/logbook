@@ -37,6 +37,27 @@ function multiselect(name){
 	});
 }
 
+/**
+ * 
+ * @param {type} id
+ * @param {type} name
+ * @returns {undefined}
+ */
+function filterListItems(id, name){
+	
+	$('#' + id).unbind('keyup');
+	$('#' + id).keyup(function(e){
+		var filter = $(e.target).val();
+		$('.multilist').find('.' + name + ':not(:Contains(' + filter + '))').parent().slideUp();
+		$('.multilist').find('.' + name + ':Contains(' + filter + ')').parent().slideDown();
+	});
+}
+
+/**
+ * Function will create onclick event listener for singleselection list with specific name
+ * @param {type} name
+ * @returns {undefined}
+ */
 function singleselect(name){
 	
 	$('.' + name).click(function(e){

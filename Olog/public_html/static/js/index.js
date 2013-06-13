@@ -5,6 +5,11 @@
  */
 
 $(document).ready(function(){
+	
+	jQuery.expr[':'].Contains = function(a, i, m){
+		return (a.textContent || a.innerText || "").toUpperCase().indexOf(m[3].toUpperCase())>=0;
+	};
+	
 	/**
 	 * Disable closing the login dropdown if user clicks on login form elements
 	 */
@@ -18,30 +23,32 @@ $(document).ready(function(){
 	$('#new_log').click(function(e){
 		window.location.href = "new_log.html";
 	});
+	
+	// Load Logbooks
+	loadLogbooks();
+	
+	// Load Tags
+	loadTags();
+	
+	// Load logs
+	loadLogs(1);
+	
+	// Load the list of time filters
+	singleselect("list3");
+	
+	// Activate search field
+	activateSearch();
+	
+	// Activate mechanism for automatically loading new logs
+	loadLogsAutomatically();
 });
 
-function showEditLogbookModal(modalId, name){
-	
-	$('#modal_container').load('static/html/modal_windows.html #' + modalId, function(response, status, xhr){
-
-		$('#' + modalId + ' [name=name]').val(name);
-		$('#' + modalId + ' [name=owner]').val("boss");
-
-		$('#' + modalId).modal('toggle');
-		
-	});
-}
-
-function showEditTagModal(modalId, name){
-	$('#' + modalId + ' [name=name]').val(name);
-	$('#' + modalId).modal('toggle');
-}
-
-function showDeleteModal(modalId, name){
-	$('#' + modalId + ' [name=id]').val(name);
-	$('#' + modalId).modal('toggle');
-}
-
+/*
+ * Retun first X words from the string.
+ * @param {type} string input string
+ * @param {type} count how many of words do we want to return
+ * @returns {String} First X words
+ */
 function returnFirstXWords(string, count){
 	var words = string.split(" ");
 	var summary = "";
