@@ -64,14 +64,20 @@ function addAttachmentField(){
 }
 
 function autocompleteTags(tagsArray){
+	var selectedTagsArray = $.parseJSON($.cookie(filtersCookieName))["list2"];
+	
 	$("#tags_input").tagsManager({
+		prefilled: selectedTagsArray,
 		typeahead: true,
 		typeaheadSource: tagsArray
 	});
 }
 
 function autocompleteLogbooks(logbooksArray){
+	var selectedLogbooksArray = $.parseJSON($.cookie(filtersCookieName))["list"];
+	
 	$("#logbooks_input").tagsManager({
+		prefilled: selectedLogbooksArray,
 		typeahead: true,
 		typeaheadSource: logbooksArray
 	});

@@ -3,12 +3,8 @@
  * 
  * @author: Dejan Dežman <dejan.dezman@cosylab.com>
  */
-/*$(document).ready(function(){
 
-	multiselect("list");
-	multiselect("list2");
-
-});*/
+var selectedElements = {};
 
 /**
  * Function will create onclick event listener for mulstiselection list with specific name
@@ -30,8 +26,15 @@ function multiselect(name){
 		if($(e.target).is("span")){
 			if(!e.ctrlKey){
 				$('.' + name).removeClass("multilist_clicked");
+				selectedElements[name] = [];
 			}
 
+			selectedElements[name].push($(e.target).text());
+			selectedElements[name + '_index'][$(e.target).text()] = "true";
+			
+			$(e.target).parent().unbind('dataselected');
+			$(e.target).parent().trigger('dataselected', selectedElements);
+			$.cookie(filtersCookieName, JSON.stringify(selectedElements));
 			$(e.target).addClass("multilist_clicked");
 		}
 	});

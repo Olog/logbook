@@ -13,3 +13,6 @@ var dateFormat = "MMMM Do YYYY, h:mm a";
 
 // How many logs do you want to load per request?
 var numberOfLogsPerLoad = 20;
+
+// Set the name of the cookie that holds selected filters
+var filtersCookieName = "filters";

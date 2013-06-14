@@ -37,33 +37,14 @@ function loadLogs(page){
 		$(".log").remove();
 	}
 
-	$.getJSON(serviceurl + 'logs?limit=' + numberOfLogsPerLoad + '&page=' + page, function(logs) {
+	var searchQuery = serviceurl + 'logs?limit=' + numberOfLogsPerLoad + '&page=' + page;
+	console.log(searchQuery);
+
+	$.getJSON(searchQuery, function(logs) {
 		$(".log-last").remove();
 		repeatLogs("template_log", "load_logs", logs);
 		appendAddMoreLog("load_logs");
 		startListeningForLogClicks();
-	});
-}
-
-function activateSearch(){
-	// Simple search
-	$("#search-button").click(function(e){
-		var searchQuery = $("#search-query").val();
-		
-		if(searchQuery === ""){
-			page = 1;
-			loadLogs(page);
-		
-		} else {
-		
-			// Load logs
-			$.getJSON(serviceurl + 'logs?search=' + searchQuery, function(logs) {
-				$(".log-last").remove();
-				$(".log").remove();
-				repeatLogs("template_log", "load_logs", logs);
-				startListeningForLogClicks();
-			});
-		}
 	});
 }
 
@@ -76,6 +57,7 @@ function loadLogsAutomatically(){
 		
 		if(scrollDiv.prop('scrollHeight') - scrollDiv.scrollTop() <= scrollDiv.height()){
 			page = page  + 1;
+			console.log('increate to ' + page)
 			loadLogs(page);
 		}
 	});
@@ -232,10 +214,9 @@ function repeatLogs(source_id, target_id, data){
 function appendAddMoreLog(target_id){
 	// Create load more Log
 	var template = getTemplate("template_log_add_more");
-	page = page + 1;
 
 	var loadMoreLog = {
-		page: page
+		page: page + 1
 	};
 
 	var html = Mustache.to_html(template, loadMoreLog);
