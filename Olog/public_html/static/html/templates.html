@@ -31,11 +31,11 @@ and open the template in the editor.
 		</script>
 
 		<script id="template_logbook" type="text/template">
-			<li><span class="list multilist_item">{{name}}<a href="#" onclick="showDeleteModal('deleteLogbookModal', '34');"><i class="icon-trash float_right multilist_icons float_right_padding"></i></a><a href="#" onclick="showEditLogbookModal('editLogbookModal', '{{name}}');"><i class="icon-pencil float_right multilist_icons"></i></a></span></li>
+			<li><span class="list multilist_item {{clicked}}">{{name}}<a href="#" onclick="showDeleteModal('deleteLogbookModal', '34');"><i class="icon-trash float_right multilist_icons float_right_padding"></i></a><a href="#" onclick="showEditLogbookModal('editLogbookModal', '{{name}}');"><i class="icon-pencil float_right multilist_icons"></i></a></span></li>
 		</script>
 
 		<script id="template_tag" type="text/template">
-			<li><span class="list2 multilist_item">{{name}}<a href="#" onclick="showDeleteModal('deleteTagModal', '34');"><i class="icon-trash float_right multilist_icons float_right_padding"></i></a><a href="#" onclick="showEditTagModal('editTagModal', '{{name}}');"><i class="icon-pencil float_right multilist_icons"></i></a></span></li>
+			<li><span class="list2 multilist_item {{clicked}}">{{name}}<a href="#" onclick="showDeleteModal('deleteTagModal', '34');"><i class="icon-trash float_right multilist_icons float_right_padding"></i></a><a href="#" onclick="showEditTagModal('editTagModal', '{{name}}');"><i class="icon-pencil float_right multilist_icons"></i></a></span></li>
 		</script>
 
 		<script id="template_log_logbook" type="text/template">

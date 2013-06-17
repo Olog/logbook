@@ -1,6 +1,6 @@
-/* 
+/*
  * Load tada on dom ready
- * 
+ *
  * @author: Dejan Dežman <dejan.dezman@cosylab.com>
  */
 
@@ -52,9 +52,9 @@ function loadLogsAutomatically(){
 	// Automatically load new logs when at the end of the page
 	$('#load_logs').scroll(function(e){
 		var scrollDiv = $('#load_logs');
-		
+
 		//console.log(scrollDiv.prop('scrollHeight') + " - " + scrollDiv.scrollTop() + " - " + scrollDiv.height());
-		
+
 		if(scrollDiv.prop('scrollHeight') - scrollDiv.scrollTop() <= scrollDiv.height()){
 			page = page  + 1;
 			console.log('increate to ' + page)
@@ -68,17 +68,17 @@ function loadLogsAutomatically(){
  * @param {type} id log id
  */
 function getLog(id){
-	
+
 	// Load log
 	if(id in savedLogs){
 		showLog(savedLogs[id]);
-	
+
 	} else {
 		$.getJSON(serviceurl + 'logs/' + id, function(log) {
 			showLog(log);
 		});
 	}
-	
+
 }
 
 /**
@@ -87,11 +87,11 @@ function getLog(id){
  */
 function showLog(log){
 	$('.container-right').show("fast");
-	
+
 	$("#log_description").html(log.description);
 	$("#log_owner").html(log.owner);
 	$("#log_date").html(formatDate(log.createdDate));
-	
+
 	// Show date edited
 	if(log.createdDate !== log.modifiedDate){
 		var template = getTemplate("template_log_details_edited");
@@ -103,7 +103,7 @@ function showLog(log){
 		var html = Mustache.to_html(template, item);
 
 		$('#log_details_edited').html(html);
-		
+
 	} else {
 		$('#log_details_edited').html("");
 	}
@@ -118,14 +118,14 @@ function showLog(log){
 	if(log.tags.length !== 0){
 		repeat("template_log_tag", "load_log_tags", log, "tags");
 	}
-	
+
 	// Load attachments
 	$('#load_log_attachments').html("");
-	
+
 	if(log.attachments.length !== 0){
 		$('.log_attachments').show("fast");
 		repeatAttachments("template_log_attachment", "load_log_attachments", log.attachments, log.id);
-	
+
 	} else {
 		$('.log_attachments').hide("fast");
 	}
@@ -142,20 +142,42 @@ function showLog(log){
 function repeat(source_id, target_id, data, property){
 	var template = getTemplate(source_id);
 	var html = "";
-	
+
 	$.each(data[property], function(i, item) {
-		html = Mustache.to_html(template, item);
-	
+
+		var customItem = item;
+		customItem.clicked = "";
+
 		if(property === "tag") {
 			savedTags = savedTags.concat(item.name);
-		
+
+			// Check cookie content and select tags that need to be selected
+			if($.cookie(filtersCookieName) !== undefined) {
+				var obj = $.parseJSON($.cookie(filtersCookieName))["list2_index"];
+
+				if(obj !== undefined && obj[item.name] !== undefined) {
+					customItem.clicked = "multilist_clicked";
+				}
+			}
+
 		} else if(property === "logbook") {
 			savedLogbooks = savedLogbooks.concat(item.name);
+
+			// Check cookie content and select tags that need to be selected
+			if($.cookie(filtersCookieName) !== undefined) {
+				var obj = $.parseJSON($.cookie(filtersCookieName))["list_index"];
+
+				if(obj !== undefined && obj[item.name] !== undefined) {
+					customItem.clicked = "multilist_clicked";
+				}
+			}
 		}
-	
+
+		html = Mustache.to_html(template, customItem);
+
 		$('#'+target_id).append(html);
 	});
-	
+
 	$('#'+target_id).trigger('dataloaded', null);
 }
 
@@ -169,11 +191,11 @@ function repeat(source_id, target_id, data, property){
 function repeatLogs(source_id, target_id, data){
 	var template = getTemplate(source_id);
 	var html = "";
-	
+
 	// Go through all the logs
 	$.each(data, function(i, item) {
 		savedLogs[item.id] = item;
-		
+
 		// Build customized Log object
 		var newItem = {
 			description: returnFirstXWords(item.description, 40),
@@ -182,27 +204,27 @@ function repeatLogs(source_id, target_id, data){
 			id: item.id,
 			attachments : []
 		};
-		
+
 		// Append attachments
 		if(item.attachments.length !== 0){
-			
+
 			$.each(item.attachments, function(j, attachment) {
-				
+
 				// Skip non-image attachments
 				if(!isImage(attachment.contentType)){
 					return;
 				}
-				
+
 				// Create custom attribute thumbnail object
 				newItem.attachments.push(
 					{imageUrl: serviceurl + "attachments/" + item.id + "/" + attachment.fileName + ":thumbnail"}
 				);
 			});
 		}
-		
+
 		html = Mustache.to_html(template, newItem);
 		$('#'+target_id).append(html);
-		
+
 	});
 }
 
@@ -231,13 +253,13 @@ function appendAddMoreLog(target_id){
  * @param {type} logId id of the log we want attach attachments to
  */
 function repeatAttachments(source_id, target_id, data, logId){
-	
+
 	var template = getTemplate(source_id);
 	var html = "";
 	var notImages = new Array();
-	
+
 	$.each(data, function(i, item) {
-		
+
 		// Create customized Attachment object
 		var newItem = {
 			imageUrl: serviceurl + "attachments/" + logId + "/" + item.fileName,
@@ -245,24 +267,24 @@ function repeatAttachments(source_id, target_id, data, logId){
 			imageWidth: 200,
 			imageHeight: 200
 		};
-		
+
 		// Add items that are not images to array
 		if(!isImage(item.contentType)){
 			notImages = notImages.concat(newItem);
 			return;
 		}
-		
+
 		html = Mustache.to_html(template, newItem);
-	
+
 		$('#'+target_id).append(html);
 	});
-	
+
 	// Append elements that are not images
 	template = getTemplate("template_log_attachment_not_image");
-	
+
 	$.each(notImages, function(i, file){
 		html = Mustache.to_html(template, file);
-	
+
 		$('#'+target_id).append(html);
 	});
 }
@@ -275,11 +297,11 @@ function repeatAttachments(source_id, target_id, data, logId){
 function getTemplate(id){
 	$.ajaxSetup({async:false});
 	var template = "";
-	
+
 	$('#template_container').load(templates + ' #' + id, function(response, status, xhr){
 		template = $('#' + id).html();
 	});
-	
+
 	return template;
 }
 
