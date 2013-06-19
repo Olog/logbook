@@ -36,9 +36,29 @@ $(document).ready(function(){
 		autocompleteTags(savedTags);
 	});
 
+	// Wait for dataselected
+	$('#load_tags').on('dataselected', function(e, data){
+
+		$("#tags_input").tagsManager('empty');
+
+		$.each(data['list2'], function(i, element){
+			$("#tags_input").tagsManager('pushTag',element)
+		});
+	});
+
 	// Wait for dataload
 	$('#load_logbooks').on('dataloaded', function(e){
 		autocompleteLogbooks(savedLogbooks);
+	});
+
+	// Wait for dataselected
+	$('#load_logbooks').on('dataselected', function(e, data){
+
+		$("#logbooks_input").tagsManager('empty');
+
+		$.each(data['list'], function(i, element){
+			$("#logbooks_input").tagsManager('pushTag',element)
+		});
 	});
 
 	// Add upload field
@@ -69,12 +89,7 @@ function autocompleteTags(tagsArray){
 	if($.cookie(filtersCookieName) !== undefined){
 		selectedTagsArray = $.parseJSON($.cookie(filtersCookieName))["list2"];
 	}
-
-	$("#tags_input").tagsManager({
-		prefilled: selectedTagsArray,
-		typeahead: true,
-		typeaheadSource: tagsArray
-	});
+	initiateAutocompleteInput("tags_input", selectedTagsArray, tagsArray);
 }
 
 function autocompleteLogbooks(logbooksArray){
@@ -83,10 +98,14 @@ function autocompleteLogbooks(logbooksArray){
 	if($.cookie(filtersCookieName) !== undefined){
 		selectedLogbooksArray = $.parseJSON($.cookie(filtersCookieName))["list"];
 	}
+	initiateAutocompleteInput("logbooks_input", selectedLogbooksArray, logbooksArray);
+}
 
-	$("#logbooks_input").tagsManager({
-		prefilled: selectedLogbooksArray,
+function initiateAutocompleteInput(targetId, preselectedArray, dataArray) {
+	$("#" + targetId).tagsManager({
+		prefilled: preselectedArray,
 		typeahead: true,
-		typeaheadSource: logbooksArray
+		typeaheadSource: dataArray,
+		onlyTagList: true
 	});
 }

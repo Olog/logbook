@@ -15,7 +15,7 @@ function multiselect(name){
 
 	// Write data from cookie back to object and remove cookie
 	if($.cookie(filtersCookieName) !== undefined){
-		//selectedElements = $.parseJSON($.cookie(filtersCookieName));
+		selectedElements = $.parseJSON($.cookie(filtersCookieName));
 		//$.removeCookie(filtersCookieName);
 	}
 
@@ -28,27 +28,57 @@ function multiselect(name){
 	});
 
 	$('.' + name).click(function(e){
+		var clicked = false;
 
 		if($(e.target).is("span")){
+
+			// Check if filter is selected
+			if($(e.target).hasClass("multilist_clicked")) {
+				clicked = true;
+			}
+
 			if(!e.ctrlKey){
 				$('.' + name).removeClass("multilist_clicked");
 				selectedElements[name] = [];
 				selectedElements[name + '_index'] = {};
 			}
 
-			selectedElements[name].push($(e.target).text());
-
+			// Set the element index
 			if(selectedElements[name + '_index'] === null) {
 				selectedElements[name + '_index'] = {};
 			}
-			selectedElements[name + '_index'][$(e.target).text()] = "true";
 
+			if(clicked === false) {
+				$(e.target).addClass("multilist_clicked");
+				selectedElements[name + '_index'][$(e.target).text()] = "true";
+				selectedElements[name].push($(e.target).text());
+
+			} else {
+				$(e.target).removeClass("multilist_clicked");
+				selectedElements[name + '_index'][$(e.target).text()] = "false";
+				removeDeselectedFilter(name, $(e.target).text());
+			}
+
+			// Trigger event and set cookie with data
 			$(e.target).parent().unbind('dataselected');
 			$(e.target).parent().trigger('dataselected', selectedElements);
 			$.cookie(filtersCookieName, JSON.stringify(selectedElements));
-			$(e.target).addClass("multilist_clicked");
 		}
 	});
+}
+
+/**
+ * Find deselected element and remove it from the list of selected elements
+ * @param {type} name name of the array (tags or logbooks)
+ * @param {type} element element to be deleted
+ */
+function removeDeselectedFilter(name, element) {
+	for(i=0; i<selectedElements[name].length; i++){
+
+		if(selectedElements[name][i] === element) {
+			selectedElements[name].splice(i, 1);
+		}
+	}
 }
 
 /**

@@ -1,7 +1,11 @@
-/* 
+/*
  * Configuration file for setting global variables
- * 
+ *
  * @author: Dejan Dežman <dejan.dezman@cosylab.com>
+ */
+
+/**
+ * Variables that can be and should be configured by user
  */
 
 // For accessing the REST service
@@ -16,3 +20,10 @@ var numberOfLogsPerLoad = 20;
 
 // Set the name of the cookie that holds selected filters
 var filtersCookieName = "filters";
+
+/**
+ * Global variables needed by more than one page. SHOULD NOT BE CONFIGURED BY USER!
+ */
+
+// Current Log search url
+var searchURL = "";

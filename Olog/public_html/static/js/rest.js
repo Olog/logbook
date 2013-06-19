@@ -13,6 +13,9 @@ var savedTags = new Array();
 var savedLogbooks = new Array();
 var page = 1;
 
+/**
+ * Get Logbooks from REST service
+ */
 function loadLogbooks(){
 	// Load Logbooks
 	$.getJSON(serviceurl + 'logbooks/', function(books) {
@@ -22,6 +25,10 @@ function loadLogbooks(){
 	});
 }
 
+/**
+ * Get Tags from REST service
+ * @returns {undefined}
+ */
 function loadTags(){
 	// Load tags
 	$.getJSON(serviceurl + 'tags/', function(tags) {
@@ -31,13 +38,43 @@ function loadTags(){
 	});
 }
 
+/**
+ * Load Logs on the specific page from the rest service.
+ * @param {type} page number of logs per page is defined in configuration, page number is increased when user scrolls down the list
+ */
 function loadLogs(page){
 	// Remo all the logs if we are starting from the beginning
 	if(page === 1){
 		$(".log").remove();
 	}
 
-	var searchQuery = serviceurl + 'logs?limit=' + numberOfLogsPerLoad + '&page=' + page;
+	var searchQuery = serviceurl + "logs?";
+
+	if(searchURL === "") {
+		searchQuery = serviceurl + 'logs?limit=' + numberOfLogsPerLoad + '&page=' + page;
+
+	} else {
+
+		var queryString = $.url(searchURL).param();
+
+		// Parse current query and generate a new one
+		for(querykey in queryString){
+			console.log(querykey);
+
+			if(querykey === "limit") {
+				queryString[querykey] = numberOfLogsPerLoad;
+
+			} else if(querykey === "page") {
+				queryString[querykey] = page;
+			}
+			searchQuery += querykey + "=" + queryString[querykey] + "&"
+		}
+	}
+
+	// Save query to global var
+	searchURL = searchQuery;
+
+	//var searchQuery = serviceurl + 'logs?limit=' + numberOfLogsPerLoad + '&page=' + page;
 	console.log(searchQuery);
 
 	$.getJSON(searchQuery, function(logs) {
@@ -48,6 +85,9 @@ function loadLogs(page){
 	});
 }
 
+/**
+ * Load more logs when user scrolls to the ed of current Log list.
+ */
 function loadLogsAutomatically(){
 	// Automatically load new logs when at the end of the page
 	$('#load_logs').scroll(function(e){
