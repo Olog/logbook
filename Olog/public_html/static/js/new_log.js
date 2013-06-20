@@ -67,6 +67,11 @@ $(document).ready(function(){
 	$('#add_attachment').click(function(e){
 		addAttachmentField();
 	});
+
+	$('#createForm').on('submit', function(e){
+		e.preventDefault();
+		createLog();
+	})
 });
 
 function addAttachmentField(){

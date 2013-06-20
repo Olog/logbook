@@ -13,6 +13,14 @@ var savedTags = new Array();
 var savedLogbooks = new Array();
 var page = 1;
 
+$(document).ready(function(){
+
+	$('#user_login_form').on('submit', function(e){
+		e.preventDefault();
+		login();
+	});
+});
+
 /**
  * Get Logbooks from REST service
  */
@@ -235,6 +243,7 @@ function repeatLogs(source_id, target_id, data){
 	// Go through all the logs
 	$.each(data, function(i, item) {
 		savedLogs[item.id] = item;
+		//console.log(JSON.stringify(item));
 
 		// Build customized Log object
 		var newItem = {
@@ -390,5 +399,122 @@ function showDeleteModal(modalId, name){
 	$('#modal_container').load(modalWindows + ' #' + modalId, function(response, status, xhr){
 		$('#' + modalId + ' [name=id]').val(name);
 		$('#' + modalId).modal('toggle');
+	});
+}
+
+function generateLogObject() {
+	var log = [{
+		"description":"",
+		"logbooks":[],
+		"tags":[],
+		"properties":[],
+		"attachments":[],
+		"level":"Info"
+	}];
+
+	// Set description
+	log[0].description = $('#new_log_body').val();
+
+	// Set logbooks
+	var logbooksString = $('input[name=hidden-logbooks]').val();
+
+	$.each(logbooksString.split(','), function(index, logbook){
+		log[0].logbooks.push({"name":logbook});
+	});
+
+	// Set tags
+	var tagsString = $('input[name=hidden-tags]').val();
+
+	$.each(tagsString.split(','), function(index, tag){
+		log[0].tags.push({"name":tag});
+	});
+
+	return log;
+}
+
+function createLog() {
+
+	var json = JSON.stringify(generateLogObject());
+	console.log(json);
+
+	$.ajax( {
+		type: "POST",
+		url : 'http://localhost:8080/Olog/resources/logs',
+		contentType: 'application/json; charset=utf-8',
+		data: json,
+		beforeSend : function(xhr) {
+			var base64 = encode64("boss" + ":" + "password");
+			xhr.setRequestHeader("Authorization", "Basic " + base64);
+		},
+		error : function(xhr, ajaxOptions, thrownError) {
+			//reset();
+			//onError('Invalid username or password. Please try again.');
+			//$('#loginform #user_login').focus();
+			alert(thrownError);
+		},
+		success : function(model) {
+			//cookies();
+			alert("ok");
+			window.location.href = "index.html";
+		}
+	});
+}
+
+// This code was written by Tyler Akins and has been placed in the
+// public domain.  It would be nice if you left this header intact.
+// Base64 code from Tyler Akins -- http://rumkin.com
+function encode64(input) {
+	var keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+
+	if (!String(input).length) return false;
+	var output = "";
+	var chr1, chr2, chr3;
+	var enc1, enc2, enc3, enc4;
+	var i = 0;
+
+	do {
+		chr1 = input.charCodeAt(i++);
+		chr2 = input.charCodeAt(i++);
+		chr3 = input.charCodeAt(i++);
+
+		enc1 = chr1 >> 2;
+		enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+		enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+		enc4 = chr3 & 63;
+
+		if (isNaN(chr2)) {
+			enc3 = enc4 = 64;
+		} else if (isNaN(chr3)) {
+			enc4 = 64;
+		}
+
+		output = output + keyStr.charAt(enc1) + keyStr.charAt(enc2) +
+			keyStr.charAt(enc3) + keyStr.charAt(enc4);
+	} while (i < input.length);
+
+	return output;
+}
+
+function login() {
+
+	$.ajax( {
+		type: "POST",
+		url : 'http://localhost:8080/Olog/resources/logs',
+		contentType: 'application/xml; charset=utf-8',
+		data: '<?xml version="1.0" encoding="UTF-8" ?><logs></logs>',
+		beforeSend : function(xhr) {
+			var base64 = encode64("boss" + ":" + "password");
+			xhr.setRequestHeader("Authorization", "Basic " + base64);
+		},
+		error : function(xhr, ajaxOptions, thrownError) {
+			//reset();
+			//onError('Invalid username or password. Please try again.');
+			//$('#loginform #user_login').focus();
+			alert(thrownError);
+		},
+		success : function(model) {
+			//cookies();
+			alert("user ok");
+		}
 	});
 }
