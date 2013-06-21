@@ -21,6 +21,15 @@ var numberOfLogsPerLoad = 20;
 // Set the name of the cookie that holds selected filters
 var filtersCookieName = "filters";
 
+// Set the name of the cookie that holds the user data
+var sessionCookieName = "SESSION";
+
+// Write logs to console
+var writeLogs = true;
+
+// First page name
+var firstPageName = "index.html";
+
 /**
  * Global variables needed by more than one page. SHOULD NOT BE CONFIGURED BY USER!
  */

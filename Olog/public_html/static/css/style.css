@@ -131,7 +131,6 @@ html, body {
 
 .user_dropdown_menu {
 	padding: 10px;
-	padding-bottom: 0px;
 }
 
 .search_input {
@@ -194,4 +193,13 @@ html, body {
 
 .attachment_info {
 	color: #aaaaaa;
+}
+
+.login_error {
+	color: red;
+	display: none;
+}
+
+#new_logbook_error_block {
+	display: none;
 }

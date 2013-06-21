@@ -7,23 +7,10 @@
 
 $(document).ready(function(){
 
+	// Create new comparator
 	jQuery.expr[':'].Contains = function(a, i, m){
 		return (a.textContent || a.innerText || "").toUpperCase().indexOf(m[3].toUpperCase())>=0;
 	};
-
-	/**
-	 * Disable closing the login dropdown if user clicks on login form elements
-	 */
-	// Setup drop down menu
-	$('.dropdown-toggle').dropdown();
-	// Fix input element click problem
-	$('.dropdown-menu form').click(function(e) {
-		e.stopPropagation();
-	});
-
-	$('#new_log').click(function(e){
-		window.location.href = "new_log.html";
-	});
 
 	// Load Logbooks
 	loadLogbooks();
@@ -64,16 +51,53 @@ $(document).ready(function(){
 	// Add upload field
 	addAttachmentField();
 
+	// Listen for add attachment link click
 	$('#add_attachment').click(function(e){
 		addAttachmentField();
 	});
 
+	// Listen for new Log form submit
 	$('#createForm').on('submit', function(e){
 		e.preventDefault();
-		createLog();
-	})
+		checkLog();
+	});
+
+	// Hide error block when user clicks on the X
+	$('#error_x').click(function(e){
+		$('#error_block').hide("fast");
+	});
+
+	// Check if user is logged in and act accordingly
+	if(getUserCreadentials() === null) {
+		window.location.href = firstPageName;
+
+		var template = getTemplate('template_logged_out');
+		var html = Mustache.to_html(template, {"user": "User"});
+		$('#top_container').html(html);
+		login();
+
+		$('#new_log').addClass("disabled");
+		$('#new_log').attr("disabled", true);
+		$('#new_logbook_and_tag').addClass("disabled");
+		$('#new_logbook_and_tag').attr("disabled", true);
+
+	} else {
+		var credentials = getUserCreadentials();
+
+		var template = getTemplate('template_logged_in');
+		var html = Mustache.to_html(template, {"user": firstLetterToUppercase(credentials["username"])});
+		$('#top_container').html(html);
+
+		$('#new_log').removeClass("disabled");
+		$('#new_log').attr("disabled", false);
+		$('#new_logbook_and_tag').removeClass("disabled");
+		$('#new_logbook_and_tag').attr("disabled", false);
+	}
 });
 
+/**
+ * Add attachment field below the already existing one
+ */
 function addAttachmentField(){
 	var template = getTemplate("template_new_add_attachment");
 
@@ -88,6 +112,10 @@ function addAttachmentField(){
 	});
 }
 
+/**
+ * Initialize Tags autocompletion input. Get already selected data from cookie and fill the autocompletion list with all the Tags.
+ * @param {type} tagsArray array of all the tags
+ */
 function autocompleteTags(tagsArray){
 	var selectedTagsArray = [];
 
@@ -97,6 +125,10 @@ function autocompleteTags(tagsArray){
 	initiateAutocompleteInput("tags_input", selectedTagsArray, tagsArray);
 }
 
+/**
+ * Initialize Logbooks autocompletion input. Get already selected data from cookie and fill the autocompletion list with all the Logbooks.
+ * @param {type} logbooksArray array of all the tags
+ */
 function autocompleteLogbooks(logbooksArray){
 	var selectedLogbooksArray = [];
 
@@ -106,6 +138,12 @@ function autocompleteLogbooks(logbooksArray){
 	initiateAutocompleteInput("logbooks_input", selectedLogbooksArray, logbooksArray);
 }
 
+/**
+ * Prepare autocompletion object and fill it with given data.
+ * @param {type} targetId id of the input on which we want to enable aoutcompletion
+ * @param {type} preselectedArray array of preselected items (usually from the cookie)
+ * @param {type} dataArray array of all the object available for autocompletion
+ */
 function initiateAutocompleteInput(targetId, preselectedArray, dataArray) {
 	$("#" + targetId).tagsManager({
 		prefilled: preselectedArray,
@@ -113,4 +151,36 @@ function initiateAutocompleteInput(targetId, preselectedArray, dataArray) {
 		typeaheadSource: dataArray,
 		onlyTagList: true
 	});
+}
+
+/**
+ * Check if Log form is filled in correctly
+ * @returns {undefined}
+ */
+function checkLog() {
+	var logbooksString = $('input[name=hidden-logbooks]').val();
+	var errorString = "";
+
+	// Check description length
+	if($('#new_log_body').val() === "") {
+		errorString += "Log description cannot be empty!<br />";
+	}
+
+	// Check if there is at least one Logbook selected
+	if(logbooksString.length === 0) {
+		errorString += "At least one Logbook should be selected!<br />";
+	}
+
+	// Check if user is logged in
+	if(getUserCreadentials() === null) {
+		errorString += "User is not logged in!<br />";
+	}
+
+	if(errorString.length === 0) {
+		createLog();
+
+	} else {
+		$('#error_body').html(errorString);
+		$('#error_block').show("fast");
+	}
 }

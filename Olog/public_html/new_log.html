@@ -40,7 +40,7 @@
 
 				<div class="btn-group">
 					<button id="new_log" class="btn btn-primary active">New Log Entry</button>
-					<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+					<button id="new_logbook_and_tag" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
 						<span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu">
@@ -49,27 +49,10 @@
 					</ul>
 				</div>
 
-				<div class="pull-right btn-group">
-					<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
-						<i class="icon-user icon-white"></i>
-						User
-						<strong class="caret"></strong>
-					</a>
-					<div class="dropdown-menu user_dropdown_menu">
-						<form id="user_login_form" action="#" method="post">
-							<fieldset>
-								<legend>Sign in</legend>
-								<label>Username</label>
-								<input id="user_username" type="text" placeholder="Your username ...">
-
-								<label>Password</label>
-								<input id="user_password" type="password" placeholder="Your password ..."><br />
-
-								<button type="submit" id="user_login" class="btn btn-primary">Sign in</button>
-							</fieldset>
-						</form>
-					</div>
+				<div id="top_container" class="pull-right btn-group">
+					<!-- Template -->
 				</div>
+
 			</div>
 		</div>
 	</div>
@@ -91,6 +74,13 @@
 	<!-- New Log view -->
 	<div class="container-middle-right">
 		<div class="well container-scroll-last-one">
+
+			<div id="error_block" class="alert alert-error">
+				<button type="button" class="close" id="error_x">&times;</button>
+				<h4>Error!</h4>
+				<span id="error_body"></span>
+			</div>
+
 			<form id="createForm" action="#" method="post">
 
 				<div class="log_title">
@@ -133,6 +123,7 @@
 	<script src="static/js/jquery-2.0.2.js"></script>
 	<script src="static/js/jquery.cookie.js"></script>
 	<script src="static/js/purl.js"></script>
+	<script src="static/js/common.js"></script>
 	<script src="static/js/bootstrap.js"></script>
 	<script src="static/js/moment.min.js"></script>
 	<script src="static/js/multilist.js"></script>
@@ -142,6 +133,8 @@
 	<script src="static/js/rest.js"></script>
 	<script src="static/js/new_log.js"></script>
 	<script src="static/js/search.js"></script>
+
+	<script src="static/js/new_logbook.js"></script>
 
 	</body>
 </html>

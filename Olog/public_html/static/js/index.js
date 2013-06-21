@@ -10,16 +10,6 @@ $(document).ready(function(){
 		return (a.textContent || a.innerText || "").toUpperCase().indexOf(m[3].toUpperCase())>=0;
 	};
 
-	/**
-	 * Disable closing the login dropdown if user clicks on login form elements
-	 */
-	// Setup drop down menu
-	$('.dropdown-toggle').dropdown();
-	// Fix input element click problem
-	$('.dropdown-menu form').click(function(e) {
-		e.stopPropagation();
-	});
-
 	$('#new_log').click(function(e){
 		window.location.href = "new_log.html";
 	});
@@ -41,6 +31,31 @@ $(document).ready(function(){
 
 	// Activate mechanism for automatically loading new logs
 	loadLogsAutomatically();
+
+	// Check if user is logged in and act accordingly
+	if(getUserCreadentials() === null) {
+		var template = getTemplate('template_logged_out');
+		var html = Mustache.to_html(template, {"user": "User"});
+		$('#top_container').html(html);
+		login();
+
+		$('#new_log').addClass("disabled");
+		$('#new_log').attr("disabled", true);
+		$('#new_logbook_and_tag').addClass("disabled");
+		$('#new_logbook_and_tag').attr("disabled", true);
+
+	} else {
+		var credentials = getUserCreadentials();
+
+		var template = getTemplate('template_logged_in');
+		var html = Mustache.to_html(template, {"user": firstLetterToUppercase(credentials["username"])});
+		$('#top_container').html(html);
+
+		$('#new_log').removeClass("disabled");
+		$('#new_log').attr("disabled", false);
+		$('#new_logbook_and_tag').removeClass("disabled");
+		$('#new_logbook_and_tag').attr("disabled", false);
+	}
 });
 
 /*

@@ -1,5 +1,5 @@
 /*
- * Load tada on dom ready
+ * Load data on dom ready
  *
  * @author: Dejan Dežman <dejan.dezman@cosylab.com>
  */
@@ -15,10 +15,7 @@ var page = 1;
 
 $(document).ready(function(){
 
-	$('#user_login_form').on('submit', function(e){
-		e.preventDefault();
-		login();
-	});
+
 });
 
 /**
@@ -27,6 +24,7 @@ $(document).ready(function(){
 function loadLogbooks(){
 	// Load Logbooks
 	$.getJSON(serviceurl + 'logbooks/', function(books) {
+		l(books);
 		repeat("template_logbook", "load_logbooks", books, "logbook");
 		multiselect("list");
 		filterListItems("logbooks_filter_search", "list");
@@ -75,7 +73,7 @@ function loadLogs(page){
 			} else if(querykey === "page") {
 				queryString[querykey] = page;
 			}
-			searchQuery += querykey + "=" + queryString[querykey] + "&"
+			searchQuery += querykey + "=" + queryString[querykey] + "&";
 		}
 	}
 
@@ -105,7 +103,7 @@ function loadLogsAutomatically(){
 
 		if(scrollDiv.prop('scrollHeight') - scrollDiv.scrollTop() <= scrollDiv.height()){
 			page = page  + 1;
-			console.log('increate to ' + page)
+			console.log('increate to ' + page);
 			loadLogs(page);
 		}
 	});
@@ -402,6 +400,10 @@ function showDeleteModal(modalId, name){
 	});
 }
 
+/**
+ * Generate Log object from the data in the new Log form
+ * @returns Log
+ */
 function generateLogObject() {
 	var log = [{
 		"description":"",
@@ -432,18 +434,23 @@ function generateLogObject() {
 	return log;
 }
 
+/**
+ * After Log ovject is created, send it to the server
+ */
 function createLog() {
 
 	var json = JSON.stringify(generateLogObject());
 	console.log(json);
 
+	var userCredentials = $.parseJSON($.cookie(sessionCookieName));
+
 	$.ajax( {
 		type: "POST",
-		url : 'http://localhost:8080/Olog/resources/logs',
+		url : serviceurl + 'logs',
 		contentType: 'application/json; charset=utf-8',
 		data: json,
 		beforeSend : function(xhr) {
-			var base64 = encode64("boss" + ":" + "password");
+			var base64 = encode64(userCredentials["username"] + ":" + userCredentials["password"]);
 			xhr.setRequestHeader("Authorization", "Basic " + base64);
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
@@ -454,8 +461,8 @@ function createLog() {
 		},
 		success : function(model) {
 			//cookies();
-			alert("ok");
-			window.location.href = "index.html";
+			l("Log sent to the server");
+			window.location.href = firstPageName;
 		}
 	});
 }
@@ -495,26 +502,142 @@ function encode64(input) {
 	return output;
 }
 
+/**
+ * Start listening to form submit and when submit happens, extract data from the form and check user credentials by analysing server response.
+ */
 function login() {
+
+	/**
+	* Disable closing the login dropdown if user clicks on login form elements
+	*/
+	// Setup drop down menu
+	$('.dropdown-toggle').dropdown();
+	// Fix input element click problem
+	$('.dropdown-menu form').click(function(e) {
+		e.stopPropagation();
+	});
+
+	$('#user_submit_form').on('submit', function(e){
+		e.preventDefault();
+
+		var username = $('#user_username').val();
+		var password = $('#user_password').val();
+
+		$.ajax( {
+			type: "POST",
+			url : serviceurl + 'logs',
+			contentType: 'application/xml; charset=utf-8',
+			dataType: 'xml',
+			data: '',
+			beforeSend : function(xhr) {
+				var base64 = encode64(username + ":" + password);
+				xhr.setRequestHeader("Authorization", "Basic " + base64);
+			},
+			statusCode: {
+				400: function(){
+					saveUserCredentials(username, password);
+					l("User logged in");
+				},
+				404: function(){
+					$('#login_error').show('fast');
+				}
+			},
+			error : function(xhr, ajaxOptions, thrownError) {
+				//reset();
+				//onError('Invalid username or password. Please try again.');
+				//$('#loginform #user_login').focus();
+			},
+			success : function(model) {
+				//cookies();
+			}
+		});
+
+		window.location.href = firstPageName;
+	});
+}
+
+/**
+ * When user clicks on Sign out link, delete a session cookie and redirect user to the first page.
+ * @returns {undefined}
+ */
+function logout() {
+	l("logged out");
+	deleteUserCredentials();
+
+	window.location.href = firstPageName;
+}
+
+/**
+ * Save user credentials to the cookie with 1 day of expiration time.
+ * @param {type} username user's username
+ * @param {type} password user's password
+ */
+function saveUserCredentials(username, password) {
+	var credentials = {"username": username, "password": password};
+	$.cookie(sessionCookieName, JSON.stringify(credentials), {expires: 1});
+}
+
+/**
+ * Delete session cookie when user loggs out
+ */
+function deleteUserCredentials() {
+	$.removeCookie(sessionCookieName);
+}
+
+/**
+ * Get user credentials from session cookie when needed
+ * @returns {JSON} object with username and password
+ */
+function getUserCreadentials() {
+	var credentials = null;
+
+	if($.cookie(sessionCookieName) !== undefined) {
+		credentials = $.parseJSON($.cookie(sessionCookieName));
+	}
+
+	return credentials;
+}
+
+/**
+ * Create Logbook
+ */
+function createLogbook(name, owner) {
+
+	var logbook = {"logbook":[{
+		"name":name,
+		"owner":owner,
+		"state":"Active"
+	}]};
+
+	var json = JSON.stringify(logbook);
+	l(json);
+
+	var userCredentials = $.parseJSON($.cookie(sessionCookieName));
 
 	$.ajax( {
 		type: "POST",
-		url : 'http://localhost:8080/Olog/resources/logs',
-		contentType: 'application/xml; charset=utf-8',
-		data: '<?xml version="1.0" encoding="UTF-8" ?><logs></logs>',
+		url : serviceurl + 'logbooks',
+		contentType: 'application/json; charset=utf-8',
+		data: json,
 		beforeSend : function(xhr) {
-			var base64 = encode64("boss" + ":" + "password");
+			var base64 = encode64(userCredentials["username"] + ":" + userCredentials["password"]);
 			xhr.setRequestHeader("Authorization", "Basic " + base64);
+		},
+		statusCode: {
+			403: function(){
+				showError("You do not have permissions to create this Logbook!");
+			}
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
 			//reset();
 			//onError('Invalid username or password. Please try again.');
 			//$('#loginform #user_login').focus();
-			alert(thrownError);
+			l("something wrong");
 		},
 		success : function(model) {
 			//cookies();
-			alert("user ok");
+			l("Logbook sent to the server");
+			window.location.href = firstPageName;
 		}
 	});
 }

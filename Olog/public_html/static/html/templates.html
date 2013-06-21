@@ -66,5 +66,40 @@ and open the template in the editor.
 		<script id="template_new_add_attachment" type="text/template">
 			<input class="new_attachment" type="file" /><br/>
 		</script>
+
+		<!-- Login templates -->
+		<script id="template_logged_in" type="text/template">
+			<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
+				<i class="icon-user icon-white"></i>
+				{{user}}
+				<strong class="caret"></strong>
+			</a>
+			<ul class="dropdown-menu">
+				<li><a onclick="logout()" href="#">Sign out</a></li>
+			</ul>
+		</script>
+
+		<script id="template_logged_out" type="text/template">
+			<a id="user_login_dropdown" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
+				<i class="icon-user icon-white"></i>
+				{{user}}
+				<strong class="caret"></strong>
+			</a>
+			<div class="dropdown-menu user_dropdown_menu">
+				<form id="user_submit_form" action="#" method="post">
+					<fieldset>
+						<legend>Sign in</legend>
+						<label>Username</label>
+						<input id="user_username" type="text" placeholder="Your username ...">
+
+						<label>Password</label>
+						<input id="user_password" type="password" placeholder="Your password ..."><br />
+
+						<button type="submit" id="user_login" class="btn btn-primary">Sign in</button>
+					</fieldset>
+				</form>
+				<span id="login_error" class="login_error">The username or password is incorrect!</span>
+			</div>
+		</script>
 	</body>
 </html>

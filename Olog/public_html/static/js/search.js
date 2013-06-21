@@ -38,6 +38,11 @@ function activateSearch(){
 	});
 }
 
+/**
+ * Input search query and request data from the server
+ * @param {type} searchQuery prebuilt search query
+ * @param {type} resetPageCouner on some occasions we want page counter to be reset
+ */
 function searchForLogs(searchQuery, resetPageCouner) {
 
 	// Reset pagecouner if new filters are selected
@@ -58,6 +63,7 @@ function searchForLogs(searchQuery, resetPageCouner) {
 	});
 }
 
+// TODO: not really useful but it is a start
 function buildSearchLanguage(value){
 
 	var searchString = "";
@@ -79,6 +85,7 @@ function buildSearchLanguage(value){
 	return [searchString, filterType, remainder];
 }
 
+// TODO: not really useful but it is a start
 function parseSearchQuery(){
 	var value = $("#search-query").val();
 
@@ -87,7 +94,6 @@ function parseSearchQuery(){
 
 	while (parsedStringParts[1] !== "") {
 		parsedStringParts = buildSearchLanguage(parsedStringParts[2]);
-		//console.log(parsedStringParts);
 	}
 }
 

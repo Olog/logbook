@@ -1,4 +1,4 @@
-/* 
+/*
     Document   : new_log
     Created on : Jun 13, 2013, 1:07:20 PM
     Author     : user
@@ -18,4 +18,8 @@
 .new_log_button {
 	margin-right: 5px;
 	margin-top: 10px;
+}
+
+#error_block {
+	display: none;
 }
