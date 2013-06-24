@@ -36,3 +36,6 @@ var firstPageName = "index.html";
 
 // Current Log search url
 var searchURL = "";
+
+// Available Levels
+var levels = ["Info", "Problem", "Request", "Suggestion", "Urgent"];

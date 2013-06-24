@@ -52,7 +52,7 @@ function searchForLogs(searchQuery, resetPageCouner) {
 
 	searchQuery = serviceurl + 'logs?' + searchQuery + 'limit=' + numberOfLogsPerLoad + '&page=' + page;
 	searchURL = searchQuery;
-	console.log(searchQuery);
+	l(searchQuery);
 
 	// Load logs
 	$.getJSON(searchQuery, function(logs) {

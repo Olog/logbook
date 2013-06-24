@@ -13,18 +13,12 @@ var savedTags = new Array();
 var savedLogbooks = new Array();
 var page = 1;
 
-$(document).ready(function(){
-
-
-});
-
 /**
  * Get Logbooks from REST service
  */
 function loadLogbooks(){
 	// Load Logbooks
 	$.getJSON(serviceurl + 'logbooks/', function(books) {
-		l(books);
 		repeat("template_logbook", "load_logbooks", books, "logbook");
 		multiselect("list");
 		filterListItems("logbooks_filter_search", "list");
@@ -114,29 +108,39 @@ function loadLogsAutomatically(){
  * @param {type} id log id
  */
 function getLog(id){
+	var logData = null;
+	var logId = id;
 
 	// Load log
 	if(id in savedLogs){
-		showLog(savedLogs[id]);
+		logData = savedLogs[id];
 
 	} else {
+		$.ajaxSetup({async:false});
 		$.getJSON(serviceurl + 'logs/' + id, function(log) {
-			showLog(log);
+			savedLogs[id] = log;
+			logData = log;
 		});
+		$.ajaxSetup({async:true});
 	}
 
+	return [logData, logId];
 }
 
 /**
  * Show log that was read from json object or from REST
  * @param {type} log log object
+ * @param id id of the log in saved logs array
  */
-function showLog(log){
+function showLog(log, id){
 	$('.container-right').show("fast");
 
 	$("#log_description").html(log.description);
 	$("#log_owner").html(log.owner);
 	$("#log_date").html(formatDate(log.createdDate));
+	$("#log_level").html(log.level);
+
+	$("#modify_log_link").attr("href", "modify_log.html?id=" + id);
 
 	// Show date edited
 	if(log.createdDate !== log.modifiedDate){
@@ -411,7 +415,7 @@ function generateLogObject() {
 		"tags":[],
 		"properties":[],
 		"attachments":[],
-		"level":"Info"
+		"level":""
 	}];
 
 	// Set description
@@ -420,26 +424,34 @@ function generateLogObject() {
 	// Set logbooks
 	var logbooksString = $('input[name=hidden-logbooks]').val();
 
-	$.each(logbooksString.split(','), function(index, logbook){
-		log[0].logbooks.push({"name":logbook});
-	});
+	if(logbooksString.length > 1) {
+		$.each(logbooksString.split(','), function(index, logbook){
+			log[0].logbooks.push({"name":logbook});
+		});
+	}
 
 	// Set tags
 	var tagsString = $('input[name=hidden-tags]').val();
 
-	$.each(tagsString.split(','), function(index, tag){
-		log[0].tags.push({"name":tag});
-	});
+	if(tagsString.length > 1) {
+		$.each(tagsString.split(','), function(index, tag){
+			log[0].tags.push({"name":tag});
+		});
+	}
+
+	// Set Level
+	log[0].level = $('#level_input').find(":selected").val();
 
 	return log;
 }
 
 /**
  * After Log ovject is created, send it to the server
+ * @param log Log object to be inserted into database
  */
-function createLog() {
+function createLog(log) {
 
-	var json = JSON.stringify(generateLogObject());
+	var json = JSON.stringify(log);
 	console.log(json);
 
 	var userCredentials = $.parseJSON($.cookie(sessionCookieName));
@@ -453,11 +465,15 @@ function createLog() {
 			var base64 = encode64(userCredentials["username"] + ":" + userCredentials["password"]);
 			xhr.setRequestHeader("Authorization", "Basic " + base64);
 		},
+		statusCode: {
+			403: function(){
+				showError("You do not have permissions to create this Log!", "#error_block", "#error_body");
+			}
+		},
 		error : function(xhr, ajaxOptions, thrownError) {
 			//reset();
 			//onError('Invalid username or password. Please try again.');
 			//$('#loginform #user_login').focus();
-			alert(thrownError);
 		},
 		success : function(model) {
 			//cookies();
@@ -600,6 +616,8 @@ function getUserCreadentials() {
 
 /**
  * Create Logbook
+ * @param name name of the Logbook
+ * @param owner Logbook owner
  */
 function createLogbook(name, owner) {
 
@@ -625,7 +643,7 @@ function createLogbook(name, owner) {
 		},
 		statusCode: {
 			403: function(){
-				showError("You do not have permissions to create this Logbook!");
+				showError("You do not have permissions to create this Logbook!", "#new_logbook_error_block", "#new_logbook_error_body");
 			}
 		},
 		error : function(xhr, ajaxOptions, thrownError) {

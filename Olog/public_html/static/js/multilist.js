@@ -133,14 +133,13 @@ function startListeningForLogClicks(){
 
 		if($(e.target).is("div")){
 			actionElement = $(e.target);
-			//getLog($(e.target).find("input[name=id]").val());
 
 		}else if($(e.target).parent().is("div")){
 			actionElement = $(e.target).parent();
-			//getLog($(e.target).parent().find("input[name=id]").val());
 		}
 
 		actionElement.toggleClass("log_click");
-		getLog(actionElement.find("input[name=id]").val());
+		var log = getLog(actionElement.find("input[name=id]").val());
+		showLog(log[0], log[1]);
 	});
 }

@@ -100,13 +100,15 @@
 		<div class="well container-scroll-last-one">
 
 			<div class="log_title">
-				<h5><span id="log_owner"></span>, <span id="log_date"></span><a class="log_show_details" href="#"><i class="icon-info-sign"></i> Show details</a><i class="icon-trash float_right"></i> <i class="icon-pencil float_right float_right_padding"></i></h5>
+				<h5><span id="log_owner"></span>, <span id="log_date"></span><a class="log_show_details" href="#"><i class="icon-info-sign"></i> Show details</a><a id="modify_log_link" href="modify_log.html"><i title="Modify Log Entry" class="icon-pencil float_right float_right_padding"></i></a></h5>
 			</div>
 
 			<div class="log_details display_none">
 				<i title="Tags" class="icon-tags"></i><span id="load_log_tags"> <span class="label label-info">tag</span> <span class="label label-info">tag</span> <span class="label label-info">tag <a class="close_label" href="#">&times;</a></span></span>
 				<br />
 				<i title="Logbooks" class="icon-book"></i><span id="load_log_logbooks"> <span class="label label-warning">logbook</span> <span class="label label-warning">logbook</span> <span class="label label-warning">logbook</span></span>
+				<br />
+				<i title="Level" class="icon-tasks"></i> <span id="log_level"></span>
 				<div id="log_details_edited"></div>
 			</div>
 
@@ -148,7 +150,7 @@
 	<script src="static/js/rest.js"></script>
 	<script src="static/js/index.js"></script>
 	<script src="static/js/search.js"></script>
-	
+
 	<script src="static/js/new_logbook.js"></script>
 
 	</body>

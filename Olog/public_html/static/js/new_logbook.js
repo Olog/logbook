@@ -31,10 +31,16 @@ function createLogbookHandler() {
 	}
 }
 
-function showError(string) {
-	var errorBlock = $('#new_logbook_error_block');
-	var errorX = $('#new_logbook_error_x');
-	var errorBody = $('#new_logbook_error_body');
+/**
+ * Show error in specific error block
+ * @param {type} string string that describes an error
+ * @param {type} blockId id of the error block
+ * @param {type} blockBody id of the error block body
+ * @returns {undefined}
+ */
+function showError(string, blockId, blockBody) {
+	var errorBlock = $(blockId);
+	var errorBody = $(blockBody);
 
 	errorBody.html(string);
 	errorBlock.show("fast");
