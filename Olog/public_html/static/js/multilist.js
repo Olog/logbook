@@ -20,7 +20,9 @@ function multiselect(name){
 	}
 
 	$('.' + name).hover(function(e){
-		$(e.target).find(".multilist_icons").show("fast");
+		if($.cookie(sessionCookieName) !== undefined) {
+			$(e.target).find(".multilist_icons").show("fast");
+		}
 	});
 
 	$('.' + name).mouseleave(function(e){

@@ -42,5 +42,25 @@ $(document).ready(function(){
 		});
 	});
 
+	// Listen for new Log form submit
+	$('#createForm').on('submit', function(e){
+		e.preventDefault();
+
+		var log = generateLogObject();
+
+		if(isValidLog(log) === true) {
+			createLog(log);
+		}
+	});
+
+	// Load levels
+	var template = getTemplate('template_level_input');
+	$('#level_input').html("");
+
+	$.each(levels, function(index, name) {
+		var html = Mustache.to_html(template, {"name": name, "selected":""});
+		$('#level_input').append(html);
+	});
+
 	initialize();
 });

@@ -55,7 +55,42 @@ $(document).ready(function(){
 		}
 	});
 
+	// Listen for new Log form submit
+	$('#modifyForm').on('submit', function(e){
+		e.preventDefault();
+
+		var log = generateLogObject();
+
+		// Append id
+		log[0].id = logId;
+
+		if(isValidLog(log) === true) {
+			modifyLog(log);
+		}
+	});
+
+	// Load levels
+	var template = getTemplate('template_level_input');
+	$('#level_input').html("");
+
+	$.each(levels, function(index, name) {
+
+		var selected = "";
+
+		if(name === log[0].level) {
+			selected = "selected=selected";
+		}
+
+		var html = Mustache.to_html(template, {"name": name, "selected":selected});
+		$('#level_input').append(html);
+	});
+
 	initialize();
+
+	$('#new_log').addClass("disabled");
+	$('#new_log').attr("disabled", true);
+	$('#new_logbook_and_tag').addClass("disabled");
+	$('#new_logbook_and_tag').attr("disabled", true);
 });
 
 /**
@@ -65,7 +100,7 @@ $(document).ready(function(){
 function checkUrlParameters(logId) {
 
 	if(logId === undefined) {
-		//window.location.href = firstPageName;
+		window.location.href = firstPageName;
 	}
 }
 
@@ -76,7 +111,7 @@ function checkUrlParameters(logId) {
 function checkLogObject(log) {
 
 	if(log === null) {
-		//window.location.href = firstPageName;
+		window.location.href = firstPageName;
 	}
 }
 
@@ -87,5 +122,5 @@ function checkLogObject(log) {
  */
 function fillInForm(log) {
 	l(log);
-	$("#modify_log_body").val(log.description);
+	$("#log_body").val(log.description);
 }

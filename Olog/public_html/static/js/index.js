@@ -43,6 +43,7 @@ $(document).ready(function(){
 		$('#new_log').attr("disabled", true);
 		$('#new_logbook_and_tag').addClass("disabled");
 		$('#new_logbook_and_tag').attr("disabled", true);
+		$('#modify_log_link').hide();
 
 	} else {
 		var credentials = getUserCreadentials();

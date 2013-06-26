@@ -18,6 +18,7 @@
 .new_log_button {
 	margin-right: 5px;
 	margin-top: 10px;
+	height: 30px;
 }
 
 #error_block {

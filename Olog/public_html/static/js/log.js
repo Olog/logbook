@@ -6,41 +6,26 @@
 
 function initialize() {
 	// Create new comparator
-	jQuery.expr[':'].Contains = function(a, i, m){
-		return (a.textContent || a.innerText || "").toUpperCase().indexOf(m[3].toUpperCase())>=0;
+	jQuery.expr[':'].Contains = function(a, i, m) {
+		return (a.textContent || a.innerText || "").toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
 	};
-
-	// Load levels
-	var template = getTemplate('template_level_input');
-	$('#level_input').html("");
-
-	$.each(levels, function(index, name){
-		var html = Mustache.to_html(template, {"name":name});
-		$('#level_input').append(html);
-	});
 
 	// Add upload field
 	addAttachmentField();
 
 	// Listen for add attachment link click
-	$('#add_attachment').click(function(e){
+	$('#add_attachment').click(function(e) {
 		addAttachmentField();
 	});
 
-	// Listen for new Log form submit
-	$('#createForm').on('submit', function(e){
-		e.preventDefault();
-		checkLog();
-	});
-
 	// Hide error block when user clicks on the X
-	$('#error_x').click(function(e){
+	$('#error_x').click(function(e) {
 		$('#error_block').hide("fast");
 	});
 
 	// Check if user is logged in and act accordingly
-	if(getUserCreadentials() === null) {
-		window.location.href = firstPageName;
+	if (getUserCreadentials() === null) {
+		window.location.href = firstPageName + '?reason=not_logged_in';
 
 		var template = getTemplate('template_logged_out');
 		var html = Mustache.to_html(template, {"user": "User"});
@@ -64,12 +49,21 @@ function initialize() {
 		$('#new_logbook_and_tag').removeClass("disabled");
 		$('#new_logbook_and_tag').attr("disabled", false);
 	}
+
+	// Listen to cancel or close click
+	$('#cancel_editing_button').click(function(e){
+		showCancelEditingLogModal();
+	});
+
+	$('#cancel_editing_x').click(function(e){
+		showCancelEditingLogModal();
+	});
 }
 
 /**
  * Add attachment field below the already existing one
  */
-function addAttachmentField(){
+function addAttachmentField() {
 	var template = getTemplate("template_new_add_attachment");
 
 	var addAtachment = {};
@@ -78,7 +72,7 @@ function addAttachmentField(){
 	$('#list_add_attachments').append(html);
 
 	$('.new_attachment').unbind("change");
-	$('.new_attachment').on("change", function(e){
+	$('.new_attachment').on("change", function(e) {
 		alert($(e.target).val());
 	});
 }
@@ -87,10 +81,10 @@ function addAttachmentField(){
  * Initialize Tags autocompletion input. Get already selected data from cookie and fill the autocompletion list with all the Tags.
  * @param {type} tagsArray array of all the tags
  */
-function autocompleteTags(tagsArray){
+function autocompleteTags(tagsArray) {
 	var selectedTagsArray = [];
 
-	if($.cookie(filtersCookieName) !== undefined){
+	if ($.cookie(filtersCookieName) !== undefined) {
 		selectedTagsArray = $.parseJSON($.cookie(filtersCookieName))["list2"];
 	}
 	initiateAutocompleteInput("tags_input", selectedTagsArray, tagsArray);
@@ -100,10 +94,10 @@ function autocompleteTags(tagsArray){
  * Initialize Logbooks autocompletion input. Get already selected data from cookie and fill the autocompletion list with all the Logbooks.
  * @param {type} logbooksArray array of all the tags
  */
-function autocompleteLogbooks(logbooksArray){
+function autocompleteLogbooks(logbooksArray) {
 	var selectedLogbooksArray = [];
 
-	if($.cookie(filtersCookieName) !== undefined){
+	if ($.cookie(filtersCookieName) !== undefined) {
 		selectedLogbooksArray = $.parseJSON($.cookie(filtersCookieName))["list"];
 	}
 	initiateAutocompleteInput("logbooks_input", selectedLogbooksArray, logbooksArray);
@@ -129,32 +123,50 @@ function initiateAutocompleteInput(targetId, preselectedArray, dataArray) {
 
 /**
  * Check if Log form is filled in correctly
+ * @param log created or modified log object
  * @returns {undefined}
  */
-function checkLog() {
-	var log = generateLogObject();
+function isValidLog(log) {
 	var errorString = "";
 
 	// Check description length
-	if(log[0]["description"] === "") {
+	if (log[0]["description"] === "") {
 		errorString += "Log description cannot be empty!<br />";
 	}
 
 	// Check if there is at least one Logbook selected
-	if(log[0]["logbooks"].length === 0) {
+	if (log[0]["logbooks"].length === 0) {
 		errorString += "At least one Logbook should be selected!<br />";
 	}
 
 	// Check if user is logged in
-	if(getUserCreadentials() === null) {
+	if (getUserCreadentials() === null) {
 		errorString += "User is not logged in!<br />";
 	}
 
-	if(errorString.length === 0) {
-		createLog(log);
+	if (errorString.length === 0) {
+		return true;
 
 	} else {
 		$('#error_body').html(errorString);
 		$('#error_block').show("fast");
+		return false;
 	}
+}
+
+/*
+ * Get Cancel Editing or Creating a Log from remote site, copy it to index and then show it
+ */
+function showCancelEditingLogModal(){
+	$('#modal_container').load(modalWindows + ' #cancelEditingLogModal', function(response, status, xhr){
+		$('#cancelEditingLogModal').modal('toggle');
+	});
+}
+
+/**
+ * When user confirms canceling editing or creating a Log, redirect him to a home page.
+ * @returns {undefined}
+ */
+function deleteDraftAndReturnToHomePage() {
+	window.location.href = firstPageName;
 }

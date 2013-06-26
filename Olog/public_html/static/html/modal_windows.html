@@ -23,10 +23,10 @@
 					</div>
 
 					<label>Name</label>
-					<input id="new_logbook_name" type="text" placeholder="Logbook name ...">
+					<input id="new_logbook_name" name="name" type="text" placeholder="Logbook name ...">
 
 					<label>Owner</label>
-					<input id="new_logbook_owner" type="text" placeholder="Logbook owner ..."><br />
+					<input id="new_logbook_owner" name="owner" type="text" placeholder="Logbook owner ..."><br />
 
 				</div>
 				<div class="modal-footer">
@@ -42,15 +42,23 @@
 					<h3>Edit Logbook</h3>
 				</div>
 				<div class="modal-body">
+
+					<div id="new_logbook_error_block" class="alert alert-error">
+						<button type="button" class="close" id="new_logbook_error_x">&times;</button>
+						<h4>Error!</h4>
+						<span id="new_logbook_error_body"></span>
+					</div>
+
 					<label>Name</label>
-					<input name="name" type="text" placeholder="Logbook name ...">
+					<input id="new_logbook_name_original" name="name_original" type="hidden" />
+					<input id="new_logbook_name" name="name" disabled="disabled" type="text" placeholder="Logbook name ..." />
 
 					<label>Owner</label>
-					<input name="owner" type="text" placeholder="Logbook owner ..."><br />
+					<input id="new_logbook_owner" name="owner" type="text" placeholder="Logbook owner ..."><br />
 
 				</div>
 				<div class="modal-footer">
-					<a href="#" class="btn btn-primary">Create</a>
+					<a href="#" onclick="modifyLogbookHandler()" class="btn btn-primary">Save</a>
 					<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
 				</div>
 			</div>
@@ -62,11 +70,18 @@
 					<h3>Delete Logbook</h3>
 				</div>
 				<div class="modal-body">
-					<input type="hidden" name="id" value="" />
+
+					<div id="new_logbook_error_block" class="alert alert-error">
+						<button type="button" class="close" id="new_logbook_error_x">&times;</button>
+						<h4>Error!</h4>
+						<span id="new_logbook_error_body"></span>
+					</div>
+
+					<input id="name_original" type="hidden" name="name_original" value="" />
 					Are you sure you want to delete selected Logbook?
 				</div>
 				<div class="modal-footer">
-					<a href="#" class="btn btn-primary">Yes</a>
+					<a href="#" onclick="deleteLogbookHandler()" class="btn btn-primary">Yes</a>
 					<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
 				</div>
 			</div>
@@ -78,12 +93,19 @@
 					<h3>New Tag</h3>
 				</div>
 				<div class="modal-body">
+
+					<div id="new_logbook_error_block" class="alert alert-error">
+						<button type="button" class="close" id="new_logbook_error_x">&times;</button>
+						<h4>Error!</h4>
+						<span id="new_logbook_error_body"></span>
+					</div>
+
 					<label>Name</label>
-					<input type="text" placeholder="Tag name ...">
+					<input id="new_tag_name" type="text" placeholder="Tag name ...">
 
 				</div>
 				<div class="modal-footer">
-					<a href="#" class="btn btn-primary">Create</a>
+					<a onclick="createTagHandler()" href="#" class="btn btn-primary">Create</a>
 					<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
 				</div>
 			</div>
@@ -95,12 +117,20 @@
 					<h3>Edit Tag</h3>
 				</div>
 				<div class="modal-body">
+
+					<div id="new_logbook_error_block" class="alert alert-error">
+						<button type="button" class="close" id="new_logbook_error_x">&times;</button>
+						<h4>Error!</h4>
+						<span id="new_logbook_error_body"></span>
+					</div>
+
 					<label>Name</label>
-					<input name="name" type="text" placeholder="Tag name ...">
+					<input id="new_tag_name_original" name="name_original" type="hidden" />
+					<input id="new_tag_name" name="name" type="text" placeholder="Tag name ...">
 
 				</div>
 				<div class="modal-footer">
-					<a href="#" class="btn btn-primary">Create</a>
+					<a onclick="modifyTagHandler()" href="#" class="btn btn-primary">Save</a>
 					<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
 				</div>
 			</div>
@@ -112,11 +142,34 @@
 					<h3>Delete Tag</h3>
 				</div>
 				<div class="modal-body">
-					<input type="hidden" name="id" value="" />
+
+					<div id="new_logbook_error_block" class="alert alert-error">
+						<button type="button" class="close" id="new_logbook_error_x">&times;</button>
+						<h4>Error!</h4>
+						<span id="new_logbook_error_body"></span>
+					</div>
+
+					<input id="name_original" type="hidden" name="name_original" value="" />
 					Are you sure you want to delete selected Tag?
 				</div>
 				<div class="modal-footer">
-					<a href="#" class="btn btn-primary">Yes</a>
+					<a onclick="deleteTagHandler()" href="#" class="btn btn-primary">Yes</a>
+					<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
+				</div>
+			</div>
+
+			<!-- Cancel adding or editing log ============================================== -->
+			<div id="cancelEditingLogModal" class="modal hide fade">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h3>Delete Draft</h3>
+				</div>
+				<div class="modal-body">
+					<input type="hidden" name="id" value="" />
+					Are you sure you want to delete a draft and return to a home page?
+				</div>
+				<div class="modal-footer">
+					<button type="button" onclick="deleteDraftAndReturnToHomePage()" class="btn btn-primary">Yes</button>
 					<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
 				</div>
 			</div>

@@ -44,8 +44,8 @@
 						<span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu">
-						<li><a onclick="showDeleteModal('myModal');">New Logbook</a></li>
-						<li><a onclick="showDeleteModal('myTagModal');">New Tag</a></li>
+						<li><a onclick="showAddModal('myModal');">New Logbook</a></li>
+						<li><a onclick="showAddModal('myTagModal');">New Tag</a></li>
 					</ul>
 				</div>
 
@@ -81,10 +81,10 @@
 				<span id="error_body"></span>
 			</div>
 
-			<form id="createForm" action="#" method="post">
+			<form id="modifyForm" action="#" method="post">
 
 				<div class="log_title">
-					<h5>Modify Log Entry<i class="icon-remove-sign float_right float_right_padding"></i></h5>
+					<h5>Modify Log Entry<i id="cancel_editing_x" class="icon-remove-sign float_right float_right_padding"></i></h5>
 				</div>
 
 				<div class="log_details">
@@ -100,7 +100,7 @@
 				</div>
 
 				<div class="log_body">
-					<textarea rows="5" id="modify_log_body"></textarea>
+					<textarea rows="5" id="log_body"></textarea>
 				</div>
 
 				<div class="log_attachments">
@@ -108,8 +108,8 @@
 					<a id="add_attachment" href="#">Attach another file ...</a>
 				</div>
 
-				<button class="btn float_right new_log_button" type="button">Cancel</button>
-				<input type="submit" class="btn float_right btn-primary new_log_button" value="Create" />
+				<button class="btn float_right new_log_button" id="cancel_editing_button" type="button">Cancel</button>
+				<input type="submit" class="btn float_right btn-primary new_log_button" value="Save" />
 			</form>
 		</div>
 	</div>
@@ -128,19 +128,20 @@
 	<script src="static/js/jquery-2.0.2.js"></script>
 	<script src="static/js/jquery.cookie.js"></script>
 	<script src="static/js/purl.js"></script>
-	<script src="static/js/common.js"></script>
 	<script src="static/js/bootstrap.js"></script>
 	<script src="static/js/moment.min.js"></script>
-	<script src="static/js/multilist.js"></script>
 	<script src="static/js/mustache.js"></script>
-	<script src="static/js/configuration.js"></script>
 	<script src="static/js/bootstrap-tagmanager.js"></script>
+	<script src="static/js/configuration.js"></script>
+	<script src="static/js/multilist.js"></script>
+	<script src="static/js/common.js"></script>
 	<script src="static/js/rest.js"></script>
 	<script src="static/js/log.js"></script>
 	<script src="static/js/modify_log.js"></script>
 	<script src="static/js/search.js"></script>
 
-	<script src="static/js/new_logbook.js"></script>
+	<script src="static/js/logbook.js"></script>
+	<script src="static/js/tag.js"></script>
 
 	</body>
 </html>

@@ -17,6 +17,8 @@ var page = 1;
  * Get Logbooks from REST service
  */
 function loadLogbooks(){
+	$('#load_logbooks').html("");
+
 	// Load Logbooks
 	$.getJSON(serviceurl + 'logbooks/', function(books) {
 		repeat("template_logbook", "load_logbooks", books, "logbook");
@@ -30,6 +32,8 @@ function loadLogbooks(){
  * @returns {undefined}
  */
 function loadTags(){
+	$('#load_tags').html("");
+
 	// Load tags
 	$.getJSON(serviceurl + 'tags/', function(tags) {
 		repeat("template_tag", "load_tags", tags, "tag");
@@ -219,6 +223,7 @@ function repeat(source_id, target_id, data, property){
 
 				if(obj !== undefined && obj[item.name] !== undefined) {
 					customItem.clicked = "multilist_clicked";
+					customItem.owner = item.owner;
 				}
 			}
 		}
@@ -364,6 +369,11 @@ function getTemplate(id){
 function showAddModal(modalId){
 	$('#modal_container').load(modalWindows + ' #' + modalId, function(response, status, xhr){
 		$('#' + modalId).modal('toggle');
+
+		$(document).ready(function(){
+			$('#' + modalId + ' input[name=name]').focus();
+		});
+		l('#' + modalId + ' [name=name]');
 	});
 }
 
@@ -371,11 +381,13 @@ function showAddModal(modalId){
  * Get Edit Logbook modal windows from remote site, copy it to index and then show it
  * @param {type} modalId id of the modal windows
  * @param {type} name name of the Logbook
+ * @param {type} owner owner of the Logbook
  */
-function showEditLogbookModal(modalId, name){
+function showEditLogbookModal(modalId, name, owner){
 	$('#modal_container').load(modalWindows + ' #' + modalId, function(response, status, xhr){
 		$('#' + modalId + ' [name=name]').val(name);
-		$('#' + modalId + ' [name=owner]').val("boss");
+		$('#' + modalId + ' [name=owner]').val(owner);
+		$('#' + modalId + ' [name=name_original]').val(name);
 		$('#' + modalId).modal('toggle');
 	});
 }
@@ -388,6 +400,7 @@ function showEditLogbookModal(modalId, name){
 function showEditTagModal(modalId, name){
 	$('#modal_container').load(modalWindows + ' #' + modalId, function(response, status, xhr){
 		$('#' + modalId + ' [name=name]').val(name);
+		$('#' + modalId + ' [name=name_original]').val(name);
 		$('#' + modalId).modal('toggle');
 	});
 }
@@ -399,7 +412,7 @@ function showEditTagModal(modalId, name){
  */
 function showDeleteModal(modalId, name){
 	$('#modal_container').load(modalWindows + ' #' + modalId, function(response, status, xhr){
-		$('#' + modalId + ' [name=id]').val(name);
+		$('#' + modalId + ' [name=name_original]').val(name);
 		$('#' + modalId).modal('toggle');
 	});
 }
@@ -419,7 +432,7 @@ function generateLogObject() {
 	}];
 
 	// Set description
-	log[0].description = $('#new_log_body').val();
+	log[0].description = $('#log_body').val();
 
 	// Set logbooks
 	var logbooksString = $('input[name=hidden-logbooks]').val();
@@ -467,7 +480,45 @@ function createLog(log) {
 		},
 		statusCode: {
 			403: function(){
-				showError("You do not have permissions to create this Log!", "#error_block", "#error_body");
+				showError("You do not have permission to create this Log!", "#error_block", "#error_body");
+			}
+		},
+		error : function(xhr, ajaxOptions, thrownError) {
+			//reset();
+			//onError('Invalid username or password. Please try again.');
+			//$('#loginform #user_login').focus();
+		},
+		success : function(model) {
+			//cookies();
+			l("Log sent to the server");
+			window.location.href = firstPageName;
+		}
+	});
+}
+
+/**
+ * After Log ovject is created, send it to the server
+ * @param log Log object to be inserted into database
+ */
+function modifyLog(log) {
+
+	var json = JSON.stringify(log[0]);
+	console.log(json);
+
+	var userCredentials = $.parseJSON($.cookie(sessionCookieName));
+
+	$.ajax( {
+		type: "PUT",
+		url : serviceurl + 'logs/' + log[0].id,
+		contentType: 'application/json; charset=utf-8',
+		data: json,
+		beforeSend : function(xhr) {
+			var base64 = encode64(userCredentials["username"] + ":" + userCredentials["password"]);
+			xhr.setRequestHeader("Authorization", "Basic " + base64);
+		},
+		statusCode: {
+			403: function(){
+				showError("You do not have permission to modify this Log!", "#error_block", "#error_body");
 			}
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
@@ -616,16 +667,9 @@ function getUserCreadentials() {
 
 /**
  * Create Logbook
- * @param name name of the Logbook
- * @param owner Logbook owner
+ * @param logbook current Logbook object
  */
-function createLogbook(name, owner) {
-
-	var logbook = {"logbook":[{
-		"name":name,
-		"owner":owner,
-		"state":"Active"
-	}]};
+function createLogbook(logbook) {
 
 	var json = JSON.stringify(logbook);
 	l(json);
@@ -643,19 +687,213 @@ function createLogbook(name, owner) {
 		},
 		statusCode: {
 			403: function(){
-				showError("You do not have permissions to create this Logbook!", "#new_logbook_error_block", "#new_logbook_error_body");
+				showError("You do not have permission to create this Logbook!", "#new_logbook_error_block", "#new_logbook_error_body");
 			}
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
 			//reset();
 			//onError('Invalid username or password. Please try again.');
 			//$('#loginform #user_login').focus();
-			l("something wrong");
+			l("something went wrong");
 		},
 		success : function(model) {
 			//cookies();
 			l("Logbook sent to the server");
-			window.location.href = firstPageName;
+			$('#myModal').modal("hide");
+			loadLogbooks();
+		}
+	});
+}
+
+/**
+ * Modify Logbook
+ * @param logbook current Logbook object
+ * @param name original name of the Logbook
+ */
+function modifyLogbook(logbook, name) {
+
+	var json = JSON.stringify(logbook.logbook[0]);
+	l(json);
+
+	var userCredentials = $.parseJSON($.cookie(sessionCookieName));
+
+	$.ajax( {
+		type: "POST",
+		url : serviceurl + 'logbooks/' + name,
+		contentType: 'application/json; charset=utf-8',
+		data: json,
+		beforeSend : function(xhr) {
+			var base64 = encode64(userCredentials["username"] + ":" + userCredentials["password"]);
+			xhr.setRequestHeader("Authorization", "Basic " + base64);
+		},
+		statusCode: {
+			403: function(){
+				showError("You do not have permission to modify this Logbook!", "#new_logbook_error_block", "#new_logbook_error_body");
+			}
+		},
+		error : function(xhr, ajaxOptions, thrownError) {
+			//reset();
+			//onError('Invalid username or password. Please try again.');
+			//$('#loginform #user_login').focus();
+			l("something went wrong");
+		},
+		success : function(model) {
+			//cookies();
+			l("Logbook modify command sent to the server");
+			$('#editLogbookModal').modal("hide");
+			loadLogbooks();
+		}
+	});
+}
+
+/**
+ * Delete Logbook
+ * @param name original name of the Logbook
+ */
+function deleteLogbook(name) {
+	var userCredentials = $.parseJSON($.cookie(sessionCookieName));
+
+	$.ajax( {
+		type: "DELETE",
+		url : serviceurl + 'logbooks/' + name,
+		contentType: 'application/json; charset=utf-8',
+		beforeSend : function(xhr) {
+			var base64 = encode64(userCredentials["username"] + ":" + userCredentials["password"]);
+			xhr.setRequestHeader("Authorization", "Basic " + base64);
+		},
+		statusCode: {
+			403: function(){
+				showError("You do not have permission to delete this Logbook!", "#new_logbook_error_block", "#new_logbook_error_body");
+			}
+		},
+		error : function(xhr, ajaxOptions, thrownError) {
+			//reset();
+			//onError('Invalid username or password. Please try again.');
+			//$('#loginform #user_login').focus();
+			l("something went wrong");
+		},
+		success : function(model) {
+			//cookies();
+			l("Logbook delete command sent to the server");
+			$('#deleteLogbookModal').modal("hide");
+			loadLogbooks();
+		}
+	});
+}
+
+/**
+ * Create Tag
+ * @param tag current Tag object
+ */
+function createTag(tag) {
+
+	var json = JSON.stringify(tag);
+	l(json);
+
+	var userCredentials = $.parseJSON($.cookie(sessionCookieName));
+
+	$.ajax( {
+		type: "POST",
+		url : serviceurl + 'tags',
+		contentType: 'application/json; charset=utf-8',
+		data: json,
+		beforeSend : function(xhr) {
+			var base64 = encode64(userCredentials["username"] + ":" + userCredentials["password"]);
+			xhr.setRequestHeader("Authorization", "Basic " + base64);
+		},
+		statusCode: {
+			403: function(){
+				showError("You do not have permission to create this Tag!", "#new_logbook_error_block", "#new_logbook_error_body");
+			}
+		},
+		error : function(xhr, ajaxOptions, thrownError) {
+			//reset();
+			//onError('Invalid username or password. Please try again.');
+			//$('#loginform #user_login').focus();
+			l("something went wrong");
+		},
+		success : function(model) {
+			//cookies();
+			l("Tag sent to the server");
+			$('#myTagModal').modal("hide");
+			loadTags();
+		}
+	});
+}
+
+/**
+ * Modify Tag
+ * @param tag current Tag object
+ * @param name original name of the Logbook
+ */
+function modifyTag(tag, name) {
+
+	var json = JSON.stringify(tag.tag[0]);
+	l(json);
+
+	var userCredentials = $.parseJSON($.cookie(sessionCookieName));
+
+	$.ajax( {
+		type: "POST",
+		url : serviceurl + 'tags/' + name,
+		contentType: 'application/json; charset=utf-8',
+		data: json,
+		beforeSend : function(xhr) {
+			var base64 = encode64(userCredentials["username"] + ":" + userCredentials["password"]);
+			xhr.setRequestHeader("Authorization", "Basic " + base64);
+		},
+		statusCode: {
+			403: function(){
+				showError("You do not have permission to modify this Tag!", "#new_logbook_error_block", "#new_logbook_error_body");
+			}
+		},
+		error : function(xhr, ajaxOptions, thrownError) {
+			//reset();
+			//onError('Invalid username or password. Please try again.');
+			//$('#loginform #user_login').focus();
+			l("something went wrong");
+		},
+		success : function(model) {
+
+			l("Tag modify command sent to the server");
+			$('#editTagModal').modal("hide");
+			loadTags();
+		}
+	});
+}
+
+
+/**
+ * Delete Tag
+ * @param name original name of the Tag
+ */
+function deleteTag(name) {
+	var userCredentials = $.parseJSON($.cookie(sessionCookieName));
+
+	$.ajax( {
+		type: "DELETE",
+		url : serviceurl + 'tags/' + name,
+		contentType: 'application/json; charset=utf-8',
+		beforeSend : function(xhr) {
+			var base64 = encode64(userCredentials["username"] + ":" + userCredentials["password"]);
+			xhr.setRequestHeader("Authorization", "Basic " + base64);
+		},
+		statusCode: {
+			403: function(){
+				showError("You do not have permission to delete this Tag!", "#new_logbook_error_block", "#new_logbook_error_body");
+			}
+		},
+		error : function(xhr, ajaxOptions, thrownError) {
+			//reset();
+			//onError('Invalid username or password. Please try again.');
+			//$('#loginform #user_login').focus();
+			l("something went wrong");
+		},
+		success : function(model) {
+			//cookies();
+			l("Logbook delete command sent to the server");
+			$('#deleteTagModal').modal("hide");
+			loadTags();
 		}
 	});
 }

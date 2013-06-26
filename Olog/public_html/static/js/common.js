@@ -4,6 +4,14 @@
  * @author: Dejan Dežman <dejan.dezman@cosylab.com>
  */
 
+$(document).ready(function(){
+	var reason = $.url().param("reason");
+
+	if(reason !== undefined) {
+		$('#top_container').toggleClass("open");
+	}
+});
+
 /**
  * Write logs to Chrome or Firefox console
  * @param input input string
