@@ -107,13 +107,44 @@ function filterListItems(id, name){
 function singleselect(name){
 
 	$('.' + name).click(function(e){
+		var clicked = false;
+
 		if($(e.target).is("input")){
 			return;
 		}
 
+		if($(e.target).hasClass("multilist_clicked")) {
+			clicked = true;
+		}
+
 		$('.' + name).removeClass("multilist_clicked");
 
-		$(e.target).addClass("multilist_clicked");
+		var from = $(e.target).find('input[name=from]').val();
+		var to = $(e.target).find('input[name=to]').val();
+
+		if(clicked === false) {
+			$(e.target).addClass("multilist_clicked");
+
+			if(from !== undefined) {
+				selectedElements['from'] = from;
+
+			} else if(to !== undefined) {
+				selectedElements['to'] = to;
+			}
+
+		} else {
+
+			if(from !== undefined) {
+				selectedElements['from'] = "";
+
+			} else if(to !== undefined) {
+				selectedElements['to'] = "";
+			}
+		}
+
+		// Trigger event and set cookie with data
+		$(e.target).parent().unbind('dataselected');
+		$(e.target).parent().trigger('dataselected', selectedElements);
 	});
 }
 
@@ -139,6 +170,10 @@ function startListeningForLogClicks(){
 		}else if($(e.target).parent().is("div")){
 			actionElement = $(e.target).parent();
 		}
+
+		var id = actionElement.find('[name=id]').val();
+		l(id);
+		window.location.href = "#" + id;
 
 		actionElement.toggleClass("log_click");
 		var log = getLog(actionElement.find("input[name=id]").val());

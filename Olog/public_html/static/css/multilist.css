@@ -1,6 +1,6 @@
-/* 
+/*
  * CSS for multiselection list module.
- * 
+ *
  * @author: Dejan Dežman <dejan.dezman@cosylab.com>
  */
 
@@ -47,13 +47,13 @@ input.filter_search {
 	color: #ffffff;
 }
 
-.list, .list2, .list3 {}
+.list, .list2, .list3, .list4, .list5 {}
 
 .multilist_icons {
 	display: none;
 }
 
-.list3 > input {
+.list5 > input {
 	margin:0px;
 	width: 45px;
 	height:15px;

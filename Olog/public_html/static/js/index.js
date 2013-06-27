@@ -6,6 +6,20 @@
 
 $(document).ready(function(){
 
+	// Show log if it we have an URL
+	if(selectedLog !== -1 && !isNaN(selectedLog)) {
+		l(selectedLog);
+		var log = getLog(selectedLog);
+		l(log);
+
+		if(log[0] !== null) {
+			showLog(log[0], log[1]);
+
+		} else {
+			selectedLog = -1;
+		}
+	}
+
 	jQuery.expr[':'].Contains = function(a, i, m){
 		return (a.textContent || a.innerText || "").toUpperCase().indexOf(m[3].toUpperCase())>=0;
 	};
@@ -25,9 +39,11 @@ $(document).ready(function(){
 
 	// Load the list of time filters
 	singleselect("list3");
+	singleselect("list4");
+	singleselect("list5");
 
 	// Activate search field
-	activateSearch();
+	startListeningForSearchEvents();
 
 	// Activate mechanism for automatically loading new logs
 	loadLogsAutomatically();

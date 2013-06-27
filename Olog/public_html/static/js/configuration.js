@@ -30,6 +30,32 @@ var writeLogs = true;
 // First page name
 var firstPageName = "index.html";
 
+// Search key map. Function will extract value from search input, try to find
+// keyMap keys in it and it will generate search query by replacing keyMap keys
+// with keyMap values.
+var keyMap = {
+	'tag:': 'tag=',
+	'logbook:': 'logbook=',
+	'from:': 'start=',
+	'start:': 'start=',
+	'end:': 'end=',
+	'to:': 'end=',
+	'search:': 'search='
+};
+
+// Convert time filters to seconds. Forulas are evaluated and added or substracted from
+// current time.
+var timeFilter = {
+	'min': '60',
+	'mins': '60',
+	'hour': '60*60',
+	'hours': '60*60',
+	'day': '24*60*60',
+	'days': '24*60*60',
+	'week': '7*24*60*60',
+	'weeks': '7*24*60*60'
+};
+
 /**
  * Global variables needed by more than one page. SHOULD NOT BE CONFIGURED BY USER!
  */
@@ -39,3 +65,6 @@ var searchURL = "";
 
 // Available Levels
 var levels = ["Info", "Problem", "Request", "Suggestion", "Urgent"];
+
+// Current Log displayed
+var selectedLog = -1;

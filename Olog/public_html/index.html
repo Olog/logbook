@@ -69,17 +69,23 @@
 				<!--<li class="multilist_header">TAGS <a href="#myTagModal" title="Add New Tag" data-toggle="modal"><i class="icon-plus float_right float_right_padding"></i></a></li>-->
 				<!-- Template -->
 			</ul>
+			<ul class="multilist" id="load_time_from">
+				<li class="multilist_header">CREATED FROM</li>
+				<li><span class="list3 multilist_item"><input type="hidden" name="from" value="last 1 min" />Last min</span></li>
+				<li><span class="list3 multilist_item"><input type="hidden" name="from" value="last 1 hour" />Last hour</span></li>
+				<li><span class="list3 multilist_item"><input type="hidden" name="from" value="last 1 day" />Last day</span></li>
+				<li><span class="list3 multilist_item"><input type="hidden" name="from" value="last 1 week" />Last week</span></li>
+			</ul>
+			<ul class="multilist" id="load_time_to">
+				<li class="multilist_header">CREATED TO</li>
+				<li><span class="list4 multilist_item"><input type="hidden" name="to" value="1 min ago" />A min ago</span></li>
+				<li><span class="list4 multilist_item"><input type="hidden" name="to" value="1 hour ago" />An hour ago</span></li>
+				<li><span class="list4 multilist_item"><input type="hidden" name="to" value="1 day ago" />A day ago</span></li>
+				<li><span class="list4 multilist_item"><input type="hidden" name="to" value="1 week ago" />A week ago</span></li>
+			</ul>
 			<ul class="multilist">
-				<li class="multilist_header">CREATED SINCE</li>
-				<li><span class="list3 multilist_item">Today</span></li>
-				<li><span class="list3 multilist_item">Yesterday</span></li>
-				<li><span class="list3 multilist_item">This week</span></li>
-				<li><span class="list3 multilist_item">Last week</span></li>
-				<li><span class="list3 multilist_item">This month</span></li>
-				<li><span class="list3 multilist_item">Last month</span></li>
-				<li><span class="list3 multilist_item">This year</span></li>
-				<li><span class="list3 multilist_item">Last year</span></li>
-				<li><span class="list3 multilist_item">From <input type="text" /> to <input type="text" /></span></li>
+				<li class="multilist_header">CREATED FROM - TO</li>
+				<li><span class="list5 multilist_item">From <input type="text" /> to <input type="text" /></span></li>
 			</ul>
 		</div>
 	</div>

@@ -54,6 +54,7 @@ function loadLogs(page){
 
 	var searchQuery = serviceurl + "logs?";
 
+	// Generate a search query
 	if(searchURL === "") {
 		searchQuery = serviceurl + 'logs?limit=' + numberOfLogsPerLoad + '&page=' + page;
 
@@ -63,7 +64,7 @@ function loadLogs(page){
 
 		// Parse current query and generate a new one
 		for(querykey in queryString){
-			console.log(querykey);
+			l(querykey);
 
 			if(querykey === "limit") {
 				queryString[querykey] = numberOfLogsPerLoad;
@@ -79,7 +80,7 @@ function loadLogs(page){
 	searchURL = searchQuery;
 
 	//var searchQuery = serviceurl + 'logs?limit=' + numberOfLogsPerLoad + '&page=' + page;
-	console.log(searchQuery);
+	l(searchQuery);
 
 	$.getJSON(searchQuery, function(logs) {
 		$(".log-last").remove();
@@ -261,6 +262,14 @@ function repeatLogs(source_id, target_id, data){
 			attachments : []
 		};
 
+		// Check if we have an URL and select selected Log
+		if(selectedLog !== -1 && parseInt(item.id) === selectedLog) {
+			newItem.click = "log_click";
+
+		} else {
+			newItem.click = "";
+		}
+
 		// Append attachments
 		if(item.attachments.length !== 0){
 
@@ -279,6 +288,7 @@ function repeatLogs(source_id, target_id, data){
 		}
 
 		html = Mustache.to_html(template, newItem);
+
 		$('#'+target_id).append(html);
 
 	});
