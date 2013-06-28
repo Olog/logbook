@@ -66,15 +66,17 @@ function initialize() {
 function addAttachmentField() {
 	var template = getTemplate("template_new_add_attachment");
 
-	var addAtachment = {};
+	var addAtachment = {
+		'url': serviceurl
+	};
 
 	var html = Mustache.to_html(template, addAtachment);
 	$('#list_add_attachments').append(html);
 
-	$('.new_attachment').unbind("change");
+	/*$('.new_attachment').unbind("change");
 	$('.new_attachment').on("change", function(e) {
 		alert($(e.target).val());
-	});
+	});*/
 }
 
 /**

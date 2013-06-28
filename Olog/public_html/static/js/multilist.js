@@ -119,8 +119,36 @@ function singleselect(name){
 
 		$('.' + name).removeClass("multilist_clicked");
 
+		// If list5 is clicked, list3 and list4 should be deselected
+		if(name === "list5") {
+			$('.list3').removeClass("multilist_clicked");
+			$('.list4').removeClass("multilist_clicked");
+		}
+
+		// If list3 or list4 is clicked, lis5 should be deselected and value
+		// in the global object deleted
+		if(name === "list3" || name === "list4") {
+			$('.list5').removeClass("multilist_clicked");
+		}
+
 		var from = $(e.target).find('input[name=from]').val();
 		var to = $(e.target).find('input[name=to]').val();
+
+		// Get datepicker from
+		var datepickerFrom = $(e.target).find('#datepicker_from').val();
+		l(datepickerFrom + from);
+
+		if(datepickerFrom !== undefined && datepickerFrom !== "") {
+			from = datepickerFrom;
+		}
+
+		// Get datepicker to
+		var datepickerTo = $(e.target).find('#datepicker_to').val();
+		l(datepickerTo + to);
+
+		if(datepickerTo !== undefined && datepickerTo !== "") {
+			to = datepickerTo;
+		}
 
 		if(clicked === false) {
 			$(e.target).addClass("multilist_clicked");
@@ -128,24 +156,49 @@ function singleselect(name){
 			if(from !== undefined) {
 				selectedElements['from'] = from;
 
-			} else if(to !== undefined) {
+			}
+
+			if(to !== undefined) {
 				selectedElements['to'] = to;
 			}
 
 		} else {
-
-			if(from !== undefined) {
-				selectedElements['from'] = "";
-
-			} else if(to !== undefined) {
-				selectedElements['to'] = "";
-			}
+			selectedElements['from'] = "";
+			selectedElements['to'] = "";
 		}
 
 		// Trigger event and set cookie with data
 		$(e.target).parent().unbind('dataselected');
 		$(e.target).parent().trigger('dataselected', selectedElements);
+		$.cookie(filtersCookieName, JSON.stringify(selectedElements));
 	});
+}
+
+/**
+ * If from and to dates are changed in the time filters, catch that event and save
+ * data in the global object
+ */
+function fromToChanged() {
+	// Get datepicker from
+	var datepickerFrom = $('#datepicker_from').val();
+	l(datepickerFrom);
+
+	if(datepickerFrom !== undefined && datepickerFrom !== "") {
+		selectedElements['from'] = datepickerFrom;
+	}
+
+	// Get datepicker to
+	var datepickerTo = $('#datepicker_to').val();
+	l(datepickerTo);
+
+	if(datepickerTo !== undefined && datepickerTo !== "") {
+		selectedElements['to'] = datepickerTo;
+	}
+
+	// Trigger event and set cookie with data
+	$('#datepicker_to').parent().unbind('dataselected');
+	$('#datepicker_to').parent().trigger('dataselected', selectedElements);
+	$.cookie(filtersCookieName, JSON.stringify(selectedElements));
 }
 
 /**

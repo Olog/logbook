@@ -76,26 +76,104 @@ function returnTimeFilterTimestamp(from, to) {
 	var toSeconds = 0;
 	var currentSeconds = Math.round((new Date().getTime())/1000);
 
+	// Check if from is defined
 	if(from !== undefined) {
 		reg = new RegExp('(last )?(\\d+) (\\w+).*', "i");
 		searchParts = reg.exec(from);
-		l(searchParts);
 
-		if(searchParts[0] !== "") {
-			fromSeconds = parseInt(searchParts[2] * eval(timeFilter[searchParts[3]]));
+		if(searchParts !== null) {
+
+			if(searchParts[0] !== "") {
+				fromSeconds = parseInt(searchParts[2] * eval(timeFilter[searchParts[3]]));
+			}
+
+		} else {
+			l("from: " + from);
+			var parseFrom = moment(from, datePickerDateFormatMometParseString);
+			from = Math.round((parseFrom.toDate().getTime())/1000);
+			fromSeconds = currentSeconds - from;
 		}
 	}
 
+	// Check if to is defined
 	if(to !== undefined) {
 		reg = new RegExp('(\\d+) (\\w+)( ago)?.*', "i");
 		searchParts = reg.exec(to);
-		l(searchParts);
 
-		if(searchParts[0] !== "") {
-			toSeconds = parseInt(searchParts[1] * eval(timeFilter[searchParts[2]]));
+		if(searchParts !== null) {
+
+			if(searchParts[0] !== "") {
+				toSeconds = parseInt(searchParts[1] * eval(timeFilter[searchParts[2]]));
+			}
+
+		} else {
+			l("to: " + to);
+			var parseTo = moment(to, datePickerDateFormatMometParseString);
+			to = Math.round((parseTo.toDate().getTime())/1000);
+			toSeconds = currentSeconds - to;
 		}
 	}
-	l(fromSeconds + ':' + toSeconds);
+	//l(fromSeconds + ':' + toSeconds);
 
 	return [currentSeconds - fromSeconds, currentSeconds - toSeconds];
+}
+
+/*
+ * Retun first X words from the string.
+ * @param {type} string input string
+ * @param {type} count how many of words do we want to return
+ * @returns {String} First X words
+ */
+function returnFirstXWords(string, count){
+	var words = string.split(" ");
+	var summary = "";
+	var append = "";
+
+	if (count > words.length) {
+		count = words.length;
+
+	} else {
+		append = " ...";
+	}
+
+	if(words.length > 0){
+		summary = words[0];
+
+		if(words.length > 1){
+			for(i=1; i<count; i++) {
+				summary += " " + words[i];
+			}
+		}
+		return summary + append;
+
+	}else {
+		return summary;
+	}
+
+}
+
+/**
+ * Format the date according to format specified in configuration.js file
+ * @param {type} input datetime string
+ * @returns {unresolved} formated datetime string
+ */
+function formatDate(input){
+	var day = moment(input);
+	var formatedDate = day.format(dateFormat);
+	return formatedDate;
+}
+
+/**
+ * Is file we want to upload image or not
+ * @param {type} type MIME type string
+ * @returns {Boolean} is mimetype an image or not
+ */
+function isImage(type) {
+	typeParts = type.split("/");
+
+	if(typeParts.length === 2 && typeParts[0] === "image"){
+		return true;
+	}else{
+		return false;
+	}
 }

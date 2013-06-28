@@ -64,7 +64,7 @@ and open the template in the editor.
 		</script>
 
 		<script id="template_new_add_attachment" type="text/template">
-			<input class="new_attachment" type="file" /><br/>
+			<input id="fileupload" class="new_attachment" type="file" name="files[]" data-url="{{url}}" multiple="multiple" /><button type="button" id="upload_button" class="btn">Upload</button><br/>
 		</script>
 
 		<!-- Options for the Level input -->

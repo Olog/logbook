@@ -6,11 +6,29 @@
 
 $(document).ready(function(){
 
+	// Set datepickers
+	$('#datepicker_from').datepicker(
+		{
+			changeMonth: true,
+			changeYear: true,
+			dateFormat: datePickerDateFormat,
+			firstDay: datePickerFirstName
+		}
+	);
+	$('#datepicker_to').datepicker(
+		{
+			changeMonth: true,
+			changeYear: true,
+			dateFormat: datePickerDateFormat,
+			firstDay: datePickerFirstName
+		}
+	);
+
 	// Show log if it we have an URL
 	if(selectedLog !== -1 && !isNaN(selectedLog)) {
-		l(selectedLog);
+		//l(selectedLog);
 		var log = getLog(selectedLog);
-		l(log);
+		//l(log);
 
 		if(log[0] !== null) {
 			showLog(log[0], log[1]);
@@ -41,6 +59,16 @@ $(document).ready(function(){
 	singleselect("list3");
 	singleselect("list4");
 	singleselect("list5");
+
+	// Wait for date from-to change
+	$('#datepicker_from').change(function(e){
+		fromToChanged();
+	});
+
+	// Wait for date from-to change
+	$('#datepicker_to').change(function(e){
+		fromToChanged();
+	});
 
 	// Activate search field
 	startListeningForSearchEvents();
@@ -74,63 +102,3 @@ $(document).ready(function(){
 		$('#new_logbook_and_tag').attr("disabled", false);
 	}
 });
-
-/*
- * Retun first X words from the string.
- * @param {type} string input string
- * @param {type} count how many of words do we want to return
- * @returns {String} First X words
- */
-function returnFirstXWords(string, count){
-	var words = string.split(" ");
-	var summary = "";
-	var append = "";
-
-	if (count > words.length) {
-		count = words.length;
-
-	} else {
-		append = " ...";
-	}
-
-	if(words.length > 0){
-		summary = words[0];
-
-		if(words.length > 1){
-			for(i=1; i<count; i++) {
-				summary += " " + words[i];
-			}
-		}
-		return summary + append;
-
-	}else {
-		return summary;
-	}
-
-}
-
-/**
- * Format the date according to format specified in configuration.js file
- * @param {type} input datetime string
- * @returns {unresolved} formated datetime string
- */
-function formatDate(input){
-	var day = moment(input);
-	var formatedDate = day.format(dateFormat);
-	return formatedDate;
-}
-
-/**
- * Is file we want to upload image or not
- * @param {type} type MIME type string
- * @returns {Boolean} is mimetype an image or not
- */
-function isImage(type) {
-	typeParts = type.split("/");
-
-	if(typeParts.length === 2 && typeParts[0] === "image"){
-		return true;
-	}else{
-		return false;
-	}
-}

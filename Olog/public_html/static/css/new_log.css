@@ -24,3 +24,12 @@
 #error_block {
 	display: none;
 }
+
+#files > div {
+	float:left;
+	margin: 20px;
+}
+
+.clear {
+	clear: both;
+}

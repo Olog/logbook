@@ -23,6 +23,11 @@ $(document).ready(function(){
 	$('#load_time_to').on('dataselected', function(e, data){
 		generateSearchQuery(data);
 	});
+
+	// Wait for dataselect
+	$('#load_time_from_to').on('dataselected', function(e, data){
+		generateSearchQuery(data);
+	});
 });
 
 /**
@@ -31,7 +36,7 @@ $(document).ready(function(){
 function activateSearch(){
 	// Simple search
 	var searchQuery = parseSearchQuery();
-	l(searchQuery);
+	//l(searchQuery);
 
 	if(searchQuery === ""){
 		page = 1;
@@ -74,7 +79,7 @@ function searchForLogs(searchQuery, resetPageCouner) {
 
 	searchQuery = serviceurl + 'logs?' + searchQuery + 'limit=' + numberOfLogsPerLoad + '&page=' + page;
 	searchURL = searchQuery;
-	l(searchQuery);
+	//l(searchQuery);
 
 	// Load logs
 	$.getJSON(searchQuery, function(logs) {
@@ -119,7 +124,7 @@ function parseSearchQuery(){
 	var parsedStringParts = buildSearchLanguage(value);
 
 	if(parsedStringParts[0] === "") {
-		l("custom: " + parsedStringParts[1]);
+		//l("custom: " + parsedStringParts[1]);
 		query += keyMap['search:'] + trim(parsedStringParts[1]) + "&";
 
 	} else {
@@ -139,8 +144,8 @@ function parseSearchQuery(){
 
 	while (parsedStringParts[2] !== "") {
 		parsedStringParts = buildSearchLanguage(parsedStringParts[2]);
-		l(parsedStringParts[0] + ": " + parsedStringParts[1]);
-		l(parsedStringParts);
+		//l(parsedStringParts[0] + ": " + parsedStringParts[1]);
+		//l(parsedStringParts);
 
 		if(keyMap[parsedStringParts[0]] !== undefined) {
 
@@ -165,11 +170,16 @@ function parseSearchQuery(){
  * @returns {undefined}
  */
 function generateSearchQuery(dataArray) {
+
+	// If there is no data, try to get data from global variable
+	if(dataArray === null) {
+		dataArray = selectedElements;
+	}
+
 	var value = $("#search-query").val();
 	var queryString = "";
 
 	var parsedStringParts = buildSearchLanguage(value);
-	l(parsedStringParts);
 
 	var newValue = "";
 

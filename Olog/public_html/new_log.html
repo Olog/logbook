@@ -104,9 +104,18 @@
 				</div>
 
 				<div class="log_attachments">
-					<div id="list_add_attachments"><!-- Template --></div>
-					<a id="add_attachment" href="#">Attach another file ...</a>
+					<input id="fileupload" class="new_attachment" type="file" name="files[]" multiple="multiple" />
+					<!-- <div id="list_add_attachments"</div>
+					<a id="add_attachment" href="#">Attach another file ...</a> -->
+
+					<!-- The global progress bar -->
+					<div id="progress" class="progress progress-success progress-striped">
+						<div class="bar"></div>
+					</div>
+					<!-- The container for the uploaded files -->
+					<div id="files" class="files"></div>
 				</div>
+				<div class="clear"></div>
 
 				<button class="btn float_right new_log_button" id="cancel_editing_button" type="button">Cancel</button>
 				<input type="submit" class="btn float_right btn-primary new_log_button" value="Create" />
@@ -126,6 +135,7 @@
 	================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
 	<script src="static/js/jquery-2.0.2.js"></script>
+	<script src="static/js/jquery-ui-1.10.3.custom.min.js"></script>
 	<script src="static/js/jquery.cookie.js"></script>
 	<script src="static/js/purl.js"></script>
 	<script src="static/js/bootstrap.js"></script>
@@ -142,6 +152,13 @@
 
 	<script src="static/js/logbook.js"></script>
 	<script src="static/js/tag.js"></script>
+
+	<script src="static/js/upload/load-image.min.js"></script>
+	<script src="static/js/upload/jquery.iframe-transport.js"></script>
+	<script src="static/js/upload/jquery.fileupload.js"></script>
+	<script src="static/js/upload/jquery.fileupload-process.js"></script>
+	<script src="static/js/upload/jquery.fileupload-image.js"></script>
+	<script src="static/js/upload/jquery.fileupload-validate.js"></script>
 
 	</body>
 </html>

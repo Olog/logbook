@@ -9,6 +9,7 @@
 		<link rel="stylesheet" type="text/css" href="static/css/style.css">
 		<link rel="stylesheet" type="text/css" href="static/css/multilist.css">
 		<link rel="stylesheet" type="text/css" href="static/css/bootstrap-tagmanager.css">
+		<link rel="stylesheet" type="text/css" href="static/css/jquery-ui-1.10.3.custom.min.css">
 
 		<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 		<!--[if lt IE 9]>
@@ -83,9 +84,9 @@
 				<li><span class="list4 multilist_item"><input type="hidden" name="to" value="1 day ago" />A day ago</span></li>
 				<li><span class="list4 multilist_item"><input type="hidden" name="to" value="1 week ago" />A week ago</span></li>
 			</ul>
-			<ul class="multilist">
+			<ul class="multilist" id="load_time_from_to">
 				<li class="multilist_header">CREATED FROM - TO</li>
-				<li><span class="list5 multilist_item">From <input type="text" /> to <input type="text" /></span></li>
+				<li><span class="list5 multilist_item">From <input type="text" id="datepicker_from" /> to <input type="text" id="datepicker_to" /></span></li>
 			</ul>
 		</div>
 	</div>
@@ -145,6 +146,7 @@
 	================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
 	<script src="static/js/jquery-2.0.2.js"></script>
+	<script src="static/js/jquery-ui-1.10.3.custom.min.js"></script>
 	<script src="static/js/jquery.cookie.js"></script>
 	<script src="static/js/purl.js"></script>
 	<script src="static/js/bootstrap.js"></script>

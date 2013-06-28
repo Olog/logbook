@@ -12,8 +12,20 @@
 var serviceurl = "http://localhost:8080/Olog/resources/";
 
 // For all the dates shown in client
-// Mormat docs can be found at http://momentjs.com/docs/#/displaying/format/
+// Format docs can be found at http://momentjs.com/docs/#/displaying/format/
 var dateFormat = "MMMM Do YYYY, h:mm a";
+
+// jQuery datepicker plugin has its onw date format so it is defined separately.
+// Format switches can be found at http://api.jqueryui.com/datepicker/
+var datePickerDateFormat = "mm/dd/yy";
+
+// Date from the datepicker is put in the search input but need to be parsed
+// to build a REST service query. Format documentation can be found at
+// http://momentjs.com/docs/#/parsing/
+var datePickerDateFormatMometParseString = "MM/DD/YYYY";
+
+// Start of the week in the jQuery datepicker: 0: Sunday, 1: Monday, ...
+var datePickerFirstName = 1;
 
 // How many logs do you want to load per request?
 var numberOfLogsPerLoad = 20;
