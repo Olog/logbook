@@ -33,3 +33,20 @@
 .clear {
 	clear: both;
 }
+
+.fileinput-button {
+	position: relative;
+	overflow: hidden;
+}
+
+.fileinput-button > input {
+	cursor: pointer;
+	direction: ltr;
+	font-size: 23px;
+	margin: 0;
+	opacity: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+	transform: translate(-300px, 0px) scale(4);
+}

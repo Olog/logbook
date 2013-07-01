@@ -472,12 +472,13 @@ function generateLogObject() {
  * After Log ovject is created, send it to the server
  * @param log Log object to be inserted into database
  */
-function createLog(log) {
+function createLog(log, uploadData) {
 
 	var json = JSON.stringify(log);
 	console.log(json);
 
 	var userCredentials = $.parseJSON($.cookie(sessionCookieName));
+	var pIndex = 0;
 
 	$.ajax( {
 		type: "POST",
@@ -498,9 +499,45 @@ function createLog(log) {
 			//onError('Invalid username or password. Please try again.');
 			//$('#loginform #user_login').focus();
 		},
-		success : function(model) {
+		success : function(xml) {
 			//cookies();
 			l("Log sent to the server");
+
+			$log = $(xml).find("log");
+			var id = $log.attr('id');
+
+			$('#fileupload').on('fileuploadprogressall', function(e, data){
+				l("progress" + data.index);
+				$('p#' + pIndex).hide("fast");
+				pIndex += 1;
+			});
+
+			$.each(uploadData, function(index, data){
+
+				if(data === null) {
+					return;
+				}
+
+				$('#fileupload').fileupload('send', {
+					files: data.files[0],
+					formData: {file: data.files[0]},
+					url: serviceurl + 'attachments/' + id,
+					async: false,
+					beforeSend : function(xhr) {
+						var base64 = encode64(userCredentials["username"] + ":" + userCredentials["password"]);
+						xhr.setRequestHeader("Authorization", "Basic " + base64);
+					}
+				}).success(function (result, textStatus, jqXHR) {
+					l("ok");
+
+				}).error(function (jqXHR, textStatus, errorThrown) {
+					l(errorThrown);
+
+				}).done(function(response){
+
+				});
+			});
+
 			window.location.href = firstPageName;
 		}
 	});

@@ -104,18 +104,23 @@
 				</div>
 
 				<div class="log_attachments">
-					<input id="fileupload" class="new_attachment" type="file" name="files[]" multiple="multiple" />
+
+					<span class="btn btn-success fileinput-button">
+						<i class="icon-plus icon-white"></i>
+						<span>Add files ...</span>
+						<input id="fileupload" class="new_attachment" type="file" name="files[]" multiple="multiple" />
+					</span>
 					<!-- <div id="list_add_attachments"</div>
 					<a id="add_attachment" href="#">Attach another file ...</a> -->
 
 					<!-- The global progress bar -->
-					<div id="progress" class="progress progress-success progress-striped">
+					<!--<div id="progress" class="progress progress-success progress-striped">
 						<div class="bar"></div>
-					</div>
+					</div> -->
 					<!-- The container for the uploaded files -->
 					<div id="files" class="files"></div>
+					<div class="clear"></div>
 				</div>
-				<div class="clear"></div>
 
 				<button class="btn float_right new_log_button" id="cancel_editing_button" type="button">Cancel</button>
 				<input type="submit" class="btn float_right btn-primary new_log_button" value="Create" />
