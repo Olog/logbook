@@ -7,36 +7,29 @@
 $(document).ready(function(){
 
 	// Set datepickers
-	$('#datepicker_from').datepicker(
+	$('#datepicker_from').datetimepicker(
 		{
 			changeMonth: true,
 			changeYear: true,
 			dateFormat: datePickerDateFormat,
-			firstDay: datePickerFirstName
+			firstDay: datePickerFirstName,
+			onClose: function(e){
+				fromToChanged();
+			}
 		}
 	);
-	$('#datepicker_to').datepicker(
+
+	$('#datepicker_to').datetimepicker(
 		{
 			changeMonth: true,
 			changeYear: true,
 			dateFormat: datePickerDateFormat,
-			firstDay: datePickerFirstName
+			firstDay: datePickerFirstName,
+			onClose: function(e){
+				fromToChanged();
+			}
 		}
 	);
-
-	// Show log if it we have an URL
-	if(selectedLog !== -1 && !isNaN(selectedLog)) {
-		//l(selectedLog);
-		var log = getLog(selectedLog);
-		//l(log);
-
-		if(log[0] !== null) {
-			showLog(log[0], log[1]);
-
-		} else {
-			selectedLog = -1;
-		}
-	}
 
 	jQuery.expr[':'].Contains = function(a, i, m){
 		return (a.textContent || a.innerText || "").toUpperCase().indexOf(m[3].toUpperCase())>=0;
@@ -59,16 +52,6 @@ $(document).ready(function(){
 	singleselect("list3");
 	singleselect("list4");
 	singleselect("list5");
-
-	// Wait for date from-to change
-	$('#datepicker_from').change(function(e){
-		fromToChanged();
-	});
-
-	// Wait for date from-to change
-	$('#datepicker_to').change(function(e){
-		fromToChanged();
-	});
 
 	// Activate search field
 	startListeningForSearchEvents();
@@ -100,5 +83,20 @@ $(document).ready(function(){
 		$('#new_log').attr("disabled", false);
 		$('#new_logbook_and_tag').removeClass("disabled");
 		$('#new_logbook_and_tag').attr("disabled", false);
+	}
+
+
+	// Show log if it we have an URL
+	if(selectedLog !== -1 && !isNaN(selectedLog)) {
+		//l(selectedLog);
+		var log = getLog(selectedLog);
+		//l(log);
+
+		if(log[0] !== null) {
+			showLog(log[0], log[1]);
+
+		} else {
+			selectedLog = -1;
+		}
 	}
 });

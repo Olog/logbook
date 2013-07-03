@@ -4,6 +4,8 @@
  * @author: Dejan Dežman <dejan.dezman@cosylab.com>
  */
 
+var uploadData = [];
+
 function initialize() {
 	// Create new comparator
 	jQuery.expr[':'].Contains = function(a, i, m) {
@@ -171,4 +173,106 @@ function showCancelEditingLogModal(){
  */
 function deleteDraftAndReturnToHomePage() {
 	window.location.href = firstPageName;
+}
+
+function upload(elementId) {
+	// Change this to the location of your server-side upload handler:
+	var url = serviceurl + "attachments/";
+	var removeButton = $('<button/>')
+			.addClass('btn')
+			.prop('disabled', true)
+			.prop('className', 'btn btn-danger')
+			.on('click', function () {
+				var $this = $(this);
+				var data = $this.data();
+				l(data);
+				uploadData[data.filePos] = null;
+
+				$this.parent().parent().remove();
+				data.abort();
+			});
+
+	var p = $('<p/>');
+	var pIndex = 0;
+
+	$('#' + elementId).fileupload({
+		url: url,
+		dataType: 'json',
+		autoUpload: false,
+		dropZone: null,
+		pasteZone: null,
+		//acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+		maxFileSize: 5000000, // 5 MB
+		// Enable image resizing, except for Android and Opera,
+		// which actually support image resizing, but fail to
+		// send Blob objects via XHR requests:
+		disableImageResize: /Android(?!.*Chrome)|Opera/
+			.test(window.navigator && navigator.userAgent),
+		previewMaxWidth: 100,
+		previewMaxHeight: 100,
+		previewCrop: true
+
+	}).on('fileuploadadd', function (e, data) {
+		data.context = $('<div/>').appendTo('#files');
+		$.each(data.files, function (index, file) {
+			var newP = p.clone(true);
+			newP.prop('id', pIndex);
+			pIndex += 1;
+
+			var node = newP.append($('<span/>').text(file.name));
+			if (!index) {
+				var count = uploadData.length;
+				data.filePos = count;
+				data.node = newP;
+				uploadData.push(data);
+				node
+					.append('<br>')
+					.append(removeButton.clone(true).data(data));
+				//l(data);
+			}
+			node.appendTo(data.context);
+		});
+
+	}).on('fileuploadprocessalways', function (e, data) {
+		var index = data.index,
+			file = data.files[index];
+			var node = $(data.context.children()[index]);
+
+		if (file.preview) {
+			node
+				.prepend('<br>')
+				.prepend(file.preview);
+		}
+		if (file.error) {
+			node
+				.append('<br>')
+				.append(file.error);
+		}
+		if (index + 1 === data.files.length) {
+			data.context.find('button')
+				.text('Remove')
+				.prop('disabled', !!data.files.error);
+		}
+
+	});/*.on('fileuploadprogressall', function (e, data) {
+		var progress = parseInt(data.loaded / data.total * 100, 10);
+		l(progress);
+		$('#progress .bar').css(
+			'width',
+			progress + '%'
+		);
+
+	}).on('fileuploaddone', function (e, data) {
+		$.each(data.files, function (index, file) {
+			$('#progress .bar').css('width', '0%');
+		});
+
+	}).on('fileuploadfail', function (e, data) {
+		$.each(data.result.files, function (index, file) {
+			var error = $('<span/>').text(file.error);
+			$(data.context.children()[index])
+				.append('<br>')
+				.append(error);
+		});
+	});*/
 }

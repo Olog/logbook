@@ -77,13 +77,13 @@
 				<li><span class="list3 multilist_item"><input type="hidden" name="from" value="last 1 day" />Last day</span></li>
 				<li><span class="list3 multilist_item"><input type="hidden" name="from" value="last 1 week" />Last week</span></li>
 			</ul>
-			<ul class="multilist" id="load_time_to">
+			<!--<ul class="multilist" id="load_time_to">
 				<li class="multilist_header">CREATED TO</li>
 				<li><span class="list4 multilist_item"><input type="hidden" name="to" value="1 min ago" />A min ago</span></li>
 				<li><span class="list4 multilist_item"><input type="hidden" name="to" value="1 hour ago" />An hour ago</span></li>
 				<li><span class="list4 multilist_item"><input type="hidden" name="to" value="1 day ago" />A day ago</span></li>
 				<li><span class="list4 multilist_item"><input type="hidden" name="to" value="1 week ago" />A week ago</span></li>
-			</ul>
+			</ul>-->
 			<ul class="multilist" id="load_time_from_to">
 				<li class="multilist_header">CREATED FROM - TO</li>
 				<li><span class="list5 multilist_item">From <input type="text" id="datepicker_from" /> to <input type="text" id="datepicker_to" /></span></li>
@@ -127,6 +127,19 @@
 			</div>
 
 			<div class="log_attachments">
+				<div id="attachments_size_dropdown" class="btn-group pull-right">
+					<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+						<i title="Image size" class="icon-picture"></i>
+						<span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu">
+						<li><a href="#">small</a></li>
+						<li class="active"><a href="#">medium</a></li>
+						<li><a href="#">large</a></li>
+					</ul>
+				</div>
+				<br/>
+				<br/>
 				<div id="load_log_attachments">
 
 				</div>
@@ -147,6 +160,7 @@
 	<!-- Placed at the end of the document so the pages load faster -->
 	<script src="static/js/jquery-2.0.2.js"></script>
 	<script src="static/js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script src="static/js/jquery-ui-timepicker-addon.js"></script>
 	<script src="static/js/jquery.cookie.js"></script>
 	<script src="static/js/purl.js"></script>
 	<script src="static/js/bootstrap.js"></script>

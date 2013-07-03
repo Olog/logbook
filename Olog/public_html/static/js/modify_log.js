@@ -4,6 +4,10 @@
  * @author: Dejan Dežman <dejan.dezman@cosylab.com>
  */
 
+// Log that is being modified
+var log = null;
+var logId = null;
+
 $(document).ready(function(){
 
 	// Load Logbooks
@@ -12,14 +16,14 @@ $(document).ready(function(){
 	// Load Tags
 	loadTags();
 
-	var logId = $.url().param("id");
+	logId = $.url().param("id");
 	logId = parseInt(logId);
 
 	// Check url parameters
 	checkUrlParameters(logId);
 
 	// Get Log object
-	var log = getLog(logId);
+	log = getLog(logId);
 
 	// Check if log object exists
 	checkLogObject(log[0]);
@@ -91,7 +95,25 @@ $(document).ready(function(){
 	$('#new_log').attr("disabled", true);
 	$('#new_logbook_and_tag').addClass("disabled");
 	$('#new_logbook_and_tag').attr("disabled", true);
+
+	// Upload
+	upload('fileupload2');
 });
+
+function showDeleteAttachmentModal(element) {
+	$('#modal_container').load(modalWindows + ' #deleteExistingAttachmentModal', function(response, status, xhr){
+		$('#deleteExistingAttachmentModal').find('#url').val($(element).parent().find('img').attr('src'));
+		$('#deleteExistingAttachmentModal').modal('toggle');
+	});
+}
+
+function deleteAttachmentHandler(){
+	var url = $('#url').val();
+	var newUrl = url.replace(':thumbnail', '');
+	l(newUrl);
+
+	deleteAttachment(newUrl, log[0]);
+}
 
 /**
  * Check URL parameters and redirect user to a home page if parameters are not set
@@ -123,4 +145,28 @@ function checkLogObject(log) {
 function fillInForm(log) {
 	l(log);
 	$("#log_body").val(log.description);
+
+	if(log.attachments.length !== 0) {
+		var template = getTemplate("template_existing_attachment_item");
+		var html = "";
+
+		$('#list_existing_attachments').html("");
+		$.each(log.attachments, function(index, file){
+			var img = serviceurl + 'attachments/' + log.id + '/' + file.fileName + ':thumbnail';
+
+			$.get(img, function(data, status, xhr){
+
+				var item = {
+					img: img,
+					img_name: file.fileName
+				};
+
+				html = Mustache.to_html(template, item);
+				$('#list_existing_attachments').append(html);
+
+			}).fail(function(){
+				l("404");
+			});
+		});
+	}
 }

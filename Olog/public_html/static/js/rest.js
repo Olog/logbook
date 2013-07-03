@@ -4,9 +4,6 @@
  * @author: Dejan Dežman <dejan.dezman@cosylab.com>
  */
 
-var modalWindows = "static/html/modal_windows.html";
-var templates = "static/html/templates.html";
-
 // Create object for saving logs
 var savedLogs = {};
 var savedTags = new Array();
@@ -179,11 +176,53 @@ function showLog(log, id){
 
 	if(log.attachments.length !== 0){
 		$('.log_attachments').show("fast");
+		showAttachmentSizeDropdown(log.attachments, log.id);
 		repeatAttachments("template_log_attachment", "load_log_attachments", log.attachments, log.id);
 
 	} else {
 		$('.log_attachments').hide("fast");
 	}
+}
+
+/*
+ * Show attachment size dropdown and set list items
+ */
+function showAttachmentSizeDropdown(attachments, id) {
+	$('#attachments_size_dropdown').show("fast");
+
+	var template = getTemplate("template_attachments_size_dropdown");
+	var html = "";
+
+	// Set current selected size
+	if(imageSizes.current === -1) {
+		imageSizes.current = imageSizes.default;
+	}
+
+	$('#attachments_size_dropdown ul').html("");
+
+	$.each(imageSizes.list, function(index, item){
+
+		var listItem = {
+			name: item.name,
+			active: ""
+		};
+
+		// Select current item
+		if(index === imageSizes.current) {
+			listItem.active = "class=active";
+		}
+
+		html = Mustache.to_html(template, listItem);
+		$('#attachments_size_dropdown ul').append(html);
+	});
+
+	$('#attachments_size_dropdown ul li').unbind('click');
+	$('#attachments_size_dropdown ul li').click(function(e){
+		l($(e.target).text());
+		imageSizes.current = backwardImageSizesMap[$(e.target).text()];
+		repeatAttachments("template_log_attachment", "load_log_attachments", attachments, id);
+		showAttachmentSizeDropdown(attachments, id);
+	});
 }
 
 /**
@@ -323,6 +362,12 @@ function repeatAttachments(source_id, target_id, data, logId){
 	var template = getTemplate(source_id);
 	var html = "";
 	var notImages = new Array();
+	$('#'+target_id).html("");
+
+	var scale = parseFloat(imageSizes.list[imageSizes.current].scale);
+	var correction = parseInt(imageSizes.list[imageSizes.current].correction);
+	var containerWidth = $(document).width() * 0.5 * scale - correction;
+	l("width: " + containerWidth);
 
 	$.each(data, function(i, item) {
 
@@ -330,8 +375,8 @@ function repeatAttachments(source_id, target_id, data, logId){
 		var newItem = {
 			imageUrl: serviceurl + "attachments/" + logId + "/" + item.fileName,
 			fileName: item.fileName,
-			imageWidth: 200,
-			imageHeight: 200
+			imageWidth: containerWidth,
+			imageHeight: containerWidth
 		};
 
 		// Add items that are not images to array
@@ -472,19 +517,20 @@ function generateLogObject() {
  * After Log ovject is created, send it to the server
  * @param log Log object to be inserted into database
  */
-function createLog(log, uploadData) {
+function createLog(log) {
+	var logId = null;
 
 	var json = JSON.stringify(log);
-	console.log(json);
+	l(json);
 
 	var userCredentials = $.parseJSON($.cookie(sessionCookieName));
-	var pIndex = 0;
 
 	$.ajax( {
 		type: "POST",
 		url : serviceurl + 'logs',
 		contentType: 'application/json; charset=utf-8',
 		data: json,
+		async: false,
 		beforeSend : function(xhr) {
 			var base64 = encode64(userCredentials["username"] + ":" + userCredentials["password"]);
 			xhr.setRequestHeader("Authorization", "Basic " + base64);
@@ -504,43 +550,40 @@ function createLog(log, uploadData) {
 			l("Log sent to the server");
 
 			$log = $(xml).find("log");
-			var id = $log.attr('id');
-
-			$('#fileupload').on('fileuploadprogressall', function(e, data){
-				l("progress" + data.index);
-				$('p#' + pIndex).hide("fast");
-				pIndex += 1;
-			});
-
-			$.each(uploadData, function(index, data){
-
-				if(data === null) {
-					return;
-				}
-
-				$('#fileupload').fileupload('send', {
-					files: data.files[0],
-					formData: {file: data.files[0]},
-					url: serviceurl + 'attachments/' + id,
-					async: false,
-					beforeSend : function(xhr) {
-						var base64 = encode64(userCredentials["username"] + ":" + userCredentials["password"]);
-						xhr.setRequestHeader("Authorization", "Basic " + base64);
-					}
-				}).success(function (result, textStatus, jqXHR) {
-					l("ok");
-
-				}).error(function (jqXHR, textStatus, errorThrown) {
-					l(errorThrown);
-
-				}).done(function(response){
-
-				});
-			});
-
-			window.location.href = firstPageName;
+			logId = $log.attr('id');
 		}
 	});
+
+	return logId;
+}
+
+function uploadFiles(logId, uploadData) {
+	var userCredentials = $.parseJSON($.cookie(sessionCookieName));
+
+	for(var i=0; i<uploadData.length; i++){
+		var data = uploadData[i];
+
+		if(data !== null) {
+			$.ajaxSetup({async:false});
+
+			$('#fileupload').fileupload('send', {
+				files: data.files[0],
+				formData: {file: data.files[0]},
+				url: serviceurl + 'attachments/' + logId,
+				beforeSend : function(xhr) {
+					var base64 = encode64(userCredentials["username"] + ":" + userCredentials["password"]);
+					xhr.setRequestHeader("Authorization", "Basic " + base64);
+				}
+			}).success(function(result, textStatus, jqXHR) {
+				l("ok");
+
+
+			}).error(function (jqXHR, textStatus, errorThrown) {
+				l(errorThrown);
+
+			});
+		}
+	};
 }
 
 /**
@@ -909,7 +952,6 @@ function modifyTag(tag, name) {
 	});
 }
 
-
 /**
  * Delete Tag
  * @param name original name of the Tag
@@ -941,6 +983,42 @@ function deleteTag(name) {
 			l("Logbook delete command sent to the server");
 			$('#deleteTagModal').modal("hide");
 			loadTags();
+		}
+	});
+}
+
+/**
+ * Delete Tag
+ * @param name original name of the Tag
+ */
+function deleteAttachment(url, log) {
+	var userCredentials = $.parseJSON($.cookie(sessionCookieName));
+	l(url);
+
+	$.ajax( {
+		type: "DELETE",
+		url : url,
+		contentType: 'application/json; charset=utf-8',
+		beforeSend : function(xhr) {
+			var base64 = encode64(userCredentials["username"] + ":" + userCredentials["password"]);
+			xhr.setRequestHeader("Authorization", "Basic " + base64);
+		},
+		statusCode: {
+			403: function(){
+				showError("You do not have permission to delete this attachment!", "#new_logbook_error_block", "#new_logbook_error_body");
+			}
+		},
+		error : function(xhr, ajaxOptions, thrownError) {
+			//reset();
+			//onError('Invalid username or password. Please try again.');
+			//$('#loginform #user_login').focus();
+			l("something went wrong");
+		},
+		success : function(model) {
+			//cookies();
+			l("Attachment delete command sent to the server");
+			$('#deleteExistingAttachmentModal').modal("hide");
+			fillInForm(log);
 		}
 	});
 }

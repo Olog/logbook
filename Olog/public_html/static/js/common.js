@@ -78,18 +78,19 @@ function returnTimeFilterTimestamp(from, to) {
 
 	// Check if from is defined
 	if(from !== undefined) {
-		reg = new RegExp('(last )?(\\d+) (\\w+).*', "i");
+		reg = new RegExp('last (\\d+) (\\w+).*', "i");
 		searchParts = reg.exec(from);
 
 		if(searchParts !== null) {
 
 			if(searchParts[0] !== "") {
-				fromSeconds = parseInt(searchParts[2] * eval(timeFilter[searchParts[3]]));
+				fromSeconds = parseInt(searchParts[1] * eval(timeFilter[searchParts[2]]));
 			}
 
 		} else {
 			l("from: " + from);
 			var parseFrom = moment(from, datePickerDateFormatMometParseString);
+			l(parseFrom);
 			from = Math.round((parseFrom.toDate().getTime())/1000);
 			fromSeconds = currentSeconds - from;
 		}
@@ -97,7 +98,7 @@ function returnTimeFilterTimestamp(from, to) {
 
 	// Check if to is defined
 	if(to !== undefined) {
-		reg = new RegExp('(\\d+) (\\w+)( ago)?.*', "i");
+		reg = new RegExp('(\\d+) (\\w+) ago.*', "i");
 		searchParts = reg.exec(to);
 
 		if(searchParts !== null) {

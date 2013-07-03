@@ -19,10 +19,14 @@ var dateFormat = "MMMM Do YYYY, h:mm a";
 // Format switches can be found at http://api.jqueryui.com/datepicker/
 var datePickerDateFormat = "mm/dd/yy";
 
+// jQuery timepicker plugin has its onw date format so it is defined separately.
+// Format switches can be found at http://trentrichardson.com/examples/timepicker/
+var datePickerTimeFormat = "hh:mm";
+
 // Date from the datepicker is put in the search input but need to be parsed
 // to build a REST service query. Format documentation can be found at
 // http://momentjs.com/docs/#/parsing/
-var datePickerDateFormatMometParseString = "MM/DD/YYYY";
+var datePickerDateFormatMometParseString = "MM/DD/YYYY hh:mm";
 
 // Start of the week in the jQuery datepicker: 0: Sunday, 1: Monday, ...
 var datePickerFirstName = 1;
@@ -68,6 +72,34 @@ var timeFilter = {
 	'weeks': '7*24*60*60'
 };
 
+// Available sizes for Log attachments. These sites will be displayed in the
+// Image size dropdown list.
+// list:
+// @param name is the name of the size that will be displayed as a list item
+// @param scale is a scale, attachment will be resized to
+// @param correction is a parameter that can be set to correct image sizes so they
+// fit in the right pane in all browsers
+// selected:
+// represents the default selected size
+// current:
+// represents the current selected size
+var imageSizes = {
+	list:[
+		{name:'small', scale:'0.25', correction:'15'},
+		{name:'medium', scale:'0.5', correction:'25'},
+		{name:'large', scale:'1', correction:'0'}
+	],
+	default:1,
+	current:-1
+};
+
+// Map size names to list item array position
+var backwardImageSizesMap = {
+	small:0,
+	medium:1,
+	large:2
+};
+
 /**
  * Global variables needed by more than one page. SHOULD NOT BE CONFIGURED BY USER!
  */
@@ -80,3 +112,9 @@ var levels = ["Info", "Problem", "Request", "Suggestion", "Urgent"];
 
 // Current Log displayed
 var selectedLog = -1;
+
+// Html file that contain modal windows
+var modalWindows = "static/html/modal_windows.html";
+
+// Html file that contain templates
+var templates = "static/html/templates.html";

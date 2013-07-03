@@ -25,7 +25,17 @@
 	display: none;
 }
 
+#files {
+	min-height: 200px;
+	border: 1px black solid;
+}
+
 #files > div {
+	float:left;
+	margin: 20px;
+}
+
+#list_existing_attachments > div {
 	float:left;
 	margin: 20px;
 }
@@ -49,4 +59,12 @@
 	right: 0;
 	top: 0;
 	transform: translate(-300px, 0px) scale(4);
+}
+
+.upload-progress {
+	opacity: 0.5;
+}
+
+.upload-progress-loader {
+	display: none;
 }

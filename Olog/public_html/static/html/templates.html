@@ -72,6 +72,11 @@ and open the template in the editor.
 			<option {{selected}} value="{{name}}">{{name}}</option>
 		</script>
 
+		<!-- Attachment size list item -->
+		<script id="template_attachments_size_dropdown" type="text/template">
+			<li {{active}}><a href="#">{{name}}</a></li>
+		</script>
+
 		<!-- Login templates -->
 		<script id="template_logged_in" type="text/template">
 			<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
@@ -104,6 +109,17 @@ and open the template in the editor.
 					</fieldset>
 				</form>
 				<span id="login_error" class="login_error">The username or password is incorrect!</span>
+			</div>
+		</script>
+
+		<!-- Existing attachments in modify log html document -->
+		<script id="template_existing_attachment_item" type="text/template">
+			<div>
+				<img src="{{img}}"/>
+				<br />
+				{{img_name}}
+				<br />
+				<button onclick="showDeleteAttachmentModal(this)" type="button" class="btn btn-danger">Remove</button>
 			</div>
 		</script>
 	</body>
