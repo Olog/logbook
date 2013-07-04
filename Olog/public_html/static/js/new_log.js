@@ -58,7 +58,7 @@ $(document).ready(function(){
 				$('.upload-progress-loader').show();
 				setTimeout(function(){
 					uploadFiles(newLogId, uploadData);
-					window.location.href = firstPageName;
+					//window.location.href = firstPageName;
 				}, 500);
 			}
 		}

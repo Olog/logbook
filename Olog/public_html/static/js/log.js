@@ -199,8 +199,8 @@ function upload(elementId) {
 		url: url,
 		dataType: 'json',
 		autoUpload: false,
-		dropZone: null,
-		pasteZone: null,
+		//dropZone: null,
+		//pasteZone: null,
 		//acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
 		maxFileSize: 5000000, // 5 MB
 		// Enable image resizing, except for Android and Opera,

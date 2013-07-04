@@ -25,11 +25,6 @@
 	display: none;
 }
 
-#files {
-	min-height: 200px;
-	border: 1px black solid;
-}
-
 #files > div {
 	float:left;
 	margin: 20px;
@@ -67,4 +62,11 @@
 
 .upload-progress-loader {
 	display: none;
+}
+
+/* Paste area styles */
+#paste-area {
+	display: none;
+	position: absolute;
+	left: -99em;
 }
