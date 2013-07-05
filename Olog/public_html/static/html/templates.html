@@ -122,5 +122,16 @@ and open the template in the editor.
 				<button onclick="showDeleteAttachmentModal(this)" type="button" class="btn btn-danger">Remove</button>
 			</div>
 		</script>
+
+		<!-- Existing attachments in modify log html document -->
+		<script id="template_attachment_item" type="text/template">
+			<div>
+				<img src="{{img}}" width="100" height="100" />
+				<br />
+				{{img_name}}
+				<br />
+				<button onclick="removePastedAttachment(this, {{array_id}})" type="button" class="btn btn-danger">Remove</button>
+			</div>
+		</script>
 	</body>
 </html>

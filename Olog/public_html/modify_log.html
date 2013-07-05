@@ -61,11 +61,11 @@
 	<div class="container-left">
 		<div class="well container-scroll">
 			<input class="filter_search" id="logbooks_filter_search" type="text" placeholder="Filter Logbooks ..." />
-			<ul class="multilist" id="load_logbooks">
+			<ul class="multilist" id="load_logbooks_m">
 				<!-- Template -->
 			</ul>
 			<input class="filter_search" id="tags_filter_search" type="text" placeholder="Filter Tags ..." />
-			<ul class="multilist" id="load_tags">
+			<ul class="multilist" id="load_tags_m">
 				<!-- Template -->
 			</ul>
 		</div>
@@ -122,6 +122,10 @@
 				<button class="btn float_right new_log_button" id="cancel_editing_button" type="button">Cancel</button>
 				<input type="submit" class="btn float_right btn-primary new_log_button" value="Save" />
 			</form>
+
+			<div>
+				<div contenteditable="true" id="paste-area"></div>
+			</div>
 		</div>
 	</div>
 
@@ -161,6 +165,8 @@
 	<script src="static/js/upload/jquery.fileupload-process.js"></script>
 	<script src="static/js/upload/jquery.fileupload-image.js"></script>
 	<script src="static/js/upload/jquery.fileupload-validate.js"></script>
+
+	<script src="static/js/paste_drop.js"></script>
 
 	</body>
 </html>

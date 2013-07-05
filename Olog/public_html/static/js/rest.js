@@ -9,16 +9,18 @@ var savedLogs = {};
 var savedTags = new Array();
 var savedLogbooks = new Array();
 var page = 1;
+var templateContent = "";
 
 /**
  * Get Logbooks from REST service
+ * @param targetId id of the element Logbooks will be placed in
  */
-function loadLogbooks(){
-	$('#load_logbooks').html("");
+function loadLogbooks(targetId){
+	$('#' + targetId).html("");
 
 	// Load Logbooks
 	$.getJSON(serviceurl + 'logbooks/', function(books) {
-		repeat("template_logbook", "load_logbooks", books, "logbook");
+		repeat("template_logbook", targetId, books, "logbook");
 		multiselect("list");
 		filterListItems("logbooks_filter_search", "list");
 	});
@@ -26,14 +28,14 @@ function loadLogbooks(){
 
 /**
  * Get Tags from REST service
- * @returns {undefined}
+ * @param targetId id of the element Tags will be placed in
  */
-function loadTags(){
-	$('#load_tags').html("");
+function loadTags(targetId){
+	$('#' + targetId).html("");
 
 	// Load tags
 	$.getJSON(serviceurl + 'tags/', function(tags) {
-		repeat("template_tag", "load_tags", tags, "tag");
+		repeat("template_tag", targetId, tags, "tag");
 		multiselect("list2");
 		filterListItems("tags_filter_search", "list2");
 	});
@@ -249,7 +251,7 @@ function repeat(source_id, target_id, data, property){
 			if($.cookie(filtersCookieName) !== undefined) {
 				var obj = $.parseJSON($.cookie(filtersCookieName))["list2_index"];
 
-				if(obj !== undefined && obj[item.name] !== undefined) {
+				if(obj !== undefined && obj[item.name] !== undefined && obj[item.name] !== "false") {
 					customItem.clicked = "multilist_clicked";
 				}
 			}
@@ -261,7 +263,7 @@ function repeat(source_id, target_id, data, property){
 			if($.cookie(filtersCookieName) !== undefined) {
 				var obj = $.parseJSON($.cookie(filtersCookieName))["list_index"];
 
-				if(obj !== undefined && obj[item.name] !== undefined) {
+				if(obj !== undefined && obj[item.name] !== undefined && obj[item.name] !== "false") {
 					customItem.clicked = "multilist_clicked";
 					customItem.owner = item.owner;
 				}
@@ -273,7 +275,7 @@ function repeat(source_id, target_id, data, property){
 		$('#'+target_id).append(html);
 	});
 
-	$('#'+target_id).trigger('dataloaded', null);
+	$('#'+target_id).trigger('dataloaded');
 }
 
 /**
@@ -410,6 +412,7 @@ function getTemplate(id){
 	var template = "";
 
 	$('#template_container').load(templates + ' #' + id, function(response, status, xhr){
+		templateContent = response;
 		template = $('#' + id).html();
 	});
 
@@ -492,7 +495,7 @@ function generateLogObject() {
 	// Set logbooks
 	var logbooksString = $('input[name=hidden-logbooks]').val();
 
-	if(logbooksString.length > 1) {
+	if(logbooksString !== undefined && logbooksString.length > 1) {
 		$.each(logbooksString.split(','), function(index, logbook){
 			log[0].logbooks.push({"name":logbook});
 		});
@@ -501,7 +504,7 @@ function generateLogObject() {
 	// Set tags
 	var tagsString = $('input[name=hidden-tags]').val();
 
-	if(tagsString.length > 1) {
+	if(tagsString !== undefined && tagsString.length > 1) {
 		$.each(tagsString.split(','), function(index, tag){
 			log[0].tags.push({"name":tag});
 		});
@@ -557,7 +560,7 @@ function createLog(log) {
 	return logId;
 }
 
-function uploadFiles(logId, uploadData) {
+function uploadFiles(logId, uploadData, uploadTargetId) {
 	var userCredentials = $.parseJSON($.cookie(sessionCookieName));
 
 	for(var i=0; i<uploadData.length; i++){
@@ -566,7 +569,7 @@ function uploadFiles(logId, uploadData) {
 		if(data !== null) {
 			$.ajaxSetup({async:false});
 
-			$('#fileupload').fileupload('send', {
+			$(uploadTargetId).fileupload('send', {
 				files: data.files[0],
 				formData: {file: data.files[0]},
 				url: serviceurl + 'attachments/' + logId,
@@ -593,7 +596,7 @@ function uploadFiles(logId, uploadData) {
 function modifyLog(log) {
 
 	var json = JSON.stringify(log[0]);
-	console.log(json);
+	l(json);
 
 	var userCredentials = $.parseJSON($.cookie(sessionCookieName));
 
@@ -619,7 +622,6 @@ function modifyLog(log) {
 		success : function(model) {
 			//cookies();
 			l("Log sent to the server");
-			window.location.href = firstPageName;
 		}
 	});
 }
@@ -1052,6 +1054,57 @@ function deleteAttachment(url, log) {
 			l("Attachment delete command sent to the server");
 			$('#deleteExistingAttachmentModal').modal("hide");
 			fillInForm(log);
+		}
+	});
+}
+
+/**
+ * Function for uploading files pasted in Firefox. Img data is in URI scheme
+ * http://en.wikipedia.org/wiki/Data_URI_scheme
+ * @param {type} logId id of the Log entry we are creating
+ * @param {type} pastedData array or pasted sources
+ * @returns {undefined}
+ */
+function uploadPastedFiles(logId, pastedData) {
+	var userCredentials = $.parseJSON($.cookie(sessionCookieName));
+
+	$.each(pastedData, function(index, source){
+
+		if(source !== null) {
+			var sourceParts = source.split('base64,');
+
+			var dataType = sourceParts[0].substring(5, sourceParts[0].length-1);
+			var data = sourceParts[1];
+			var ending = dataType.split('/')[1];
+
+			var url = serviceurl + 'attachments/' + logId;
+
+			var xhr = new XMLHttpRequest();
+			xhr.open("POST", url, false);
+
+			var boundary = '------multipartformboundary' + (new Date).getTime();
+			var dashdash = '--';
+			var crlf = '\r\n';
+
+			var content = dashdash+boundary+crlf
+					+'Content-Disposition: form-data; name="file"; filename="image_' + (new Date).getTime() + '.' + ending + '"'+crlf
+					+'Content-Type: '+dataType+crlf
+					+'Content-Transfer-Encoding: BASE64'+crlf
+					+crlf
+					+data
+					+crlf+dashdash+boundary+dashdash
+					+crlf;
+
+			xhr.setRequestHeader("Content-type", "multipart/form-data; boundary="+boundary);
+			xhr.setRequestHeader("Content-length", content.length);
+
+			var base64EncodedUsernameAndPassword = encode64(userCredentials["username"] + ":" + userCredentials["password"]);
+			xhr.setRequestHeader("Authorization", "Basic " + base64EncodedUsernameAndPassword);
+
+			xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+			xhr.setRequestHeader("Connection", "close");
+			// execute
+			xhr.send(content);
 		}
 	});
 }

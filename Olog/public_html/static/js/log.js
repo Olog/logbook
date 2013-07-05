@@ -5,6 +5,7 @@
  */
 
 var uploadData = [];
+var firefoxPastedData = [];
 
 function initialize() {
 	// Create new comparator
@@ -114,8 +115,6 @@ function autocompleteLogbooks(logbooksArray) {
  * @param {type} dataArray array of all the object available for autocompletion
  */
 function initiateAutocompleteInput(targetId, preselectedArray, dataArray) {
-	l("init " + targetId);
-
 	$("#" + targetId).tagsManager({
 		prefilled: preselectedArray,
 		typeahead: true,
@@ -275,4 +274,22 @@ function upload(elementId) {
 				.append(error);
 		});
 	});*/
+}
+
+
+/* Creates a new image from a given source */
+function createImage(source, index, targetId) {
+	//uploadData.push(item);
+	var fileName = 'pasted image';
+	//uploadPastedFile(source, 3432)
+
+	// Show pasted image
+	var template = getTemplate('template_attachment_item');
+	var html = Mustache.to_html(template, {"img": source, "img_name":fileName, "array_id":index});
+	$(targetId).append(html);
+}
+
+function removePastedAttachment(element, id) {
+	firefoxPastedData[id] = null;
+	$(element).parent().remove();
 }

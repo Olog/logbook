@@ -17,7 +17,6 @@ $(document).ready(function(){
 
 	// Get id
 	var id = urlObject.attr("anchor");
-	l("anchor" + id);
 
 	if(id !== undefined) {
 		selectedLog = parseInt(id);

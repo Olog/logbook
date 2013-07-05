@@ -11,10 +11,20 @@ var logId = null;
 $(document).ready(function(){
 
 	// Load Logbooks
-	loadLogbooks();
+	loadLogbooks("load_logbooks_m");
 
 	// Load Tags
-	loadTags();
+	loadTags("load_tags_m");
+
+	// Wait for dataload
+	$('#load_tags_m').on('dataloaded', function(m) {
+		autocompleteTags(savedTags);
+	});
+
+	// Wait for dataload
+	$('#load_logbooks_m').on('dataloaded', function(m) {
+		autocompleteLogbooks(savedLogbooks);
+	});
 
 	logId = $.url().param("id");
 	logId = parseInt(logId);
@@ -31,13 +41,10 @@ $(document).ready(function(){
 	// Fill in the modify form
 	fillInForm(log[0]);
 
-	// Wait for dataload
-	$('#load_tags').on('dataloaded', function(m){
-		autocompleteTags(savedTags);
-	});
-
 	// Load tags
-	$('#tags_input').on('tagsManager_initialized', function(){
+	$('#tags_input').on('tagsManager_initialized', function() {
+		$("#tags_input").tagsManager('empty');
+
 		if(log[0].tags !== undefined) {
 			$.each(log[0].tags, function(i, element){
 				$("#tags_input").tagsManager('pushTag',element.name);
@@ -45,13 +52,10 @@ $(document).ready(function(){
 		}
 	});
 
-	// Wait for dataload
-	$('#load_logbooks').on('dataloaded', function(m){
-		autocompleteLogbooks(savedLogbooks);
-	});
-
 	// Load logbooks
 	$('#logbooks_input').on('tagsManager_initialized', function(){
+		$("#logbooks_input").tagsManager('empty');
+
 		if(log[0].logbooks !== undefined) {
 			$.each(log[0].logbooks, function(i, element){
 				$("#logbooks_input").tagsManager('pushTag',element.name);
@@ -70,6 +74,15 @@ $(document).ready(function(){
 
 		if(isValidLog(log) === true) {
 			modifyLog(log);
+			$('#files div').addClass('upload-progress');
+			$('#files div p button').remove();
+			$('#files div button').remove();
+			$('.upload-progress-loader').show();
+			setTimeout(function(){
+				uploadFiles(logId, uploadData, "#fileupload2");
+				uploadPastedFiles(logId, firefoxPastedData);
+				window.location.href = firstPageName;
+			}, 500);
 		}
 	});
 
@@ -98,6 +111,9 @@ $(document).ready(function(){
 
 	// Upload
 	upload('fileupload2');
+
+	// Start listening for Firefox paste events
+	startListeningForPasteEvents("#files");
 });
 
 function showDeleteAttachmentModal(element) {

@@ -40,10 +40,10 @@ $(document).ready(function(){
 	});
 
 	// Load Logbooks
-	loadLogbooks();
+	loadLogbooks("load_logbooks");
 
 	// Load Tags
-	loadTags();
+	loadTags("load_tags");
 
 	// Load logs
 	loadLogs(1);

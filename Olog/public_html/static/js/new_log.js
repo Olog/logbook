@@ -7,10 +7,10 @@
 $(document).ready(function(){
 
 	// Load Logbooks
-	loadLogbooks();
+	loadLogbooks("load_logbooks");
 
 	// Load Tags
-	loadTags();
+	loadTags("load_tags");
 
 	// Wait for dataload
 	$('#load_tags').on('dataloaded', function(e){
@@ -55,10 +55,12 @@ $(document).ready(function(){
 			if(newLogId !== null) {
 				$('#files div').addClass('upload-progress');
 				$('#files div p button').remove();
+				$('#files div button').remove();
 				$('.upload-progress-loader').show();
 				setTimeout(function(){
-					uploadFiles(newLogId, uploadData);
-					//window.location.href = firstPageName;
+					uploadFiles(newLogId, uploadData, "#fileupload");
+					uploadPastedFiles(newLogId, firefoxPastedData);
+					window.location.href = firstPageName;
 				}, 500);
 			}
 		}
@@ -77,4 +79,7 @@ $(document).ready(function(){
 
 	// Upload
 	upload('fileupload');
+
+	// Start listening for Firefox paste events
+	startListeningForPasteEvents("#files");
 });

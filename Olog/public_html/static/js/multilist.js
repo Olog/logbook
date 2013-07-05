@@ -16,7 +16,6 @@ function multiselect(name){
 	// Write data from cookie back to object and remove cookie
 	if($.cookie(filtersCookieName) !== undefined){
 		selectedElements = $.parseJSON($.cookie(filtersCookieName));
-		//$.removeCookie(filtersCookieName);
 	}
 
 	$('.' + name).hover(function(e){
@@ -45,7 +44,7 @@ function multiselect(name){
 				selectedElements[name + '_index'] = {};
 			}
 
-			// Set the element index
+			// Initialize the element index
 			if(selectedElements[name + '_index'] === null) {
 				selectedElements[name + '_index'] = {};
 			}
