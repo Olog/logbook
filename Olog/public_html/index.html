@@ -49,9 +49,9 @@
 					</ul>
 				</div>
 
-				<div id="top_container" class="pull-right btn-group">
+				<span id="top_container" class="pull-right btn-group">
 					<!-- Template -->
-				</div>
+				</span>
 
 			</div>
 		</div>
@@ -59,7 +59,7 @@
 
 	<!-- Left navigation -->
 	<div class="container-left">
-		<div class="well container-scroll">
+		<div id="load_filters" class="well container-scroll">
 			<input class="filter_search" id="logbooks_filter_search" type="text" placeholder="Filter Logbooks ..." />
 			<ul class="multilist" id="load_logbooks">
 				<!--<li class="multilist_header"><input class="filter_search" type="text" placeholder="LOGBOOKS" /> <a href="#myModal" title="Add New Logbook" data-toggle="modal"><i class="icon-plus float_right float_right_padding"></i></a></li>-->
@@ -72,10 +72,7 @@
 			</ul>
 			<ul class="multilist" id="load_time_from">
 				<li class="multilist_header">CREATED FROM</li>
-				<li><span class="list3 multilist_item"><input type="hidden" name="from" value="last 1 min" />Last min</span></li>
-				<li><span class="list3 multilist_item"><input type="hidden" name="from" value="last 1 hour" />Last hour</span></li>
-				<li><span class="list3 multilist_item"><input type="hidden" name="from" value="last 1 day" />Last day</span></li>
-				<li><span class="list3 multilist_item"><input type="hidden" name="from" value="last 1 week" />Last week</span></li>
+				<!-- Template -->
 			</ul>
 			<!--<ul class="multilist" id="load_time_to">
 				<li class="multilist_header">CREATED TO</li>
@@ -91,6 +88,8 @@
 		</div>
 	</div>
 
+	<div class="container-resize"></div>
+
 	<!-- List of Logs -->
 	<div class="container-middle">
 		<div id="load_logs" class="well container-scroll">
@@ -102,9 +101,11 @@
 		</div>
 	</div>
 
+	<div class="container-resize2"></div>
+
 	<!-- Log view -->
 	<div class="container-right">
-		<div class="well container-scroll-last-one">
+		<div id="load_log" class="well container-scroll-last-one">
 
 			<div class="log_title">
 				<h5><span id="log_owner"></span>, <span id="log_date"></span><a class="log_show_details" href="#"><i class="icon-info-sign"></i> Show details</a><a id="modify_log_link" href="modify_log.html"><i title="Modify Log Entry" class="icon-pencil float_right float_right_padding"></i></a></h5>

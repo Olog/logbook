@@ -38,12 +38,17 @@ and open the template in the editor.
 			<li><span class="list2 multilist_item {{clicked}}">{{name}}<a href="#" onclick="showDeleteModal('deleteTagModal', '{{name}}');"><i class="icon-trash float_right multilist_icons float_right_padding"></i></a><a href="#" onclick="showEditTagModal('editTagModal', '{{name}}');"><i class="icon-pencil float_right multilist_icons"></i></a></span></li>
 		</script>
 
+		<!-- Create from filter item -->
+		<script id="template_created_from" type="text/template">
+			<li><span class="list3 multilist_item {{selected}}"><input type="hidden" name="from" value="{{value}}" />{{name}}</span></li>
+		</script>
+
 		<script id="template_log_logbook" type="text/template">
-			 <span class="tm-tag tm-tag-warning tm-tag-mini"><span>{{name}}</span></span>
+			 <span class="tm-tag tm-tag-warning tm-tag-mini"><span>{{name}}</span>
 		</script>
 
 		<script id="template_log_tag" type="text/template">
-			 <span class="tm-tag tm-tag-info tm-tag-mini"><span>{{name}}</span></span>
+			 <span class="tm-tag tm-tag-info tm-tag-mini"><span>{{name}}</span>
 		</script>
 
 		<script id="template_log_attachment" type="text/template">

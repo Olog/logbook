@@ -45,8 +45,17 @@ $(document).ready(function(){
 	// Load Tags
 	loadTags("load_tags");
 
-	// Load logs
-	loadLogs(1);
+	// Load created from filter items
+	loadCreatedFromFilters();
+
+	if(selectedElements !== undefined && (selectedElements['list'] !== undefined || selectedElements['list2'] !== undefined)) {
+		// search logs
+		generateSearchQuery(selectedElements);
+
+	}else {
+		// Load logs
+		loadLogs(1);
+	}
 
 	// Load the list of time filters
 	singleselect("list3");
@@ -99,4 +108,59 @@ $(document).ready(function(){
 			selectedLog = -1;
 		}
 	}
+
+	// Resize left and middle section
+	$('.container-resize').draggable({axis: "x"});
+	var xpos = null;
+
+	$('.container-resize').on('drag', function(e){
+		if(xpos === null) {
+			xpos = e.pageX;
+		}
+
+		l(xpos - e.pageX + " - " + e.pageX);
+		$('#load_filters').css({right: xpos - e.pageX});
+		$('#load_logs').css({left: -(xpos - e.pageX) + 5});
+	});
+
+	// Resize middle and right section
+	$('.container-resize2').draggable({axis: "x"});
+	var xpos2 = null;
+
+	$('.container-resize2').on('drag', function(e){
+		if(xpos2 === null) {
+			xpos2 = e.pageX;
+		}
+
+		l(xpos2 - e.pageX + " - " + e.pageX);
+		$('#load_logs').css({right: xpos2 - e.pageX});
+		$('#load_log').css({left: -(xpos2 - e.pageX) + 5});
+	});
 });
+
+/**
+ * Load created from filters
+ */
+function loadCreatedFromFilters() {
+	var template = getTemplate("template_created_from");
+	var html = "";
+
+	// Write data from cookie back to object and remove cookie
+	if($.cookie(filtersCookieName) !== undefined){
+		selectedElements = $.parseJSON($.cookie(filtersCookieName));
+	}
+
+	$.each(createdFromFilterDefinition, function(index, filter){
+
+		if(selectedElements !== undefined && selectedElements['from'] !== undefined && filter.value === selectedElements['from']) {
+			filter.selected = "multilist_clicked";
+
+		} else {
+			filter.selected = "";
+		}
+
+		html = Mustache.to_html(template, filter);
+		$('#load_time_from').append(html);
+	});
+
+}

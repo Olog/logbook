@@ -75,6 +75,32 @@ html, body {
 	bottom: 0px;
 }
 
+.container-resize {
+	position: fixed;
+	left: 20%;
+	top: 40px;
+	width: 5px;
+	bottom: 0px;
+	z-index: 5;
+}
+
+.container-resize:hover {
+	cursor: col-resize;
+}
+
+.container-resize2 {
+	position: fixed;
+	left: 50%;
+	top: 40px;
+	width: 5px;
+	bottom: 0px;
+	z-index: 5;
+}
+
+.container-resize2:hover {
+	cursor: col-resize;
+}
+
 .container-middle {
 	position: fixed;
 	left: 20%;
@@ -106,6 +132,16 @@ html, body {
 	top: 5px;
 	right: 0px;
 	left: 5px;
+	bottom: 5px;
+	overflow-y: auto;
+}
+
+/* Scrollable columns START*/
+.container-scroll-no-margin {
+	position: absolute;
+	top: 5px;
+	right: 0px;
+	left: 0px;
 	bottom: 5px;
 	overflow-y: auto;
 }
@@ -227,3 +263,11 @@ html, body {
 .ui-timepicker-rtl{ direction: rtl; }
 .ui-timepicker-rtl dl { text-align: right; }
 .ui-timepicker-rtl dl dd { margin: 0 65px 10px 10px; }
+
+#top_container {
+	display: block;
+}
+
+.clear {
+	clear: both;
+}

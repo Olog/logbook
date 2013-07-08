@@ -239,6 +239,11 @@ function repeat(source_id, target_id, data, property){
 	var template = getTemplate(source_id);
 	var html = "";
 
+	// Write data from cookie back to object and remove cookie
+	if($.cookie(filtersCookieName) !== undefined){
+		selectedElements = $.parseJSON($.cookie(filtersCookieName));
+	}
+
 	$.each(data[property], function(i, item) {
 
 		var customItem = item;
@@ -275,7 +280,7 @@ function repeat(source_id, target_id, data, property){
 		$('#'+target_id).append(html);
 	});
 
-	$('#'+target_id).trigger('dataloaded');
+	$('#'+target_id).trigger('dataloaded', selectedElements);
 }
 
 /**

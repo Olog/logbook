@@ -149,14 +149,17 @@ function singleselect(name){
 			to = datepickerTo;
 		}
 
+		// If element is not clicked
 		if(clicked === false) {
 			$(e.target).addClass("multilist_clicked");
 
+			// Set from
 			if(from !== undefined) {
 				selectedElements['from'] = from;
 
 			}
 
+			// Set to
 			if(to !== undefined) {
 				selectedElements['to'] = to;
 			}

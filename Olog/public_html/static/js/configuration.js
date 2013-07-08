@@ -72,6 +72,17 @@ var timeFilter = {
 	'weeks': '7*24*60*60'
 };
 
+// Create From filter definition array. Other values can be added in this array to
+// extend the functionality.
+// @param name name of the filter which will be visibla by the user
+// @param value value of the filter that can be parsed with the regular expression
+var createdFromFilterDefinition = [
+	{name:"Last min", value:"last 1 min"},
+	{name:"Last hour", value:"last 1 hour"},
+	{name:"Last day", value:"last 1 day"},
+	{name:"Last week", value:"last 1 week"}
+];
+
 // Available sizes for Log attachments. These sites will be displayed in the
 // Image size dropdown list.
 // list:
