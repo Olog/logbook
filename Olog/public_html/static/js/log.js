@@ -1,25 +1,22 @@
 /*
- * Functions specfic to edit and modify logs
+ * Functions specfic to editing and modifying logs
  *
  * @author: Dejan Dežman <dejan.dezman@cosylab.com>
  */
 
+// Dropped and chosen images are storred in this array to be uploaded
 var uploadData = [];
+
+// Firefox and chrome pasted file data is saved into this array.
 var firefoxPastedData = [];
 
-function initialize() {
-	// Create new comparator
-	jQuery.expr[':'].Contains = function(a, i, m) {
-		return (a.textContent || a.innerText || "").toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
-	};
-
-	// Add upload field
-	addAttachmentField();
-
-	// Listen for add attachment link click
-	$('#add_attachment').click(function(e) {
-		addAttachmentField();
-	});
+/**
+ * Check user credentials and start listening for events that are important for
+ * adding a new log and for modifying existing one.
+ * @param {type} logId
+ * @returns {undefined}
+ */
+function initialize(logId) {
 
 	// Hide error block when user clicks on the X
 	$('#error_x').click(function(e) {
@@ -40,6 +37,7 @@ function initialize() {
 		$('#new_logbook_and_tag').addClass("disabled");
 		$('#new_logbook_and_tag').attr("disabled", true);
 
+	// Load user name and show sing out link
 	} else {
 		var credentials = getUserCreadentials();
 
@@ -53,18 +51,22 @@ function initialize() {
 		$('#new_logbook_and_tag').attr("disabled", false);
 	}
 
-	// Listen to cancel or close click
+	// Listen to cancel or close clicks
 	$('#cancel_editing_button').click(function(e){
-		showCancelEditingLogModal();
+		showCancelEditingLogModal(logId);
 	});
 
 	$('#cancel_editing_x').click(function(e){
-		showCancelEditingLogModal();
+		showCancelEditingLogModal(logId);
+	});
+
+	$('#back_button').click(function(e){
+		showCancelEditingLogModal(logId);
 	});
 }
 
 /**
- * Add attachment field below the already existing one
+ * Add attachment field below already existing one
  */
 function addAttachmentField() {
 	var template = getTemplate("template_new_add_attachment");
@@ -75,15 +77,11 @@ function addAttachmentField() {
 
 	var html = Mustache.to_html(template, addAtachment);
 	$('#list_add_attachments').append(html);
-
-	/*$('.new_attachment').unbind("change");
-	$('.new_attachment').on("change", function(e) {
-		alert($(e.target).val());
-	});*/
 }
 
 /**
- * Initialize Tags autocompletion input. Get already selected data from cookie and fill the autocompletion list with all the Tags.
+ * Initialize Tags autocompletion input. Get already selected data from cookie
+ * and fill the autocompletion list with all the Tags.
  * @param {type} tagsArray array of all the tags
  */
 function autocompleteTags(tagsArray) {
@@ -96,7 +94,8 @@ function autocompleteTags(tagsArray) {
 }
 
 /**
- * Initialize Logbooks autocompletion input. Get already selected data from cookie and fill the autocompletion list with all the Logbooks.
+ * Initialize Logbooks autocompletion input. Get already selected data from
+ * cookie and fill the autocompletion list with all the Logbooks.
  * @param {type} logbooksArray array of all the tags
  */
 function autocompleteLogbooks(logbooksArray) {
@@ -147,9 +146,11 @@ function isValidLog(log) {
 		errorString += "User is not logged in!<br />";
 	}
 
+	// If there are no errors, return true
 	if (errorString.length === 0) {
 		return true;
 
+	// If there are errors, show error block and return false
 	} else {
 		$('#error_body').html(errorString);
 		$('#error_block').show("fast");
@@ -158,25 +159,41 @@ function isValidLog(log) {
 }
 
 /*
- * Get Cancel Editing or Creating a Log from remote site, copy it to index and then show it
+ * Get Cancel Editing or Creating a Log from remote site, copy it to index and
+ * show it
  */
-function showCancelEditingLogModal(){
+function showCancelEditingLogModal(logId){
 	$('#modal_container').load(modalWindows + ' #cancelEditingLogModal', function(response, status, xhr){
+		$('#cancelEditingLogModal').find('input[name=id]').val(logId);
 		$('#cancelEditingLogModal').modal('toggle');
 	});
 }
 
 /**
- * When user confirms canceling editing or creating a Log, redirect him to a home page.
+ * When user confirms canceling editing or creating a Log, redirect him to a
+ * home page.
  * @returns {undefined}
  */
 function deleteDraftAndReturnToHomePage() {
-	window.location.href = firstPageName;
+	var id = $('#cancelEditingLogModal').find('input[name=id]').val();
+	var linkBack = firstPageName;
+
+	if(id !== "") {
+		linkBack += '#' + id;
+	}
+
+	window.location.href = linkBack;
 }
 
+/**
+ * Initialize upload form with upload plugin
+ * @param {type} elementId input field element id
+ */
 function upload(elementId) {
-	// Change this to the location of your server-side upload handler:
+	// Upload url
 	var url = serviceurl + "attachments/";
+
+	// Remove button
 	var removeButton = $('<button/>')
 			.addClass('btn')
 			.prop('disabled', true)
@@ -192,14 +209,13 @@ function upload(elementId) {
 			});
 
 	var p = $('<p/>');
-	var pIndex = 0;
 
 	$('#' + elementId).fileupload({
 		url: url,
 		dataType: 'json',
 		autoUpload: false,
 		//dropZone: null,
-		//pasteZone: null,
+		pasteZone: null,
 		//acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
 		maxFileSize: 5000000, // 5 MB
 		// Enable image resizing, except for Android and Opera,
@@ -215,8 +231,6 @@ function upload(elementId) {
 		data.context = $('<div/>').appendTo('#files');
 		$.each(data.files, function (index, file) {
 			var newP = p.clone(true);
-			newP.prop('id', pIndex);
-			pIndex += 1;
 
 			var node = newP.append($('<span/>').text(file.name));
 			if (!index) {
@@ -227,7 +241,6 @@ function upload(elementId) {
 				node
 					.append('<br>')
 					.append(removeButton.clone(true).data(data));
-				//l(data);
 			}
 			node.appendTo(data.context);
 		});
@@ -252,36 +265,17 @@ function upload(elementId) {
 				.text('Remove')
 				.prop('disabled', !!data.files.error);
 		}
-
-	});/*.on('fileuploadprogressall', function (e, data) {
-		var progress = parseInt(data.loaded / data.total * 100, 10);
-		l(progress);
-		$('#progress .bar').css(
-			'width',
-			progress + '%'
-		);
-
-	}).on('fileuploaddone', function (e, data) {
-		$.each(data.files, function (index, file) {
-			$('#progress .bar').css('width', '0%');
-		});
-
-	}).on('fileuploadfail', function (e, data) {
-		$.each(data.result.files, function (index, file) {
-			var error = $('<span/>').text(file.error);
-			$(data.context.children()[index])
-				.append('<br>')
-				.append(error);
-		});
-	});*/
+	});
 }
 
-
-/* Creates a new image from a given source */
+/**
+ * Creates a new image from a given source
+ * @param source image source (blob in this case)
+ * @param index index of the source in uploadData array
+ * @param targetId id of element where attachments should be appended to
+ */
 function createImage(source, index, targetId) {
-	//uploadData.push(item);
 	var fileName = 'pasted image';
-	//uploadPastedFile(source, 3432)
 
 	// Show pasted image
 	var template = getTemplate('template_attachment_item');
@@ -289,6 +283,11 @@ function createImage(source, index, targetId) {
 	$(targetId).append(html);
 }
 
+/**
+ * Remove pasted attachments from DOM and from pastedData array.
+ * @param {type} element attachment element
+ * @param {type} id index of the position of attachment inside uploadedData array
+ */
 function removePastedAttachment(element, id) {
 	firefoxPastedData[id] = null;
 	$(element).parent().remove();

@@ -75,7 +75,7 @@ $(document).ready(function(){
 		$('#level_input').append(html);
 	});
 
-	initialize();
+	initialize(null);
 
 	// Upload
 	upload('fileupload');

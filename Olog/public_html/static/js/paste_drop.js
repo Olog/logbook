@@ -52,7 +52,7 @@ function startListeningForPasteEvents(target) {
 		$(document).on("click", function() { pasteCatcher.focus(); });
 	}
 	// Add the paste event listener
-	$(document).on("paste", pasteHandler);
+	window.addEventListener("paste", pasteHandler);
 }
 
 /* Handle paste events */
@@ -63,6 +63,32 @@ function pasteHandler(e) {
 	// Already solved in anotrer lib
 	// If we can't handle clipboard data directly (Firefox),
 	// we need to read what was pasted from the contenteditable element
+	// Get the items from the clipboard
+      var items = e.clipboardData.items;
+      if (items) {
+         // Loop through all items, looking for any kind of image
+         for (var i = 0; i < items.length; i++) {
+            if (items[i].type.indexOf("image") !== -1) {
+               // We need to represent the image as a file,
+               var blob = items[i].getAsFile();
+			   l(blob);
+               // and use a URL or webkitURL (whichever is available to the browser)
+               // to create a temporary URL to the object
+              //var URLObj = window.URL || window.webkitURL;
+               //var source = URLObj.createObjectURL(blob);
+				var reader = new FileReader();
+				reader.onload = function(event){
+					l(event.target.result)
+					var index = firefoxPastedData.push(event.target.result);
+					createImage(event.target.result, index-1, targetId);
+				}; // data url!
+				reader.readAsDataURL(blob);
+
+               // The URL can then be used as the source of an image
+            }
+         }
+      }
+
 	} else {
 		// This is a cheap trick to make sure we read the data
 		// AFTER it has been inserted.

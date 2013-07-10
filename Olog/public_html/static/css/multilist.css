@@ -55,6 +55,10 @@ input.filter_search {
 
 .list5 > input {
 	margin:0px;
-	width: 65px;
+	width: 100px;
 	height:15px;
+}
+
+#datepicker_from {
+	margin-bottom: 3px;
 }

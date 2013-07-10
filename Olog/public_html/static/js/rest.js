@@ -86,6 +86,12 @@ function loadLogs(page){
 		repeatLogs("template_log", "load_logs", logs);
 		appendAddMoreLog("load_logs");
 		startListeningForLogClicks();
+		scrollToLastLog();
+
+		$('.log img').last().load(function(){
+			l("ready!");
+			scrollToLastLog();
+		});
 	});
 }
 
@@ -93,15 +99,14 @@ function loadLogs(page){
  * Load more logs when user scrolls to the ed of current Log list.
  */
 function loadLogsAutomatically(){
+
 	// Automatically load new logs when at the end of the page
 	$('#load_logs').scroll(function(e){
 		var scrollDiv = $('#load_logs');
 
-		//console.log(scrollDiv.prop('scrollHeight') + " - " + scrollDiv.scrollTop() + " - " + scrollDiv.height());
-
-		if(scrollDiv.prop('scrollHeight') - scrollDiv.scrollTop() <= scrollDiv.height()){
+		if(Math.floor(scrollDiv.prop('scrollHeight') - scrollDiv.scrollTop()) <= Math.floor(scrollDiv.height() + 1) && limit === true){
 			page = page  + 1;
-			console.log('increate to ' + page);
+			l('increate to ' + page);
 			loadLogs(page);
 		}
 	});
@@ -374,7 +379,6 @@ function repeatAttachments(source_id, target_id, data, logId){
 	var scale = parseFloat(imageSizes.list[imageSizes.current].scale);
 	var correction = parseInt(imageSizes.list[imageSizes.current].correction);
 	var containerWidth = $(document).width() * 0.5 * scale - correction;
-	l("width: " + containerWidth);
 
 	$.each(data, function(i, item) {
 
@@ -545,7 +549,7 @@ function createLog(log) {
 		},
 		statusCode: {
 			403: function(){
-				showError("You do not have permission to create this Log!", "#error_block", "#error_body");
+				showError("You do not have permission to create this Log!", "#error_block", "#error_body", "#new_logbook_error_x");
 			}
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
@@ -571,12 +575,15 @@ function uploadFiles(logId, uploadData, uploadTargetId) {
 	for(var i=0; i<uploadData.length; i++){
 		var data = uploadData[i];
 
+		var file = data.files[0];
+		l(file);
+
 		if(data !== null) {
 			$.ajaxSetup({async:false});
 
 			$(uploadTargetId).fileupload('send', {
-				files: data.files[0],
-				formData: {file: data.files[0]},
+				files: file,
+				formData: {file: file},
 				url: serviceurl + 'attachments/' + logId,
 				beforeSend : function(xhr) {
 					var base64 = encode64(userCredentials["username"] + ":" + userCredentials["password"]);
@@ -616,7 +623,7 @@ function modifyLog(log) {
 		},
 		statusCode: {
 			403: function(){
-				showError("You do not have permission to modify this Log!", "#error_block", "#error_body");
+				showError("You do not have permission to modify this Log!", "#error_block", "#error_body", "#new_logbook_error_x");
 			}
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
@@ -627,6 +634,7 @@ function modifyLog(log) {
 		success : function(model) {
 			//cookies();
 			l("Log sent to the server");
+			$(document).trigger('successfully_modified');
 		}
 	});
 }
@@ -817,7 +825,7 @@ function createLogbook(logbook) {
 		},
 		statusCode: {
 			403: function(){
-				showError("You do not have permission to create this Logbook!", "#new_logbook_error_block", "#new_logbook_error_body");
+				showError("You do not have permission to create this Logbook!", "#new_logbook_error_block", "#new_logbook_error_body", "#new_logbook_error_x");
 			}
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
@@ -858,7 +866,7 @@ function modifyLogbook(logbook, name) {
 		},
 		statusCode: {
 			403: function(){
-				showError("You do not have permission to modify this Logbook!", "#new_logbook_error_block", "#new_logbook_error_body");
+				showError("You do not have permission to modify this Logbook!", "#new_logbook_error_block", "#new_logbook_error_body", "#new_logbook_error_x");
 			}
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
@@ -893,7 +901,7 @@ function deleteLogbook(name) {
 		},
 		statusCode: {
 			403: function(){
-				showError("You do not have permission to delete this Logbook!", "#new_logbook_error_block", "#new_logbook_error_body");
+				showError("You do not have permission to delete this Logbook!", "#new_logbook_error_block", "#new_logbook_error_body", "#new_logbook_error_x");
 			}
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
@@ -933,7 +941,7 @@ function createTag(tag) {
 		},
 		statusCode: {
 			403: function(){
-				showError("You do not have permission to create this Tag!", "#new_logbook_error_block", "#new_logbook_error_body");
+				showError("You do not have permission to create this Tag!", "#new_logbook_error_block", "#new_logbook_error_body", "#new_logbook_error_x");
 			}
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
@@ -974,7 +982,7 @@ function modifyTag(tag, name) {
 		},
 		statusCode: {
 			403: function(){
-				showError("You do not have permission to modify this Tag!", "#new_logbook_error_block", "#new_logbook_error_body");
+				showError("You do not have permission to modify this Tag!", "#new_logbook_error_block", "#new_logbook_error_body", "#new_logbook_error_x");
 			}
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
@@ -1009,7 +1017,7 @@ function deleteTag(name) {
 		},
 		statusCode: {
 			403: function(){
-				showError("You do not have permission to delete this Tag!", "#new_logbook_error_block", "#new_logbook_error_body");
+				showError("You do not have permission to delete this Tag!", "#new_logbook_error_block", "#new_logbook_error_body", "#new_logbook_error_x");
 			}
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
@@ -1028,12 +1036,12 @@ function deleteTag(name) {
 }
 
 /**
- * Delete Tag
- * @param name original name of the Tag
+ * Delete Attachment
+ * @param url url of the Attachment to be deleted
+ * @param uniqueId src of and image or href of an anchor that uniquely define attachment
  */
-function deleteAttachment(url, log) {
+function deleteAttachment(url, uniqueId) {
 	var userCredentials = $.parseJSON($.cookie(sessionCookieName));
-	l(url);
 
 	$.ajax( {
 		type: "DELETE",
@@ -1045,7 +1053,7 @@ function deleteAttachment(url, log) {
 		},
 		statusCode: {
 			403: function(){
-				showError("You do not have permission to delete this attachment!", "#new_logbook_error_block", "#new_logbook_error_body");
+				showError("You do not have permission to delete this attachment!", "#new_logbook_error_block", "#new_logbook_error_body", "#new_logbook_error_x");
 			}
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
@@ -1058,7 +1066,17 @@ function deleteAttachment(url, log) {
 			//cookies();
 			l("Attachment delete command sent to the server");
 			$('#deleteExistingAttachmentModal').modal("hide");
-			fillInForm(log);
+			//fillInForm(log);
+
+			var imgAtt = $('img[src="' + uniqueId + '"]');
+			var fileAtt = $('a[href="' + uniqueId + '"]');
+
+			if(fileAtt.is("a")) {
+				fileAtt.parent().hide();
+
+			} else {
+				imgAtt.parent().hide();
+			}
 		}
 	});
 }
@@ -1101,13 +1119,13 @@ function uploadPastedFiles(logId, pastedData) {
 					+crlf;
 
 			xhr.setRequestHeader("Content-type", "multipart/form-data; boundary="+boundary);
-			xhr.setRequestHeader("Content-length", content.length);
+			//xhr.setRequestHeader("Content-length", content.length);
 
 			var base64EncodedUsernameAndPassword = encode64(userCredentials["username"] + ":" + userCredentials["password"]);
 			xhr.setRequestHeader("Authorization", "Basic " + base64EncodedUsernameAndPassword);
 
-			xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-			xhr.setRequestHeader("Connection", "close");
+			//xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+			//xhr.setRequestHeader("Connection", "close");
 			// execute
 			xhr.send(content);
 		}

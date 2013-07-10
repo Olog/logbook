@@ -112,7 +112,7 @@ var backwardImageSizesMap = {
 };
 
 /**
- * Global variables needed by more than one page. SHOULD NOT BE CONFIGURED BY USER!
+ * Global variables needed by more than one page. SHOULD NOT BE CONFIGURED BY THE USER!
  */
 
 // Current Log search url

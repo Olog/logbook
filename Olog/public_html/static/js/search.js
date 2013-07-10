@@ -41,7 +41,6 @@ $(document).ready(function(){
 function activateSearch(){
 	// Simple search
 	var searchQuery = parseSearchQuery();
-	//l(searchQuery);
 
 	if(searchQuery === ""){
 		page = 1;
@@ -82,9 +81,9 @@ function searchForLogs(searchQuery, resetPageCouner) {
 		page = 1;
 	}
 
-	searchQuery = serviceurl + 'logs?' + searchQuery + 'limit=' + numberOfLogsPerLoad + '&page=' + page;
+	searchQuery = serviceurl + 'logs?' + searchQuery + 'page=' + page + '&limit=' + numberOfLogsPerLoad;
 	searchURL = searchQuery;
-	//l(searchQuery);
+	l(searchQuery);
 
 	// Load logs
 	$.getJSON(searchQuery, function(logs) {
@@ -92,6 +91,12 @@ function searchForLogs(searchQuery, resetPageCouner) {
 		$(".log").remove();
 		repeatLogs("template_log", "load_logs", logs);
 		startListeningForLogClicks();
+		scrollToLastLog();
+		
+		$('.log img').last().load(function(){
+			l("ready!");
+			scrollToLastLog();
+		});
 	});
 }
 
@@ -129,7 +134,7 @@ function parseSearchQuery(){
 	var parsedStringParts = buildSearchLanguage(value);
 
 	if(parsedStringParts[0] === "") {
-		//l("custom: " + parsedStringParts[1]);
+		l("custom: " + parsedStringParts[1]);
 		query += keyMap['search:'] + trim(parsedStringParts[1]) + "&";
 
 	} else {
@@ -150,7 +155,7 @@ function parseSearchQuery(){
 	while (parsedStringParts[2] !== "") {
 		parsedStringParts = buildSearchLanguage(parsedStringParts[2]);
 		//l(parsedStringParts[0] + ": " + parsedStringParts[1]);
-		//l(parsedStringParts);
+		l(parsedStringParts);
 
 		if(keyMap[parsedStringParts[0]] !== undefined) {
 
@@ -190,7 +195,6 @@ function generateSearchQuery(dataArray) {
 
 	// Append general search to a search query
 	if(parsedStringParts[0] === "" && value !== ""){
-		l("we have custom search");
 		newValue = parsedStringParts[1];
 		queryString += "search=" + newValue + '&';
 
@@ -270,8 +274,6 @@ function searchAutocomplete() {
 				} else if(selectedItem === "logbook:") {
 					autocomplete = savedLogbooks.concat(searchTypes);
 				}
-
-				generateSearchQuery(selectedElements);
 
 				// add placeholder to get the comma-and-space at the end
 				terms.push("");

@@ -1,21 +1,26 @@
 /*
- * Function not specific to any html document
+ * Functions common to complete application
  *
  * @author: Dejan Dežman <dejan.dezman@cosylab.com>
  */
 
 $(document).ready(function(){
 
+	// Create new comparator
+	jQuery.expr[':'].Contains = function(a, i, m) {
+		return (a.textContent || a.innerText || "").toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
+	};
+
 	var urlObject = $.url();
 
-	// Get reason
+	// Get reason from url
 	var reason = urlObject.param("reason");
 
 	if(reason !== undefined) {
 		$('#top_container').toggleClass("open");
 	}
 
-	// Get id
+	// Get id and show Log user is interested in
 	var id = urlObject.attr("anchor");
 
 	if(id !== undefined) {
@@ -87,9 +92,7 @@ function returnTimeFilterTimestamp(from, to) {
 			}
 
 		} else {
-			l("from: " + from);
 			var parseFrom = moment(from, datePickerDateFormatMometParseString);
-			l(parseFrom);
 			from = Math.round((parseFrom.toDate().getTime())/1000);
 			fromSeconds = currentSeconds - from;
 		}
@@ -107,13 +110,11 @@ function returnTimeFilterTimestamp(from, to) {
 			}
 
 		} else {
-			l("to: " + to);
 			var parseTo = moment(to, datePickerDateFormatMometParseString);
 			to = Math.round((parseTo.toDate().getTime())/1000);
 			toSeconds = currentSeconds - to;
 		}
 	}
-	//l(fromSeconds + ':' + toSeconds);
 
 	return [currentSeconds - fromSeconds, currentSeconds - toSeconds];
 }
@@ -149,7 +150,6 @@ function returnFirstXWords(string, count){
 	}else {
 		return summary;
 	}
-
 }
 
 /**
@@ -171,9 +171,31 @@ function formatDate(input){
 function isImage(type) {
 	typeParts = type.split("/");
 
-	if(typeParts.length === 2 && typeParts[0] === "image"){
+	if(typeParts.length === 2 && typeParts[0] === "image") {
 		return true;
-	}else{
+
+	} else {
 		return false;
 	}
+}
+
+/**
+ * Show error in specific error block
+ * @param {type} string string that describes an error
+ * @param {type} blockId id of the error block
+ * @param {type} blockBody id of the error block body
+ * @param {type} errorX id of the error block body close icon
+ * @returns {undefined}
+ */
+function showError(string, blockId, blockBody, errorX) {
+	var errorBlock = $(blockId);
+	var errorBody = $(blockBody);
+	var errorX = $(errorX);
+
+	errorBody.html(string);
+	errorBlock.show("fast");
+
+	errorX.click(function(e) {
+		errorBlock.hide("fast");
+	});
 }

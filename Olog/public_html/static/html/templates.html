@@ -1,5 +1,4 @@
-<!--
-To change this template, choose Tools | Templates
+<!-- To change this template, choose Tools | Templates
 and open the template in the editor.
 -->
 <!DOCTYPE html>
@@ -12,6 +11,7 @@ and open the template in the editor.
 		<!-- Templates
 		==================================================== -->
 
+		<!-- Log entry template -->
 		<script id="template_log" type="text/template">
 			<div class="log {{click}}">
 				<input type="hidden" name="id" value="{{id}}" />
@@ -24,16 +24,19 @@ and open the template in the editor.
 			</div>
 		</script>
 
+		<!-- Add more logs template -->
 		<script id="template_log_add_more" type="text/template">
 			<div class="log-last">
 				<a href="#" onclick="loadLogs({{page}});" id="add_more">Load more Log entries ...</a>
 			</div>
 		</script>
 
+		<!-- Logbook filter item -->
 		<script id="template_logbook" type="text/template">
 			<li><span class="list multilist_item {{clicked}}">{{name}}<a href="#" onclick="showDeleteModal('deleteLogbookModal', '{{name}}');"><i class="icon-trash float_right multilist_icons float_right_padding"></i></a><a href="#" onclick="showEditLogbookModal('editLogbookModal', '{{name}}', '{{owner}}');"><i class="icon-pencil float_right multilist_icons"></i></a></span></li>
 		</script>
 
+		<!-- Tag filter item -->
 		<script id="template_tag" type="text/template">
 			<li><span class="list2 multilist_item {{clicked}}">{{name}}<a href="#" onclick="showDeleteModal('deleteTagModal', '{{name}}');"><i class="icon-trash float_right multilist_icons float_right_padding"></i></a><a href="#" onclick="showEditTagModal('editTagModal', '{{name}}');"><i class="icon-pencil float_right multilist_icons"></i></a></span></li>
 		</script>
@@ -43,31 +46,38 @@ and open the template in the editor.
 			<li><span class="list3 multilist_item {{selected}}"><input type="hidden" name="from" value="{{value}}" />{{name}}</span></li>
 		</script>
 
+		<!-- Show Log's logbooks -->
 		<script id="template_log_logbook" type="text/template">
-			 <span class="tm-tag tm-tag-warning tm-tag-mini"><span>{{name}}</span>
+			 <span class="tm-tag tm-tag-warning tm-tag-mini"><span>{{name}}</span></span>
 		</script>
 
+		<!-- Show Log's tags -->
 		<script id="template_log_tag" type="text/template">
-			 <span class="tm-tag tm-tag-info tm-tag-mini"><span>{{name}}</span>
+			 <span class="tm-tag tm-tag-info tm-tag-mini"><span>{{name}}</span></span>
 		</script>
 
+		<!-- Log's attachments in the right pane -->
 		<script id="template_log_attachment" type="text/template">
 			<a target="_blank" href="{{imageUrl}}"><img width="{{imageWidth}}" height="{{imageHeight}}" src="{{imageUrl}}" class="img-rounded" /></a>
 		</script>
 
+		<!-- Log's attachments in the right pane that are not images. -->
 		<script id="template_log_attachment_not_image" type="text/template">
 			<br/ >
 			<i class="icon-file"></i> <a target="_blank" href="{{imageUrl}}">{{fileName}}</a>
 		</script>
 
+		<!-- Log's image attachments in the middle pane  -->
 		<script id="template_log_list_attachment" type="text/template">
 			<img src="{{imageUrl}}" class="img-rounded" />
 		</script>
 
+		<!-- If Log entry was modified, show pencil and date modified. -->
 		<script id="template_log_details_edited" type="text/template">
 			<i title="Edited" class="icon-pencil"></i> {{editedDate}}
 		</script>
 
+		<!-- Add new attachment button. Currently this is not used. -->
 		<script id="template_new_add_attachment" type="text/template">
 			<input id="fileupload" class="new_attachment" type="file" name="files[]" data-url="{{url}}" multiple="multiple" /><button type="button" id="upload_button" class="btn">Upload</button><br/>
 		</script>
@@ -82,7 +92,7 @@ and open the template in the editor.
 			<li {{active}}><a href="#">{{name}}</a></li>
 		</script>
 
-		<!-- Login templates -->
+		<!-- If user is logged in, show sign out list entry and user name on top -->
 		<script id="template_logged_in" type="text/template">
 			<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
 				<i class="icon-user icon-white"></i>
@@ -94,6 +104,7 @@ and open the template in the editor.
 			</ul>
 		</script>
 
+		<!-- If user is not logged in, show log in form and allow user to log in. -->
 		<script id="template_logged_out" type="text/template">
 			<a id="user_login_dropdown" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
 				<i class="icon-user icon-white"></i>
@@ -128,7 +139,16 @@ and open the template in the editor.
 			</div>
 		</script>
 
-		<!-- Existing attachments in modify log html document -->
+		<!-- Log's existing attachments in the right pane that are not images. -->
+		<script id="template_existing_attachment_not_image" type="text/template">
+			<div>
+				<i class="icon-file"></i> <a target="_blank" href="{{file_url}}">{{img_name}}</a>
+				<br />
+				<button onclick="showDeleteAttachmentNotImageModal(this)" type="button" class="btn btn-danger">Remove</button>
+			</div>
+		</script>
+
+		<!-- New attachments in modify log html document -->
 		<script id="template_attachment_item" type="text/template">
 			<div>
 				<img src="{{img}}" width="100" height="100" />

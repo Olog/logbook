@@ -5,6 +5,8 @@
  */
 
 var selectedElements = {};
+var oldLogsPerLoad = numberOfLogsPerLoad;
+var limit = true;
 
 /**
  * Function will create onclick event listener for mulstiselection list with specific name
@@ -12,6 +14,8 @@ var selectedElements = {};
  * @returns {undefined}
  */
 function multiselect(name){
+	limit = true;
+	numberOfLogsPerLoad = oldLogsPerLoad;
 
 	// Write data from cookie back to object and remove cookie
 	if($.cookie(filtersCookieName) !== undefined){
@@ -104,6 +108,8 @@ function filterListItems(id, name){
  * @returns {undefined}
  */
 function singleselect(name){
+	limit = true;
+	numberOfLogsPerLoad = oldLogsPerLoad;
 
 	$('.' + name).click(function(e){
 		var clicked = false;
@@ -152,6 +158,8 @@ function singleselect(name){
 		// If element is not clicked
 		if(clicked === false) {
 			$(e.target).addClass("multilist_clicked");
+			limit = false;
+			numberOfLogsPerLoad = 1000;
 
 			// Set from
 			if(from !== undefined) {
@@ -167,6 +175,8 @@ function singleselect(name){
 		} else {
 			selectedElements['from'] = "";
 			selectedElements['to'] = "";
+			limit = true;
+			numberOfLogsPerLoad = oldLogsPerLoad;
 		}
 
 		// Trigger event and set cookie with data
@@ -234,4 +244,19 @@ function startListeningForLogClicks(){
 		var log = getLog(actionElement.find("input[name=id]").val());
 		showLog(log[0], log[1]);
 	});
+}
+
+/**
+ * Scroll to the last log if user clicked on the time filter
+ * @returns {undefined}
+ */
+function scrollToLastLog() {
+	if(limit === false) {
+		var container = $('#load_logs');
+		var scrollTo = $('.log').last();
+
+		if(scrollTo !== undefined && scrollTo.offset() !== undefined) {
+			container.scrollTop(scrollTo.offset().top - container.offset().top + container.scrollTop());
+		}
+	}
 }

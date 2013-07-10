@@ -1,5 +1,5 @@
 /*
- * Script specific to index.html
+ * Functions specific to index.html
  *
  * @author: Dejan Dežman <dejan.dezman@cosylab.com>
  */
@@ -31,10 +31,7 @@ $(document).ready(function(){
 		}
 	);
 
-	jQuery.expr[':'].Contains = function(a, i, m){
-		return (a.textContent || a.innerText || "").toUpperCase().indexOf(m[3].toUpperCase())>=0;
-	};
-
+	// Creante new Log
 	$('#new_log').click(function(e){
 		window.location.href = "new_log.html";
 	});
@@ -48,6 +45,7 @@ $(document).ready(function(){
 	// Load created from filter items
 	loadCreatedFromFilters();
 
+	// If selected elements are refined, make apropriate search query else load last X logs
 	if(selectedElements !== undefined && (selectedElements['list'] !== undefined || selectedElements['list2'] !== undefined)) {
 		// search logs
 		generateSearchQuery(selectedElements);
@@ -57,9 +55,13 @@ $(document).ready(function(){
 		loadLogs(1);
 	}
 
-	// Load the list of time filters
+	// Load created from filters
 	singleselect("list3");
+
+	// Load created to filters
 	singleselect("list4");
+
+	// Load created from - to filters
 	singleselect("list5");
 
 	// Activate search field
@@ -70,24 +72,30 @@ $(document).ready(function(){
 
 	// Check if user is logged in and act accordingly
 	if(getUserCreadentials() === null) {
+
+		// Show sign in form
 		var template = getTemplate('template_logged_out');
 		var html = Mustache.to_html(template, {"user": "User"});
 		$('#top_container').html(html);
 		login();
 
+		// Disable adding new log
 		$('#new_log').addClass("disabled");
 		$('#new_log').attr("disabled", true);
 		$('#new_logbook_and_tag').addClass("disabled");
 		$('#new_logbook_and_tag').attr("disabled", true);
 		$('#modify_log_link').hide();
 
+	// If user is not signed in, show sign out link
 	} else {
 		var credentials = getUserCreadentials();
 
+		// Set user and sign out link
 		var template = getTemplate('template_logged_in');
 		var html = Mustache.to_html(template, {"user": firstLetterToUppercase(credentials["username"])});
 		$('#top_container').html(html);
 
+		// Enable adding new Log, Logbook and Tag
 		$('#new_log').removeClass("disabled");
 		$('#new_log').attr("disabled", false);
 		$('#new_logbook_and_tag').removeClass("disabled");
@@ -97,9 +105,7 @@ $(document).ready(function(){
 
 	// Show log if it we have an URL
 	if(selectedLog !== -1 && !isNaN(selectedLog)) {
-		//l(selectedLog);
 		var log = getLog(selectedLog);
-		//l(log);
 
 		if(log[0] !== null) {
 			showLog(log[0], log[1]);
@@ -139,7 +145,7 @@ $(document).ready(function(){
 });
 
 /**
- * Load created from filters
+ * Load created from filters from user configurable array ob objects
  */
 function loadCreatedFromFilters() {
 	var template = getTemplate("template_created_from");
@@ -162,5 +168,4 @@ function loadCreatedFromFilters() {
 		html = Mustache.to_html(template, filter);
 		$('#load_time_from').append(html);
 	});
-
 }

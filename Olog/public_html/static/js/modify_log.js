@@ -78,12 +78,17 @@ $(document).ready(function(){
 			$('#files div p button').remove();
 			$('#files div button').remove();
 			$('.upload-progress-loader').show();
-			setTimeout(function(){
-				uploadFiles(logId, uploadData, "#fileupload2");
-				uploadPastedFiles(logId, firefoxPastedData);
-				window.location.href = firstPageName;
-			}, 500);
 		}
+	});
+
+	// Redirect only if changes took place
+	$(document).on('successfully_modified', function(e){
+
+		setTimeout(function(){
+			uploadFiles(logId, uploadData, "#fileupload2");
+			uploadPastedFiles(logId, firefoxPastedData);
+			window.location.href = firstPageName;
+		}, 500);
 	});
 
 	// Load levels
@@ -102,7 +107,7 @@ $(document).ready(function(){
 		$('#level_input').append(html);
 	});
 
-	initialize();
+	initialize(logId);
 
 	$('#new_log').addClass("disabled");
 	$('#new_log').attr("disabled", true);
@@ -116,19 +121,43 @@ $(document).ready(function(){
 	startListeningForPasteEvents("#files");
 });
 
+/**
+ * Show delete attachment modal window for deleting image attachments
+ * @param {type} element image element
+ * @returns {undefined}
+ */
 function showDeleteAttachmentModal(element) {
 	$('#modal_container').load(modalWindows + ' #deleteExistingAttachmentModal', function(response, status, xhr){
 		$('#deleteExistingAttachmentModal').find('#url').val($(element).parent().find('img').attr('src'));
+		$('#deleteExistingAttachmentModal').find('#element').val(element);
 		$('#deleteExistingAttachmentModal').modal('toggle');
 	});
 }
 
+/**
+ * Show delete attachment modal window for deleting attachments that are not images.
+ * @param {type} element element that holds the link to the file
+ * @returns {undefined}
+ */
+function showDeleteAttachmentNotImageModal(element) {
+	$('#modal_container').load(modalWindows + ' #deleteExistingAttachmentModal', function(response, status, xhr){
+		$('#deleteExistingAttachmentModal').find('#url').val($(element).parent().find('a').attr('href'));
+		$('#deleteExistingAttachmentModal').find('#element').val(element);
+		$('#deleteExistingAttachmentModal').modal('toggle');
+	});
+}
+
+/**
+ * When user clicks on in Delete Attachment Modal window, this function is called.
+ * Function reads parameters from hidden inputs and calls delete attachment function.
+ * @returns {undefined}
+ */
 function deleteAttachmentHandler(){
 	var url = $('#url').val();
 	var newUrl = url.replace(':thumbnail', '');
-	l(newUrl);
+	var uniqueId = url;
 
-	deleteAttachment(newUrl, log[0]);
+	deleteAttachment(newUrl, uniqueId);
 }
 
 /**
@@ -159,8 +188,8 @@ function checkLogObject(log) {
  * @returns {undefined}
  */
 function fillInForm(log) {
-	l(log);
 	$("#log_body").val(log.description);
+	var notImages = new Array();
 
 	if(log.attachments.length !== 0) {
 		var template = getTemplate("template_existing_attachment_item");
@@ -169,20 +198,35 @@ function fillInForm(log) {
 		$('#list_existing_attachments').html("");
 		$.each(log.attachments, function(index, file){
 			var img = serviceurl + 'attachments/' + log.id + '/' + file.fileName + ':thumbnail';
+			var file_url = serviceurl + 'attachments/' + log.id + '/' + file.fileName;
+
+			var item = {
+				img: img,
+				file_url: file_url,
+				img_name: file.fileName,
+			};
+
+			if(!isImage(file.contentType)){
+				notImages = notImages.concat(item);
+				return;
+			}
 
 			$.get(img, function(data, status, xhr){
-
-				var item = {
-					img: img,
-					img_name: file.fileName
-				};
-
 				html = Mustache.to_html(template, item);
 				$('#list_existing_attachments').append(html);
 
 			}).fail(function(){
 				l("404");
 			});
+		});
+
+		// Append elements that are not images
+		template = getTemplate("template_existing_attachment_not_image");
+
+		$.each(notImages, function(i, file){
+			html = Mustache.to_html(template, file);
+
+			$('#list_existing_attachments').append(html);
 		});
 	}
 }

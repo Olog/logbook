@@ -70,3 +70,7 @@
 	position: absolute;
 	left: -99em;
 }
+
+#back_button {
+	display: inline-block;
+}
