@@ -73,7 +73,6 @@ html, body {
 	top: 40px;
 	width: 20%;
 	bottom: 0px;
-	z-index: 500;
 }
 
 .container-resize {
@@ -120,7 +119,6 @@ html, body {
 	width: 30%;
 	top: 40px;
 	bottom: 0px;
-	z-index: 500;
 }
 
 .container-right {
@@ -130,7 +128,6 @@ html, body {
 	width: 50%;
 	bottom: 0px;
 	display:none;
-	z-index: 500;
 }
 
 .container-middle-right {

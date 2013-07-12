@@ -209,21 +209,18 @@ function showError(string, blockId, blockBody, errorX) {
 function resizeManager() {
 
 	var settingsCookieName = "olog";
+	$.removeCookie(settingsCookieName);
 
-	var leftPane = ".containter-left";
+	var leftPane = ".container-left";
 	var middlePane = ".container-middle";
-	var rightPane = "#load_log";
-
-	$(document).click(function(e){
-		l("left up");
-	});
+	var rightPane = ".container-right";
 
 	// Resize left and middle section
 	$('.container-resize').draggable({axis: "x"});
 	var xpos = undefined;
 
 	// Resize middle and right section
-	$('#container-resize2').draggable({axis: "x"});
+	$('.container-resize2').draggable({axis: "x"});
 	var xpos2 = undefined;
 
 	var dims = null;
@@ -234,12 +231,11 @@ function resizeManager() {
 	// If cookie is not set, create new dims object
 	if($.cookie(settingsCookieName) === undefined) {
 		dims = {
-			filters_right: undefined,
-			logs_left: undefined,
-			logs_right: undefined,
-			log_left: undefined,
-			x_pos: undefined,
-			x_pos2: undefined
+			left_pane_width: $(leftPane).width(),
+			middle_pane_left: $(leftPane).width(),
+			middle_pane_width: undefined,
+			right_pane_left: undefined,
+			right_pane_width: undefined
 		};
 
 	// If settings cookie is set, read and set the panes' dimensions
@@ -247,85 +243,77 @@ function resizeManager() {
 		dims = JSON.parse($.cookie(settingsCookieName));
 		l(dims);
 
-		/*$(leftPane).css({right: dims.filters_right});
-		$(middlePane).css({left: dims.logs_left});
-		$(middlePane).css({right: dims.logs_right});
-		$(rightPane).css({left: dims.log_left});
-		xpos = dims.x_pos;
-		xpos2 = dims.x_pos2;
-		$('#container-resize').css({left: -dims.filters_right});
-		$('#container-resize2').css({left: -dims.logs_right});*/
+		$(leftPane).width(dims.left_pane_width);
+		$(middlePane).css({left: dims.middle_pane_left});
+		$(middlePane).width(dims.middle_pane_width);
+		$(rightPane).css({left: dims.right_pane_left});
+		$(rightPane).width(dims.right_pane_width);
+
+		$('.container-resize').css({left: dims.middle_pane_left});
+		$('.container-resize2').css({left: dims.right_pane_left});
 	}
 
 	// Drag left resizer
 	$('.container-resize').on('drag', function(e){
-		if(xpos === undefined) {
-			xpos = e.pageX;
-			dims.x_pos = xpos;
-		}
-		//l(xpos + ' - ' + e.pageX);
-		var filtersRight = xpos - e.pageX;
-		var logsLeft = -(xpos - e.pageX) + 5;
-		var leftPaneWidth = $(leftPane).width();
-
-		//$('.container-left').width(leftPaneWidth);
+		var oldWidth = $(leftPane).width();
 
 		// Limit the minimal width of the left pane
-		if(leftPaneWidth < minWidth && filtersRight > dims.filters_right) {
+		if(oldWidth < minWidth && e.pageX < dims.left_pane_width) {
 			return;
 		}
 
 		// Limit the minimal width of the middle pane
-		if($(middlePane).width() < minWidth && logsLeft > dims.logs_left) {
+		if(dims.middle_pane_width < minWidth && e.pageX > dims.middle_pane_left) {
 			return;
 		}
 
-		dims.filters_right = filtersRight;
-		dims.logs_left = logsLeft;
-		l(dims);
+		var diff = oldWidth - e.pageX;
 
-		$(leftPane).css({right: filtersRight});
-		l($(leftPane).width());
-		$(middlePane).css({left: logsLeft});
+		$(leftPane).width(e.pageX);
+		dims.left_pane_width = e.pageX;
+
+		$(middlePane).css({left: e.pageX});
+		dims.middle_pane_left = e.pageX;
+
+		$(middlePane).width($(middlePane).width() + diff);
+		dims.middle_pane_width = $(middlePane).width() + diff;
+
 		$.cookie(settingsCookieName, JSON.stringify(dims));
 	});
 
 	// Stop dragging left resizer
-	$('#container-resize').on('dragstop', function(e){
-		$('#container-resize').css({left: -dims.filters_right});
+	$('.container-resize').on('dragstop', function(e){
+		$('.container-resize').css({left: dims.left_pane_width});
 	});
 
 	// Drag right resizer
-	$('#container-resize2').on('drag', function(e){
-		if(xpos2 === undefined) {
-			xpos2 = e.pageX;
-			dims.x_pos2 = xpos2;
-		}
-		//l(xpos2 + ' - ' + e.pageX);
-
-		var logsRight = xpos2 - e.pageX;
-		var logLeft = -(xpos2 - e.pageX) + 5;
-
+	$('.container-resize2').on('drag', function(e){
 		// Limit the minimal width of the middle pane
-		if($(middlePane).width() < minWidth && logsRight > dims.logs_right) {
-			return;
-		}
+		//if($(middlePane).width() < minWidth && logsRight > dims.logs_right) {
+		//	return;
+		//}
 
 		// Limit the minimal width of the right pane
-		if($(rightPane).width() < minWidth && logLeft > dims.log_left && $(rightPane).width() > 5) {
-			return;
-		}
+		//if($(rightPane).width() < minWidth && logLeft > dims.log_left && $(rightPane).width() > 5) {
+		//	return;
+		//}
 
-		dims.logs_right = logsRight;
-		dims.log_left = logLeft;
+		$(middlePane).width(e.pageX - dims.middle_pane_left);
+		dims.middle_pane_width = e.pageX - dims.middle_pane_left;
 
-		$(middlePane).css({right: logsRight});
-		$(rightPane).css({left: logLeft});
+		$(rightPane).css({left: e.pageX});
+		dims.right_pane_left =  e.pageX;
+
+		$(rightPane).width($(window).width() - dims.right_pane_left);
+		dims.right_pane_width = $(window).width() - dims.right_pane_left;
+
+		l(dims.right_pane_width + '|' + dims.right_pane_left);
+
 		$.cookie(settingsCookieName, JSON.stringify(dims));
 	});
 
 	// Stop dragging left resizer
-	$('#container-resize2').on('dragstop', function(e){
-		$('#container-resize2').css({left: -dims.logs_right});
+	$('.container-resize2').on('dragstop', function(e){
+		$('.container-resize2').css({left: dims.right_pane_left});
 	});
 }
