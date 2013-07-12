@@ -75,6 +75,7 @@ $(document).ready(function(){
 		$('#level_input').append(html);
 	});
 
+	// Initialize common Log functionality
 	initialize(null);
 
 	// Upload

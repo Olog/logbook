@@ -68,11 +68,12 @@ html, body {
 }
 
 .container-left {
-	position: fixed;
+	position: absolute;
 	left: 0px;
 	top: 40px;
 	width: 20%;
 	bottom: 0px;
+	z-index: 500;
 }
 
 .container-resize {
@@ -81,10 +82,16 @@ html, body {
 	top: 40px;
 	width: 5px;
 	bottom: 0px;
-	z-index: 5;
+	z-index: 501;
 }
 
-.container-resize:hover {
+.container-resize > div {
+	position:relative;
+	height: 100%;
+	width: 100%;
+}
+
+.container-resize > div:hover {
 	cursor: col-resize;
 }
 
@@ -94,28 +101,36 @@ html, body {
 	top: 40px;
 	width: 5px;
 	bottom: 0px;
-	z-index: 5;
+	z-index: 501;
 }
 
-.container-resize2:hover {
+.container-resize2 > div {
+	position:relative;
+	height: 100%;
+	width: 100%;
+}
+
+.container-resize2 > div:hover {
 	cursor: col-resize;
 }
 
 .container-middle {
-	position: fixed;
+	position: absolute;
 	left: 20%;
 	width: 30%;
 	top: 40px;
 	bottom: 0px;
+	z-index: 500;
 }
 
 .container-right {
-	position: fixed;
+	position: absolute;
 	right: 0px;
 	top: 40px;
 	width: 50%;
 	bottom: 0px;
 	display:none;
+	z-index: 500;
 }
 
 .container-middle-right {

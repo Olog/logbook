@@ -6,6 +6,8 @@
 
 // Log that is being modified
 var log = null;
+
+// And Log's database id
 var logId = null;
 
 $(document).ready(function(){
@@ -26,6 +28,7 @@ $(document).ready(function(){
 		autocompleteLogbooks(savedLogbooks);
 	});
 
+	// Get log id parameter from url
 	logId = $.url().param("id");
 	logId = parseInt(logId);
 
@@ -119,6 +122,9 @@ $(document).ready(function(){
 
 	// Start listening for Firefox paste events
 	startListeningForPasteEvents("#files");
+
+	// Activate resize manager
+	resizeManager();
 });
 
 /**
@@ -185,7 +191,6 @@ function checkLogObject(log) {
 /**
  * Fill in the form with log data
  * @param {type} log
- * @returns {undefined}
  */
 function fillInForm(log) {
 	$("#log_body").val(log.description);
@@ -203,7 +208,7 @@ function fillInForm(log) {
 			var item = {
 				img: img,
 				file_url: file_url,
-				img_name: file.fileName,
+				img_name: file.fileName
 			};
 
 			if(!isImage(file.contentType)){

@@ -1,51 +1,59 @@
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
+ *
+ * @author: Dejan Dežman <dejan.dezman@cosylab.com>
  */
 
+// Array of different search types
 var searchTypes = ["logbook:", "tag:", "from:", "to:"];
+
+// Autocomplete object that can contain different arrays for autocompletion
 var autocomplete = searchTypes;
 
 $(document).ready(function(){
-	// Wait for dataselect
+	// Wait for dataselect on logbooks filter
 	$('#load_logbooks').on('dataselected', function(e, data){
 		generateSearchQuery(data);
 	});
 
-	// Wait for dataselect
+	// Wait for dataselect on tags filter
 	$('#load_tags').on('dataselected', function(e, data){
 		generateSearchQuery(data);
 	});
 
-	// Wait for dataselect
+	// Wait for dataselect on time from filter
 	$('#load_time_from').on('dataselected', function(e, data){
 		generateSearchQuery(data);
 	});
 
-	// Wait for dataselect
+	// Wait for dataselect on time to filter
 	$('#load_time_to').on('dataselected', function(e, data){
 		generateSearchQuery(data);
 	});
 
-	// Wait for dataselect
+	// Wait for dataselect on from-to filter
 	$('#load_time_from_to').on('dataselected', function(e, data){
 		generateSearchQuery(data);
 	});
 
+	// Activate search autocomplete functionality
 	searchAutocomplete();
 });
 
 /**
- * When search event happens, parse input and make search.
+ * When search event happens, parse input and search for Logs.
  */
 function activateSearch(){
 	// Simple search
-	var searchQuery = parseSearchQuery();
+	var searchQuery = buildSearchQuery();
 
+	// If search query is empty just load first page of Logs
 	if(searchQuery === ""){
 		page = 1;
 		loadLogs(page);
 
+	// If search query is not empty, send this query to the server
 	} else {
 		searchForLogs(searchQuery, true);
 	}
@@ -83,7 +91,6 @@ function searchForLogs(searchQuery, resetPageCouner) {
 
 	searchQuery = serviceurl + 'logs?' + searchQuery + 'page=' + page + '&limit=' + numberOfLogsPerLoad;
 	searchURL = searchQuery;
-	l(searchQuery);
 
 	// Load logs
 	$.getJSON(searchQuery, function(logs) {
@@ -92,7 +99,7 @@ function searchForLogs(searchQuery, resetPageCouner) {
 		repeatLogs("template_log", "load_logs", logs);
 		startListeningForLogClicks();
 		scrollToLastLog();
-		
+
 		$('.log img').last().load(function(){
 			l("ready!");
 			scrollToLastLog();
@@ -100,8 +107,13 @@ function searchForLogs(searchQuery, resetPageCouner) {
 	});
 }
 
-// TODO: not really useful but it is a start
-function buildSearchLanguage(value){
+/**
+ * Start parsing search input value from left to right and return type and search
+ * value.
+ * @param {type} value unparsed string part
+ * @returns {Array} array that consists of search type, search value and remainder
+ */
+function parseSearchLanguage(value){
 
 	var searchString = "";
 	var filterType = "";
@@ -123,18 +135,18 @@ function buildSearchLanguage(value){
 }
 
 /**
- * Parse bit by bit of information from search input
+ * Build search query from search input
  * @returns {String} prepared search query
  */
-function parseSearchQuery(){
+function buildSearchQuery(){
 
 	var value = $("#search-query").val();
 	var query = "";
 
-	var parsedStringParts = buildSearchLanguage(value);
+	var parsedStringParts = parseSearchLanguage(value);
 
+	// Get custom part of search value
 	if(parsedStringParts[0] === "") {
-		l("custom: " + parsedStringParts[1]);
 		query += keyMap['search:'] + trim(parsedStringParts[1]) + "&";
 
 	} else {
@@ -152,10 +164,9 @@ function parseSearchQuery(){
 		}
 	}
 
+	// Get tags, logbooks and time constraints that are present in search input
 	while (parsedStringParts[2] !== "") {
-		parsedStringParts = buildSearchLanguage(parsedStringParts[2]);
-		//l(parsedStringParts[0] + ": " + parsedStringParts[1]);
-		l(parsedStringParts);
+		parsedStringParts = parseSearchLanguage(parsedStringParts[2]);
 
 		if(keyMap[parsedStringParts[0]] !== undefined) {
 
@@ -170,12 +181,12 @@ function parseSearchQuery(){
 			}
 		}
 	}
-
 	return query;
 }
 
 /**
- * Generate search input string and search query
+ * Generate search input string and search query when user clicks on filters
+ * in the left pane.
  * @param {type} dataArray currently selected logbooks and tags
  * @returns {undefined}
  */
@@ -189,7 +200,7 @@ function generateSearchQuery(dataArray) {
 	var value = $("#search-query").val();
 	var queryString = "";
 
-	var parsedStringParts = buildSearchLanguage(value);
+	var parsedStringParts = parseSearchLanguage(value);
 
 	var newValue = "";
 
@@ -215,28 +226,43 @@ function generateSearchQuery(dataArray) {
 		queryString += "tag=" + dataArray['list2'] + '&';
 	}
 
+	// From time filter is set, append time part to a search query
 	if(dataArray['from'] !== undefined && dataArray['from'].length !== 0) {
 		newValue += "from: " + dataArray['from'] + ' ';
 		queryString += "start=" + returnTimeFilterTimestamp(dataArray['from'], undefined)[0] + '&';
 	}
 
+	// If to time filter is set, append time part to a search query
 	if(dataArray['to'] !== undefined && dataArray['to'].length !== 0) {
 		newValue += "to: " + dataArray['to'] + ' ';
 		queryString += "end=" + returnTimeFilterTimestamp(undefined, dataArray['to'])[1] + '&';
 	}
 
+	// Set new search query to its place
 	$("#search-query").val(newValue);
 	searchForLogs(queryString, true);
 }
 
+/**
+ * Split search input value by space
+ * @param val current input value
+ */
 function split(val) {
 	return val.split(/ \s*/);
 }
 
+/**
+ * Extract last item when input is split by custom devider
+ * @param {type} term devider for spliting input value
+ * @returns last item that is result of slpit
+ */
 function extractLast(term) {
 	return split(term).pop();
 }
 
+/**
+ * Initialize autocomplete functionality on search input
+ */
 function searchAutocomplete() {
 
 	$("#search-query")

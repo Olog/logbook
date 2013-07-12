@@ -1,17 +1,22 @@
 /*
- * Javascript multiselection list module.
+ * Javascript multiselection and singleselection list module.
  *
  * @author: Dejan Dežman <dejan.dezman@cosylab.com>
  */
 
+// Selected filter elements are saved into an object
 var selectedElements = {};
+
+// Because number of logs per load is change in the process,
+// we must save the old value in a variable
 var oldLogsPerLoad = numberOfLogsPerLoad;
+
+// Do we want to limit rest results count
 var limit = true;
 
 /**
  * Function will create onclick event listener for mulstiselection list with specific name
  * @param {type} name
- * @returns {undefined}
  */
 function multiselect(name){
 	limit = true;
@@ -22,16 +27,19 @@ function multiselect(name){
 		selectedElements = $.parseJSON($.cookie(filtersCookieName));
 	}
 
+	// Change color on hover
 	$('.' + name).hover(function(e){
 		if($.cookie(sessionCookieName) !== undefined) {
 			$(e.target).find(".multilist_icons").show("fast");
 		}
 	});
 
+	// Restore color when mouse laves the element
 	$('.' + name).mouseleave(function(e){
 		$(e.target).find(".multilist_icons").hide("fast");
 	});
 
+	// Listen for clicks on elements
 	$('.' + name).click(function(e){
 		var clicked = false;
 
@@ -53,11 +61,13 @@ function multiselect(name){
 				selectedElements[name + '_index'] = {};
 			}
 
+			// Add element among selected elements
 			if(clicked === false) {
 				$(e.target).addClass("multilist_clicked");
 				selectedElements[name + '_index'][$(e.target).text()] = "true";
 				selectedElements[name].push($(e.target).text());
 
+			// Remove elements from selected elements
 			} else {
 				$(e.target).removeClass("multilist_clicked");
 				selectedElements[name + '_index'][$(e.target).text()] = "false";
@@ -88,9 +98,8 @@ function removeDeselectedFilter(name, element) {
 
 /**
  *
- * @param {type} id
- * @param {type} name
- * @returns {undefined}
+ * @param {type} id id od the input element
+ * @param {type} name type of the filter (logbooks or tags)
  */
 function filterListItems(id, name){
 
@@ -104,13 +113,13 @@ function filterListItems(id, name){
 
 /**
  * Function will create onclick event listener for singleselection list with specific name
- * @param {type} name
- * @returns {undefined}
+ * @param {type} name container element class name that will hold singleselect filter
  */
 function singleselect(name){
 	limit = true;
 	numberOfLogsPerLoad = oldLogsPerLoad;
 
+	// Listen for clicks
 	$('.' + name).click(function(e){
 		var clicked = false;
 
@@ -155,7 +164,7 @@ function singleselect(name){
 			to = datepickerTo;
 		}
 
-		// If element is not clicked
+		// If element is not clicked set to and from
 		if(clicked === false) {
 			$(e.target).addClass("multilist_clicked");
 			limit = false;
@@ -172,6 +181,7 @@ function singleselect(name){
 				selectedElements['to'] = to;
 			}
 
+		// If element is clicked clear to and from
 		} else {
 			selectedElements['from'] = "";
 			selectedElements['to'] = "";
@@ -237,7 +247,6 @@ function startListeningForLogClicks(){
 		}
 
 		var id = actionElement.find('[name=id]').val();
-		l(id);
 		window.location.href = "#" + id;
 
 		actionElement.toggleClass("log_click");
@@ -251,6 +260,8 @@ function startListeningForLogClicks(){
  * @returns {undefined}
  */
 function scrollToLastLog() {
+
+	// Scroll to the last log only if we are not limiting rest response
 	if(limit === false) {
 		var container = $('#load_logs');
 		var scrollTo = $('.log').last();

@@ -1,5 +1,7 @@
 /**
  * File contains functions for creating, updating and deleting a Tag.
+ *
+ * @author: Dejan Dežman <dejan.dezman@cosylab.com>
  */
 
 /**

@@ -1,15 +1,20 @@
 /*
- * Load data on dom ready
+ * All REST calls and other helper functions can be found in this file
  *
  * @author: Dejan Dežman <dejan.dezman@cosylab.com>
  */
 
 // Create object for saving logs
 var savedLogs = {};
+
+// Array of all the Tags
 var savedTags = new Array();
+
+// Array of all the Logbooks
 var savedLogbooks = new Array();
+
+// Current page number (REST responses can be loaded page by page)
 var page = 1;
-var templateContent = "";
 
 /**
  * Get Logbooks from REST service
@@ -42,8 +47,9 @@ function loadTags(targetId){
 }
 
 /**
- * Load Logs on the specific page from the rest service.
- * @param {type} page number of logs per page is defined in configuration, page number is increased when user scrolls down the list
+ * Load particular page of Logs and display them.
+ * @param {type} page number of logs per page is defined in configuration, page
+ * number is increased when user scrolls down the list
  */
 function loadLogs(page){
 	// Remo all the logs if we are starting from the beginning
@@ -63,7 +69,6 @@ function loadLogs(page){
 
 		// Parse current query and generate a new one
 		for(querykey in queryString){
-			l(querykey);
 
 			if(querykey === "limit") {
 				queryString[querykey] = numberOfLogsPerLoad;
@@ -78,9 +83,6 @@ function loadLogs(page){
 	// Save query to global var
 	searchURL = searchQuery;
 
-	//var searchQuery = serviceurl + 'logs?limit=' + numberOfLogsPerLoad + '&page=' + page;
-	l(searchQuery);
-
 	$.getJSON(searchQuery, function(logs) {
 		$(".log-last").remove();
 		repeatLogs("template_log", "load_logs", logs);
@@ -89,7 +91,6 @@ function loadLogs(page){
 		scrollToLastLog();
 
 		$('.log img').last().load(function(){
-			l("ready!");
 			scrollToLastLog();
 		});
 	});
@@ -106,7 +107,6 @@ function loadLogsAutomatically(){
 
 		if(Math.floor(scrollDiv.prop('scrollHeight') - scrollDiv.scrollTop()) <= Math.floor(scrollDiv.height() + 1) && limit === true){
 			page = page  + 1;
-			l('increate to ' + page);
 			loadLogs(page);
 		}
 	});
@@ -115,6 +115,7 @@ function loadLogsAutomatically(){
 /**
  * Get log from json object or from REST if it does not exist.
  * @param {type} id log id
+ * @return Array with log data and logId
  */
 function getLog(id){
 	var logData = null;
@@ -302,7 +303,6 @@ function repeatLogs(source_id, target_id, data){
 	// Go through all the logs
 	$.each(data, function(i, item) {
 		savedLogs[item.id] = item;
-		//console.log(JSON.stringify(item));
 
 		// Build customized Log object
 		var newItem = {
@@ -321,7 +321,7 @@ function repeatLogs(source_id, target_id, data){
 			newItem.click = "";
 		}
 
-		// Append attachments
+		// Append image attachments
 		if(item.attachments.length !== 0){
 
 			$.each(item.attachments, function(j, attachment) {
@@ -346,7 +346,7 @@ function repeatLogs(source_id, target_id, data){
 }
 
 /*
- * Append the last log that enables us to load more logs
+ * Append the last log that enables us to manually load more logs
  * @param {type} target_id div id where last log will be appended
  * @returns {undefined}
  */
@@ -421,7 +421,6 @@ function getTemplate(id){
 	var template = "";
 
 	$('#template_container').load(templates + ' #' + id, function(response, status, xhr){
-		templateContent = response;
 		template = $('#' + id).html();
 	});
 
@@ -486,7 +485,7 @@ function showDeleteModal(modalId, name){
 
 /**
  * Generate Log object from the data in the new Log form
- * @returns Log
+ * @returns Log object
  */
 function generateLogObject() {
 	var log = [{
@@ -533,7 +532,6 @@ function createLog(log) {
 	var logId = null;
 
 	var json = JSON.stringify(log);
-	l(json);
 
 	var userCredentials = $.parseJSON($.cookie(sessionCookieName));
 
@@ -553,12 +551,9 @@ function createLog(log) {
 			}
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
-			//reset();
-			//onError('Invalid username or password. Please try again.');
-			//$('#loginform #user_login').focus();
+
 		},
 		success : function(xml) {
-			//cookies();
 			l("Log sent to the server");
 
 			$log = $(xml).find("log");
@@ -569,6 +564,12 @@ function createLog(log) {
 	return logId;
 }
 
+/**
+ * Upload all files except pasted ones.
+ * @param {type} logId id of a newly created or existing Log entry
+ * @param {type} uploadData Array of images to be uploaded
+ * @param {type} uploadTargetId upload input element id
+ */
 function uploadFiles(logId, uploadData, uploadTargetId) {
 	var userCredentials = $.parseJSON($.cookie(sessionCookieName));
 
@@ -576,7 +577,6 @@ function uploadFiles(logId, uploadData, uploadTargetId) {
 		var data = uploadData[i];
 
 		var file = data.files[0];
-		l(file);
 
 		if(data !== null) {
 			$.ajaxSetup({async:false});
@@ -595,20 +595,18 @@ function uploadFiles(logId, uploadData, uploadTargetId) {
 
 			}).error(function (jqXHR, textStatus, errorThrown) {
 				l(errorThrown);
-
 			});
 		}
 	};
 }
 
 /**
- * After Log ovject is created, send it to the server
+ * After Log object is created, send it to the server
  * @param log Log object to be inserted into database
  */
 function modifyLog(log) {
 
 	var json = JSON.stringify(log[0]);
-	l(json);
 
 	var userCredentials = $.parseJSON($.cookie(sessionCookieName));
 
@@ -627,21 +625,23 @@ function modifyLog(log) {
 			}
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
-			//reset();
-			//onError('Invalid username or password. Please try again.');
-			//$('#loginform #user_login').focus();
+
 		},
 		success : function(model) {
-			//cookies();
 			l("Log sent to the server");
 			$(document).trigger('successfully_modified');
 		}
 	});
 }
 
-// This code was written by Tyler Akins and has been placed in the
-// public domain.  It would be nice if you left this header intact.
-// Base64 code from Tyler Akins -- http://rumkin.com
+/**
+ * This code was written by Tyler Akins and has been placed in the
+ * public domain.  It would be nice if you left this header intact.
+ * Base64 code from Tyler Akins -- http://rumkin.com
+ *
+ * @param {type} input input string that will be converted to base64
+ * @returns {Boolean|encode64.output}
+ */
 function encode64(input) {
 	var keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 
@@ -674,6 +674,11 @@ function encode64(input) {
 	return output;
 }
 
+/**
+ * Function converts base64 encoded string to ASCII format
+ * @param {type} input base64 input string
+ * @returns {decode64.output}
+ */
 function decode64(input) {
 	var base64_keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 	var output = "";
@@ -696,27 +701,29 @@ function decode64(input) {
 
 		output = output + String.fromCharCode(chr1);
 
-		if (enc3 != 64) {
+		if (enc3 !== 64) {
 			output = output + String.fromCharCode(chr2);
 		}
-		if (enc4 != 64) {
+		if (enc4 !== 64) {
 			output = output + String.fromCharCode(chr3);
 		}
 	}
-
 	return output;
 }
 
 /**
- * Start listening to form submit and when submit happens, extract data from the form and check user credentials by analysing server response.
+ * Start listening to form submit and when submit happens, extract data from
+ * the form and check user credentials by analysing server response.
  */
 function login() {
 
 	/**
 	* Disable closing the login dropdown if user clicks on login form elements
 	*/
+
 	// Setup drop down menu
 	$('.dropdown-toggle').dropdown();
+
 	// Fix input element click problem
 	$('.dropdown-menu form').click(function(e) {
 		e.stopPropagation();
@@ -748,27 +755,23 @@ function login() {
 				}
 			},
 			error : function(xhr, ajaxOptions, thrownError) {
-				//reset();
-				//onError('Invalid username or password. Please try again.');
-				//$('#loginform #user_login').focus();
+
 			},
 			success : function(model) {
-				//cookies();
+
 			}
 		});
-
 		window.location.href = firstPageName;
 	});
 }
 
 /**
- * When user clicks on Sign out link, delete a session cookie and redirect user to the first page.
- * @returns {undefined}
+ * When user clicks on Sign out link, delete a session cookie and redirect user
+ * to the first page.
  */
 function logout() {
 	l("logged out");
 	deleteUserCredentials();
-
 	window.location.href = firstPageName;
 }
 
@@ -810,8 +813,6 @@ function getUserCreadentials() {
 function createLogbook(logbook) {
 
 	var json = JSON.stringify(logbook);
-	l(json);
-
 	var userCredentials = $.parseJSON($.cookie(sessionCookieName));
 
 	$.ajax( {
@@ -829,13 +830,9 @@ function createLogbook(logbook) {
 			}
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
-			//reset();
-			//onError('Invalid username or password. Please try again.');
-			//$('#loginform #user_login').focus();
 			l("something went wrong");
 		},
 		success : function(model) {
-			//cookies();
 			l("Logbook sent to the server");
 			$('#myModal').modal("hide");
 			loadLogbooks();
@@ -851,8 +848,6 @@ function createLogbook(logbook) {
 function modifyLogbook(logbook, name) {
 
 	var json = JSON.stringify(logbook.logbook[0]);
-	l(json);
-
 	var userCredentials = $.parseJSON($.cookie(sessionCookieName));
 
 	$.ajax( {
@@ -870,13 +865,9 @@ function modifyLogbook(logbook, name) {
 			}
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
-			//reset();
-			//onError('Invalid username or password. Please try again.');
-			//$('#loginform #user_login').focus();
 			l("something went wrong");
 		},
 		success : function(model) {
-			//cookies();
 			l("Logbook modify command sent to the server");
 			$('#editLogbookModal').modal("hide");
 			loadLogbooks();
@@ -905,13 +896,9 @@ function deleteLogbook(name) {
 			}
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
-			//reset();
-			//onError('Invalid username or password. Please try again.');
-			//$('#loginform #user_login').focus();
 			l("something went wrong");
 		},
 		success : function(model) {
-			//cookies();
 			l("Logbook delete command sent to the server");
 			$('#deleteLogbookModal').modal("hide");
 			loadLogbooks();
@@ -926,8 +913,6 @@ function deleteLogbook(name) {
 function createTag(tag) {
 
 	var json = JSON.stringify(tag);
-	l(json);
-
 	var userCredentials = $.parseJSON($.cookie(sessionCookieName));
 
 	$.ajax( {
@@ -945,13 +930,9 @@ function createTag(tag) {
 			}
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
-			//reset();
-			//onError('Invalid username or password. Please try again.');
-			//$('#loginform #user_login').focus();
 			l("something went wrong");
 		},
 		success : function(model) {
-			//cookies();
 			l("Tag sent to the server");
 			$('#myTagModal').modal("hide");
 			loadTags();
@@ -967,8 +948,6 @@ function createTag(tag) {
 function modifyTag(tag, name) {
 
 	var json = JSON.stringify(tag.tag[0]);
-	l(json);
-
 	var userCredentials = $.parseJSON($.cookie(sessionCookieName));
 
 	$.ajax( {
@@ -986,13 +965,9 @@ function modifyTag(tag, name) {
 			}
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
-			//reset();
-			//onError('Invalid username or password. Please try again.');
-			//$('#loginform #user_login').focus();
 			l("something went wrong");
 		},
 		success : function(model) {
-
 			l("Tag modify command sent to the server");
 			$('#editTagModal').modal("hide");
 			loadTags();
@@ -1021,13 +996,9 @@ function deleteTag(name) {
 			}
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
-			//reset();
-			//onError('Invalid username or password. Please try again.');
-			//$('#loginform #user_login').focus();
 			l("something went wrong");
 		},
 		success : function(model) {
-			//cookies();
 			l("Logbook delete command sent to the server");
 			$('#deleteTagModal').modal("hide");
 			loadTags();
@@ -1057,16 +1028,11 @@ function deleteAttachment(url, uniqueId) {
 			}
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
-			//reset();
-			//onError('Invalid username or password. Please try again.');
-			//$('#loginform #user_login').focus();
 			l("something went wrong");
 		},
 		success : function(model) {
-			//cookies();
 			l("Attachment delete command sent to the server");
 			$('#deleteExistingAttachmentModal').modal("hide");
-			//fillInForm(log);
 
 			var imgAtt = $('img[src="' + uniqueId + '"]');
 			var fileAtt = $('a[href="' + uniqueId + '"]');
@@ -1084,9 +1050,11 @@ function deleteAttachment(url, uniqueId) {
 /**
  * Function for uploading files pasted in Firefox. Img data is in URI scheme
  * http://en.wikipedia.org/wiki/Data_URI_scheme
+ *
+ * Create custom xhr object and send img source to the server.
+ *
  * @param {type} logId id of the Log entry we are creating
  * @param {type} pastedData array or pasted sources
- * @returns {undefined}
  */
 function uploadPastedFiles(logId, pastedData) {
 	var userCredentials = $.parseJSON($.cookie(sessionCookieName));
@@ -1119,13 +1087,9 @@ function uploadPastedFiles(logId, pastedData) {
 					+crlf;
 
 			xhr.setRequestHeader("Content-type", "multipart/form-data; boundary="+boundary);
-			//xhr.setRequestHeader("Content-length", content.length);
-
 			var base64EncodedUsernameAndPassword = encode64(userCredentials["username"] + ":" + userCredentials["password"]);
 			xhr.setRequestHeader("Authorization", "Basic " + base64EncodedUsernameAndPassword);
 
-			//xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-			//xhr.setRequestHeader("Connection", "close");
 			// execute
 			xhr.send(content);
 		}

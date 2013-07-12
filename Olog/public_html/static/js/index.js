@@ -115,33 +115,8 @@ $(document).ready(function(){
 		}
 	}
 
-	// Resize left and middle section
-	$('.container-resize').draggable({axis: "x"});
-	var xpos = null;
-
-	$('.container-resize').on('drag', function(e){
-		if(xpos === null) {
-			xpos = e.pageX;
-		}
-
-		l(xpos - e.pageX + " - " + e.pageX);
-		$('#load_filters').css({right: xpos - e.pageX});
-		$('#load_logs').css({left: -(xpos - e.pageX) + 5});
-	});
-
-	// Resize middle and right section
-	$('.container-resize2').draggable({axis: "x"});
-	var xpos2 = null;
-
-	$('.container-resize2').on('drag', function(e){
-		if(xpos2 === null) {
-			xpos2 = e.pageX;
-		}
-
-		l(xpos2 - e.pageX + " - " + e.pageX);
-		$('#load_logs').css({right: xpos2 - e.pageX});
-		$('#load_log').css({left: -(xpos2 - e.pageX) + 5});
-	});
+	// Activate resize manager
+	resizeManager();
 });
 
 /**
