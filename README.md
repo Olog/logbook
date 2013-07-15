@@ -19,7 +19,7 @@ Olog is a lightweight web client for [olog-service](https://github.com/Olog/olog
 
  * Clone git repository by copying clone URL. Git client and help on how to use it can be found by clicking on the Clone in Desktop button. You can also Download ZIP and extract it to your favourite directory.
  * Move to the directory where Olog was cloned or extracted.
- * Before the first use, you should modify values in configuration.js file. File can be opened with your favourite text editor. Comprehensive explanation on how to configure Olog can be found at [Configuring Olog](https://github.com/Olog/logbook/wiki/Configuring-configuration.js).
+ * Before the first use, you should modify values in configuration.js file. File can be opened with your favourite text editor. Comprehensive explanation on how to configure Olog can be found at [Configuring Olog](https://github.com/Olog/logbook/wiki/Configuring-Olog).
  * After Olog is configured you can start Olog by opening index.html in
   * Firefox 22 or newer,
   * Google Chrome 28 or newer.
