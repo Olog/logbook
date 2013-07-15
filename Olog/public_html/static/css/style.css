@@ -127,11 +127,14 @@ html, body {
 	top: 40px;
 	width: 50%;
 	bottom: 0px;
+}
+
+#load_log {
 	display:none;
 }
 
 .container-middle-right {
-	position: fixed;
+	position: absolute;
 	right: 0px;
 	top: 40px;
 	width: 80%;

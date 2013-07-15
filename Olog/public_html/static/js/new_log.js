@@ -83,4 +83,7 @@ $(document).ready(function(){
 
 	// Start listening for Firefox paste events
 	startListeningForPasteEvents("#files");
+
+	// Activate resize manager
+	resizeManager();
 });

@@ -143,7 +143,7 @@ function getLog(id){
  * @param id id of the log in saved logs array
  */
 function showLog(log, id){
-	$('.container-right').show("fast");
+	$('#load_log').show("fast");
 
 	$("#log_description").html(log.description);
 	$("#log_owner").html(log.owner);

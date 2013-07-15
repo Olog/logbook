@@ -92,6 +92,8 @@ function searchForLogs(searchQuery, resetPageCouner) {
 	searchQuery = serviceurl + 'logs?' + searchQuery + 'page=' + page + '&limit=' + numberOfLogsPerLoad;
 	searchURL = searchQuery;
 
+	l(searchURL);
+
 	// Load logs
 	$.getJSON(searchQuery, function(logs) {
 		$(".log-last").remove();

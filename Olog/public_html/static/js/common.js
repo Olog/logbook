@@ -180,6 +180,14 @@ function isImage(type) {
 }
 
 /**
+ * Check if elements is present in the current DOM or not
+ * @returns {Boolean}
+ */
+jQuery.fn.doesExist = function(){
+	return jQuery(this).length > 0;
+};
+
+/**
  * Show error in specific error block
  * @param {type} string string that describes an error
  * @param {type} blockId id of the error block
@@ -203,25 +211,24 @@ function showError(string, blockId, blockBody, errorX) {
 /**
  * Initialize pans resize listener.
  *
- * Check if we have dimensions already saved in a cookie and set widths.
- * @returns {undefined}
+ * Check if we have dimensions already saved in a cookie and set widths. If dimensions
+ * are not saved, created new dimension object and fill it with current dimensions.
  */
 function resizeManager() {
 
 	var settingsCookieName = "olog";
-	$.removeCookie(settingsCookieName);
+	//$.removeCookie(settingsCookieName);
 
 	var leftPane = ".container-left";
 	var middlePane = ".container-middle";
 	var rightPane = ".container-right";
+	var middleRightPane = ".container-middle-right";
 
 	// Resize left and middle section
 	$('.container-resize').draggable({axis: "x"});
-	var xpos = undefined;
 
 	// Resize middle and right section
 	$('.container-resize2').draggable({axis: "x"});
-	var xpos2 = undefined;
 
 	var dims = null;
 
@@ -233,9 +240,10 @@ function resizeManager() {
 		dims = {
 			left_pane_width: $(leftPane).width(),
 			middle_pane_left: $(leftPane).width(),
-			middle_pane_width: undefined,
+			middle_pane_width: $(middlePane).width(),
 			right_pane_left: undefined,
-			right_pane_width: undefined
+			right_pane_width: undefined,
+			middle_right_pane_width: undefined
 		};
 
 	// If settings cookie is set, read and set the panes' dimensions
@@ -248,6 +256,7 @@ function resizeManager() {
 		$(middlePane).width(dims.middle_pane_width);
 		$(rightPane).css({left: dims.right_pane_left});
 		$(rightPane).width(dims.right_pane_width);
+		$(middleRightPane).width(dims.middle_right_pane_width);
 
 		$('.container-resize').css({left: dims.middle_pane_left});
 		$('.container-resize2').css({left: dims.right_pane_left});
@@ -256,6 +265,7 @@ function resizeManager() {
 	// Drag left resizer
 	$('.container-resize').on('drag', function(e){
 		var oldWidth = $(leftPane).width();
+		var oldWidth2 = $(middleRightPane).width();
 
 		// Limit the minimal width of the left pane
 		if(oldWidth < minWidth && e.pageX < dims.left_pane_width) {
@@ -267,16 +277,35 @@ function resizeManager() {
 			return;
 		}
 
+		// Limit the minimal width of the middle right pane
+		if(dims.middle_right_pane_width < minWidth && e.pageX > dims.middle_pane_left || e.pageX > dims.right_pane_left - minWidth) {
+			return;
+		}
+
 		var diff = oldWidth - e.pageX;
+		var diff2 = windowWidth - e.pageX - oldWidth2;
 
 		$(leftPane).width(e.pageX);
 		dims.left_pane_width = e.pageX;
 
 		$(middlePane).css({left: e.pageX});
+		$(middleRightPane).css({left: e.pageX});
 		dims.middle_pane_left = e.pageX;
 
-		$(middlePane).width($(middlePane).width() + diff);
-		dims.middle_pane_width = $(middlePane).width() + diff;
+		// If middle pane exists, repair its width
+		if($(middlePane).doesExist()){
+			$(middlePane).width($(middlePane).width() + diff);
+			dims.middle_pane_width = $(middlePane).width() + diff;
+
+		// If we are resizing in modify or add new view, we must also repair middle_pane width or it will
+		// be moved below the right pane
+		} else {
+			$(middlePane).width(dims.middle_pane_width + diff2);
+			dims.middle_pane_width += diff;
+		}
+
+		$(middleRightPane).width(windowWidth - dims.left_pane_width);
+		dims.middle_right_pane_width = windowWidth - dims.left_pane_width;
 
 		$.cookie(settingsCookieName, JSON.stringify(dims));
 	});
@@ -288,15 +317,16 @@ function resizeManager() {
 
 	// Drag right resizer
 	$('.container-resize2').on('drag', function(e){
+
 		// Limit the minimal width of the middle pane
-		//if($(middlePane).width() < minWidth && logsRight > dims.logs_right) {
-		//	return;
-		//}
+		if($(middlePane).width() < minWidth && e.pageX < dims.middle_pane_left + dims.middle_pane_width) {
+			return;
+		}
 
 		// Limit the minimal width of the right pane
-		//if($(rightPane).width() < minWidth && logLeft > dims.log_left && $(rightPane).width() > 5) {
-		//	return;
-		//}
+		if($(rightPane).width() < minWidth && e.pageX > dims.right_pane_left) {
+			return;
+		}
 
 		$(middlePane).width(e.pageX - dims.middle_pane_left);
 		dims.middle_pane_width = e.pageX - dims.middle_pane_left;
