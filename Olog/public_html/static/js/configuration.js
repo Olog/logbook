@@ -111,6 +111,11 @@ var backwardImageSizesMap = {
 	large:2
 };
 
+// Update interval in seconds. After this time has elapsed system will check if
+// new Log entries were created. If updateInterval is set to -1, checking will
+// be disabled.
+var updateInterval = 60;
+
 /**
  * Global variables needed by more than one page. SHOULD NOT BE CONFIGURED BY THE USER!
  */

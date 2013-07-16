@@ -1,3 +1,9 @@
+/*
+ * Styles specific to new and modify log files
+ *
+ * @author: Dejan Dežman <dejan.dezman@cosylab.com>
+ */
+
 .log_body > textarea {
 	display: inline-block;
 	width: 98%;

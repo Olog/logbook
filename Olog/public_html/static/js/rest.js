@@ -64,7 +64,6 @@ function loadLogs(page){
 		searchQuery = serviceurl + 'logs?limit=' + numberOfLogsPerLoad + '&page=' + page;
 
 	} else {
-
 		var queryString = $.url(searchURL).param();
 
 		// Parse current query and generate a new one
@@ -85,7 +84,7 @@ function loadLogs(page){
 
 	$.getJSON(searchQuery, function(logs) {
 		$(".log-last").remove();
-		repeatLogs("template_log", "load_logs", logs);
+		repeatLogs(logs, false);
 		appendAddMoreLog("load_logs");
 		startListeningForLogClicks();
 		scrollToLastLog();
@@ -145,7 +144,12 @@ function getLog(id){
 function showLog(log, id){
 	$('#load_log').show("fast");
 
+	var lines = log.description.split("\n");
+	l(lines);
+
 	$("#log_description").html(log.description);
+	$("#log_description").attr("rows", lines.length);
+
 	$("#log_owner").html(log.owner);
 	$("#log_date").html(formatDate(log.createdDate));
 	$("#log_level").html(log.level);
@@ -291,13 +295,12 @@ function repeat(source_id, target_id, data, property){
 
 /**
  * Show logs in the middle section. Some of the data must be formated to be shown properly
- * @param {type} source_id id attribute of template tag
- * @param {type} target_id id attribute of container tag (where data will be placed)
  * @param {type} data data in JSON format
+ * @param {type} prepend prepend or append new log entry
  * @returns replaces template with data and puts it in the right place
  */
-function repeatLogs(source_id, target_id, data){
-	var template = getTemplate(source_id);
+function repeatLogs(data, prepend){
+	var template = getTemplate("template_log");
 	var html = "";
 
 	// Go through all the logs
@@ -340,7 +343,12 @@ function repeatLogs(source_id, target_id, data){
 
 		html = Mustache.to_html(template, newItem);
 
-		$('#'+target_id).append(html);
+		if(prepend === false) {
+			$("#load_logs").append(html);
+
+		} else {
+			$("#load_logs").prepend(html);
+		}
 
 	});
 }

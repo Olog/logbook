@@ -4,6 +4,8 @@
  * @author: Dejan Dežman <dejan.dezman@cosylab.com>
  */
 
+var check;
+
 $(document).ready(function(){
 
 	// Set datepickers
@@ -117,7 +119,35 @@ $(document).ready(function(){
 
 	// Activate resize manager
 	resizeManager();
+
+	if(updateInterval > 0) {
+		check = setInterval(checkForNewLogs, updateInterval * 1000);
+	}
 });
+
+/**
+ * Check for new Log entries and load them if there are any.
+ */
+function checkForNewLogs() {
+
+	if(!$.isEmptyObject(savedLogs)) {
+		var searchLog = $("#load_logs").children().first();
+		var firstLogId = $($("#load_logs").children()[1]).find('input').val();
+		var lastLogSeconds = Math.round(savedLogs[firstLogId].createdDate/1000) + 1;
+		var currentSeconds = Math.round((new Date().getTime())/1000);
+		var searchQuery = serviceurl + "logs?page=1&limit=" + numberOfLogsPerLoad + '&start=' + lastLogSeconds + '&end=' + currentSeconds;
+		l("check: " + searchQuery);
+
+		$.getJSON(searchQuery, function(logs) {
+			l("found: " + logs.length);
+			repeatLogs(logs, true);
+			startListeningForLogClicks();
+			$("#load_logs").prepend(searchLog);
+		});
+	}
+
+	//clearInterval(check);
+}
 
 /**
  * Load created from filters from user configurable array ob objects

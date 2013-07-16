@@ -6,12 +6,18 @@
  */
 
 // Array of different search types
-var searchTypes = ["logbook:", "tag:", "from:", "to:"];
+var searchTypes = [];
 
 // Autocomplete object that can contain different arrays for autocompletion
 var autocomplete = searchTypes;
 
 $(document).ready(function(){
+
+	// Create
+	$.each(keyMap, function(key, value){
+		searchTypes.push(key);
+	});
+
 	// Wait for dataselect on logbooks filter
 	$('#load_logbooks').on('dataselected', function(e, data){
 		generateSearchQuery(data);
@@ -98,7 +104,7 @@ function searchForLogs(searchQuery, resetPageCouner) {
 	$.getJSON(searchQuery, function(logs) {
 		$(".log-last").remove();
 		$(".log").remove();
-		repeatLogs("template_log", "load_logs", logs);
+		repeatLogs(logs, false);
 		startListeningForLogClicks();
 		scrollToLastLog();
 

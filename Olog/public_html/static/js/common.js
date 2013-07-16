@@ -157,7 +157,7 @@ function returnFirstXWords(string, count){
  * @param {type} input datetime string
  * @returns {unresolved} formated datetime string
  */
-function formatDate(input){
+function formatDate(input) {
 	var day = moment(input);
 	var formatedDate = day.format(dateFormat);
 	return formatedDate;
