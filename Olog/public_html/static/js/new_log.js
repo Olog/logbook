@@ -6,6 +6,9 @@
 
 $(document).ready(function(){
 
+	// Activate resize manager
+	resizeManager();
+
 	// Load Logbooks
 	loadLogbooks("load_logbooks");
 
@@ -83,7 +86,4 @@ $(document).ready(function(){
 
 	// Start listening for Firefox paste events
 	startListeningForPasteEvents("#files");
-
-	// Activate resize manager
-	resizeManager();
 });

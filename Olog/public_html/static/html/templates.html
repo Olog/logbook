@@ -21,6 +21,9 @@ and open the template in the editor.
 				{{#attachments}}
 				<img src="{{imageUrl}}" class="img-rounded" />
 				{{/attachments}}
+				{{#non_image_attachments}}
+				<img src="static/img/mail_attachment.png" title="Log entry also contains non-image attachments" />
+				{{/non_image_attachments}}
 			</div>
 		</script>
 
@@ -156,6 +159,27 @@ and open the template in the editor.
 				{{img_name}}
 				<br />
 				<button onclick="removePastedAttachment(this, {{array_id}})" type="button" class="btn btn-danger">Remove</button>
+			</div>
+		</script>
+
+		<!-- Log entry property -->
+		<script id="template_log_property" type="text/template">
+			<div>
+				<table class="table table-bordered">
+					<thead>
+						<tr class="property_header">
+							<th colspan="2"><i class="icon-chevron-right"></i> {{name}}</th>
+						</tr>
+					</thead>
+					<tbody class="property_body">
+						{{#attrs}}
+						<tr>
+							<td>{{key}}</td>
+							<td>{{{value}}}</td>
+						</tr>
+						{{/attrs}}
+					</tbody>
+				</table>
 			</div>
 		</script>
 	</body>

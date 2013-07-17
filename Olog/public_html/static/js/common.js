@@ -26,6 +26,22 @@ $(document).ready(function(){
 	if(id !== undefined) {
 		selectedLog = parseInt(id);
 	}
+
+	$(window).resize(function(e){
+		var windowWidth = $(window).width();
+
+		if($.cookie(settingsCookieName) !== undefined) {
+			$.removeCookie(settingsCookieName);
+			window.location.reload();
+		}
+
+		if(windowWidth <= 1024) {
+			l("small screen");
+			$('.container-left').css({position:"relative", float:"left", clear: "both"});
+			$('.container-middle').css({position:"relative", float:"left", clear: "both"});
+			$('.container-right').css({position:"relative", float:"left", clear: "both"});
+		}
+	});
 });
 
 /**
@@ -209,16 +225,27 @@ function showError(string, blockId, blockBody, errorX) {
 }
 
 /**
+ * If input string looks like a link, surround it with <a> tag
+ * @param {type} input input strig that is checked if it looks like a real link.
+ * @returns {String|checkIfLink.input}
+ */
+function checkIfLink(input) {
+
+	if(input.toLowerCase().indexOf("http") === 0) {
+		return '<a href="' + input + '" target="_blank">' + input + '</a>';
+
+	} else {
+		return input;
+	}
+}
+
+/**
  * Initialize pans resize listener.
  *
  * Check if we have dimensions already saved in a cookie and set widths. If dimensions
  * are not saved, created new dimension object and fill it with current dimensions.
  */
 function resizeManager() {
-
-	var settingsCookieName = "olog";
-	//$.removeCookie(settingsCookieName);
-
 	var leftPane = ".container-left";
 	var middlePane = ".container-middle";
 	var rightPane = ".container-right";

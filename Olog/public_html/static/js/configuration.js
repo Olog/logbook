@@ -116,6 +116,9 @@ var backwardImageSizesMap = {
 // be disabled.
 var updateInterval = 60;
 
+// Settings cookie name
+var settingsCookieName = "olog";
+
 /**
  * Global variables needed by more than one page. SHOULD NOT BE CONFIGURED BY THE USER!
  */

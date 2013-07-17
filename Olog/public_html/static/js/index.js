@@ -8,6 +8,9 @@ var check;
 
 $(document).ready(function(){
 
+	// Activate resize manager
+	resizeManager();
+
 	// Set datepickers
 	$('#datepicker_from').datetimepicker(
 		{
@@ -117,9 +120,8 @@ $(document).ready(function(){
 		}
 	}
 
-	// Activate resize manager
-	resizeManager();
-
+	// Set refresh interval if updateInterval is set to value that is greater
+	// than 0
 	if(updateInterval > 0) {
 		check = setInterval(checkForNewLogs, updateInterval * 1000);
 	}
@@ -145,8 +147,6 @@ function checkForNewLogs() {
 			$("#load_logs").prepend(searchLog);
 		});
 	}
-
-	//clearInterval(check);
 }
 
 /**

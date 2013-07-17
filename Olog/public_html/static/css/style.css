@@ -244,6 +244,26 @@ html, body {
 	display: none;
 }
 
+.log_properties {
+	padding: 5px;
+	margin: 0;
+	background-color: #ffffff;
+	border-bottom: 1px solid #dddddd;
+}
+
+.property_header {
+	cursor: pointer;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: moz-none;
+	-ms-user-select: none;
+}
+
+.property_body {
+	display: none;
+}
+
 .attachment_info {
 	color: #aaaaaa;
 }

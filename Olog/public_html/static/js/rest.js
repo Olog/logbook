@@ -143,9 +143,9 @@ function getLog(id){
  */
 function showLog(log, id){
 	$('#load_log').show("fast");
+	l(log);
 
 	var lines = log.description.split("\n");
-	l(lines);
 
 	$("#log_description").html(log.description);
 	$("#log_description").attr("rows", lines.length);
@@ -194,6 +194,54 @@ function showLog(log, id){
 	} else {
 		$('.log_attachments').hide("fast");
 	}
+
+	// Load properties
+	$('.log_properties').html("");
+
+	if(log.properties.length !== 0) {
+		$('.log_properties').show("fast");
+		repeatProperties(log.properties);
+		startListeningForPropertyClicks();
+
+	} else {
+		$('.log_properties').hide("fast");
+	}
+}
+
+/**
+ * When Log details and with them properties are loaded, start listening for
+ * clicks on property headers.
+ * @returns {undefined}
+ */
+function startListeningForPropertyClicks() {
+
+	$('.property_header').unbind('click');
+	$('.property_header').click(function(e){
+		l(e.target);
+
+		var tbody = undefined;
+		var arrow = undefined;
+
+		if($(e.target).is('th')) {
+			tbody = $(e.target).parent().parent().parent().find('tbody');
+			arrow = $(e.target).find('i');
+
+		} else {
+			tbody = $(e.target).parent().parent().parent().parent().find('tbody');
+			arrow = $(e.target);
+		}
+
+		tbody.toggle();
+
+		if(tbody.is(':visible')) {
+			arrow.removeClass('icon-chevron-right');
+			arrow.addClass('icon-chevron-down');
+
+		} else {
+			arrow.removeClass('icon-chevron-down');
+			arrow.addClass('icon-chevron-right');
+		}
+	});
 }
 
 /*
@@ -313,7 +361,8 @@ function repeatLogs(data, prepend){
 			owner: item.owner,
 			createdDate: formatDate(item.createdDate),
 			id: item.id,
-			attachments : []
+			attachments : [],
+			non_image_attachments: false
 		};
 
 		// Check if we have an URL and select selected Log
@@ -331,6 +380,7 @@ function repeatLogs(data, prepend){
 
 				// Skip non-image attachments
 				if(!isImage(attachment.contentType)){
+					newItem.non_image_attachments = true;
 					return;
 				}
 
@@ -416,6 +466,29 @@ function repeatAttachments(source_id, target_id, data, logId){
 		html = Mustache.to_html(template, file);
 
 		$('#'+target_id).append(html);
+	});
+}
+
+/**
+ * Go through Log entry's properties, prepare and display them.
+ * @param {Array} properties Attay of properties attached to a Log entry
+ */
+function repeatProperties(properties) {
+	var template = getTemplate("template_log_property");
+	var html = "";
+
+	$.each(properties, function(i, property){
+
+		var newProperty = property;
+		newProperty.attrs = [];
+
+		$.each(newProperty.attributes, function(attributeKey, attributeValue){
+			var attribute = {"key": attributeKey, "value":checkIfLink(attributeValue)};
+			newProperty.attrs.push(attribute);
+		});
+
+		html = Mustache.to_html(template, newProperty);
+		$('.log_properties').append(html);
 	});
 }
 
