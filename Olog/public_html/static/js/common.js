@@ -35,11 +35,29 @@ $(document).ready(function(){
 			window.location.reload();
 		}
 
-		if(windowWidth <= 1024) {
+		/*if(windowWidth <= 1024) {
 			l("small screen");
 			$('.container-left').css({position:"relative", float:"left", clear: "both"});
 			$('.container-middle').css({position:"relative", float:"left", clear: "both"});
 			$('.container-right').css({position:"relative", float:"left", clear: "both"});
+		}*/
+	});
+
+	// Hide Logbooks for small screens
+	$('#load_logbooks').on('dataloaded', function(e){
+		if($(window).width() < 1024) {
+			l("small screen resolution");
+			$('#load_logbooks li').toggle();
+			toggleChevron("#load_logbooks_chevron");
+		}
+	});
+
+	// Hide Tags for small screens
+	$('#load_tags').on('dataloaded', function(e){
+		if($(window).width() < 1024) {
+			l("small screen resolution");
+			$('#load_tags li').toggle();
+			toggleChevron("#load_tags_chevron");
 		}
 	});
 });

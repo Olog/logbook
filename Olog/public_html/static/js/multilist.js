@@ -224,50 +224,40 @@ function fromToChanged() {
 }
 
 /**
- * When logs are loaded onto the page, start listening for mouse clicks on them
+ * User can expand or collapse filters so they are not in a way.
+ * When he clicks on an arrow, filters display should toggle.
  * @returns {undefined}
  */
-function startListeningForLogClicks(){
-	var actionElement = null;
+function startListeningForToggleFilterClicks() {
 
-	$('.log_show_details').unbind('click');
-	$('.log_show_details').click(function(e){
-		$('.log_details').toggle(400, 'swing');
+	$('.toggle-filters').unbind('click');
+	$('.toggle-filters').click(function(e){
+		l($(e.target).next().next());
+		$(e.target).next().next().find('li').toggle();
+
+		toggleChevron(e.target);
 	});
 
-	$('.log').unbind('click');
-	$(".log").click(function(e){
-		$('.log').removeClass("log_click");
+	$('.toggle-from').unbind('click');
+	$('.toggle-from').click(function(e){
+		l($(e.target).parent().parent());
+		$(e.target).parent().parent().find('li:gt(0)').toggle();
 
-		if($(e.target).is("div")){
-			actionElement = $(e.target);
-
-		}else if($(e.target).parent().is("div")){
-			actionElement = $(e.target).parent();
-		}
-
-		var id = actionElement.find('[name=id]').val();
-		window.location.href = "#" + id;
-
-		actionElement.toggleClass("log_click");
-		var log = getLog(actionElement.find("input[name=id]").val());
-		showLog(log[0], log[1]);
+		toggleChevron(e.target);
 	});
 }
 
 /**
- * Scroll to the last log if user clicked on the time filter
- * @returns {undefined}
+ * Toggle chevron on an element
+ * @param {type} element element that contains chevron
  */
-function scrollToLastLog() {
+function toggleChevron(element) {
+	if($(element).hasClass('icon-chevron-down')) {
+		$(element).removeClass('icon-chevron-down');
+		$(element).addClass('icon-chevron-right');
 
-	// Scroll to the last log only if we are not limiting rest response
-	if(limit === false) {
-		var container = $('#load_logs');
-		var scrollTo = $('.log').last();
-
-		if(scrollTo !== undefined && scrollTo.offset() !== undefined) {
-			container.scrollTop(scrollTo.offset().top - container.offset().top + container.scrollTop());
-		}
+	} else {
+		$(element).removeClass('icon-chevron-right');
+		$(element).addClass('icon-chevron-down');
 	}
 }

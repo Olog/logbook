@@ -69,6 +69,9 @@ $(document).ready(function(){
 	// Load created from - to filters
 	singleselect("list5");
 
+	// Start listening for expand/collapse filters
+	startListeningForToggleFilterClicks();
+
 	// Activate search field
 	startListeningForSearchEvents();
 

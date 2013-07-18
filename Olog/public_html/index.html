@@ -57,134 +57,137 @@
 		</div>
 	</div>
 
-	<!-- Left navigation -->
-	<div class="container-left">
-		<div id="load_filters" class="well container-scroll">
-			<input class="filter_search" id="logbooks_filter_search" type="text" placeholder="Filter Logbooks ..." />
-			<ul class="multilist" id="load_logbooks">
-				<!--<li class="multilist_header"><input class="filter_search" type="text" placeholder="LOGBOOKS" /> <a href="#myModal" title="Add New Logbook" data-toggle="modal"><i class="icon-plus float_right float_right_padding"></i></a></li>-->
-				<!-- Template -->
-			</ul>
-			<input class="filter_search" id="tags_filter_search" type="text" placeholder="Filter Tags ..." />
-			<ul class="multilist" id="load_tags">
-				<!--<li class="multilist_header">TAGS <a href="#myTagModal" title="Add New Tag" data-toggle="modal"><i class="icon-plus float_right float_right_padding"></i></a></li>-->
-				<!-- Template -->
-			</ul>
-			<ul class="multilist" id="load_time_from">
-				<li class="multilist_header">CREATED FROM</li>
-				<!-- Template -->
-			</ul>
-			<!--<ul class="multilist" id="load_time_to">
-				<li class="multilist_header">CREATED TO</li>
-				<li><span class="list4 multilist_item"><input type="hidden" name="to" value="1 min ago" />A min ago</span></li>
-				<li><span class="list4 multilist_item"><input type="hidden" name="to" value="1 hour ago" />An hour ago</span></li>
-				<li><span class="list4 multilist_item"><input type="hidden" name="to" value="1 day ago" />A day ago</span></li>
-				<li><span class="list4 multilist_item"><input type="hidden" name="to" value="1 week ago" />A week ago</span></li>
-			</ul>-->
-			<ul class="multilist" id="load_time_from_to">
-				<li class="multilist_header">CREATED FROM - TO</li>
-				<li><span class="list5 multilist_item">From <input type="text" id="datepicker_from" /><br />To <input type="text" id="datepicker_to" /></span></li>
-			</ul>
+	<div>
+		<!-- Left navigation -->
+		<div class="container-left">
+			<div id="load_filters" class="well container-scroll">
+				<i id="load_logbooks_chevron" class="icon-chevron-down margin-left toggle-filters disable_selecting_text"></i><input class="filter_search" id="logbooks_filter_search" type="text" placeholder="Filter Logbooks ..." />
+				<ul class="multilist" id="load_logbooks">
+					<!--<li class="multilist_header"><input class="filter_search" type="text" placeholder="LOGBOOKS" /> <a href="#myModal" title="Add New Logbook" data-toggle="modal"><i class="icon-plus float_right float_right_padding"></i></a></li>-->
+					<!-- Template -->
+				</ul>
+				<i id="load_tags_chevron" class="icon-chevron-down margin-left toggle-filters disable_selecting_text"></i><input class="filter_search" id="tags_filter_search" type="text" placeholder="Filter Tags ..." />
+				<ul class="multilist" id="load_tags">
+					<!--<li class="multilist_header">TAGS <a href="#myTagModal" title="Add New Tag" data-toggle="modal"><i class="icon-plus float_right float_right_padding"></i></a></li>-->
+					<!-- Template -->
+				</ul>
+				<ul class="multilist" id="load_time_from">
+					<li class="multilist_header disable_selecting_text"><i class="icon-chevron-down vertical-align toggle-from"></i> CREATED FROM</li>
+					<!-- Template -->
+				</ul>
+				<!--<ul class="multilist" id="load_time_to">
+					<li class="multilist_header">CREATED TO</li>
+					<li><span class="list4 multilist_item"><input type="hidden" name="to" value="1 min ago" />A min ago</span></li>
+					<li><span class="list4 multilist_item"><input type="hidden" name="to" value="1 hour ago" />An hour ago</span></li>
+					<li><span class="list4 multilist_item"><input type="hidden" name="to" value="1 day ago" />A day ago</span></li>
+					<li><span class="list4 multilist_item"><input type="hidden" name="to" value="1 week ago" />A week ago</span></li>
+				</ul>-->
+				<ul class="multilist" id="load_time_from_to">
+					<li class="multilist_header disable_selecting_text"><i class="icon-chevron-down vertical-align toggle-from"></i> CREATED FROM - TO</li>
+					<li><span class="list5 multilist_item disable_selecting_text">From <input type="text" id="datepicker_from" /><br />To <input type="text" id="datepicker_to" /></span></li>
+				</ul>
+			</div>
 		</div>
-	</div>
 
-	<div class="container-resize">
-		<div id="container-resize"></div>
-	</div>
-
-	<!-- List of Logs -->
-	<div class="container-middle">
-		<div id="load_logs" class="well container-scroll">
-			<div class="form-search input-append" id="form-search">
-				<input type="text" placeholder="Search ..." id="search-query" class="search_input">
-				<button id="search-button" class="btn">Search</button>
-			</div>
-			<!-- Template -->
+		<div class="container-resize">
+			<div id="container-resize"></div>
 		</div>
-	</div>
 
-	<div class="container-resize2">
-		<div id="container-resize2"></div>
-	</div>
-
-	<!-- Log view -->
-	<div class="container-right">
-		<div id="load_log" class="well container-scroll-last-one">
-
-			<div class="log_title">
-				<h5><span id="log_owner"></span>, <span id="log_date"></span><a class="log_show_details" href="#"><i class="icon-info-sign"></i> Show details</a><a id="modify_log_link" href="modify_log.html"><i title="Modify Log Entry" class="icon-pencil float_right float_right_padding"></i></a></h5>
-			</div>
-
-			<div class="log_details display_none">
-				<i title="Tags" class="icon-tags"></i><span id="load_log_tags"> <span class="label label-info">tag</span> <span class="label label-info">tag</span> <span class="label label-info">tag <a class="close_label" href="#">&times;</a></span></span>
-				<br />
-				<i title="Logbooks" class="icon-book"></i><span id="load_log_logbooks"> <span class="label label-warning">logbook</span> <span class="label label-warning">logbook</span> <span class="label label-warning">logbook</span></span>
-				<br />
-				<i title="Level" class="icon-tasks"></i> <span id="log_level"></span>
-				<div id="log_details_edited"></div>
-			</div>
-
-			<div class="log_body">
-				<textarea disabled="disabled" id="log_description"></textarea>
-			</div>
-
-			<div class="log_attachments">
-				<div id="attachments_size_dropdown" class="btn-group pull-right">
-					<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-						<i title="Image size" class="icon-picture"></i>
-						<span class="caret"></span>
-					</a>
-					<ul class="dropdown-menu">
-						<li><a href="#">small</a></li>
-						<li class="active"><a href="#">medium</a></li>
-						<li><a href="#">large</a></li>
-					</ul>
+		<!-- List of Logs -->
+		<div class="container-middle">
+			<div id="load_logs" class="well container-scroll">
+				<div class="form-search input-append" id="form-search">
+					<input type="text" placeholder="Search ..." id="search-query" class="search_input">
+					<button id="search-button" class="btn">Search</button>
 				</div>
-				<br/>
-				<br/>
-				<div id="load_log_attachments">
-
-				</div>
+				<!-- Template -->
 			</div>
+		</div>
 
-			<div class="log_properties">
-				<div>
-					<table class="table table-bordered">
-						<thead>
-							<tr class="property_header">
-								<th colspan="2"><i class="icon-chevron-right"></i> Property 1</th>
-							</tr>
-						</thead>
-						<tbody class="property_body">
-							<tr>
-								<td>key</td>
-								<td>value</td>
-							</tr>
-							<tr>
-								<td>key</td>
-								<td>value</td>
-							</tr>
-						</tbody>
-					</table>
+		<div class="container-resize2">
+			<div id="container-resize2"></div>
+		</div>
+
+		<!-- Log view -->
+		<a name="#view"></a>
+		<div class="container-right">
+			<div id="load_log" class="well container-scroll-last-one">
+
+				<div class="log_title">
+					<h5><span id="log_owner"></span>, <span id="log_date"></span><a class="log_show_details" href="#view"><i class="icon-info-sign"></i> Show details</a><a id="modify_log_link" href="modify_log.html"><i title="Modify Log Entry" class="icon-pencil float_right float_right_padding"></i></a></h5>
 				</div>
-				<div>
-					<table class="table table-bordered">
-						<thead>
-							<tr class="property_header">
-								<th colspan="2"><i class="icon-chevron-right"></i> Property 1</th>
-							</tr>
-						</thead>
-						<tbody class="property_body">
-							<tr>
-								<td>key</td>
-								<td>value</td>
-							</tr>
-							<tr>
-								<td>key</td>
-								<td>value</td>
-							</tr>
-						</tbody>
-					</table>
+
+				<div class="log_details display_none">
+					<i title="Tags" class="icon-tags"></i><span id="load_log_tags"> <span class="label label-info">tag</span> <span class="label label-info">tag</span> <span class="label label-info">tag <a class="close_label" href="#">&times;</a></span></span>
+					<br />
+					<i title="Logbooks" class="icon-book"></i><span id="load_log_logbooks"> <span class="label label-warning">logbook</span> <span class="label label-warning">logbook</span> <span class="label label-warning">logbook</span></span>
+					<br />
+					<i title="Level" class="icon-tasks"></i> <span id="log_level"></span>
+					<div id="log_details_edited"></div>
+				</div>
+
+				<div class="log_body">
+					<textarea disabled="disabled" id="log_description"></textarea>
+				</div>
+
+				<div class="log_attachments">
+					<div id="attachments_size_dropdown" class="btn-group pull-right">
+						<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+							<i title="Image size" class="icon-picture"></i>
+							<span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu">
+							<li><a href="#">small</a></li>
+							<li class="active"><a href="#">medium</a></li>
+							<li><a href="#">large</a></li>
+						</ul>
+					</div>
+					<br/>
+					<br/>
+					<div id="load_log_attachments">
+
+					</div>
+				</div>
+
+				<div class="log_properties">
+					<div>
+						<table class="table table-bordered">
+							<thead>
+								<tr class="property_header disable_selecting_text">
+									<th colspan="2"><i class="icon-chevron-right"></i> Property 1</th>
+								</tr>
+							</thead>
+							<tbody class="property_body">
+								<tr>
+									<td>key</td>
+									<td>value</td>
+								</tr>
+								<tr>
+									<td>key</td>
+									<td>value</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div>
+						<table class="table table-bordered">
+							<thead>
+								<tr class="property_header">
+									<th colspan="2"><i class="icon-chevron-right"></i> Property 1</th>
+								</tr>
+							</thead>
+							<tbody class="property_body">
+								<tr>
+									<td>key</td>
+									<td>value</td>
+								</tr>
+								<tr>
+									<td>key</td>
+									<td>value</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -15,11 +15,6 @@ html, body {
 	margin-top: 60px;
 }
 
-.well {
-	padding: 0px;
-	margin: 0px;
-}
-
 /* Style log START */
 .log {
 	display: block;
@@ -65,109 +60,137 @@ html, body {
 	border-radius: 0px;
 }
 
-.container-left {
-	position: absolute;
-	left: 0px;
-	top: 40px;
-	width: 20%;
-	bottom: 0px;
+.well {
+	padding: 0px;
+	margin: 0px;
 }
 
-.container-resize {
-	position: fixed;
-	left: 20%;
-	top: 40px;
-	width: 5px;
-	bottom: 0px;
-	z-index: 501;
+@media (max-width: 1023px) {
+
+	.container-left {
+		float: none;
+		padding: 0px 20px 20px 20px;
+	}
+
+	.container-middle {
+		float: none;
+		padding: 0px 20px 20px 20px;
+	}
+
+	.container-right {
+		float: none;
+		padding: 0px 20px 20px 20px;
+	}
 }
 
-.container-resize > div {
-	position:relative;
-	height: 100%;
-	width: 100%;
-}
+@media (min-width: 1024px) {
 
-.container-resize > div:hover {
-	cursor: col-resize;
-}
+	.container-resize {
+		position: fixed;
+		left: 20%;
+		top: 40px;
+		width: 5px;
+		bottom: 0px;
+		z-index: 501;
+	}
 
-.container-resize2 {
-	position: fixed;
-	left: 50%;
-	top: 40px;
-	width: 5px;
-	bottom: 0px;
-	z-index: 501;
-}
+	.container-resize > div {
+		position:relative;
+		height: 100%;
+		width: 100%;
+	}
 
-.container-resize2 > div {
-	position:relative;
-	height: 100%;
-	width: 100%;
-}
+	.container-resize > div:hover {
+		cursor: col-resize;
+	}
 
-.container-resize2 > div:hover {
-	cursor: col-resize;
-}
+	.container-resize2 {
+		position: fixed;
+		left: 50%;
+		top: 40px;
+		width: 5px;
+		bottom: 0px;
+		z-index: 501;
+	}
 
-.container-middle {
-	position: absolute;
-	left: 20%;
-	width: 30%;
-	top: 40px;
-	bottom: 0px;
-}
+	.container-resize2 > div {
+		position:relative;
+		height: 100%;
+		width: 100%;
+	}
 
-.container-right {
-	position: absolute;
-	right: 0px;
-	top: 40px;
-	width: 50%;
-	bottom: 0px;
+	.container-resize2 > div:hover {
+		cursor: col-resize;
+	}
+
+	.container-left {
+		position: absolute;
+		left: 0px;
+		top: 40px;
+		width: 20%;
+		bottom: 0px;
+		min-width: 200px;
+	}
+
+	.container-middle {
+		position: absolute;
+		left: 20%;
+		width: 30%;
+		top: 40px;
+		bottom: 0px;
+		min-width: 200px;
+	}
+
+	.container-right {
+		position: absolute;
+		right: 0px;
+		top: 40px;
+		width: 50%;
+		bottom: 0px;
+		min-width: 200px;
+	}
+
+	.container-middle-right {
+		position: absolute;
+		right: 0px;
+		top: 40px;
+		width: 80%;
+		bottom: 0px;
+	}
+
+	/* Scrollable columns START*/
+	.container-scroll {
+		position: absolute;
+		top: 5px;
+		right: 0px;
+		left: 5px;
+		bottom: 5px;
+		overflow-y: auto;
+	}
+
+	.container-scroll-no-margin {
+		position: absolute;
+		top: 5px;
+		right: 0px;
+		left: 0px;
+		bottom: 5px;
+		overflow-y: auto;
+	}
+
+	.container-scroll-last-one {
+		position: absolute;
+		top: 5px;
+		right: 5px;
+		left: 5px;
+		bottom: 5px;
+		overflow-y: auto;
+	}
+	/* Scrollable columns END*/
 }
 
 #load_log {
 	display:none;
 }
-
-.container-middle-right {
-	position: absolute;
-	right: 0px;
-	top: 40px;
-	width: 80%;
-	bottom: 0px;
-}
-
-/* Scrollable columns START*/
-.container-scroll {
-	position: absolute;
-	top: 5px;
-	right: 0px;
-	left: 5px;
-	bottom: 5px;
-	overflow-y: auto;
-}
-
-/* Scrollable columns START*/
-.container-scroll-no-margin {
-	position: absolute;
-	top: 5px;
-	right: 0px;
-	left: 0px;
-	bottom: 5px;
-	overflow-y: auto;
-}
-
-.container-scroll-last-one {
-	position: absolute;
-	top: 5px;
-	right: 5px;
-	left: 5px;
-	bottom: 5px;
-	overflow-y: auto;
-}
-/* Scrollable columns END*/
 
 .float_right {
 	float: right;
@@ -253,6 +276,9 @@ html, body {
 
 .property_header {
 	cursor: pointer;
+}
+
+.disable_selecting_text {
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
@@ -314,4 +340,8 @@ html, body {
 	cursor: default;
 	-webkit-appearance: none;
 	-webkit-box-shadow: none;
+}
+
+.margin-left {
+	margin-left: 10px;
 }

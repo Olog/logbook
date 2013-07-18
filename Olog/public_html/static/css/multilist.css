@@ -39,7 +39,7 @@ input.filter_search {
 	display:inline-block;
 	margin: 5px;
 	padding: 4px 6px 4px 6px;
-	width:88%;
+	width:70%;
 }
 
 .multilist_clicked, .multilist_clicked:hover {
@@ -62,3 +62,11 @@ input.filter_search {
 #datepicker_from {
 	margin-bottom: 3px;
 }
+
+.vertical-align {
+	vertical-align: top;
+}
+
+.toggle-filters {}
+
+.toggle-from {}

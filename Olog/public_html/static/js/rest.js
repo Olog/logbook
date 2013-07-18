@@ -28,6 +28,7 @@ function loadLogbooks(targetId){
 		repeat("template_logbook", targetId, books, "logbook");
 		multiselect("list");
 		filterListItems("logbooks_filter_search", "list");
+		startListeningForToggleFilterClicks();
 	});
 }
 
@@ -43,6 +44,7 @@ function loadTags(targetId){
 		repeat("template_tag", targetId, tags, "tag");
 		multiselect("list2");
 		filterListItems("tags_filter_search", "list2");
+		startListeningForToggleFilterClicks();
 	});
 }
 
@@ -1175,4 +1177,57 @@ function uploadPastedFiles(logId, pastedData) {
 			xhr.send(content);
 		}
 	});
+}
+
+/**
+ * When logs are loaded onto the page, start listening for mouse clicks on them
+ * @returns {undefined}
+ */
+function startListeningForLogClicks(){
+	var actionElement = null;
+
+	$('.log_show_details').unbind('click');
+	$('.log_show_details').click(function(e){
+		$('.log_details').toggle(400, 'swing');
+	});
+
+	$('.log').unbind('click');
+	$(".log").click(function(e){
+		$('.log').removeClass("log_click");
+
+		if($(e.target).is("div")){
+			actionElement = $(e.target);
+
+		}else if($(e.target).parent().is("div")){
+			actionElement = $(e.target).parent();
+		}
+
+		var id = actionElement.find('[name=id]').val();
+		window.location.href = "#" + id;
+
+		$('html, body').animate({
+			scrollTop: $('.container-right').offset().top
+		}, 100);
+
+		actionElement.toggleClass("log_click");
+		var log = getLog(actionElement.find("input[name=id]").val());
+		showLog(log[0], log[1]);
+	});
+}
+
+/**
+ * Scroll to the last log if user clicked on the time filter
+ * @returns {undefined}
+ */
+function scrollToLastLog() {
+
+	// Scroll to the last log only if we are not limiting rest response
+	if(limit === false) {
+		var container = $('#load_logs');
+		var scrollTo = $('.log').last();
+
+		if(scrollTo !== undefined && scrollTo.offset() !== undefined) {
+			container.scrollTop(scrollTo.offset().top - container.offset().top + container.scrollTop());
+		}
+	}
 }
