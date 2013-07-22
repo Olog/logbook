@@ -45,8 +45,7 @@ $(document).ready(function(){
 
 	// Hide Logbooks for small screens
 	$('#load_logbooks').on('dataloaded', function(e){
-		if($(window).width() < 1024) {
-			l("small screen resolution");
+		if($(window).width() < smallScreenResolutionWidth) {
 			$('#load_logbooks li').toggle();
 			toggleChevron("#load_logbooks_chevron");
 		}
@@ -54,12 +53,26 @@ $(document).ready(function(){
 
 	// Hide Tags for small screens
 	$('#load_tags').on('dataloaded', function(e){
-		if($(window).width() < 1024) {
-			l("small screen resolution");
+		if($(window).width() < smallScreenResolutionWidth) {
 			$('#load_tags li').toggle();
 			toggleChevron("#load_tags_chevron");
 		}
 	});
+
+	// Hide time filter from
+	$('#load_time_from').on('dataloaded', function(e){
+		if($(window).width() < smallScreenResolutionWidth) {
+			$("#load_time_from").find('li:gt(0)').toggle();
+			toggleChevron("#load_from_chevron");
+		}
+	});
+
+	// If Olog is opened on small screen resolution, close filters, disable
+	// adding and editing.
+	if($(window).width() < smallScreenResolutionWidth) {
+		$("#load_time_from_to").find('li:gt(0)').toggle();
+		toggleChevron("#load_from_to_chevron");
+	}
 });
 
 /**
@@ -391,4 +404,52 @@ function resizeManager() {
 	$('.container-resize2').on('dragstop', function(e){
 		$('.container-resize2').css({left: dims.right_pane_left});
 	});
+}
+
+/**
+ * Replace special characters in strings that should not contain them
+ * @param {type} input input string
+ * @returns {string} replaced input string
+ */
+function prepareInput(input) {
+	return input.replace(/[^a-z0-9]/ig, "");
+}
+
+/**
+ * Remove html tags from input string
+ * @param {type} input input string
+ * @returns {string} replaced string
+ */
+function removeHtmlTags(input) {
+	return input.replace(/<.*?>/ig, "");
+}
+
+/**
+ * Disable creating new Logs, Logbooks, Tags and mofidying them
+ */
+function disableCreatingNewAndModifying() {
+
+	// Disable adding new log
+	$('#new_log').addClass("disabled");
+	$('#new_log').attr("disabled", true);
+	$('#new_logbook_and_tag').addClass("disabled");
+	$('#new_logbook_and_tag').attr("disabled", true);
+	$('#modify_log_link').hide();
+}
+
+/**
+ * Enable creating Logs, Logbooks, Tags and modifying them only if screen width
+ * is greater than smallScreenResolutionWidth constant.
+ */
+function enableCreatingAndModifying() {
+
+	if($(window).width() > smallScreenResolutionWidth) {
+		$('#new_log').removeClass("disabled");
+		$('#new_log').attr("disabled", false);
+		$('#new_logbook_and_tag').removeClass("disabled");
+		$('#new_logbook_and_tag').attr("disabled", false);
+
+	} else {
+		disableCreatingNewAndModifying();
+	}
 }

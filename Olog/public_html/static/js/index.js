@@ -86,13 +86,7 @@ $(document).ready(function(){
 		var html = Mustache.to_html(template, {"user": "User"});
 		$('#top_container').html(html);
 		login();
-
-		// Disable adding new log
-		$('#new_log').addClass("disabled");
-		$('#new_log').attr("disabled", true);
-		$('#new_logbook_and_tag').addClass("disabled");
-		$('#new_logbook_and_tag').attr("disabled", true);
-		$('#modify_log_link').hide();
+		disableCreatingNewAndModifying();
 
 	// If user is not signed in, show sign out link
 	} else {
@@ -102,12 +96,7 @@ $(document).ready(function(){
 		var template = getTemplate('template_logged_in');
 		var html = Mustache.to_html(template, {"user": firstLetterToUppercase(credentials["username"])});
 		$('#top_container').html(html);
-
-		// Enable adding new Log, Logbook and Tag
-		$('#new_log').removeClass("disabled");
-		$('#new_log').attr("disabled", false);
-		$('#new_logbook_and_tag').removeClass("disabled");
-		$('#new_logbook_and_tag').attr("disabled", false);
+		enableCreatingAndModifying();
 	}
 
 
@@ -176,4 +165,6 @@ function loadCreatedFromFilters() {
 		html = Mustache.to_html(template, filter);
 		$('#load_time_from').append(html);
 	});
+
+	$('#load_time_from').trigger('dataloaded');
 }

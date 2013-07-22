@@ -31,11 +31,7 @@ function initialize(logId) {
 		var html = Mustache.to_html(template, {"user": "User"});
 		$('#top_container').html(html);
 		login();
-
-		$('#new_log').addClass("disabled");
-		$('#new_log').attr("disabled", true);
-		$('#new_logbook_and_tag').addClass("disabled");
-		$('#new_logbook_and_tag').attr("disabled", true);
+		disableCreatingNewAndModifying();
 
 	// Load user name and show sing out link
 	} else {
@@ -44,11 +40,7 @@ function initialize(logId) {
 		var template = getTemplate('template_logged_in');
 		var html = Mustache.to_html(template, {"user": firstLetterToUppercase(credentials["username"])});
 		$('#top_container').html(html);
-
-		$('#new_log').removeClass("disabled");
-		$('#new_log').attr("disabled", false);
-		$('#new_logbook_and_tag').removeClass("disabled");
-		$('#new_logbook_and_tag').attr("disabled", false);
+		enableCreatingAndModifying();
 	}
 
 	// Listen to cancel or close clicks
@@ -146,8 +138,32 @@ function isValidLog(log) {
 		errorString += "User is not logged in!<br />";
 	}
 
+	// Check properties
+	$.each(log[0]["properties"], function(index, property){
+
+		if(property.name === "") {
+			errorString += "Property should have a name!<br />";
+			return;
+		}
+
+		if(property.attributes === undefined || Object.keys(property.attributes).length === 0) {
+			errorString += "Property " + property.name + " should have at least one key, value pair!";
+
+		} else {
+
+			$.each(property.attributes, function(key, value){
+				l(key + ' - ' + value);
+
+				if(key === "") {
+					errorString += "Property key should not be empty!";
+				}
+			});
+		}
+	});
+
 	// If there are no errors, return true
 	if (errorString.length === 0) {
+		$('#error_block').hide("fast");
 		return true;
 
 	// If there are errors, show error block and return false

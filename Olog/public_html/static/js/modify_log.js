@@ -68,11 +68,50 @@ $(document).ready(function(){
 		}
 	});
 
+	// Load properties
+	if(log[0].properties !== undefined && log[0].properties.length !== 0) {
+		// Load properties
+		$('.log_properties').find('div').remove();
+
+		var template = getTemplate("template_modify_log_property");
+		var html = "";
+		var attrIndexes = [];
+		var nameIndex = 0;
+
+		$.each(log[0].properties, function(i, property){
+
+			var newProperty = property;
+			newProperty.attrs = [];
+
+			var attrIndex = {"name":newProperty.name, "attrs":[]};
+
+			$.each(newProperty.attributes, function(attributeKey, attributeValue){
+				var attribute = {"key": attributeKey, "name":prepareInput(attributeKey) + nameIndex, "value":removeHtmlTags(checkIfLink(attributeValue))};
+				attrIndex.attrs.push({"key": attributeKey, "name": prepareInput(attributeKey) + nameIndex});
+				nameIndex ++;
+				newProperty.attrs.push(attribute);
+			});
+
+			attrIndexes.push(attrIndex);
+
+			html = Mustache.to_html(template, newProperty);
+			$('.log_properties').append(html);
+		});
+
+		l(attrIndexes);
+		$('#modifyForm input[name=properties]').val(JSON.stringify(attrIndexes));
+		startListeningForPropertyClicks();
+
+	} else {
+		$('.log_properties').hide("fast");
+	}
+
 	// Listen for new Log form submit
 	$('#modifyForm').on('submit', function(e){
 		e.preventDefault();
 
 		var log = generateLogObject();
+		l(log[0]);
 
 		// Append id
 		log[0].id = logId;

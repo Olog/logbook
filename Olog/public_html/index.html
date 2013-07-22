@@ -72,7 +72,7 @@
 					<!-- Template -->
 				</ul>
 				<ul class="multilist" id="load_time_from">
-					<li class="multilist_header disable_selecting_text"><i class="icon-chevron-down vertical-align toggle-from"></i> CREATED FROM</li>
+					<li class="multilist_header disable_selecting_text"><i id="load_from_chevron" class="icon-chevron-down vertical-align toggle-from"></i> CREATED FROM</li>
 					<!-- Template -->
 				</ul>
 				<!--<ul class="multilist" id="load_time_to">
@@ -83,7 +83,7 @@
 					<li><span class="list4 multilist_item"><input type="hidden" name="to" value="1 week ago" />A week ago</span></li>
 				</ul>-->
 				<ul class="multilist" id="load_time_from_to">
-					<li class="multilist_header disable_selecting_text"><i class="icon-chevron-down vertical-align toggle-from"></i> CREATED FROM - TO</li>
+					<li class="multilist_header disable_selecting_text"><i id="load_from_to_chevron" class="icon-chevron-down vertical-align toggle-from"></i> CREATED FROM - TO</li>
 					<li><span class="list5 multilist_item disable_selecting_text">From <input type="text" id="datepicker_from" /><br />To <input type="text" id="datepicker_to" /></span></li>
 				</ul>
 			</div>
@@ -131,6 +131,7 @@
 				</div>
 
 				<div class="log_attachments">
+					<span class="log_view_details">Attachments</span>
 					<div id="attachments_size_dropdown" class="btn-group pull-right">
 						<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
 							<i title="Image size" class="icon-picture"></i>
@@ -150,6 +151,8 @@
 				</div>
 
 				<div class="log_properties">
+					<span class="log_view_details">Properties</span><br/>
+					<br/>
 					<div>
 						<table class="table table-bordered">
 							<thead>

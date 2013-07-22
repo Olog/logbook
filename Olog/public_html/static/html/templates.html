@@ -182,5 +182,56 @@ and open the template in the editor.
 				</table>
 			</div>
 		</script>
+
+		<!-- Log entry property for modification -->
+		<script id="template_modify_log_property" type="text/template">
+			<div>
+				<table class="table table-bordered">
+					<thead>
+						<tr class="property_header">
+							<th colspan="2"><i class="icon-chevron-right"></i> {{name}}</th>
+						</tr>
+					</thead>
+					<tbody class="property_body">
+						{{#attrs}}
+						<tr>
+							<td>{{key}}</td>
+							<td><input name="{{name}}" value="{{{value}}}" /></td>
+						</tr>
+						{{/attrs}}
+					</tbody>
+				</table>
+			</div>
+		</script>
+
+		<!-- Add Log entry property -->
+		<script id="template_add_log_property" type="text/template">
+			<div class="new_property">
+				<table class="table table-bordered">
+					<thead>
+						<tr class="new_property_header">
+							<th colspan="2"><input name="name" placeholder="Enter property name ..." /><i class="remove_property icon-remove-sign pull-right"></i></th>
+						</tr>
+					</thead>
+					<tbody class="new_property_body">
+						<tr>
+							<td><input name="key" placeholder="Enter key name ..." /></td>
+							<td><input name="value" placeholder="Enter value ..." /></td>
+						</tr>
+						<tr>
+							<td colspan="2"><a class="add_a_key_value_pair" href="#">Add a Key, Value pair ...</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</script>
+
+		<!-- New key - value pair for a property -->
+		<script id="template_add_key_value_pair_to_property" type="text/template">
+			<tr>
+				<td><input name="key" placeholder="Enter key name ..." /></td>
+				<td><input name="value" placeholder="Enter value ..." /></td>
+			</tr>
+		</script>
 	</body>
 </html>

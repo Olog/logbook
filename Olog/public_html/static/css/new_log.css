@@ -72,3 +72,15 @@
 #back_button {
 	display: inline-block;
 }
+
+#cancel_editing_x {
+	cursor: pointer;
+}
+
+.remove_property {
+	cursor: pointer;
+}
+
+.new_property_header {
+	background-color: #eeeeee;
+}

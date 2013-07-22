@@ -50,6 +50,12 @@ $(document).ready(function(){
 		e.preventDefault();
 
 		var log = generateLogObject();
+		//l(log);
+
+		// Create properties
+		if(log[0].properties.length !== 0) {
+			createProperty(log[0].properties);
+		}
 
 		if(isValidLog(log) === true) {
 			var newLogId = createLog(log);
@@ -86,4 +92,32 @@ $(document).ready(function(){
 
 	// Start listening for Firefox paste events
 	startListeningForPasteEvents("#files");
+
+	// Add new propery table
+	$('#add_a_property').click(function(e){
+		var template = getTemplate("template_add_log_property");
+		var html = Mustache.to_html(template);
+		$('#add_a_property').before(html);
+
+		// Start listening for Remove Property icon clicks
+		startListeningForRemovePropertyClicks();
+
+		// Add a key - value pair to property
+		$('.add_a_key_value_pair').unbind('click');
+		$('.add_a_key_value_pair').click(function(e){
+			var dockingTr = $(e.target).parent().parent();
+			var template = getTemplate("template_add_key_value_pair_to_property");
+			var html = Mustache.to_html(template);
+			dockingTr.before(html);
+		});
+	});
 });
+
+function startListeningForRemovePropertyClicks() {
+	// Remove property table
+	$('.remove_property').unbind('div');
+	$('.remove_property').click(function(e){
+		l($(e.target).parents('div'));
+		$(e.target).parents('div')[0].remove();
+	});
+}

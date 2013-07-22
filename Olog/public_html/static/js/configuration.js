@@ -119,6 +119,12 @@ var updateInterval = 60;
 // Settings cookie name
 var settingsCookieName = "olog";
 
+// Maximum width of small resolution. If Olog will be displayed in smaller
+// width, panes will be stacked one upon each other and filters will be closed.
+// If this constant is chamges, constant should also be changed in style.css
+// file.
+var smallScreenResolutionWidth = 1024;
+
 /**
  * Global variables needed by more than one page. SHOULD NOT BE CONFIGURED BY THE USER!
  */

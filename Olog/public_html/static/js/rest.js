@@ -198,7 +198,7 @@ function showLog(log, id){
 	}
 
 	// Load properties
-	$('.log_properties').html("");
+	$('.log_properties').find('div').remove();
 
 	if(log.properties.length !== 0) {
 		$('.log_properties').show("fast");
@@ -601,10 +601,103 @@ function generateLogObject() {
 		});
 	}
 
+	// Set properties
+	var input = $('input[name=properties]');
+
+	// Check if we are adding a new property or if we modified one
+	if(input.is("input")){
+		l("input");
+
+		var propertiesString = input.val();
+		var properties = JSON.parse(propertiesString);
+		l(properties);
+
+		$.each(properties, function(i, property) {
+			var propertyElement = {"name":property.name, "attributes":{}};
+
+			$.each(property.attrs, function(j, attr){
+				l(attr);
+				var key = attr.key;
+				var value = $('input[name=' + attr.name + ']').val();
+				propertyElement.attributes[key] = removeHtmlTags(value);
+			});
+
+			log[0].properties.push(propertyElement);
+		});
+
+	// We have a new property, parse Property tables, extract values and add
+	// them to the Log object
+	} else {
+		var data = $('.new_property');
+
+		$.each(data, function(i, element){
+			var name = $(element).find('input[name=name]').val();
+			l(name);
+			var propertyElement = {"name":prepareInput(name), "attributes":{}};
+
+			var map = $(element).find('.new_property_body tr');
+
+			$.each(map, function(j, keyValue){
+
+				// Return when we have the last row
+				if($(keyValue).children().length < 2) {
+					return;
+				}
+
+				var key = $(keyValue).find('input[name=key]').val();
+				var value = $(keyValue).find('input[name=value]').val();
+				propertyElement.attributes[prepareInput(key)] = removeHtmlTags(value);
+				l(key + ' - ' + value);
+			});
+
+			log[0].properties.push(propertyElement);
+		});
+
+	}
+
 	// Set Level
 	log[0].level = $('#level_input').find(":selected").val();
 
 	return log;
+}
+
+/**
+ * Create a Property before you assign it to the Log entry
+ * @param {type} properties Array of Log's properties
+ */
+function createProperty(properties) {
+
+	$.each(properties, function(index, property){
+		var json = JSON.stringify(property);
+
+		var userCredentials = $.parseJSON($.cookie(sessionCookieName));
+
+		$.ajax( {
+			type: "PUT",
+			url : serviceurl + 'properties/' + property.name,
+			contentType: 'application/json; charset=utf-8',
+			data: json,
+			async: false,
+			beforeSend : function(xhr) {
+				var base64 = encode64(userCredentials["username"] + ":" + userCredentials["password"]);
+				xhr.setRequestHeader("Authorization", "Basic " + base64);
+			},
+			statusCode: {
+				403: function(){
+					showError("You do not have permission to create this Log!", "#error_block", "#error_body", "#new_logbook_error_x");
+				},
+				500: function(){
+					showError("Something went wrong!", "#error_block", "#error_body", "#new_logbook_error_x");
+				}
+			},
+			error : function(xhr, ajaxOptions, thrownError) {
+
+			},
+			success : function(xml) {
+				l("Log sent to the server");
+			}
+		});
+	});
 }
 
 /**
@@ -631,6 +724,9 @@ function createLog(log) {
 		statusCode: {
 			403: function(){
 				showError("You do not have permission to create this Log!", "#error_block", "#error_body", "#new_logbook_error_x");
+			},
+			500: function(){
+				showError("Something went wrong!", "#error_block", "#error_body", "#new_logbook_error_x");
 			}
 		},
 		error : function(xhr, ajaxOptions, thrownError) {

@@ -274,10 +274,6 @@ html, body {
 	border-bottom: 1px solid #dddddd;
 }
 
-.property_header {
-	cursor: pointer;
-}
-
 .disable_selecting_text {
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
@@ -344,4 +340,15 @@ html, body {
 
 .margin-left {
 	margin-left: 10px;
+}
+
+.log_view_details {
+	font-weight: bold;
+	font-size: 13px;
+	color: #bbbbbb;
+}
+
+.property_header {
+	cursor: pointer;
+	background-color: #eeeeee;
 }
