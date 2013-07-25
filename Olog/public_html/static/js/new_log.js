@@ -50,14 +50,15 @@ $(document).ready(function(){
 		e.preventDefault();
 
 		var log = generateLogObject();
-		//l(log);
-
-		// Create properties
-		if(log[0].properties.length !== 0) {
-			createProperty(log[0].properties);
-		}
+		l(log);
 
 		if(isValidLog(log) === true) {
+
+			// Create properties
+			if(log[0].properties.length !== 0) {
+				createProperty(log[0].properties);
+			}
+
 			var newLogId = createLog(log);
 			l(newLogId);
 

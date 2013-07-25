@@ -146,16 +146,24 @@ function isValidLog(log) {
 			return;
 		}
 
+		// Check if Property attributes exist
 		if(property.attributes === undefined || Object.keys(property.attributes).length === 0) {
-			errorString += "Property " + property.name + " should have at least one key, value pair!";
+			errorString += "Property " + property.name + " should have at least one key, value pair!<br />";
 
 		} else {
 
+			// Check all property attributes
 			$.each(property.attributes, function(key, value){
 				l(key + ' - ' + value);
 
+				// Key should not be empty
 				if(key === "") {
-					errorString += "Property key should not be empty!";
+					errorString += "Property key should not be empty!<br />";
+				}
+
+				// Value should not be empty
+				if(value === "") {
+					errorString += "Property value should not be empty!<br />";
 				}
 			});
 		}

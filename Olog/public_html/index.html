@@ -26,12 +26,6 @@
 		<div class="navbar-inner">
 			<div class="container">
 
-				<!-- <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button> -->
-
 				<a class="brand" href="index.html">Olog</a>
 
 				<ul class="nav">
@@ -63,28 +57,19 @@
 			<div id="load_filters" class="well container-scroll">
 				<i id="load_logbooks_chevron" class="icon-chevron-down margin-left toggle-filters disable_selecting_text"></i><input class="filter_search" id="logbooks_filter_search" type="text" placeholder="Filter Logbooks ..." />
 				<ul class="multilist" id="load_logbooks">
-					<!--<li class="multilist_header"><input class="filter_search" type="text" placeholder="LOGBOOKS" /> <a href="#myModal" title="Add New Logbook" data-toggle="modal"><i class="icon-plus float_right float_right_padding"></i></a></li>-->
 					<!-- Template -->
 				</ul>
 				<i id="load_tags_chevron" class="icon-chevron-down margin-left toggle-filters disable_selecting_text"></i><input class="filter_search" id="tags_filter_search" type="text" placeholder="Filter Tags ..." />
 				<ul class="multilist" id="load_tags">
-					<!--<li class="multilist_header">TAGS <a href="#myTagModal" title="Add New Tag" data-toggle="modal"><i class="icon-plus float_right float_right_padding"></i></a></li>-->
 					<!-- Template -->
 				</ul>
 				<ul class="multilist" id="load_time_from">
 					<li class="multilist_header disable_selecting_text"><i id="load_from_chevron" class="icon-chevron-down vertical-align toggle-from"></i> CREATED FROM</li>
 					<!-- Template -->
 				</ul>
-				<!--<ul class="multilist" id="load_time_to">
-					<li class="multilist_header">CREATED TO</li>
-					<li><span class="list4 multilist_item"><input type="hidden" name="to" value="1 min ago" />A min ago</span></li>
-					<li><span class="list4 multilist_item"><input type="hidden" name="to" value="1 hour ago" />An hour ago</span></li>
-					<li><span class="list4 multilist_item"><input type="hidden" name="to" value="1 day ago" />A day ago</span></li>
-					<li><span class="list4 multilist_item"><input type="hidden" name="to" value="1 week ago" />A week ago</span></li>
-				</ul>-->
 				<ul class="multilist" id="load_time_from_to">
 					<li class="multilist_header disable_selecting_text"><i id="load_from_to_chevron" class="icon-chevron-down vertical-align toggle-from"></i> CREATED FROM - TO</li>
-					<li><span class="list5 multilist_item disable_selecting_text">From <input type="text" id="datepicker_from" /><br />To <input type="text" id="datepicker_to" /></span></li>
+					<li><span id="from_to_filter" class="list5 multilist_item disable_selecting_text">From <input type="text" id="datepicker_from" /><br />To <input type="text" id="datepicker_to" /></span></li>
 				</ul>
 			</div>
 		</div>
@@ -127,7 +112,8 @@
 				</div>
 
 				<div class="log_body">
-					<textarea disabled="disabled" id="log_description"></textarea>
+					<!-- <textarea disabled="disabled" id="log_description"></textarea>-->
+					<span id="log_description"></span>
 				</div>
 
 				<div class="log_attachments">

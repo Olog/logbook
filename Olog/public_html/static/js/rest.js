@@ -83,6 +83,7 @@ function loadLogs(page){
 
 	// Save query to global var
 	searchURL = searchQuery;
+	l(searchURL);
 
 	$.getJSON(searchQuery, function(logs) {
 		$(".log-last").remove();
@@ -147,10 +148,11 @@ function showLog(log, id){
 	$('#load_log').show("fast");
 	l(log);
 
-	var lines = log.description.split("\n");
+	//var lines = log.description.split("\n");
+	var desc = log.description.replace(/\n/g, "<br />");
 
-	$("#log_description").html(log.description);
-	$("#log_description").attr("rows", lines.length);
+	$("#log_description").html(desc);
+	//$("#log_description").attr("rows", lines.length);
 
 	$("#log_owner").html(log.owner);
 	$("#log_date").html(formatDate(log.createdDate));
@@ -257,7 +259,7 @@ function showAttachmentSizeDropdown(attachments, id) {
 
 	// Set current selected size
 	if(imageSizes.current === -1) {
-		imageSizes.current = imageSizes.default;
+		imageSizes.current = imageSizes.defaultSize;
 	}
 
 	$('#attachments_size_dropdown ul').html("");
@@ -352,6 +354,7 @@ function repeat(source_id, target_id, data, property){
 function repeatLogs(data, prepend){
 	var template = getTemplate("template_log");
 	var html = "";
+	var htmlBlock = "";
 
 	// Go through all the logs
 	$.each(data, function(i, item) {
@@ -399,10 +402,15 @@ function repeatLogs(data, prepend){
 			$("#load_logs").append(html);
 
 		} else {
-			$("#load_logs").prepend(html);
+			htmlBlock += html;
 		}
 
 	});
+
+	// Prepend the whole block of Logs in the beginning of list
+	if(prepend === true) {
+		$("#load_logs #form-search").after(htmlBlock);
+	}
 }
 
 /*
@@ -708,6 +716,7 @@ function createLog(log) {
 	var logId = null;
 
 	var json = JSON.stringify(log);
+	l(json);
 
 	var userCredentials = $.parseJSON($.cookie(sessionCookieName));
 
@@ -1014,7 +1023,7 @@ function createLogbook(logbook) {
 		success : function(model) {
 			l("Logbook sent to the server");
 			$('#myModal').modal("hide");
-			loadLogbooks();
+			loadLogbooks("load_logbooks");
 		}
 	});
 }
@@ -1049,7 +1058,7 @@ function modifyLogbook(logbook, name) {
 		success : function(model) {
 			l("Logbook modify command sent to the server");
 			$('#editLogbookModal').modal("hide");
-			loadLogbooks();
+			loadLogbooks("load_logbooks");
 		}
 	});
 }
@@ -1080,7 +1089,7 @@ function deleteLogbook(name) {
 		success : function(model) {
 			l("Logbook delete command sent to the server");
 			$('#deleteLogbookModal').modal("hide");
-			loadLogbooks();
+			loadLogbooks("load_logbooks");
 		}
 	});
 }
@@ -1114,7 +1123,7 @@ function createTag(tag) {
 		success : function(model) {
 			l("Tag sent to the server");
 			$('#myTagModal').modal("hide");
-			loadTags();
+			loadTags("load_tags");
 		}
 	});
 }
@@ -1149,7 +1158,7 @@ function modifyTag(tag, name) {
 		success : function(model) {
 			l("Tag modify command sent to the server");
 			$('#editTagModal').modal("hide");
-			loadTags();
+			loadTags("load_tags");
 		}
 	});
 }
@@ -1180,7 +1189,7 @@ function deleteTag(name) {
 		success : function(model) {
 			l("Logbook delete command sent to the server");
 			$('#deleteTagModal').modal("hide");
-			loadTags();
+			loadTags("load_tags");
 		}
 	});
 }

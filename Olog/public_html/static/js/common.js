@@ -27,6 +27,7 @@ $(document).ready(function(){
 		selectedLog = parseInt(id);
 	}
 
+	// TODO: What to to with Olog settings if window resizes?
 	$(window).resize(function(e){
 		var windowWidth = $(window).width();
 
@@ -34,13 +35,6 @@ $(document).ready(function(){
 			$.removeCookie(settingsCookieName);
 			window.location.reload();
 		}
-
-		/*if(windowWidth <= 1024) {
-			l("small screen");
-			$('.container-left').css({position:"relative", float:"left", clear: "both"});
-			$('.container-middle').css({position:"relative", float:"left", clear: "both"});
-			$('.container-right').css({position:"relative", float:"left", clear: "both"});
-		}*/
 	});
 
 	// Hide Logbooks for small screens
@@ -73,6 +67,9 @@ $(document).ready(function(){
 		$("#load_time_from_to").find('li:gt(0)').toggle();
 		toggleChevron("#load_from_to_chevron");
 	}
+
+	// Start listening for expand/collapse filters
+	startListeningForToggleFilterClicks();
 });
 
 /**
@@ -395,7 +392,7 @@ function resizeManager() {
 		$(rightPane).width($(window).width() - dims.right_pane_left);
 		dims.right_pane_width = $(window).width() - dims.right_pane_left;
 
-		l(dims.right_pane_width + '|' + dims.right_pane_left);
+		//l(dims.right_pane_width + '|' + dims.right_pane_left);
 
 		$.cookie(settingsCookieName, JSON.stringify(dims));
 	});

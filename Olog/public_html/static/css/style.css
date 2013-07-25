@@ -327,7 +327,7 @@ html, body {
 	clear: both;
 }
 
-#log_description {
+/*#log_description {
 	display: inline-block;
 	width: 98%;
 	background: transparent;
@@ -336,7 +336,7 @@ html, body {
 	cursor: default;
 	-webkit-appearance: none;
 	-webkit-box-shadow: none;
-}
+}*/
 
 .margin-left {
 	margin-left: 10px;

@@ -105,6 +105,7 @@ function searchForLogs(searchQuery, resetPageCouner) {
 		$(".log-last").remove();
 		$(".log").remove();
 		repeatLogs(logs, false);
+		appendAddMoreLog("load_logs");
 		startListeningForLogClicks();
 		scrollToLastLog();
 
@@ -155,7 +156,10 @@ function buildSearchQuery(){
 
 	// Get custom part of search value
 	if(parsedStringParts[0] === "") {
-		query += keyMap['search:'] + trim(parsedStringParts[1]) + "&";
+
+		if(trim(parsedStringParts[1]) !== "") {
+			query += keyMap['search:'] + trim(parsedStringParts[1]) + "&";
+		}
 
 	} else {
 		if(keyMap[parsedStringParts[0]] !== undefined) {

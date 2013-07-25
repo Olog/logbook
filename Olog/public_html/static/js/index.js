@@ -63,14 +63,8 @@ $(document).ready(function(){
 	// Load created from filters
 	singleselect("list3");
 
-	// Load created to filters
-	singleselect("list4");
-
 	// Load created from - to filters
 	singleselect("list5");
-
-	// Start listening for expand/collapse filters
-	startListeningForToggleFilterClicks();
 
 	// Activate search field
 	startListeningForSearchEvents();
@@ -99,7 +93,6 @@ $(document).ready(function(){
 		enableCreatingAndModifying();
 	}
 
-
 	// Show log if it we have an URL
 	if(selectedLog !== -1 && !isNaN(selectedLog)) {
 		var log = getLog(selectedLog);
@@ -123,16 +116,61 @@ $(document).ready(function(){
  * Check for new Log entries and load them if there are any.
  */
 function checkForNewLogs() {
+	l("check new");
 
-	if(!$.isEmptyObject(savedLogs)) {
+	if(!$.isEmptyObject(savedLogs) && $.url(searchURL).param('end') === undefined) {
 		var searchLog = $("#load_logs").children().first();
 		var firstLogId = $($("#load_logs").children()[1]).find('input').val();
+		l("First log id " + firstLogId);
+
+		if(savedLogs[firstLogId] === undefined) {
+			return;
+		}
+
 		var lastLogSeconds = Math.round(savedLogs[firstLogId].createdDate/1000) + 1;
 		var currentSeconds = Math.round((new Date().getTime())/1000);
-		var searchQuery = serviceurl + "logs?page=1&limit=" + numberOfLogsPerLoad + '&start=' + lastLogSeconds + '&end=' + currentSeconds;
+		var searchQuery = "";
+
+		// Generate a search query
+		if(searchURL === "") {
+			searchQuery = "page=1&limit=" + numberOfLogsPerLoad + '&start=' + lastLogSeconds + '&end=' + currentSeconds;
+
+		} else {
+			var queryString = $.url(searchURL).param();
+
+			// Parse current query and generate a new one
+			for(querykey in queryString){
+
+				if(querykey === "limit") {
+					queryString[querykey] = numberOfLogsPerLoad;
+
+				} else if(querykey === "start") {
+					queryString[querykey] = lastLogSeconds;
+
+				} else if(querykey === "end") {
+					queryString[querykey] = currentSeconds;
+
+				} else if(querykey === "page") {
+					queryString[querykey] = "1";
+				}
+
+				searchQuery += querykey + "=" + queryString[querykey] + "&";
+			}
+
+			// Add start to the search query if it does not exist
+			if($.url(searchURL).param('start') === undefined) {
+				searchQuery += 'start=' + lastLogSeconds + '&';
+			}
+
+			// Add end tothe search query if it does not exist
+			if($.url(searchURL).param('end') === undefined) {
+				searchQuery += 'end=' + currentSeconds + '&';
+			}
+		}
+
 		l("check: " + searchQuery);
 
-		$.getJSON(searchQuery, function(logs) {
+		$.getJSON(serviceurl + "logs?" + searchQuery, function(logs) {
 			l("found: " + logs.length);
 			repeatLogs(logs, true);
 			startListeningForLogClicks();
@@ -155,7 +193,14 @@ function loadCreatedFromFilters() {
 
 	$.each(createdFromFilterDefinition, function(index, filter){
 
-		if(selectedElements !== undefined && selectedElements['from'] !== undefined && filter.value === selectedElements['from']) {
+		if(selectedElements !== undefined &&
+			selectedElements['from'] !== undefined &&
+			filter.value === selectedElements['from'] &&
+			(
+				selectedElements['to'] === undefined ||
+				selectedElements['to'] === ""
+			)
+		) {
 			filter.selected = "multilist_clicked";
 
 		} else {
@@ -167,4 +212,19 @@ function loadCreatedFromFilters() {
 	});
 
 	$('#load_time_from').trigger('dataloaded');
+
+	// Select from-to filter
+	if(
+		selectedElements['from'] !== undefined &&
+		selectedElements['from'] !== "" &&
+		selectedElements['to'] !== undefined &&
+		selectedElements['to'] !== ""
+	) {
+		$('#from_to_filter').addClass('multilist_clicked');
+		$('#datepicker_from').val(selectedElements['from']);
+		$('#datepicker_to').val(selectedElements['to']);
+
+	} else {
+		$('#from_to_filter').removeClass('multilist_clicked');
+	}
 }

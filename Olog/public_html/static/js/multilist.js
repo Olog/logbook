@@ -145,6 +145,11 @@ function singleselect(name){
 			$('.list5').removeClass("multilist_clicked");
 		}
 
+		// If list3 is selected, remove "to" value
+		if(name === "list3") {
+			selectedElements['to'] = "";
+		}
+
 		var from = $(e.target).find('input[name=from]').val();
 		var to = $(e.target).find('input[name=to]').val();
 

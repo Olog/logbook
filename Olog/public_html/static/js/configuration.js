@@ -9,7 +9,7 @@
  */
 
 // For accessing the REST service
-var serviceurl = "http://localhost:8080/Olog/resources/";
+var serviceurl = "http://10.5.2.37:8080/Olog/resources/";
 
 // For all the dates shown in client
 // Format docs can be found at http://momentjs.com/docs/#/displaying/format/
@@ -100,7 +100,7 @@ var imageSizes = {
 		{name:'medium', scale:'0.5', correction:'25'},
 		{name:'large', scale:'1', correction:'0'}
 	],
-	default:1,
+	defaultSize:1,
 	current:-1
 };
 
@@ -121,9 +121,12 @@ var settingsCookieName = "olog";
 
 // Maximum width of small resolution. If Olog will be displayed in smaller
 // width, panes will be stacked one upon each other and filters will be closed.
-// If this constant is chamges, constant should also be changed in style.css
+// If this constant is changes, constant should also be changed in style.css
 // file.
 var smallScreenResolutionWidth = 1024;
+
+// Available Levels
+var levels = ["Info", "Problem", "Request", "Suggestion", "Urgent"];
 
 /**
  * Global variables needed by more than one page. SHOULD NOT BE CONFIGURED BY THE USER!
@@ -131,9 +134,6 @@ var smallScreenResolutionWidth = 1024;
 
 // Current Log search url
 var searchURL = "";
-
-// Available Levels
-var levels = ["Info", "Problem", "Request", "Suggestion", "Urgent"];
 
 // Current Log displayed
 var selectedLog = -1;
