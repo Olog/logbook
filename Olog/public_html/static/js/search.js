@@ -157,8 +157,9 @@ function buildSearchQuery(){
 	// Get custom part of search value
 	if(parsedStringParts[0] === "") {
 
+		// Prepend and append a star
 		if(trim(parsedStringParts[1]) !== "") {
-			query += keyMap['search:'] + trim(parsedStringParts[1]) + "&";
+			query += keyMap['search:'] + "*" + trim(parsedStringParts[1]) + "*&";
 		}
 
 	} else {

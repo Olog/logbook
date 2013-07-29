@@ -29,6 +29,11 @@ function loadLogbooks(targetId){
 		multiselect("list");
 		filterListItems("logbooks_filter_search", "list");
 		startListeningForToggleFilterClicks();
+
+	}).fail(function(){
+		$('#modal_container').load(modalWindows + ' #serverErrorModal', function(response, status, xhr){
+			$('#serverErrorModal').modal('toggle');
+		});
 	});
 }
 
@@ -613,7 +618,7 @@ function generateLogObject() {
 	var input = $('input[name=properties]');
 
 	// Check if we are adding a new property or if we modified one
-	if(input.is("input")){
+	if(input.is("input") && input.val() !== ""){
 		l("input");
 
 		var propertiesString = input.val();
@@ -1015,6 +1020,9 @@ function createLogbook(logbook) {
 		statusCode: {
 			403: function(){
 				showError("You do not have permission to create this Logbook!", "#new_logbook_error_block", "#new_logbook_error_body", "#new_logbook_error_x");
+			},
+			500: function(){
+				showError("Server error!", "#new_logbook_error_block", "#new_logbook_error_body", "#new_logbook_error_x");
 			}
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
@@ -1050,6 +1058,9 @@ function modifyLogbook(logbook, name) {
 		statusCode: {
 			403: function(){
 				showError("You do not have permission to modify this Logbook!", "#new_logbook_error_block", "#new_logbook_error_body", "#new_logbook_error_x");
+			},
+			500: function(){
+				showError("Server error!", "#new_logbook_error_block", "#new_logbook_error_body", "#new_logbook_error_x");
 			}
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
@@ -1081,6 +1092,9 @@ function deleteLogbook(name) {
 		statusCode: {
 			403: function(){
 				showError("You do not have permission to delete this Logbook!", "#new_logbook_error_block", "#new_logbook_error_body", "#new_logbook_error_x");
+			},
+			500: function(){
+				showError("Server error!", "#new_logbook_error_block", "#new_logbook_error_body", "#new_logbook_error_x");
 			}
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
@@ -1115,6 +1129,9 @@ function createTag(tag) {
 		statusCode: {
 			403: function(){
 				showError("You do not have permission to create this Tag!", "#new_logbook_error_block", "#new_logbook_error_body", "#new_logbook_error_x");
+			},
+			500: function(){
+				showError("Server error!", "#new_logbook_error_block", "#new_logbook_error_body", "#new_logbook_error_x");
 			}
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
@@ -1150,6 +1167,9 @@ function modifyTag(tag, name) {
 		statusCode: {
 			403: function(){
 				showError("You do not have permission to modify this Tag!", "#new_logbook_error_block", "#new_logbook_error_body", "#new_logbook_error_x");
+			},
+			500: function(){
+				showError("Server error!", "#new_logbook_error_block", "#new_logbook_error_body", "#new_logbook_error_x");
 			}
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
@@ -1181,6 +1201,9 @@ function deleteTag(name) {
 		statusCode: {
 			403: function(){
 				showError("You do not have permission to delete this Tag!", "#new_logbook_error_block", "#new_logbook_error_body", "#new_logbook_error_x");
+			},
+			500: function(){
+				showError("Server error!", "#new_logbook_error_block", "#new_logbook_error_body", "#new_logbook_error_x");
 			}
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
@@ -1291,8 +1314,19 @@ function uploadPastedFiles(logId, pastedData) {
 function startListeningForLogClicks(){
 	var actionElement = null;
 
+	// Toggle show details
 	$('.log_show_details').unbind('click');
 	$('.log_show_details').click(function(e){
+
+		if($('.log_details').is(':visible')) {
+			$('#show_details').text('Show details');
+			l("show details");
+
+		} else {
+			$('#show_details').text('Hide details');
+			l("hide details");
+		}
+
 		$('.log_details').toggle(400, 'swing');
 	});
 
