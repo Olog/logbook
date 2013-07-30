@@ -178,6 +178,7 @@ function isValidLog(log) {
 	} else {
 		$('#error_body').html(errorString);
 		$('#error_block').show("fast");
+		scrollToElement('#load_log_details', '#error_block');
 		return false;
 	}
 }

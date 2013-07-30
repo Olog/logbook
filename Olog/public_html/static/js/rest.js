@@ -769,6 +769,11 @@ function uploadFiles(logId, uploadData, uploadTargetId) {
 	for(var i=0; i<uploadData.length; i++){
 		var data = uploadData[i];
 
+		// If file was added and then deleted, data will be null
+		if(data === null) {
+			return;
+		}
+
 		var file = data.files[0];
 
 		if(data !== null) {
@@ -815,6 +820,9 @@ function modifyLog(log) {
 		statusCode: {
 			403: function(){
 				showError("You do not have permission to modify this Log!", "#error_block", "#error_body", "#new_logbook_error_x");
+			},
+			500: function(){
+				showError("Something went wrong!", "#error_block", "#error_body", "#new_logbook_error_x");
 			}
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
@@ -1368,5 +1376,21 @@ function scrollToLastLog() {
 		if(scrollTo !== undefined && scrollTo.offset() !== undefined) {
 			container.scrollTop(scrollTo.offset().top - container.offset().top + container.scrollTop());
 		}
+	}
+}
+
+/**
+ * Scroll to specific element
+ * @param containerSelector id of container with scroller
+ * @param scrollToSelector id of element we want to scroll to
+ * @returns {undefined}
+ */
+function scrollToElement(containerSelector, scrollToSelector) {
+
+	var container = $(containerSelector);
+	var scrollTo = $(scrollToSelector);
+
+	if(scrollTo !== undefined && scrollTo.offset() !== undefined) {
+		container.scrollTop(scrollTo.offset().top - container.offset().top + container.scrollTop());
 	}
 }

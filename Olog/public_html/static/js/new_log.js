@@ -46,8 +46,16 @@ $(document).ready(function(){
 	});
 
 	// Listen for new Log form submit
+	var submitting = false;
+
 	$('#createForm').on('submit', function(e){
 		e.preventDefault();
+
+		if(submitting === true) {
+			return;
+		}
+
+		submitting = true;
 
 		var log = generateLogObject();
 		l(log);
@@ -73,6 +81,9 @@ $(document).ready(function(){
 					window.location.href = firstPageName;
 				}, 500);
 			}
+
+		} else {
+			submitting = false;
 		}
 	});
 
@@ -114,11 +125,14 @@ $(document).ready(function(){
 	});
 });
 
+/**
+ * Remove property from new Log entry
+ */
 function startListeningForRemovePropertyClicks() {
 	// Remove property table
 	$('.remove_property').unbind('div');
 	$('.remove_property').click(function(e){
 		l($(e.target).parents('div'));
-		$(e.target).parents('div')[0].remove();
+		$($(e.target).parents('div')[0]).remove();
 	});
 }

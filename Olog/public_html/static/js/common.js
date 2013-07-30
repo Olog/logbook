@@ -292,14 +292,35 @@ function resizeManager() {
 
 	// If cookie is not set, create new dims object
 	if($.cookie(settingsCookieName) === undefined) {
+		l("new dims");
+
 		dims = {
 			left_pane_width: $(leftPane).width(),
 			middle_pane_left: $(leftPane).width(),
-			middle_pane_width: $(middlePane).width(),
+			middle_pane_width: undefined,
 			right_pane_left: undefined,
 			right_pane_width: undefined,
 			middle_right_pane_width: undefined
 		};
+
+		var remainingWidth = windowWidth - dims.left_pane_width;
+		var remainingWidthHalf = Math.round(remainingWidth/2);
+
+		// Set the rest of the sizes so we don't get into trouble
+		if($(middlePane).doesExist()){
+			var middlePaneWidth = $(middlePane).width();
+
+			dims.middle_right_pane_width = windowWidth - dims.left_pane_width;
+			dims.middle_pane_width = middlePaneWidth;
+			dims.right_pane_width = windowWidth - dims.left_pane_width - middlePaneWidth;
+			dims.right_pane_left = dims.left_pane_width + middlePaneWidth;
+
+		} else {
+			dims.middle_right_pane_width = remainingWidth;
+			dims.middle_pane_width = remainingWidthHalf;
+			dims.right_pane_width = windowWidth - dims.left_pane_width - remainingWidthHalf;
+			dims.right_pane_left = dims.left_pane_width + remainingWidthHalf;
+		}
 
 	// If settings cookie is set, read and set the panes' dimensions
 	} else {
@@ -319,6 +340,8 @@ function resizeManager() {
 
 	// Drag left resizer
 	$('.container-resize').on('drag', function(e){
+		l(dims);
+
 		var oldWidth = $(leftPane).width();
 		var oldWidth2 = $(middleRightPane).width();
 
@@ -372,6 +395,7 @@ function resizeManager() {
 
 	// Drag right resizer
 	$('.container-resize2').on('drag', function(e){
+		l(dims);
 
 		// Limit the minimal width of the middle pane
 		if($(middlePane).width() < minWidth && e.pageX < dims.middle_pane_left + dims.middle_pane_width) {
@@ -439,6 +463,7 @@ function disableCreatingNewAndModifying() {
  * is greater than smallScreenResolutionWidth constant.
  */
 function enableCreatingAndModifying() {
+	l("window width: " + $(window).width());
 
 	if($(window).width() > smallScreenResolutionWidth) {
 		$('#new_log').removeClass("disabled");
