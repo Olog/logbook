@@ -58,7 +58,7 @@ $(document).ready(function(){
 		submitting = true;
 
 		var log = generateLogObject();
-		l(log);
+		l("submit log");
 
 		if(isValidLog(log) === true) {
 

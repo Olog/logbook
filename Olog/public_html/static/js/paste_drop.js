@@ -22,6 +22,8 @@ $(document).ready(function(){
 	var ctrlDown = false;
 	var ctrlKey = 17, vKey = 86, cKey = 67;
 
+	var textarea = $('#log_body');
+
 	$(document).keydown(function(e) {
 		if (e.keyCode === ctrlKey) ctrlDown = true;
 
@@ -30,14 +32,16 @@ $(document).ready(function(){
 	});
 
 	$("body").keydown(function(e) {
-		if (ctrlDown && (e.keyCode === vKey || e.keyCode === cKey)){
+		if (ctrlDown && (e.keyCode === vKey || e.keyCode === cKey) && !textarea.is(':focus')){
+			l("paste block");
 			$("#paste-area").css("display", "block");
 			$("#paste-area").focus();
 		}
 	});
 
 	$("body").keyup(function(e) {
-		if (ctrlDown && (e.keyCode === vKey || e.keyCode === cKey)){
+		if (ctrlDown && (e.keyCode === vKey || e.keyCode === cKey) && !textarea.is(':focus')){
+			l("paste hide");
 			$("#paste-area").blur();
 			//do your sanitation check or whatever stuff here
 			$("#paste-area").css("display", "none");
@@ -60,8 +64,8 @@ function startListeningForPasteEvents(target) {
 		pasteCatcher.attr("contenteditable", "");
 
 		// as long as we make sure it is always in focus
-		pasteCatcher.focus();
-		$(document).on("click", function() { pasteCatcher.focus(); });
+		//pasteCatcher.focus();
+		//$(document).on("click", function() { pasteCatcher.focus(); });
 	}
 
 	// Add the paste event listener. This does not work with jQuery event listener
@@ -73,8 +77,8 @@ function startListeningForPasteEvents(target) {
  * @param {type} e
  */
 function pasteHandler(e) {
-	l(e.clipboardData);
 	// We need to check if event.clipboardData is supported (Chrome)
+	$(pasteCatcher).html("");
 
 	if (e.clipboardData && e.clipboardData.items !== undefined) {
 	// If we can't handle clipboard data directly (Firefox),
@@ -83,6 +87,7 @@ function pasteHandler(e) {
 	var items = e.clipboardData.items;
 
 		if (items) {
+			l(items);
 
 			// Loop through all items, looking for any kind of image
 			for (var i = 0; i < items.length; i++) {
@@ -100,8 +105,6 @@ function pasteHandler(e) {
 						createImage(event.target.result, index-1, targetId);
 					}; // data url!
 					reader.readAsDataURL(blob);
-
-					// The URL can then be used as the source of an image
 				}
 			}
 		}
@@ -119,11 +122,9 @@ function pasteHandler(e) {
 function checkInput() {
 	// Store the pasted content in a variable
 	var children = pasteCatcher.children();
-	pasteCatcher.html("");
 
 	$.each(children, function(index, child){
 		// Clear previously pasted files
-		$(pasteCatcher).html("");
 
 		if (child) {
 			// If the user pastes an image, src will represent base64 encoded image

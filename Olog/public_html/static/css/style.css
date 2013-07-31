@@ -11,6 +11,12 @@ html, body {
 	width: 100%;
 }
 
+.version {
+	font-size: 10px;
+	margin: 0;
+	padding: 0;
+}
+
 .top-margin {
 	margin-top: 60px;
 }
@@ -81,6 +87,11 @@ html, body {
 		float: none;
 		padding: 0px 20px 20px 20px;
 	}
+
+	.container-middle-right {
+		float: none;
+		padding: 0px 20px 20px 20px;
+	}
 }
 
 @media (min-width: 1024px) {
@@ -88,7 +99,7 @@ html, body {
 	.container-resize {
 		position: fixed;
 		left: 20%;
-		top: 40px;
+		top: 45px;
 		width: 5px;
 		bottom: 0px;
 		z-index: 501;
@@ -107,7 +118,7 @@ html, body {
 	.container-resize2 {
 		position: fixed;
 		left: 50%;
-		top: 40px;
+		top: 45px;
 		width: 5px;
 		bottom: 0px;
 		z-index: 501;
@@ -126,7 +137,7 @@ html, body {
 	.container-left {
 		position: absolute;
 		left: 0px;
-		top: 40px;
+		top: 45px;
 		width: 20%;
 		bottom: 0px;
 		min-width: 200px;
@@ -136,7 +147,7 @@ html, body {
 		position: absolute;
 		left: 20%;
 		width: 30%;
-		top: 40px;
+		top: 45px;
 		bottom: 0px;
 		min-width: 200px;
 	}
@@ -144,7 +155,7 @@ html, body {
 	.container-right {
 		position: absolute;
 		right: 0px;
-		top: 40px;
+		top: 45px;
 		width: 50%;
 		bottom: 0px;
 		min-width: 200px;
@@ -153,7 +164,7 @@ html, body {
 	.container-middle-right {
 		position: absolute;
 		right: 0px;
-		top: 40px;
+		top: 45px;
 		width: 80%;
 		bottom: 0px;
 	}
