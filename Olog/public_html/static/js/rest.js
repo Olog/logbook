@@ -316,6 +316,14 @@ function repeat(source_id, target_id, data, property){
 		var customItem = item;
 		customItem.clicked = "";
 
+		// Alternate background colors
+		if(i%2 === 0) {
+			customItem.color = "log_dark";
+
+		} else {
+			customItem.color = "log_light";
+		}
+
 		if(property === "tag") {
 			savedTags = savedTags.concat(item.name);
 
@@ -374,6 +382,14 @@ function repeatLogs(data, prepend){
 			attachments : [],
 			non_image_attachments: false
 		};
+
+		// Alternate background colors
+		if(i%2 === 0) {
+			newItem.color = "log_dark";
+
+		} else {
+			newItem.color = "log_light";
+		}
 
 		// Check if we have an URL and select selected Log
 		if(selectedLog !== -1 && parseInt(item.id) === selectedLog) {
@@ -532,10 +548,9 @@ function showAddModal(modalId){
 	$('#modal_container').load(modalWindows + ' #' + modalId, function(response, status, xhr){
 		$('#' + modalId).modal('toggle');
 
-		$(document).ready(function(){
-			$('#' + modalId + ' input[name=name]').focus();
+		$('#' + modalId).on('shown', function(){
+			$('#' + modalId).find('input[name=name]').focus();
 		});
-		l('#' + modalId + ' [name=name]');
 	});
 }
 
@@ -551,6 +566,10 @@ function showEditLogbookModal(modalId, name, owner){
 		$('#' + modalId + ' [name=owner]').val(owner);
 		$('#' + modalId + ' [name=name_original]').val(name);
 		$('#' + modalId).modal('toggle');
+
+		$('#' + modalId).on('shown', function(){
+			$('#' + modalId + ' [name=name]').focus();
+		});
 	});
 }
 
@@ -564,6 +583,10 @@ function showEditTagModal(modalId, name){
 		$('#' + modalId + ' [name=name]').val(name);
 		$('#' + modalId + ' [name=name_original]').val(name);
 		$('#' + modalId).modal('toggle');
+
+		$('#' + modalId).on('shown', function(){
+			$('#' + modalId + ' [name=name]').focus();
+		});
 	});
 }
 
@@ -928,6 +951,12 @@ function login() {
 	// Fix input element click problem
 	$('.dropdown-menu form').click(function(e) {
 		e.stopPropagation();
+	});
+
+	$('#user_login_dropdown').click(function(){
+		$('.user_dropdown_menu').ready(function(){
+			$('#user_username').focus();
+		});
 	});
 
 	$('#user_submit_form').on('submit', function(e){

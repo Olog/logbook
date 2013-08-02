@@ -9,6 +9,7 @@
 	margin: 0;
 	padding: 0;
 	display: block;
+	padding-bottom: 10px;
 }
 
 .multilist_item {
@@ -21,7 +22,7 @@
 }
 
 .multilist_item:hover{
-	background-color: #eeeeee;
+	background-color: #ffffff;
 	color: #005580;
 }
 
@@ -43,7 +44,7 @@ input.filter_search {
 }
 
 .multilist_clicked, .multilist_clicked:hover {
-	background-color: #0088cc;
+	background-color: #82bcd9;
 	color: #ffffff;
 }
 

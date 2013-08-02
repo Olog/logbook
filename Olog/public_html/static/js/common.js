@@ -18,6 +18,10 @@ $(document).ready(function(){
 
 	if(reason !== undefined) {
 		$('#top_container').toggleClass("open");
+
+		$('.user_dropdown_menu').ready(function(){
+			$('#user_username').focus();
+		});
 	}
 
 	// Get id and show Log user is interested in

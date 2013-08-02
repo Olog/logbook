@@ -123,6 +123,9 @@ $(document).ready(function(){
 			dockingTr.before(html);
 		});
 	});
+
+	// Focus the textarea when starting to add new log entry
+	$('#log_body').focus();
 });
 
 /**

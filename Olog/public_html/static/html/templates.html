@@ -13,7 +13,7 @@ and open the template in the editor.
 
 		<!-- Log entry template -->
 		<script id="template_log" type="text/template">
-			<div class="log {{click}}">
+			<div class="log {{click}} {{color}}">
 				<input type="hidden" name="id" value="{{id}}" />
 				<p class="text-info">{{owner}}, {{createdDate}}</p>
 				{{description}}
@@ -36,12 +36,12 @@ and open the template in the editor.
 
 		<!-- Logbook filter item -->
 		<script id="template_logbook" type="text/template">
-			<li><span class="list multilist_item disable_selecting_text {{clicked}}">{{name}}<a href="#" onclick="showDeleteModal('deleteLogbookModal', '{{name}}');"><i class="icon-trash float_right multilist_icons float_right_padding"></i></a><a href="#" onclick="showEditLogbookModal('editLogbookModal', '{{name}}', '{{owner}}');"><i class="icon-pencil float_right multilist_icons"></i></a></span></li>
+			<li><span class="list multilist_item disable_selecting_text {{clicked}} {{color}}">{{name}}<a href="#" onclick="showDeleteModal('deleteLogbookModal', '{{name}}');"><i class="icon-trash float_right multilist_icons float_right_padding"></i></a><a href="#" onclick="showEditLogbookModal('editLogbookModal', '{{name}}', '{{owner}}');"><i class="icon-pencil float_right multilist_icons"></i></a></span></li>
 		</script>
 
 		<!-- Tag filter item -->
 		<script id="template_tag" type="text/template">
-			<li><span class="list2 multilist_item disable_selecting_text {{clicked}}">{{name}}<a href="#" onclick="showDeleteModal('deleteTagModal', '{{name}}');"><i class="icon-trash float_right multilist_icons float_right_padding"></i></a><a href="#" onclick="showEditTagModal('editTagModal', '{{name}}');"><i class="icon-pencil float_right multilist_icons"></i></a></span></li>
+			<li><span class="list2 multilist_item disable_selecting_text {{clicked}} {{color}}">{{name}}<a href="#" onclick="showDeleteModal('deleteTagModal', '{{name}}');"><i class="icon-trash float_right multilist_icons float_right_padding"></i></a><a href="#" onclick="showEditTagModal('editTagModal', '{{name}}');"><i class="icon-pencil float_right multilist_icons"></i></a></span></li>
 		</script>
 
 		<!-- Create from filter item -->
