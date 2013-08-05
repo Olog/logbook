@@ -6,6 +6,9 @@
 
 $(document).ready(function(){
 
+	// Set version number
+	$('.version').html("v" + version);
+
 	// Create new comparator
 	jQuery.expr[':'].Contains = function(a, i, m) {
 		return (a.textContent || a.innerText || "").toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
@@ -31,7 +34,7 @@ $(document).ready(function(){
 		selectedLog = parseInt(id);
 	}
 
-	// TODO: What to to with Olog settings if window resizes?
+	// Delete cookie when Olog resizes
 	$(window).resize(function(e){
 		var windowWidth = $(window).width();
 

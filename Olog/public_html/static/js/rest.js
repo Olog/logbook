@@ -21,7 +21,7 @@ var page = 1;
  * @param targetId id of the element Logbooks will be placed in
  */
 function loadLogbooks(targetId){
-	$('#' + targetId).html("");
+	$('#' + targetId).find("li:gt(1)").remove();
 
 	// Load Logbooks
 	$.getJSON(serviceurl + 'logbooks/', function(books) {
@@ -42,7 +42,7 @@ function loadLogbooks(targetId){
  * @param targetId id of the element Tags will be placed in
  */
 function loadTags(targetId){
-	$('#' + targetId).html("");
+	$('#' + targetId).find("li:gt(1)").remove();
 
 	// Load tags
 	$.getJSON(serviceurl + 'tags/', function(tags) {

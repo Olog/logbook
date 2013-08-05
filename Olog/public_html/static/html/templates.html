@@ -41,12 +41,12 @@ and open the template in the editor.
 
 		<!-- Tag filter item -->
 		<script id="template_tag" type="text/template">
-			<li><span class="list2 multilist_item disable_selecting_text {{clicked}} {{color}}">{{name}}<a href="#" onclick="showDeleteModal('deleteTagModal', '{{name}}');"><i class="icon-trash float_right multilist_icons float_right_padding"></i></a><a href="#" onclick="showEditTagModal('editTagModal', '{{name}}');"><i class="icon-pencil float_right multilist_icons"></i></a></span></li>
+			<li class="display_none"><span class="list2 multilist_item disable_selecting_text {{clicked}} {{color}}">{{name}}<a href="#" onclick="showDeleteModal('deleteTagModal', '{{name}}');"><i class="icon-trash float_right multilist_icons float_right_padding"></i></a><a href="#" onclick="showEditTagModal('editTagModal', '{{name}}');"><i class="icon-pencil float_right multilist_icons"></i></a></span></li>
 		</script>
 
 		<!-- Create from filter item -->
 		<script id="template_created_from" type="text/template">
-			<li><span class="list3 multilist_item disable_selecting_text {{selected}}"><input type="hidden" name="from" value="{{value}}" />{{name}}</span></li>
+			<li class="display_none"><span class="list3 multilist_item disable_selecting_text {{selected}}"><input type="hidden" name="from" value="{{value}}" />{{name}}</span></li>
 		</script>
 
 		<!-- Show Log's logbooks -->

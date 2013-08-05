@@ -235,20 +235,24 @@ function fromToChanged() {
  */
 function startListeningForToggleFilterClicks() {
 
-	$('.toggle-filters').unbind('click');
-	$('.toggle-filters').click(function(e){
-		l($(e.target).next().next());
-		$(e.target).next().next().find('li').toggle();
+	// Click on a filter header
+	$('.multilist_header').unbind('click');
+	$('.multilist_header').click(function(e){
+		var ulParent = $(e.target).parent();
 
-		toggleChevron(e.target);
-	});
+		if($(e.target).is('i')) {
+			ulParent = $(e.target).parent().parent();
+		}
 
-	$('.toggle-from').unbind('click');
-	$('.toggle-from').click(function(e){
-		l($(e.target).parent().parent());
-		$(e.target).parent().parent().find('li:gt(0)').toggle();
+		var liShouldBeGreaterThan = 0;
 
-		toggleChevron(e.target);
+		if($(ulParent.find('li')[1]).hasClass('multilist_filter')) {
+			liShouldBeGreaterThan = 0;
+		}
+
+		ulParent.find('li:gt(' + liShouldBeGreaterThan + ')').toggle();
+
+		toggleChevron(ulParent.find('li i.toggle-from'));
 	});
 }
 
