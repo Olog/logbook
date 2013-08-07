@@ -47,15 +47,15 @@ $(document).ready(function(){
 	// Hide Logbooks for small screens
 	$('#load_logbooks').on('dataloaded', function(e){
 		if($(window).width() < smallScreenResolutionWidth) {
-			$('#load_logbooks li').toggle();
+			$('#load_logbooks li:gt(0)').toggle();
 			toggleChevron("#load_logbooks_chevron");
 		}
 	});
 
 	// Hide Tags for small screens
-	$('#load_tags').on('dataloaded', function(e){
+	/*$('#load_tags').on('dataloaded', function(e){
 		if($(window).width() < smallScreenResolutionWidth) {
-			$('#load_tags li').toggle();
+			$('#load_tags li:gt(0)').toggle();
 			toggleChevron("#load_tags_chevron");
 		}
 	});
@@ -73,7 +73,7 @@ $(document).ready(function(){
 	if($(window).width() < smallScreenResolutionWidth) {
 		$("#load_time_from_to").find('li:gt(0)').toggle();
 		toggleChevron("#load_from_to_chevron");
-	}
+	}*/
 
 	// Start listening for expand/collapse filters
 	startListeningForToggleFilterClicks();
