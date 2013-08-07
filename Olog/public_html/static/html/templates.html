@@ -41,7 +41,7 @@ and open the template in the editor.
 
 		<!-- Tag filter item -->
 		<script id="template_tag" type="text/template">
-			<li class="display_none"><span class="list2 multilist_item disable_selecting_text {{clicked}} {{color}}">{{name}}<a href="#" onclick="showDeleteModal('deleteTagModal', '{{name}}');"><i class="icon-trash float_right multilist_icons float_right_padding"></i></a><a href="#" onclick="showEditTagModal('editTagModal', '{{name}}');"><i class="icon-pencil float_right multilist_icons"></i></a></span></li>
+			<li class="{{show}}"><span class="list2 multilist_item disable_selecting_text {{clicked}} {{color}}">{{name}}<a href="#" onclick="showDeleteModal('deleteTagModal', '{{name}}');"><i class="icon-trash float_right multilist_icons float_right_padding"></i></a><a href="#" onclick="showEditTagModal('editTagModal', '{{name}}');"><i class="icon-pencil float_right multilist_icons"></i></a></span></li>
 		</script>
 
 		<!-- Create from filter item -->

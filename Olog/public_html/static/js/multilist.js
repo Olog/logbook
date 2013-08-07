@@ -16,9 +16,10 @@ var limit = true;
 
 /**
  * Function will create onclick event listener for mulstiselection list with specific name
- * @param {type} name
+ * @param {type} name name of the group we want to control
+ * @param {type} saveSelectedItemsIntoACookie only save current selected data into a cookie if this flag is set to true
  */
-function multiselect(name){
+function multiselect(name, saveSelectedItemsIntoACookie){
 	limit = true;
 	numberOfLogsPerLoad = oldLogsPerLoad;
 
@@ -77,7 +78,10 @@ function multiselect(name){
 			// Trigger event and set cookie with data
 			$(e.target).parent().unbind('dataselected');
 			$(e.target).parent().trigger('dataselected', selectedElements);
-			$.cookie(filtersCookieName, JSON.stringify(selectedElements));
+
+			if(saveSelectedItemsIntoACookie === undefined || (saveSelectedItemsIntoACookie !== undefined && saveSelectedItemsIntoACookie === true)) {
+				$.cookie(filtersCookieName, JSON.stringify(selectedElements));
+			}
 		}
 	});
 }

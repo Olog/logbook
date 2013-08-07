@@ -284,13 +284,17 @@ function resizeManager() {
 	var leftPane = ".container-left";
 	var middlePane = ".container-middle";
 	var rightPane = ".container-right";
-	var middleRightPane = ".container-middle-right";
+	var modifyLeftPane = ".container-modify-left";
+	var modifyRightPane = ".container-modify-right";
 
 	// Resize left and middle section
 	$('.container-resize').draggable({axis: "x"});
 
 	// Resize middle and right section
 	$('.container-resize2').draggable({axis: "x"});
+
+	// Resize middle and right section
+	$('.container-resize3').draggable({axis: "x"});
 
 	var dims = null;
 
@@ -307,7 +311,11 @@ function resizeManager() {
 			middle_pane_width: undefined,
 			right_pane_left: undefined,
 			right_pane_width: undefined,
-			middle_right_pane_width: undefined
+
+			modify_left_pane_left: undefined,
+			modify_left_pane_width: undefined,
+			modify_right_pane_left: undefined,
+			modify_right_pane_width: undefined
 		};
 
 		var remainingWidth = windowWidth - dims.left_pane_width;
@@ -317,16 +325,16 @@ function resizeManager() {
 		if($(middlePane).doesExist()){
 			var middlePaneWidth = $(middlePane).width();
 
-			dims.middle_right_pane_width = windowWidth - dims.left_pane_width;
 			dims.middle_pane_width = middlePaneWidth;
 			dims.right_pane_width = windowWidth - dims.left_pane_width - middlePaneWidth;
 			dims.right_pane_left = dims.left_pane_width + middlePaneWidth;
 
+		// New modify layout, set sizes
 		} else {
-			dims.middle_right_pane_width = remainingWidth;
-			dims.middle_pane_width = remainingWidthHalf;
-			dims.right_pane_width = windowWidth - dims.left_pane_width - remainingWidthHalf;
-			dims.right_pane_left = dims.left_pane_width + remainingWidthHalf;
+			dims.modify_left_pane_left = 0;
+			dims.modify_left_pane_width = $(modifyLeftPane).width();
+			dims.modify_right_pane_left = dims.modify_left_pane_width;
+			dims.modify_right_pane_width = $(modifyRightPane).width();
 		}
 
 	// If settings cookie is set, read and set the panes' dimensions
@@ -339,10 +347,15 @@ function resizeManager() {
 		$(middlePane).width(dims.middle_pane_width);
 		$(rightPane).css({left: dims.right_pane_left});
 		$(rightPane).width(dims.right_pane_width);
-		$(middleRightPane).width(dims.middle_right_pane_width);
+
+		$(modifyLeftPane).css({left: dims.modify_left_pane_left});
+		$(modifyLeftPane).width(dims.modify_left_pane_width);
+		$(modifyRightPane).css({left: dims.modify_right_pane_left});
+		$(modifyRightPane).width(dims.modify_right_pane_width);
 
 		$('.container-resize').css({left: dims.middle_pane_left});
 		$('.container-resize2').css({left: dims.right_pane_left});
+		$('.container-resize3').css({left: dims.modify_right_pane_left});
 	}
 
 	// Drag left resizer
@@ -350,7 +363,6 @@ function resizeManager() {
 		l(dims);
 
 		var oldWidth = $(leftPane).width();
-		var oldWidth2 = $(middleRightPane).width();
 
 		// Limit the minimal width of the left pane
 		if(oldWidth < minWidth && e.pageX < dims.left_pane_width) {
@@ -362,35 +374,17 @@ function resizeManager() {
 			return;
 		}
 
-		// Limit the minimal width of the middle right pane
-		if(dims.middle_right_pane_width < minWidth && e.pageX > dims.middle_pane_left || e.pageX > dims.right_pane_left - minWidth) {
-			return;
-		}
-
 		var diff = oldWidth - e.pageX;
-		var diff2 = windowWidth - e.pageX - oldWidth2;
 
 		$(leftPane).width(e.pageX);
 		dims.left_pane_width = e.pageX;
 
 		$(middlePane).css({left: e.pageX});
-		$(middleRightPane).css({left: e.pageX});
 		dims.middle_pane_left = e.pageX;
 
 		// If middle pane exists, repair its width
-		if($(middlePane).doesExist()){
-			$(middlePane).width($(middlePane).width() + diff);
-			dims.middle_pane_width = $(middlePane).width() + diff;
-
-		// If we are resizing in modify or add new view, we must also repair middle_pane width or it will
-		// be moved below the right pane
-		} else {
-			$(middlePane).width(dims.middle_pane_width + diff2);
-			dims.middle_pane_width += diff;
-		}
-
-		$(middleRightPane).width(windowWidth - dims.left_pane_width);
-		dims.middle_right_pane_width = windowWidth - dims.left_pane_width;
+		$(middlePane).width($(middlePane).width() + diff);
+		dims.middle_pane_width = $(middlePane).width() + diff;
 
 		$.cookie(settingsCookieName, JSON.stringify(dims));
 	});
@@ -431,6 +425,42 @@ function resizeManager() {
 	// Stop dragging left resizer
 	$('.container-resize2').on('dragstop', function(e){
 		$('.container-resize2').css({left: dims.right_pane_left});
+	});
+
+	// Drag new resizer in create/modify layout
+	$('.container-resize3').on('drag', function(e){
+		l(dims);
+
+		var oldWidth = $(modifyLeftPane).width();
+
+		// Limit the minimal width of the left pane
+		if(oldWidth < minWidth && e.pageX < dims.modify_left_pane_width) {
+			return;
+		}
+
+		// Limit the minimal width of the right pane
+		if(dims.modify_right_pane_width < minWidth && e.pageX > dims.modify_right_pane_left) {
+			return;
+		}
+
+		var diff = oldWidth - e.pageX;
+
+		$(modifyLeftPane).width(e.pageX);
+		dims.modify_left_pane_width = e.pageX;
+
+		$(modifyRightPane).css({left: e.pageX});
+		dims.modify_right_pane_left = e.pageX;
+
+		// If middle pane exists, repair its width
+		$(modifyRightPane).width($(modifyRightPane).width() + diff);
+		dims.modify_right_pane_width = $(modifyRightPane).width() + diff;
+
+		$.cookie(settingsCookieName, JSON.stringify(dims));
+	});
+
+	// Stop dragging new resizer
+	$('.container-resize3').on('dragstop', function(e){
+		$('.container-resize3').css({left: dims.modify_right_pane_left});
 	});
 }
 

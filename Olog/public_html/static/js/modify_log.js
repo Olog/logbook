@@ -14,20 +14,43 @@ $(document).ready(function(){
 	// Activate resize manager
 	resizeManager();
 
+	// Initialize tooltip
+	$('#tooltip').tooltip({placement: "bottom"});
+
 	// Load Logbooks
-	loadLogbooks("load_logbooks_m");
+	loadLogbooks("load_logbooks_m", false, false);
 
 	// Load Tags
-	loadTags("load_tags_m");
+	loadTags("load_tags_m", true, false, false);
 
 	// Wait for dataload
 	$('#load_tags_m').on('dataloaded', function(m) {
 		autocompleteTags(savedTags);
 	});
 
+	// Wait for dataselected
+	$('#load_tags_m').on('dataselected', function(e, data){
+
+		$("#tags_input").tagsManager('empty');
+
+		$.each(data['list2'], function(i, element){
+			$("#tags_input").tagsManager('pushTag',element);
+		});
+	});
+
 	// Wait for dataload
 	$('#load_logbooks_m').on('dataloaded', function(m) {
 		autocompleteLogbooks(savedLogbooks);
+	});
+
+	// Wait for dataselected
+	$('#load_logbooks_m').on('dataselected', function(e, data){
+
+		$("#logbooks_input").tagsManager('empty');
+
+		$.each(data['list'], function(i, element){
+			$("#logbooks_input").tagsManager('pushTag',element);
+		});
 	});
 
 	// Get log id parameter from url
@@ -52,6 +75,7 @@ $(document).ready(function(){
 
 		if(log[0].tags !== undefined) {
 			$.each(log[0].tags, function(i, element){
+				$('#load_tags_m span:contains("' + element.name + '")').addClass('multilist_clicked');
 				$("#tags_input").tagsManager('pushTag',element.name);
 			});
 		}
@@ -63,6 +87,7 @@ $(document).ready(function(){
 
 		if(log[0].logbooks !== undefined) {
 			$.each(log[0].logbooks, function(i, element){
+				$('#load_logbooks_m span:contains("' + element.name + '")').addClass('multilist_clicked');
 				$("#logbooks_input").tagsManager('pushTag',element.name);
 			});
 		}

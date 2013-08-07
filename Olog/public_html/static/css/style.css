@@ -152,7 +152,6 @@ html, body {
 		top: 45px;
 		width: 20%;
 		bottom: 0px;
-		min-width: 200px;
 	}
 
 	.container-middle {
@@ -161,7 +160,6 @@ html, body {
 		width: 30%;
 		top: 45px;
 		bottom: 0px;
-		min-width: 200px;
 	}
 
 	.container-right {
@@ -170,7 +168,6 @@ html, body {
 		top: 45px;
 		width: 50%;
 		bottom: 0px;
-		min-width: 200px;
 	}
 
 	.container-middle-right {

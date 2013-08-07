@@ -57,33 +57,10 @@
 		</div>
 	</div>
 
-	<!-- Left navigation -->
-	<div class="container-left">
-		<div class="well container-scroll">
-
-			<!--<i id="load_logbooks_chevron" class="icon-chevron-down margin-left toggle-filters disable_selecting_text"></i><input class="filter_search" id="logbooks_filter_search" type="text" placeholder="Filter Logbooks ..." />-->
-			<ul class="multilist" id="load_logbooks_m">
-				<li class="multilist_header disable_selecting_text"><i id="load_from_chevron" class="icon-chevron-down vertical-align toggle-from"></i> LOGBOOKS</li>
-				<li class="multilist_filter"><i class="filters_filter icon-filter"></i><input class="filter_search" id="logbooks_filter_search" type="text" placeholder="Filter Logbooks ..." /></li>
-				<!-- Template -->
-			</ul>
-			<!--<i id="load_tags_chevron" class="icon-chevron-down margin-left toggle-filters disable_selecting_text"></i><input class="filter_search" id="tags_filter_search" type="text" placeholder="Filter Tags ..." />-->
-			<ul class="multilist" id="load_tags_m">
-				<li class="multilist_header disable_selecting_text"><i id="load_from_chevron" class="icon-chevron-right vertical-align toggle-from"></i> TAGS</li>
-				<li class="multilist_filter display_none"><i class="filters_filter icon-filter"></i><input class="filter_search" id="tags_filter_search" type="text" placeholder="Filter Tags ..." /></li>
-				<!-- Template -->
-			</ul>
-		</div>
-	</div>
-
-	<div class="container-resize">
-		<div id="container-resize"></div>
-	</div>
-
-	<!-- New Log view -->
+	<!-- Left modify container -->
 	<a name="#top"></a>
-	<div class="container-middle-right">
-		<div id="load_log_details" class="well container-scroll-last-one">
+	<div class="container-modify-left">
+		<div id="load_log_details" class="well container-scroll">
 
 			<div id="error_block" class="alert alert-error">
 				<button type="button" class="close" id="error_x">&times;</button>
@@ -143,6 +120,32 @@
 			<div>
 				<div contenteditable="true" id="paste-area"></div>
 			</div>
+		</div>
+	</div>
+
+	<div class="container-resize3">
+		<div id="container-resize3"></div>
+	</div>
+
+	<!-- Right modify container -->
+	<div class="container-modify-right">
+		<div class="well container-scroll-last-one">
+			<div class="log_title">
+				<h5>Quickly add or remove <a id="tooltip" href="#" data-toggle="tooltip" title="You can select Logbooks and Tags and quickly add or remove them from the Log entry.">metadata</a></h5>
+			</div>
+
+			<!--<i id="load_logbooks_chevron" class="icon-chevron-down margin-left toggle-filters disable_selecting_text"></i><input class="filter_search" id="logbooks_filter_search" type="text" placeholder="Filter Logbooks ..." />-->
+			<ul class="multilist" id="load_logbooks_m">
+				<li class="multilist_header disable_selecting_text"><i id="load_logbooks_chevron" class="icon-chevron-down vertical-align toggle-from"></i> LOGBOOKS</li>
+				<li class="multilist_filter"><i class="filters_filter icon-filter"></i><input class="filter_search" id="logbooks_filter_search" type="text" placeholder="Filter Logbooks ..." /></li>
+				<!-- Template -->
+			</ul>
+			<!--<i id="load_tags_chevron" class="icon-chevron-down margin-left toggle-filters disable_selecting_text"></i><input class="filter_search" id="tags_filter_search" type="text" placeholder="Filter Tags ..." />-->
+			<ul class="multilist" id="load_tags_m">
+				<li class="multilist_header disable_selecting_text"><i id="load_tags_chevron" class="icon-chevron-down vertical-align toggle-from"></i> TAGS</li>
+				<li class="multilist_filter"><i class="filters_filter icon-filter"></i><input class="filter_search" id="tags_filter_search" type="text" placeholder="Filter Tags ..." /></li>
+				<!-- Template -->
+			</ul>
 		</div>
 	</div>
 

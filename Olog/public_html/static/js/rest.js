@@ -19,14 +19,17 @@ var page = 1;
 /**
  * Get Logbooks from REST service
  * @param targetId id of the element Logbooks will be placed in
+ * @param {type} showByDefault should logbooks be shown by default or not
+ * @param {type} saveSelectedItemsIntoACookie only save current selected data into a cookie if this flag is set to true
+ * @param {type} showSelectedItemsFromACookie should selected items from a cookie be displayed or not
  */
-function loadLogbooks(targetId){
+function loadLogbooks(targetId, showByDefault, saveSelectedItemsIntoACookie, showSelectedItemsFromACookie){
 	$('#' + targetId).find("li:gt(1)").remove();
 
 	// Load Logbooks
 	$.getJSON(serviceurl + 'logbooks/', function(books) {
-		repeat("template_logbook", targetId, books, "logbook");
-		multiselect("list");
+		repeat("template_logbook", targetId, books, "logbook", showByDefault, showSelectedItemsFromACookie);
+		multiselect("list", saveSelectedItemsIntoACookie);
 		filterListItems("logbooks_filter_search", "list");
 		startListeningForToggleFilterClicks();
 
@@ -40,14 +43,17 @@ function loadLogbooks(targetId){
 /**
  * Get Tags from REST service
  * @param targetId id of the element Tags will be placed in
+ * @param {type} showByDefault should tags be shown by default or not
+ * @param {type} saveSelectedItemsIntoACookie only save current selected data into a cookie if this flag is set to true
+ * @param {type} showSelectedItemsFromACookie should selected items from a cookie be displayed or not
  */
-function loadTags(targetId){
+function loadTags(targetId, showByDefault, saveSelectedItemsIntoACookie, showSelectedItemsFromACookie){
 	$('#' + targetId).find("li:gt(1)").remove();
 
 	// Load tags
 	$.getJSON(serviceurl + 'tags/', function(tags) {
-		repeat("template_tag", targetId, tags, "tag");
-		multiselect("list2");
+		repeat("template_tag", targetId, tags, "tag", showByDefault, showSelectedItemsFromACookie);
+		multiselect("list2", saveSelectedItemsIntoACookie);
 		filterListItems("tags_filter_search", "list2");
 		startListeningForToggleFilterClicks();
 	});
@@ -300,9 +306,11 @@ function showAttachmentSizeDropdown(attachments, id) {
  * @param {type} target_id id attribute of container tag (where data will be placed)
  * @param {type} data data in JSON format
  * @param {type} property data.property object
+ * @param {type} showByDefault should tags be shown by default or not
+ * @param {type} showSelectedItemsFromACookie should selected items from a cookie be displayed or not
  * @returns replaces template with data and puts it in the right place
  */
-function repeat(source_id, target_id, data, property){
+function repeat(source_id, target_id, data, property, showByDefault, showSelectedItemsFromACookie){
 	var template = getTemplate(source_id);
 	var html = "";
 
@@ -315,6 +323,14 @@ function repeat(source_id, target_id, data, property){
 
 		var customItem = item;
 		customItem.clicked = "";
+
+		// Should Tags be shown by default or not
+		if(showByDefault !== undefined && showByDefault === true) {
+			customItem.show = "";
+
+		} else {
+			customItem.show = "display_none";
+		}
 
 		// Alternate background colors
 		if(i%2 === 0) {
@@ -331,7 +347,10 @@ function repeat(source_id, target_id, data, property){
 			if($.cookie(filtersCookieName) !== undefined) {
 				var obj = $.parseJSON($.cookie(filtersCookieName))["list2_index"];
 
-				if(obj !== undefined && obj[item.name] !== undefined && obj[item.name] !== "false") {
+				if(
+					obj !== undefined && obj[item.name] !== undefined && obj[item.name] !== "false"
+					&& (showSelectedItemsFromACookie === undefined || (showSelectedItemsFromACookie !== undefined && showSelectedItemsFromACookie === true))
+				) {
 					customItem.clicked = "multilist_clicked";
 				}
 			}
@@ -343,7 +362,10 @@ function repeat(source_id, target_id, data, property){
 			if($.cookie(filtersCookieName) !== undefined) {
 				var obj = $.parseJSON($.cookie(filtersCookieName))["list_index"];
 
-				if(obj !== undefined && obj[item.name] !== undefined && obj[item.name] !== "false") {
+				if(
+					obj !== undefined && obj[item.name] !== undefined && obj[item.name] !== "false"
+					&& (showSelectedItemsFromACookie === undefined || (showSelectedItemsFromACookie !== undefined && showSelectedItemsFromACookie === true))
+				) {
 					customItem.clicked = "multilist_clicked";
 					customItem.owner = item.owner;
 				}

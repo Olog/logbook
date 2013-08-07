@@ -9,11 +9,14 @@ $(document).ready(function(){
 	// Activate resize manager
 	resizeManager();
 
+	// Initialize tooltip
+	$('#tooltip').tooltip({placement: "bottom"});
+
 	// Load Logbooks
-	loadLogbooks("load_logbooks");
+	loadLogbooks("load_logbooks", true, false, true);
 
 	// Load Tags
-	loadTags("load_tags");
+	loadTags("load_tags", true, false, true);
 
 	// Wait for dataload
 	$('#load_tags').on('dataloaded', function(e){
