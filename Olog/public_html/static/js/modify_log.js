@@ -76,6 +76,7 @@ $(document).ready(function(){
 		if(log[0].tags !== undefined) {
 			$.each(log[0].tags, function(i, element){
 				$('#load_tags_m span:contains("' + element.name + '")').addClass('multilist_clicked');
+				$('#load_tags_m span:contains("' + element.name + '")').parent().removeClass('display_none');
 				$("#tags_input").tagsManager('pushTag',element.name);
 			});
 		}
@@ -88,6 +89,7 @@ $(document).ready(function(){
 		if(log[0].logbooks !== undefined) {
 			$.each(log[0].logbooks, function(i, element){
 				$('#load_logbooks_m span:contains("' + element.name + '")').addClass('multilist_clicked');
+				$('#load_logbooks_m span:contains("' + element.name + '")').parent().removeClass('display_none');
 				$("#logbooks_input").tagsManager('pushTag',element.name);
 			});
 		}

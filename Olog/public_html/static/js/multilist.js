@@ -23,11 +23,6 @@ function multiselect(name, saveSelectedItemsIntoACookie){
 	limit = true;
 	numberOfLogsPerLoad = oldLogsPerLoad;
 
-	// Write data from cookie back to object and remove cookie
-	if($.cookie(filtersCookieName) !== undefined){
-		selectedElements = $.parseJSON($.cookie(filtersCookieName));
-	}
-
 	// Change color on hover
 	$('.' + name).hover(function(e){
 		if($.cookie(sessionCookieName) !== undefined) {
@@ -110,7 +105,9 @@ function filterListItems(id, name){
 	$('#' + id).unbind('keyup');
 	$('#' + id).keyup(function(e){
 		var filter = $(e.target).val();
-		$('.multilist').find('.' + name + ':not(:Contains(' + filter + '))').parent().slideUp();
+
+		// Slide up items that does not contain filters and are not selected
+		$('.multilist').find('.' + name + ':not(:Contains(' + filter + ')):not(.multilist_clicked)').parent().slideUp();
 		$('.multilist').find('.' + name + ':Contains(' + filter + ')').parent().slideDown();
 	});
 }
@@ -242,35 +239,90 @@ function startListeningForToggleFilterClicks() {
 	// Click on a filter header
 	$('.multilist_header').unbind('click');
 	$('.multilist_header').click(function(e){
+		l($(e.target).parent().attr('id'));
+
 		var ulParent = $(e.target).parent();
 
 		if($(e.target).is('i')) {
 			ulParent = $(e.target).parent().parent();
 		}
 
-		var liShouldBeGreaterThan = 0;
+		var arrow = ulParent.find('li i.toggle-from');
 
-		if($(ulParent.find('li')[1]).hasClass('multilist_filter')) {
-			liShouldBeGreaterThan = 0;
+		// When hiding elements, don't hide seleted ones
+		if(arrow.hasClass('icon-chevron-down')) {
+			closeFilterGroup(ulParent);
+
+		} else {
+			openFilterGroup(ulParent);
 		}
-
-		ulParent.find('li:gt(' + liShouldBeGreaterThan + ')').toggle();
-
-		toggleChevron(ulParent.find('li i.toggle-from'));
 	});
+}
+
+/**
+ * Close filter group and leave selected items visible
+ * @param {type} groupContainer container object that holds filters
+ */
+function closeFilterGroup(groupContainer) {
+	l("group closed");
+
+	groupContainer.find('li:gt(0)').addClass('display_none');
+	groupContainer.find('li:gt(0) .multilist_clicked').parent().removeClass('display_none');
+
+	var arrow = groupContainer.find('li i.toggle-from');
+	toggleChevron(arrow, false);
+
+	selectedElements.filtersOpened[groupContainer.attr('id')] = false;
+
+	// Save settings into a cookie
+	$.cookie(filtersCookieName, JSON.stringify(selectedElements));
+}
+
+/**
+ * Open filter group
+ * @param {type} groupContainer container that holds filters
+ */
+function openFilterGroup(groupContainer) {
+	l("group opened");
+
+	groupContainer.find('li:gt(0)').removeClass('display_none');
+
+	var arrow = groupContainer.find('li i.toggle-from');
+	toggleChevron(arrow, true);
+
+	selectedElements.filtersOpened[groupContainer.attr('id')] = true;
+
+	// Save settings into a cookie
+	$.cookie(filtersCookieName, JSON.stringify(selectedElements));
 }
 
 /**
  * Toggle chevron on an element
  * @param {type} element element that contains chevron
+ * @param openGroup define this argument if you want to enforce open/close group
  */
-function toggleChevron(element) {
-	if($(element).hasClass('icon-chevron-down')) {
-		$(element).removeClass('icon-chevron-down');
-		$(element).addClass('icon-chevron-right');
+function toggleChevron(element, openGroup) {
+
+	if(openGroup === undefined) {
+
+		if($(element).hasClass('icon-chevron-down')) {
+			$(element).removeClass('icon-chevron-down');
+			$(element).addClass('icon-chevron-right');
+
+		} else {
+			$(element).removeClass('icon-chevron-right');
+			$(element).addClass('icon-chevron-down');
+		}
 
 	} else {
-		$(element).removeClass('icon-chevron-right');
-		$(element).addClass('icon-chevron-down');
+
+		if(openGroup === false) {
+			$(element).removeClass('icon-chevron-down');
+			$(element).addClass('icon-chevron-right');
+
+		} else {
+			$(element).removeClass('icon-chevron-right');
+			$(element).addClass('icon-chevron-down');
+		}
 	}
 }

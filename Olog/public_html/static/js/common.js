@@ -5,6 +5,11 @@
  */
 
 $(document).ready(function(){
+	
+	// Write data from cookie back to object and remove cookie
+	if($.cookie(filtersCookieName) !== undefined){
+		selectedElements = $.parseJSON($.cookie(filtersCookieName));
+	}
 
 	// Set version number
 	$('.version').html("v" + version);
@@ -47,7 +52,19 @@ $(document).ready(function(){
 	// Hide Logbooks for small screens
 	$('#load_logbooks').on('dataloaded', function(e){
 		if($(window).width() < smallScreenResolutionWidth) {
-			$('#load_logbooks li:gt(0)').toggle();
+			var ulParent = $('#load_logbooks');
+			//$('#load_logbooks li:gt(0)').toggle();
+			var arrow = ulParent.find('li i.toggle-from');
+
+			// When hiding elements, don't hide seleted ones
+			if(arrow.hasClass('icon-chevron-down')) {
+				ulParent.find('li:gt(' + liShouldBeGreaterThan + ')').addClass('display_none');
+				ulParent.find('li:gt(' + liShouldBeGreaterThan + ') .multilist_clicked').parent().removeClass('display_none');
+
+			} else {
+				ulParent.find('li:gt(' + liShouldBeGreaterThan + ')').removeClass('display_none');
+			}
+
 			toggleChevron("#load_logbooks_chevron");
 		}
 	});

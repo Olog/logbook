@@ -53,11 +53,12 @@ $(document).ready(function(){
 function activateSearch(){
 	// Simple search
 	var searchQuery = buildSearchQuery();
+	l("search query " + searchQuery);
 
 	// If search query is empty just load first page of Logs
 	if(searchQuery === ""){
 		page = 1;
-		loadLogs(page);
+		loadLogs(page, true);
 
 	// If search query is not empty, send this query to the server
 	} else {

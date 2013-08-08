@@ -42,7 +42,13 @@ $(document).ready(function(){
 	});
 
 	// Load Logbooks
-	loadLogbooks("load_logbooks");
+	loadLogbooks("load_logbooks", true);
+
+	if(selectedElements.filtersOpened === undefined) {
+		selectedElements.filtersOpened = {};
+		selectedElements.filtersOpened['load_logbooks'] = true;
+	}
+
 
 	// Load Tags
 	loadTags("load_tags");
@@ -57,7 +63,7 @@ $(document).ready(function(){
 
 	}else {
 		// Load logs
-		loadLogs(1);
+		loadLogs(1, false);
 	}
 
 	// Load created from filters
@@ -186,12 +192,15 @@ function loadCreatedFromFilters() {
 	var template = getTemplate("template_created_from");
 	var html = "";
 
-	// Write data from cookie back to object and remove cookie
-	if($.cookie(filtersCookieName) !== undefined){
-		selectedElements = $.parseJSON($.cookie(filtersCookieName));
-	}
-
 	$.each(createdFromFilterDefinition, function(index, filter){
+
+		// Alternate background colors
+		if(index%2 === 0) {
+			filter.color = "log_dark";
+
+		} else {
+			filter.color = "log_light";
+		}
 
 		if(selectedElements !== undefined &&
 			selectedElements['from'] !== undefined &&
@@ -202,9 +211,11 @@ function loadCreatedFromFilters() {
 			)
 		) {
 			filter.selected = "multilist_clicked";
+			filter.show = "";
 
 		} else {
 			filter.selected = "";
+			filter.show = "display_none";
 		}
 
 		html = Mustache.to_html(template, filter);
@@ -221,10 +232,27 @@ function loadCreatedFromFilters() {
 		selectedElements['to'] !== ""
 	) {
 		$('#from_to_filter').addClass('multilist_clicked');
+		$('#from_to_filter_li').removeClass('display_none');
 		$('#datepicker_from').val(selectedElements['from']);
 		$('#datepicker_to').val(selectedElements['to']);
 
 	} else {
 		$('#from_to_filter').removeClass('multilist_clicked');
+	}
+
+	// Open or close time from filter group
+	if(selectedElements.filtersOpened !== undefined && selectedElements.filtersOpened['load_time_from'] === true) {
+		openFilterGroup($('#load_time_from'));
+
+	} else {
+		closeFilterGroup($('#load_time_from'));
+	}
+
+	// Open or close time from-to filter group
+	if(selectedElements.filtersOpened !== undefined && selectedElements.filtersOpened['load_time_from_to'] === true) {
+		openFilterGroup($('#load_time_from_to'));
+
+	} else {
+		closeFilterGroup($('#load_time_from_to'));
 	}
 }

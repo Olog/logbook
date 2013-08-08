@@ -62,9 +62,10 @@ function loadTags(targetId, showByDefault, saveSelectedItemsIntoACookie, showSel
 /**
  * Load particular page of Logs and display them.
  * @param {type} page number of logs per page is defined in configuration, page
+ * @param {type} ignorePreviousSearchString ignore attributes in previous search query
  * number is increased when user scrolls down the list
  */
-function loadLogs(page){
+function loadLogs(page, ignorePreviousSearchString){
 	// Remo all the logs if we are starting from the beginning
 	if(page === 1){
 		$(".log").remove();
@@ -73,7 +74,7 @@ function loadLogs(page){
 	var searchQuery = serviceurl + "logs?";
 
 	// Generate a search query
-	if(searchURL === "") {
+	if(searchURL === "" || ignorePreviousSearchString === true) {
 		searchQuery = serviceurl + 'logs?limit=' + numberOfLogsPerLoad + '&page=' + page;
 
 	} else {
@@ -120,7 +121,7 @@ function loadLogsAutomatically(){
 
 		if(Math.floor(scrollDiv.prop('scrollHeight') - scrollDiv.scrollTop()) <= Math.floor(scrollDiv.height() + 1) && limit === true){
 			page = page  + 1;
-			loadLogs(page);
+			loadLogs(page, false);
 		}
 	});
 }
@@ -314,11 +315,6 @@ function repeat(source_id, target_id, data, property, showByDefault, showSelecte
 	var template = getTemplate(source_id);
 	var html = "";
 
-	// Write data from cookie back to object and remove cookie
-	if($.cookie(filtersCookieName) !== undefined){
-		selectedElements = $.parseJSON($.cookie(filtersCookieName));
-	}
-
 	$.each(data[property], function(i, item) {
 
 		var customItem = item;
@@ -352,6 +348,7 @@ function repeat(source_id, target_id, data, property, showByDefault, showSelecte
 					&& (showSelectedItemsFromACookie === undefined || (showSelectedItemsFromACookie !== undefined && showSelectedItemsFromACookie === true))
 				) {
 					customItem.clicked = "multilist_clicked";
+					customItem.show = "";
 				}
 			}
 
@@ -368,6 +365,7 @@ function repeat(source_id, target_id, data, property, showByDefault, showSelecte
 				) {
 					customItem.clicked = "multilist_clicked";
 					customItem.owner = item.owner;
+					customItem.show = "";
 				}
 			}
 		}
@@ -376,6 +374,14 @@ function repeat(source_id, target_id, data, property, showByDefault, showSelecte
 
 		$('#'+target_id).append(html);
 	});
+
+	// Open or close filter group
+	if(selectedElements.filtersOpened !== undefined && selectedElements.filtersOpened[target_id] === true) {
+		openFilterGroup($('#'+target_id));
+
+	} else {
+		closeFilterGroup($('#'+target_id));
+	}
 
 	$('#'+target_id).trigger('dataloaded', selectedElements);
 }
