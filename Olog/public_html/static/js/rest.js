@@ -376,7 +376,7 @@ function repeat(source_id, target_id, data, property, showByDefault, showSelecte
 	});
 
 	// Open or close filter group
-	if(selectedElements.filtersOpened !== undefined && selectedElements.filtersOpened[target_id] === true) {
+	if(ologSettings.filtersOpened !== undefined && ologSettings.filtersOpened[target_id] === true) {
 		openFilterGroup($('#'+target_id));
 
 	} else {
@@ -1449,5 +1449,8 @@ function scrollToElement(containerSelector, scrollToSelector) {
 
 	if(scrollTo !== undefined && scrollTo.offset() !== undefined) {
 		container.scrollTop(scrollTo.offset().top - container.offset().top + container.scrollTop());
+
+	} else if(scrollTo !== undefined) {
+		container.scrollTop(scrollTo.offset().top);
 	}
 }

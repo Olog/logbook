@@ -5,10 +5,15 @@
  */
 
 $(document).ready(function(){
-	
+
 	// Write data from cookie back to object and remove cookie
-	if($.cookie(filtersCookieName) !== undefined){
+	if($.cookie(filtersCookieName) !== undefined) {
 		selectedElements = $.parseJSON($.cookie(filtersCookieName));
+	}
+
+	// Read data from settings cookie and set it to ologSettings object
+	if($.cookie(settingsCookieName) !== undefined) {
+		ologSettings = $.parseJSON($.cookie(settingsCookieName));
 	}
 
 	// Set version number
@@ -41,10 +46,10 @@ $(document).ready(function(){
 
 	// Delete cookie when Olog resizes
 	$(window).resize(function(e){
-		var windowWidth = $(window).width();
 
-		if($.cookie(settingsCookieName) !== undefined) {
+		if($.cookie(settingsCookieName) !== undefined && ologSettings.resize !== undefined) {
 			$.removeCookie(settingsCookieName);
+			l("reload");
 			window.location.reload();
 		}
 	});
@@ -52,45 +57,29 @@ $(document).ready(function(){
 	// Hide Logbooks for small screens
 	$('#load_logbooks').on('dataloaded', function(e){
 		if($(window).width() < smallScreenResolutionWidth) {
-			var ulParent = $('#load_logbooks');
-			//$('#load_logbooks li:gt(0)').toggle();
-			var arrow = ulParent.find('li i.toggle-from');
-
-			// When hiding elements, don't hide seleted ones
-			if(arrow.hasClass('icon-chevron-down')) {
-				ulParent.find('li:gt(' + liShouldBeGreaterThan + ')').addClass('display_none');
-				ulParent.find('li:gt(' + liShouldBeGreaterThan + ') .multilist_clicked').parent().removeClass('display_none');
-
-			} else {
-				ulParent.find('li:gt(' + liShouldBeGreaterThan + ')').removeClass('display_none');
-			}
-
-			toggleChevron("#load_logbooks_chevron");
+			closeFilterGroup($('#load_logbooks'));
 		}
 	});
 
 	// Hide Tags for small screens
-	/*$('#load_tags').on('dataloaded', function(e){
+	$('#load_tags').on('dataloaded', function(e){
 		if($(window).width() < smallScreenResolutionWidth) {
-			$('#load_tags li:gt(0)').toggle();
-			toggleChevron("#load_tags_chevron");
+			closeFilterGroup($('#load_tags'));
 		}
 	});
 
 	// Hide time filter from
 	$('#load_time_from').on('dataloaded', function(e){
 		if($(window).width() < smallScreenResolutionWidth) {
-			$("#load_time_from").find('li:gt(0)').toggle();
-			toggleChevron("#load_from_chevron");
+			closeFilterGroup($('#load_time_from'));
 		}
 	});
 
 	// If Olog is opened on small screen resolution, close filters, disable
 	// adding and editing.
 	if($(window).width() < smallScreenResolutionWidth) {
-		$("#load_time_from_to").find('li:gt(0)').toggle();
-		toggleChevron("#load_from_to_chevron");
-	}*/
+		closeFilterGroup($('#load_from_to_chevron'));
+	}
 
 	// Start listening for expand/collapse filters
 	startListeningForToggleFilterClicks();
@@ -319,8 +308,8 @@ function resizeManager() {
 	var minWidth = Math.round(windowWidth * 0.1);
 
 	// If cookie is not set, create new dims object
-	if($.cookie(settingsCookieName) === undefined) {
-		l("new dims");
+	if(ologSettings.resize === undefined) {
+		//l("new dims");
 
 		dims = {
 			left_pane_width: $(leftPane).width(),
@@ -334,9 +323,6 @@ function resizeManager() {
 			modify_right_pane_left: undefined,
 			modify_right_pane_width: undefined
 		};
-
-		var remainingWidth = windowWidth - dims.left_pane_width;
-		var remainingWidthHalf = Math.round(remainingWidth/2);
 
 		// Set the rest of the sizes so we don't get into trouble
 		if($(middlePane).doesExist()){
@@ -356,7 +342,7 @@ function resizeManager() {
 
 	// If settings cookie is set, read and set the panes' dimensions
 	} else {
-		dims = JSON.parse($.cookie(settingsCookieName));
+		dims = ologSettings.resize;
 		l(dims);
 
 		$(leftPane).width(dims.left_pane_width);
@@ -377,7 +363,7 @@ function resizeManager() {
 
 	// Drag left resizer
 	$('.container-resize').on('drag', function(e){
-		l(dims);
+		//l(dims);
 
 		var oldWidth = $(leftPane).width();
 
@@ -403,7 +389,8 @@ function resizeManager() {
 		$(middlePane).width($(middlePane).width() + diff);
 		dims.middle_pane_width = $(middlePane).width() + diff;
 
-		$.cookie(settingsCookieName, JSON.stringify(dims));
+		ologSettings.resize = dims;
+		saveOlogSettingsData(ologSettings);
 	});
 
 	// Stop dragging left resizer
@@ -413,7 +400,7 @@ function resizeManager() {
 
 	// Drag right resizer
 	$('.container-resize2').on('drag', function(e){
-		l(dims);
+		//l(dims);
 
 		// Limit the minimal width of the middle pane
 		if($(middlePane).width() < minWidth && e.pageX < dims.middle_pane_left + dims.middle_pane_width) {
@@ -436,7 +423,8 @@ function resizeManager() {
 
 		//l(dims.right_pane_width + '|' + dims.right_pane_left);
 
-		$.cookie(settingsCookieName, JSON.stringify(dims));
+		ologSettings.resize = dims;
+		saveOlogSettingsData(ologSettings);
 	});
 
 	// Stop dragging left resizer
@@ -446,7 +434,7 @@ function resizeManager() {
 
 	// Drag new resizer in create/modify layout
 	$('.container-resize3').on('drag', function(e){
-		l(dims);
+		//l(dims);
 
 		var oldWidth = $(modifyLeftPane).width();
 
@@ -472,7 +460,8 @@ function resizeManager() {
 		$(modifyRightPane).width($(modifyRightPane).width() + diff);
 		dims.modify_right_pane_width = $(modifyRightPane).width() + diff;
 
-		$.cookie(settingsCookieName, JSON.stringify(dims));
+		ologSettings.resize = dims;
+		saveOlogSettingsData(ologSettings);
 	});
 
 	// Stop dragging new resizer
@@ -517,7 +506,7 @@ function disableCreatingNewAndModifying() {
  * is greater than smallScreenResolutionWidth constant.
  */
 function enableCreatingAndModifying() {
-	l("window width: " + $(window).width());
+	//l("window width: " + $(window).width());
 
 	if($(window).width() > smallScreenResolutionWidth) {
 		$('#new_log').removeClass("disabled");
@@ -528,4 +517,22 @@ function enableCreatingAndModifying() {
 	} else {
 		disableCreatingNewAndModifying();
 	}
+}
+
+/**
+ * Save filter data into a cookie
+ * @param {type} dataToBeSaved object to be saved into a cookie
+ */
+function saveFilterData(dataToBeSaved) {
+	l("save filters data");
+	l(dataToBeSaved);
+	$.cookie(filtersCookieName, JSON.stringify(dataToBeSaved));
+}
+
+/**
+ * Save settings data to a cookie
+ * @param {type} dataToBeSaved data to be saved into a cookie
+ */
+function saveOlogSettingsData(dataToBeSaved) {
+	$.cookie(settingsCookieName, JSON.stringify(dataToBeSaved));
 }

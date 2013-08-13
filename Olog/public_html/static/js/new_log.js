@@ -13,18 +13,18 @@ $(document).ready(function(){
 	$('#tooltip').tooltip({placement: "bottom"});
 
 	// Load Logbooks
-	loadLogbooks("load_logbooks", true, false, true);
+	loadLogbooks("load_logbooks_m", true, false, true);
 
 	// Load Tags
-	loadTags("load_tags", true, false, true);
+	loadTags("load_tags_m", true, false, true);
 
 	// Wait for dataload
-	$('#load_tags').on('dataloaded', function(e){
+	$('#load_tags_m').on('dataloaded', function(e){
 		autocompleteTags(savedTags);
 	});
 
 	// Wait for dataselected
-	$('#load_tags').on('dataselected', function(e, data){
+	$('#load_tags_m').on('dataselected', function(e, data){
 
 		$("#tags_input").tagsManager('empty');
 
@@ -34,12 +34,12 @@ $(document).ready(function(){
 	});
 
 	// Wait for dataload
-	$('#load_logbooks').on('dataloaded', function(e){
+	$('#load_logbooks_m').on('dataloaded', function(e){
 		autocompleteLogbooks(savedLogbooks);
 	});
 
 	// Wait for dataselected
-	$('#load_logbooks').on('dataselected', function(e, data){
+	$('#load_logbooks_m').on('dataselected', function(e, data){
 
 		$("#logbooks_input").tagsManager('empty');
 

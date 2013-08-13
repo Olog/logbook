@@ -111,7 +111,7 @@ function searchForLogs(searchQuery, resetPageCouner) {
 		scrollToLastLog();
 
 		$('.log img').last().load(function(){
-			l("ready!");
+			//l("ready!");
 			scrollToLastLog();
 		});
 	});

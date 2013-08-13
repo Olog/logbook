@@ -18,7 +18,7 @@ $(document).ready(function(){
 	$('#tooltip').tooltip({placement: "bottom"});
 
 	// Load Logbooks
-	loadLogbooks("load_logbooks_m", false, false);
+	loadLogbooks("load_logbooks_m", true, false, false);
 
 	// Load Tags
 	loadTags("load_tags_m", true, false, false);

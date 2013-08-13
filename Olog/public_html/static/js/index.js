@@ -42,16 +42,16 @@ $(document).ready(function(){
 	});
 
 	// Load Logbooks
-	loadLogbooks("load_logbooks", true);
+	loadLogbooks("load_logbooks", true, true, true);
 
-	if(selectedElements.filtersOpened === undefined) {
-		selectedElements.filtersOpened = {};
-		selectedElements.filtersOpened['load_logbooks'] = true;
+	// Open Logbooks
+	if(ologSettings.filtersOpened === undefined) {
+		ologSettings.filtersOpened = {};
+		ologSettings.filtersOpened['load_logbooks'] = true;
 	}
 
-
 	// Load Tags
-	loadTags("load_tags");
+	loadTags("load_tags", false, true, true);
 
 	// Load created from filter items
 	loadCreatedFromFilters();
@@ -116,6 +116,17 @@ $(document).ready(function(){
 	if(updateInterval > 0) {
 		check = setInterval(checkForNewLogs, updateInterval * 1000);
 	}
+
+	// Handle go to top button
+	$('#back_to_top_button').click(function(e){
+		var id = $.url().attr("anchor");
+		var element = $('input[value=' + id + ']');
+		l(element.offset().top);
+
+		$('html, body').animate({
+			scrollTop: element.parent().offset().top
+		}, 100);
+	});
 });
 
 /**
@@ -241,7 +252,7 @@ function loadCreatedFromFilters() {
 	}
 
 	// Open or close time from filter group
-	if(selectedElements.filtersOpened !== undefined && selectedElements.filtersOpened['load_time_from'] === true) {
+	if(ologSettings.filtersOpened !== undefined && ologSettings.filtersOpened['load_time_from'] === true) {
 		openFilterGroup($('#load_time_from'));
 
 	} else {
@@ -249,7 +260,7 @@ function loadCreatedFromFilters() {
 	}
 
 	// Open or close time from-to filter group
-	if(selectedElements.filtersOpened !== undefined && selectedElements.filtersOpened['load_time_from_to'] === true) {
+	if(ologSettings.filtersOpened !== undefined && ologSettings.filtersOpened['load_time_from_to'] === true) {
 		openFilterGroup($('#load_time_from_to'));
 
 	} else {

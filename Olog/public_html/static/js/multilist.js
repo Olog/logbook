@@ -4,9 +4,6 @@
  * @author: Dejan Dežman <dejan.dezman@cosylab.com>
  */
 
-// Selected filter elements are saved into an object
-var selectedElements = {};
-
 // Because number of logs per load is change in the process,
 // we must save the old value in a variable
 var oldLogsPerLoad = numberOfLogsPerLoad;
@@ -39,6 +36,16 @@ function multiselect(name, saveSelectedItemsIntoACookie){
 	$('.' + name).click(function(e){
 		var clicked = false;
 
+		// Check if filter index exists
+		if(selectedElements[name + '_index'] === undefined || selectedElements[name + '_index'] === null) {
+			selectedElements[name + '_index'] = {};
+		}
+
+		// Check if filter array exists
+		if(selectedElements[name] === undefined) {
+			selectedElements[name] = new Array();
+		}
+
 		if($(e.target).is("span")){
 
 			// Check if filter is selected
@@ -49,11 +56,6 @@ function multiselect(name, saveSelectedItemsIntoACookie){
 			if(!e.ctrlKey){
 				$('.' + name).removeClass("multilist_clicked");
 				selectedElements[name] = [];
-				selectedElements[name + '_index'] = {};
-			}
-
-			// Initialize the element index
-			if(selectedElements[name + '_index'] === null) {
 				selectedElements[name + '_index'] = {};
 			}
 
@@ -75,7 +77,7 @@ function multiselect(name, saveSelectedItemsIntoACookie){
 			$(e.target).parent().trigger('dataselected', selectedElements);
 
 			if(saveSelectedItemsIntoACookie === undefined || (saveSelectedItemsIntoACookie !== undefined && saveSelectedItemsIntoACookie === true)) {
-				$.cookie(filtersCookieName, JSON.stringify(selectedElements));
+				saveFilterData(selectedElements);
 			}
 		}
 	});
@@ -198,7 +200,7 @@ function singleselect(name){
 		// Trigger event and set cookie with data
 		$(e.target).parent().unbind('dataselected');
 		$(e.target).parent().trigger('dataselected', selectedElements);
-		$.cookie(filtersCookieName, JSON.stringify(selectedElements));
+		saveFilterData(selectedElements);
 	});
 }
 
@@ -226,7 +228,8 @@ function fromToChanged() {
 	// Trigger event and set cookie with data
 	$('#datepicker_to').parent().unbind('dataselected');
 	$('#datepicker_to').parent().trigger('dataselected', selectedElements);
-	$.cookie(filtersCookieName, JSON.stringify(selectedElements));
+	saveFilterData(selectedElements);
+
 }
 
 /**
@@ -264,18 +267,21 @@ function startListeningForToggleFilterClicks() {
  * @param {type} groupContainer container object that holds filters
  */
 function closeFilterGroup(groupContainer) {
-	l("group closed");
-
 	groupContainer.find('li:gt(0)').addClass('display_none');
 	groupContainer.find('li:gt(0) .multilist_clicked').parent().removeClass('display_none');
 
 	var arrow = groupContainer.find('li i.toggle-from');
 	toggleChevron(arrow, false);
 
-	selectedElements.filtersOpened[groupContainer.attr('id')] = false;
+	// Check if filtersOpened is defined
+	if(ologSettings.filtersOpened === undefined) {
+		ologSettings.filtersOpened = {};
+	}
+
+	ologSettings.filtersOpened[groupContainer.attr('id')] = false;
 
 	// Save settings into a cookie
-	$.cookie(filtersCookieName, JSON.stringify(selectedElements));
+	saveOlogSettingsData(ologSettings);
 }
 
 /**
@@ -283,17 +289,20 @@ function closeFilterGroup(groupContainer) {
  * @param {type} groupContainer container that holds filters
  */
 function openFilterGroup(groupContainer) {
-	l("group opened");
-
 	groupContainer.find('li:gt(0)').removeClass('display_none');
 
 	var arrow = groupContainer.find('li i.toggle-from');
 	toggleChevron(arrow, true);
 
-	selectedElements.filtersOpened[groupContainer.attr('id')] = true;
+	// Check if filtersOpened is defined
+	if(ologSettings.filtersOpened === undefined) {
+		ologSettings.filtersOpened = {};
+	}
+
+	ologSettings.filtersOpened[groupContainer.attr('id')] = true;
 
 	// Save settings into a cookie
-	$.cookie(filtersCookieName, JSON.stringify(selectedElements));
+	saveOlogSettingsData(ologSettings);
 }
 
 /**

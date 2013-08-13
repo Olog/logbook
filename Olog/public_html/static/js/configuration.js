@@ -146,3 +146,9 @@ var modalWindows = "static/html/modal_windows.html";
 
 // Html file that contain templates
 var templates = "static/html/templates.html";
+
+// Selected filter elements are saved into an object
+var selectedElements = {};
+
+// Olog settings that are saved in Olog settings cookie
+var ologSettings = {};
