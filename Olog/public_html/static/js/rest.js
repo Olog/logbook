@@ -1096,7 +1096,14 @@ function createLogbook(logbook) {
 		success : function(model) {
 			l("Logbook sent to the server");
 			$('#myModal').modal("hide");
-			loadLogbooks("load_logbooks");
+
+			// Are we in main onr create/modify view
+			if($('#load_logbooks').doesExist()) {
+				loadLogbooks("load_logbooks");
+
+			}else {
+				loadLogbooks("load_logbooks_m");
+			}
 		}
 	});
 }
@@ -1134,13 +1141,20 @@ function modifyLogbook(logbook, name) {
 		success : function(model) {
 			l("Logbook modify command sent to the server");
 			$('#editLogbookModal').modal("hide");
-			loadLogbooks("load_logbooks");
+
+			// Are we in main onr create/modify view
+			if($('#load_logbooks').doesExist()) {
+				loadLogbooks("load_logbooks");
+
+			}else {
+				loadLogbooks("load_logbooks_m");
+			}
 		}
 	});
 }
 
 /**
- * Delete Logbook
+ * Delete Logbook and reload filters
  * @param name original name of the Logbook
  */
 function deleteLogbook(name) {
@@ -1168,7 +1182,14 @@ function deleteLogbook(name) {
 		success : function(model) {
 			l("Logbook delete command sent to the server");
 			$('#deleteLogbookModal').modal("hide");
-			loadLogbooks("load_logbooks");
+
+			// Are we in main onr create/modify view
+			if($('#load_logbooks').doesExist()) {
+				loadLogbooks("load_logbooks");
+
+			}else {
+				loadLogbooks("load_logbooks_m");
+			}
 		}
 	});
 }
@@ -1205,7 +1226,14 @@ function createTag(tag) {
 		success : function(model) {
 			l("Tag sent to the server");
 			$('#myTagModal').modal("hide");
-			loadTags("load_tags");
+
+			// Are we in main or in create/modify view
+			if($('#load_tags').doesExist()) {
+				loadTags("load_tags");
+
+			} else {
+				loadTags("load_tags_m");
+			}
 		}
 	});
 }
@@ -1243,7 +1271,14 @@ function modifyTag(tag, name) {
 		success : function(model) {
 			l("Tag modify command sent to the server");
 			$('#editTagModal').modal("hide");
-			loadTags("load_tags");
+
+			// Are we in main or in create/modify view
+			if($('#load_tags').doesExist()) {
+				loadTags("load_tags");
+
+			} else {
+				loadTags("load_tags_m");
+			}
 		}
 	});
 }
@@ -1277,7 +1312,14 @@ function deleteTag(name) {
 		success : function(model) {
 			l("Logbook delete command sent to the server");
 			$('#deleteTagModal').modal("hide");
-			loadTags("load_tags");
+
+			// Are we in main or in create/modify view
+			if($('#load_tags').doesExist()) {
+				loadTags("load_tags");
+
+			} else {
+				loadTags("load_tags_m");
+			}
 		}
 	});
 }

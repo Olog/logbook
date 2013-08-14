@@ -268,6 +268,9 @@ function startListeningForToggleFilterClicks() {
  */
 function closeFilterGroup(groupContainer) {
 	groupContainer.find('li:gt(0)').addClass('display_none');
+
+	// Style attribute is added when filter items are being filtered
+	groupContainer.find('li:gt(0)').removeAttr("style");
 	groupContainer.find('li:gt(0) .multilist_clicked').parent().removeClass('display_none');
 
 	var arrow = groupContainer.find('li i.toggle-from');
