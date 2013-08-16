@@ -112,20 +112,28 @@ $(document).ready(function(){
 	}
 
 	// Set refresh interval if updateInterval is set to value that is greater
-	// than 0
-	if(updateInterval > 0) {
+	// than 0 and if we are not on a small screen
+	if(updateInterval > 0 && $(window).width() > smallScreenResolutionWidth) {
 		check = setInterval(checkForNewLogs, updateInterval * 1000);
 	}
 
 	// Handle go to top button
 	$('#back_to_top_button').click(function(e){
 		var id = $.url().attr("anchor");
-		var element = $('input[value=' + id + ']');
-		l(element.offset().top);
+		l("id = " + id);
 
-		$('html, body').animate({
-			scrollTop: element.parent().offset().top
-		}, 100);
+		// If no Log entry is selected, go to the top
+		if(id === "" || id === "top") {
+			window.location.href = firstPageName + "#top";
+
+		} else {
+			var element = $('input[value=' + id + ']');
+			l(element.offset().top);
+
+			$('html, body').animate({
+				scrollTop: element.parent().offset().top
+			}, 100);
+		}
 	});
 });
 

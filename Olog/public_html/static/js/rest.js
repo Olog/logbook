@@ -145,7 +145,7 @@ function getLog(id){
 			savedLogs[id] = log;
 			logData = log;
 		});
-		$.ajaxSetup({async:true});
+		//$.ajaxSetup({async:true});
 	}
 
 	return [logData, logId];

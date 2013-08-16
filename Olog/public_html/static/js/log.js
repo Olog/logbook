@@ -82,7 +82,7 @@ function autocompleteTags(tagsArray) {
 	if ($.cookie(filtersCookieName) !== undefined) {
 		selectedTagsArray = $.parseJSON($.cookie(filtersCookieName))["list2"];
 	}
-	initiateAutocompleteInput("tags_input", selectedTagsArray, tagsArray);
+	initiateAutocompleteInput("#tags_input", selectedTagsArray, tagsArray);
 }
 
 /**
@@ -96,7 +96,7 @@ function autocompleteLogbooks(logbooksArray) {
 	if ($.cookie(filtersCookieName) !== undefined) {
 		selectedLogbooksArray = $.parseJSON($.cookie(filtersCookieName))["list"];
 	}
-	initiateAutocompleteInput("logbooks_input", selectedLogbooksArray, logbooksArray);
+	initiateAutocompleteInput("#logbooks_input", selectedLogbooksArray, logbooksArray);
 }
 
 /**
@@ -106,13 +106,13 @@ function autocompleteLogbooks(logbooksArray) {
  * @param {type} dataArray array of all the object available for autocompletion
  */
 function initiateAutocompleteInput(targetId, preselectedArray, dataArray) {
-	$("#" + targetId).tagsManager({
+	$(targetId).tagsManager({
 		prefilled: preselectedArray,
 		typeahead: true,
 		typeaheadSource: dataArray,
 		onlyTagList: true
 	});
-	$("#" + targetId).trigger("tagsManager_initialized");
+	$(targetId).trigger("tagsManager_initialized");
 }
 
 /**
