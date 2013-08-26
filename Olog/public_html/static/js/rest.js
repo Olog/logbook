@@ -158,12 +158,11 @@ function getLog(id){
  */
 function showLog(log, id){
 	$('#load_log').show("fast");
-	l(log);
+	//l(log);
 
-	//var lines = log.description.split("\n");
-	var desc = log.description.replace(/\n/g, "<br />");
+	var desc = log.description;
 
-	$("#log_description").html(desc);
+	$("#log_description").html(multiLineHtmlEncode(desc));
 	//$("#log_description").attr("rows", lines.length);
 
 	$("#log_owner").html(log.owner);

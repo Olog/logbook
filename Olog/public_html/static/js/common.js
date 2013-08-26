@@ -221,6 +221,28 @@ function formatDate(input) {
 }
 
 /**
+ * Split input string line by line and convert every line from html to text.
+ * @param {type} value input value
+ */
+function multiLineHtmlEncode(value) {
+	var lines = value.split(/\r\n|\r|\n/);
+
+	for (var i = 0; i < lines.length; i++) {
+		lines[i] = htmlEncode(lines[i])+"<br />";
+	}
+	return lines.join('\r\n');
+}
+
+/**
+ * Convert string from html to text
+ * @param {type} value input value
+ * @returns textual presentation of html
+ */
+function htmlEncode(value) {
+	return $('<div/>').text(value).html();
+}
+
+/**
  * Is file we want to upload image or not
  * @param {type} type MIME type string
  * @returns {Boolean} is mimetype an image or not
@@ -312,8 +334,8 @@ function resizeManager() {
 		//l("new dims");
 
 		dims = {
-			left_pane_width: $(leftPane).width(),
-			middle_pane_left: $(leftPane).width(),
+			left_pane_width: undefined,
+			middle_pane_left: undefined,
 			middle_pane_width: undefined,
 			right_pane_left: undefined,
 			right_pane_width: undefined,
@@ -325,7 +347,7 @@ function resizeManager() {
 		};
 
 		// Set the rest of the sizes so we don't get into trouble
-		if($(middlePane).doesExist()){
+		/*if($(middlePane).doesExist()){
 			var middlePaneWidth = $(middlePane).width();
 
 			dims.middle_pane_width = middlePaneWidth;
@@ -338,7 +360,7 @@ function resizeManager() {
 			dims.modify_left_pane_width = $(modifyLeftPane).width();
 			dims.modify_right_pane_left = dims.modify_left_pane_width;
 			dims.modify_right_pane_width = $(modifyRightPane).width();
-		}
+		}*/
 
 	// If settings cookie is set, read and set the panes' dimensions
 	} else {
@@ -363,6 +385,9 @@ function resizeManager() {
 
 	// Drag left resizer
 	$('.container-resize').on('drag', function(e){
+		dims.left_pane_width = $(leftPane).width();
+		dims.middle_pane_left = dims.left_pane_width;
+
 		//l(dims);
 
 		var oldWidth = $(leftPane).width();
@@ -400,6 +425,9 @@ function resizeManager() {
 
 	// Drag right resizer
 	$('.container-resize2').on('drag', function(e){
+		dims.left_pane_width = $(leftPane).width();
+		dims.middle_pane_left = dims.left_pane_width;
+
 		//l(dims);
 
 		// Limit the minimal width of the middle pane
