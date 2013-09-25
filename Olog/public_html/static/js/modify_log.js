@@ -27,10 +27,30 @@ $(document).ready(function(){
 	$('#load_tags_m').on('dataloaded', function(m) {
 		autocompleteTags(savedTags);
 	});
+    
+    	// Wait for dataselected
+	$('#load_tags_m').on('dataselected', function(e, data){
+
+		$("#tags_input").tagsManager('empty');
+
+		$.each(data['list2'], function(i, element){
+			$("#tags_input").tagsManager('pushTag',element);
+		});
+	});
 
 	// Wait for dataload
 	$('#load_logbooks_m').on('dataloaded', function(m) {
 		autocompleteLogbooks(savedLogbooks);
+	});
+    
+    	// Wait for dataselected
+	$('#load_logbooks_m').on('dataselected', function(e, data){
+
+		$("#logbooks_input").tagsManager('empty');
+
+		$.each(data['list'], function(i, element){
+			$("#logbooks_input").tagsManager('pushTag',element);
+		});
 	});
 
 	// Get log id parameter from url
