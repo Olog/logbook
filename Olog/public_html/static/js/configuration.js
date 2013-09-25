@@ -129,7 +129,7 @@ var smallScreenResolutionWidth = 1024;
 var levels = ["Info", "Problem", "Request", "Suggestion", "Urgent"];
 
 // Version number
-var version = "0.2";
+var version = "0.3";
 
 /**
  * Global variables needed by more than one page. SHOULD NOT BE CONFIGURED BY THE USER!
