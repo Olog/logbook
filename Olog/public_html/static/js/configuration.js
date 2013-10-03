@@ -9,7 +9,7 @@
  */
 
 // For accessing the REST service
-var serviceurl = "http://localhost:8080/Olog/resources/";
+var serviceurl = location.protocol + "//" + window.location.host + "/Olog/resources/";
 
 // For all the dates shown in client
 // Format docs can be found at http://momentjs.com/docs/#/displaying/format/
