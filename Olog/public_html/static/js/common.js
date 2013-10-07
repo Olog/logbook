@@ -24,6 +24,11 @@ $(document).ready(function(){
 		return (a.textContent || a.innerText || "").toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
 	};
 
+	// Create selector for searching for exact text value
+	jQuery.expr[':'].textEquals = function(a, i, m) {
+		return $(a).text().match("^" + m[3] + "$");
+	};
+
 	var urlObject = $.url();
 
 	// Get reason from url

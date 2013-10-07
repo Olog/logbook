@@ -1,5 +1,5 @@
 /* ===================================================
- * bootstrap-tagmanager.js v2.4.1
+ * bootstrap-tagmanager.js v2.4.2
  * http://welldonethings.com/tags/manager
  * ===================================================
  * Copyright 2012 Max Favilli
@@ -89,7 +89,7 @@
     var keyNums = [9,13,17,18,19,37,38,39,40];
     var delimiterChars = [], delimiterKeys = [];
     $.each(delimiters, function(i,v){
-      if (keyNums.indexOf(v) != -1){
+      if ( $.inArray(v, keyNums) != -1 ){
         delimiterKeys.push(v);
       } else {
         delimiterChars.push(v);
@@ -285,7 +285,7 @@
 
     var pushAllTags = function (e, tagstring) {
       if (tagManagerOptions.AjaxPushAllTags) {
-        $.post(tagManagerOptions.AjaxPushAllTags, { tags: tagstring });
+        $.post(tagManagerOptions.AjaxPush, { tags: tagstring });
       }
     };
 
@@ -294,9 +294,14 @@
 
       if (!tag || tag.length <= 0) return;
 
-      if(tagManagerOptions.onlyTagList &&
-        tagManagerOptions.typeaheadSource != null &&
-        $.inArray(tag, tagManagerOptions.typeaheadSource) == -1) return;
+      if (tagManagerOptions.typeaheadSource != null)
+      {
+          var source = $.isFunction(tagManagerOptions.typeaheadSource) ? 
+                      tagManagerOptions.typeaheadSource() : tagManagerOptions.typeaheadSource;
+                      
+          if(tagManagerOptions.onlyTagList &&
+              $.inArray(tag, source) == -1) return;
+      }
 
       if (tagManagerOptions.CapitalizeFirstLetter && tag.length > 1) {
         tag = tag.charAt(0).toUpperCase() + tag.slice(1).toLowerCase();
@@ -344,9 +349,10 @@
 
         var newTagId = objName + '_' + tagId;
         var newTagRemoveId = objName + '_Remover_' + tagId;
+        var escaped = $("<span></span>").text(tag).html();
 
         var html = '<span class="' + tagClasses() + '" id="' + newTagId + '">';
-        html += '<span>' + tag + '</span>';
+        html += '<span>' + escaped + '</span>';
         html += '<a href="#" class="tm-tag-remove" id="' + newTagRemoveId + '" TagIdToRemove="' + tagId + '">';
         html += tagManagerOptions.tagCloseIcon + '</a></span> ';
         var $el = $(html);

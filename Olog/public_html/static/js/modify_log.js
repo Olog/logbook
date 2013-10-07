@@ -17,42 +17,6 @@ $(document).ready(function(){
 	// Initialize tooltip
 	$('#tooltip').tooltip({placement: "bottom"});
 
-	// Load Logbooks
-	loadLogbooks("load_logbooks_m", true, false, false);
-
-	// Load Tags
-	loadTags("load_tags_m", true, false, false);
-
-	// Wait for dataload
-	$('#load_tags_m').on('dataloaded', function(m) {
-		autocompleteTags(savedTags);
-	});
-    
-    	// Wait for dataselected
-	$('#load_tags_m').on('dataselected', function(e, data){
-
-		$("#tags_input").tagsManager('empty');
-
-		$.each(data['list2'], function(i, element){
-			$("#tags_input").tagsManager('pushTag',element);
-		});
-	});
-
-	// Wait for dataload
-	$('#load_logbooks_m').on('dataloaded', function(m) {
-		autocompleteLogbooks(savedLogbooks);
-	});
-    
-    	// Wait for dataselected
-	$('#load_logbooks_m').on('dataselected', function(e, data){
-
-		$("#logbooks_input").tagsManager('empty');
-
-		$.each(data['list'], function(i, element){
-			$("#logbooks_input").tagsManager('pushTag',element);
-		});
-	});
-
 	// Get log id parameter from url
 	logId = $.url().param("id");
 	logId = parseInt(logId);
@@ -60,75 +24,128 @@ $(document).ready(function(){
 	// Check url parameters
 	checkUrlParameters(logId);
 
-	// Get Log object
-	log = getLog(logId);
+	// Wait for dataselected
+	$('#load_tags_m').on('dataselected', function(e, data){
 
-	// Check if log object exists
-	checkLogObject(log[0]);
-
-	// Load tags
-	$('#tags_input').on('tagsManager_initialized', function() {
 		$("#tags_input").tagsManager('empty');
 
-		if(log[0].tags !== undefined) {
-			$.each(log[0].tags, function(i, element){
-				$('#load_tags_m span:contains("' + element.name + '")').addClass('multilist_clicked');
-				$('#load_tags_m span:contains("' + element.name + '")').parent().removeClass('display_none');
-				$("#tags_input").tagsManager('pushTag',element.name);
-			});
-		}
+		$('#load_tags_m span[class*=multilist_clicked]').each(function(){
+			$("#tags_input").tagsManager('pushTag', $(this).text());
+		});
 	});
 
-	// Load logbooks
-	$('#logbooks_input').on('tagsManager_initialized', function(){
+	// Wait for dataselected
+	$('#load_logbooks_m').on('dataselected', function(e, data){
+
 		$("#logbooks_input").tagsManager('empty');
 
-		if(log[0].logbooks !== undefined) {
-			$.each(log[0].logbooks, function(i, element){
-				$('#load_logbooks_m span:contains("' + element.name + '")').addClass('multilist_clicked');
-				$('#load_logbooks_m span:contains("' + element.name + '")').parent().removeClass('display_none');
-				$("#logbooks_input").tagsManager('pushTag',element.name);
-			});
-		}
+		$('#load_logbooks_m span[class*=multilist_clicked]').each(function(){
+			$("#logbooks_input").tagsManager('pushTag', $(this).text());
+		});
 	});
 
-	// Load properties
-	if(log[0].properties !== undefined && log[0].properties.length !== 0) {
-		// Load properties
-		$('.log_properties').find('div').remove();
+	// Get Log object
+	getLogNew(logId, function(data) {
+		l(data);
+		var log = [];
+		log[0] = data;
 
-		var template = getTemplate("template_modify_log_property");
-		var html = "";
-		var attrIndexes = [];
-		var nameIndex = 0;
+		// Check if log object exists
+		checkLogObject(log[0]);
 
-		$.each(log[0].properties, function(i, property){
+			// Wait for dataload
+		$('#load_tags_m').on('dataloaded', function(m) {
+			autocompleteTags(savedTags);
 
-			var newProperty = property;
-			newProperty.attrs = [];
+			$("#tags_input").tagsManager('empty');
 
-			var attrIndex = {"name":newProperty.name, "attrs":[]};
-
-			$.each(newProperty.attributes, function(attributeKey, attributeValue){
-				var attribute = {"key": attributeKey, "name":prepareInput(attributeKey) + nameIndex, "value":removeHtmlTags(checkIfLink(attributeValue))};
-				attrIndex.attrs.push({"key": attributeKey, "name": prepareInput(attributeKey) + nameIndex});
-				nameIndex ++;
-				newProperty.attrs.push(attribute);
-			});
-
-			attrIndexes.push(attrIndex);
-
-			html = Mustache.to_html(template, newProperty);
-			$('.log_properties').append(html);
+			if(log[0].tags !== undefined) {
+				$.each(log[0].tags, function(i, element){
+					$('#load_tags_m span:textEquals("' + element.name + '")').addClass('multilist_clicked');
+					$('#load_tags_m span:textEquals("' + element.name + '")').parent().removeClass('display_none');
+					$("#tags_input").tagsManager('pushTag',element.name);
+				});
+			}
 		});
 
-		l(attrIndexes);
-		$('#modifyForm input[name=properties]').val(JSON.stringify(attrIndexes));
-		startListeningForPropertyClicks();
+		// Load Tags
+		loadTags("load_tags_m", true, false, false);
 
-	} else {
-		$('.log_properties').hide("fast");
-	}
+		// Wait for dataload
+		$('#load_logbooks_m').on('dataloaded', function(m) {
+			autocompleteLogbooks(savedLogbooks);
+
+			$("#logbooks_input").tagsManager('empty');
+
+			if(log[0].logbooks !== undefined) {
+				$.each(log[0].logbooks, function(i, element){
+					$('#load_logbooks_m span:textEquals("' + element.name + '")').addClass('multilist_clicked');
+					$('#load_logbooks_m span:textEquals("' + element.name + '")').parent().removeClass('display_none');
+					$("#logbooks_input").tagsManager('pushTag',element.name);
+				});
+			}
+		});
+
+		// Load Logbooks
+		loadLogbooks("load_logbooks_m", true, false, false);
+
+		// Load properties
+		if(log[0].properties !== undefined && log[0].properties.length !== 0) {
+			// Load properties
+			$('.log_properties').find('div').remove();
+
+			var template = getTemplate("template_modify_log_property");
+			var html = "";
+			var attrIndexes = [];
+			var nameIndex = 0;
+
+			$.each(log[0].properties, function(i, property){
+
+				var newProperty = property;
+				newProperty.attrs = [];
+
+				var attrIndex = {"name":newProperty.name, "attrs":[]};
+
+				$.each(newProperty.attributes, function(attributeKey, attributeValue){
+					var attribute = {"key": attributeKey, "name":prepareInput(attributeKey) + nameIndex, "value":removeHtmlTags(checkIfLink(attributeValue))};
+					attrIndex.attrs.push({"key": attributeKey, "name": prepareInput(attributeKey) + nameIndex});
+					nameIndex ++;
+					newProperty.attrs.push(attribute);
+				});
+
+				attrIndexes.push(attrIndex);
+
+				html = Mustache.to_html(template, newProperty);
+				$('.log_properties').append(html);
+			});
+
+			l(attrIndexes);
+			$('#modifyForm input[name=properties]').val(JSON.stringify(attrIndexes));
+			startListeningForPropertyClicks();
+
+		} else {
+			$('.log_properties').hide("fast");
+		}
+
+		// Fill in the modify form
+		fillInForm(log[0]);
+
+		// Load levels
+		var template = getTemplate('template_level_input');
+		$('#level_input').html("");
+
+		$.each(levels, function(index, name) {
+
+			var selected = "";
+
+			if(name === log[0].level) {
+				selected = "selected=selected";
+			}
+
+			var html = Mustache.to_html(template, {"name": name, "selected":selected});
+			$('#level_input').append(html);
+		});
+	});
 
 	// Listen for new Log form submit
 	$('#modifyForm').on('submit', function(e){
@@ -149,9 +166,6 @@ $(document).ready(function(){
 		}
 	});
 
-	// Fill in the modify form
-	fillInForm(log[0]);
-
 	// Redirect only if changes took place
 	$(document).on('successfully_modified', function(e){
 
@@ -160,22 +174,6 @@ $(document).ready(function(){
 			uploadPastedFiles(logId, firefoxPastedData);
 			window.location.href = firstPageName;
 		}, 500);
-	});
-
-	// Load levels
-	var template = getTemplate('template_level_input');
-	$('#level_input').html("");
-
-	$.each(levels, function(index, name) {
-
-		var selected = "";
-
-		if(name === log[0].level) {
-			selected = "selected=selected";
-		}
-
-		var html = Mustache.to_html(template, {"name": name, "selected":selected});
-		$('#level_input').append(html);
 	});
 
 	initialize(logId);

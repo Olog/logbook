@@ -33,6 +33,8 @@ function loadLogbooks(targetId, showByDefault, saveSelectedItemsIntoACookie, sho
 		filterListItems("logbooks_filter_search", "list");
 		startListeningForToggleFilterClicks();
 
+		$('#'+targetId).trigger('dataloaded', selectedElements);
+
 	}).fail(function(){
 		$('#modal_container').load(modalWindows + ' #serverErrorModal', function(response, status, xhr){
 			$('#serverErrorModal').modal('toggle');
@@ -56,6 +58,8 @@ function loadTags(targetId, showByDefault, saveSelectedItemsIntoACookie, showSel
 		multiselect("list2", saveSelectedItemsIntoACookie);
 		filterListItems("tags_filter_search", "list2");
 		startListeningForToggleFilterClicks();
+
+		$('#'+targetId).trigger('dataloaded', selectedElements);
 	});
 }
 
@@ -149,6 +153,28 @@ function getLog(id){
 	}
 
 	return [logData, logId];
+}
+
+/**
+ * Get log from json object or from REST if it does not exist.
+ * @param {type} id log id
+ * @param {type} myFunction function that is called after data is loaded
+ * @return Array with log data and logId
+ */
+function getLogNew(id, myFunction){
+	var logData = null;
+
+	// Load log
+	if(id in savedLogs){
+		logData = savedLogs[id];
+		myFunction(logData);
+
+	} else {
+		$.getJSON(serviceurl + 'logs/' + id, function(log) {
+			savedLogs[id] = log;
+			myFunction(log);
+		});
+	}
 }
 
 /**
@@ -381,8 +407,6 @@ function repeat(source_id, target_id, data, property, showByDefault, showSelecte
 	} else {
 		closeFilterGroup($('#'+target_id));
 	}
-
-	$('#'+target_id).trigger('dataloaded', selectedElements);
 }
 
 /**
