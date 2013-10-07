@@ -12,16 +12,13 @@ $(document).ready(function(){
 	// Initialize tooltip
 	$('#tooltip').tooltip({placement: "bottom"});
 
-	// Load Logbooks
-	loadLogbooks("load_logbooks_m", true, false, true);
-
-	// Load Tags
-	loadTags("load_tags_m", true, false, true);
-
 	// Wait for dataload
 	$('#load_tags_m').on('dataloaded', function(e){
 		autocompleteTags(savedTags);
 	});
+
+	// Load Tags
+	loadTags("load_tags_m", true, false, true);
 
 	// Wait for dataselected
 	$('#load_tags_m').on('dataselected', function(e, data){
@@ -37,6 +34,9 @@ $(document).ready(function(){
 	$('#load_logbooks_m').on('dataloaded', function(e){
 		autocompleteLogbooks(savedLogbooks);
 	});
+
+	// Load Logbooks
+	loadLogbooks("load_logbooks_m", true, false, true);
 
 	// Wait for dataselected
 	$('#load_logbooks_m').on('dataselected', function(e, data){

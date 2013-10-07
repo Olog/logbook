@@ -525,8 +525,6 @@ function removeHtmlTags(input) {
  * Disable creating new Logs, Logbooks, Tags and mofidying them
  */
 function disableCreatingNewAndModifying() {
-
-	// Disable adding new log
 	$('#new_log').addClass("disabled");
 	$('#new_log').attr("disabled", true);
 	$('#new_logbook_and_tag').addClass("disabled");
@@ -535,21 +533,13 @@ function disableCreatingNewAndModifying() {
 }
 
 /**
- * Enable creating Logs, Logbooks, Tags and modifying them only if screen width
- * is greater than smallScreenResolutionWidth constant.
+ * Enable creating Logs, Logbooks, Tags and modifying them
  */
 function enableCreatingAndModifying() {
-	//l("window width: " + $(window).width());
-
-	if($(window).width() > smallScreenResolutionWidth) {
-		$('#new_log').removeClass("disabled");
-		$('#new_log').attr("disabled", false);
-		$('#new_logbook_and_tag').removeClass("disabled");
-		$('#new_logbook_and_tag').attr("disabled", false);
-
-	} else {
-		disableCreatingNewAndModifying();
-	}
+	$('#new_log').removeClass("disabled");
+	$('#new_log').attr("disabled", false);
+	$('#new_logbook_and_tag').removeClass("disabled");
+	$('#new_logbook_and_tag').attr("disabled", false);
 }
 
 /**

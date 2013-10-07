@@ -4,6 +4,19 @@
  * @author: Dejan Dežman <dejan.dezman@cosylab.com>
  */
 
+@media (max-width: 1023px) {
+
+	.container-modify-left {
+		float: none;
+		padding: 0px 20px 20px 20px;
+	}
+
+	.container-modify-right {
+		float: none;
+		padding: 0px 20px 20px 20px;
+	}
+}
+
 @media (min-width: 1024px) {
 
 	.container-resize3 {
