@@ -8,8 +8,12 @@
  * Variables that can be and should be configured by user
  */
 
+
+// Version number
+var version = "0.4";
+
 // For accessing the REST service
-var serviceurl = location.protocol + "//" + window.location.host + "/Olog/resources/";
+var serviceurl = location.protocol + "//localhost:8080/Olog/resources/";
 
 // For all the dates shown in client
 // Format docs can be found at http://momentjs.com/docs/#/displaying/format/
@@ -127,9 +131,6 @@ var smallScreenResolutionWidth = 1024;
 
 // Available Levels
 var levels = ["Info", "Problem", "Request", "Suggestion", "Urgent"];
-
-// Version number
-var version = "0.3";
 
 /**
  * Global variables needed by more than one page. SHOULD NOT BE CONFIGURED BY THE USER!

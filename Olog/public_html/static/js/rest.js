@@ -79,7 +79,7 @@ function loadLogs(page, ignorePreviousSearchString){
 
 	// Generate a search query
 	if(searchURL === "" || ignorePreviousSearchString === true) {
-		searchQuery = serviceurl + 'logs?limit=' + numberOfLogsPerLoad + '&page=' + page;
+		searchQuery = serviceurl + 'logs?limit=' + numberOfLogsPerLoad + '&page=' + page + '&';
 
 	} else {
 		var queryString = $.url(searchURL).param();
@@ -97,12 +97,15 @@ function loadLogs(page, ignorePreviousSearchString){
 		}
 	}
 
+	searchQuery += "history=&";
+
 	// Save query to global var
 	searchURL = searchQuery;
 	l(searchURL);
 
 	$.getJSON(searchQuery, function(logs) {
 		$(".log-last").remove();
+		toggleChildren();
 		repeatLogs(logs, false);
 		appendAddMoreLog("load_logs");
 		startListeningForLogClicks();
@@ -145,7 +148,9 @@ function getLog(id){
 
 	} else {
 		$.ajaxSetup({async:false});
-		$.getJSON(serviceurl + 'logs/' + id, function(log) {
+		var idParts = id.split("_");
+
+		$.getJSON(serviceurl + 'logs?id=' + idParts[0], function(log) {
 			savedLogs[id] = log;
 			logData = log;
 		});
@@ -170,7 +175,9 @@ function getLogNew(id, myFunction){
 		myFunction(logData);
 
 	} else {
-		$.getJSON(serviceurl + 'logs/' + id, function(log) {
+		var idParts = id.split("_");
+
+		$.getJSON(serviceurl + 'logs?id=' + idParts[0], function(log) {
 			savedLogs[id] = log;
 			myFunction(log);
 		});
@@ -416,23 +423,40 @@ function repeat(source_id, target_id, data, property, showByDefault, showSelecte
  * @returns replaces template with data and puts it in the right place
  */
 function repeatLogs(data, prepend){
-	var template = getTemplate("template_log");
+	var logTemplate = getTemplate("template_log");
+	var historyTemplate = getTemplate("template_log_history");
 	var html = "";
 	var htmlBlock = "";
+	var children = [];
 
 	// Go through all the logs
 	$.each(data, function(i, item) {
-		savedLogs[item.id] = item;
+		savedLogs[item.id + "_" + item.version] = item;
+
+		// Do not show older versions of log entry by default
+		if(item.state === "Inactive") {
+			children.push(item);
+			return;
+		}
 
 		// Build customized Log object
 		var newItem = {
 			description: returnFirstXWords(item.description, 40),
 			owner: item.owner,
-			createdDate: formatDate(item.createdDate),
-			id: item.id,
+			createdDate: formatDate(item.modifiedDate),
+			id: item.id + '_' + item.version,
+			rawId: item.id,
 			attachments : [],
 			non_image_attachments: false
 		};
+
+		// Append history show/hide link
+		if(children.length > 0) {
+			newItem.history = true;
+
+		} else {
+			newItem.history = false;
+		}
 
 		// Alternate background colors
 		if(i%2 === 0) {
@@ -468,8 +492,9 @@ function repeatLogs(data, prepend){
 			});
 		}
 
-		html = Mustache.to_html(template, newItem);
+		html = Mustache.to_html(logTemplate, newItem);
 
+		// Append or prepend html
 		if(prepend === false) {
 			$("#load_logs").append(html);
 
@@ -477,6 +502,42 @@ function repeatLogs(data, prepend){
 			htmlBlock += html;
 		}
 
+		// Append children
+		$.each(children, function(i, child) {
+
+			// Build customized Log object
+			var childItem = {
+				description: returnFirstXWords(child.description, 40),
+				owner: child.owner,
+				createdDate: formatDate(child.modifiedDate),
+				id: child.id + '_' + child.version,
+				rawId: child.id,
+				attachments : [],
+				non_image_attachments: false,
+				parent_color: newItem.color
+			};
+
+			// Alternate background colors
+			if(i%2 === 0) {
+				childItem.color = "log_history_light";
+
+			} else {
+				childItem.color = "log_history_dark";
+			}
+
+			// Check if we have an URL and select selected Log
+			if(selectedLog !== -1 && parseInt(child.id) === selectedLog) {
+				childItem.click = "log_click";
+
+			} else {
+				childItem.click = "";
+			}
+
+			html = Mustache.to_html(historyTemplate, childItem);
+			$("#load_logs").append(html);
+
+		});
+		children = [];
 	});
 
 	// Prepend the whole block of Logs in the beginning of list
@@ -808,6 +869,7 @@ function createLog(log) {
 		beforeSend : function(xhr) {
 			var base64 = encode64(userCredentials["username"] + ":" + userCredentials["password"]);
 			xhr.setRequestHeader("Authorization", "Basic " + base64);
+			xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
 		},
 		statusCode: {
 			403: function(){
@@ -877,14 +939,16 @@ function uploadFiles(logId, uploadData, uploadTargetId) {
  * @param log Log object to be inserted into database
  */
 function modifyLog(log) {
-
+	l(log);
+	var logId = log[0].id;
 	var json = JSON.stringify(log[0]);
+	l(json);
 
 	var userCredentials = $.parseJSON($.cookie(sessionCookieName));
 
 	$.ajax( {
 		type: "PUT",
-		url : serviceurl + 'logs/' + log[0].id,
+		url : serviceurl + 'logs/' + logId,
 		contentType: 'application/json; charset=utf-8',
 		data: json,
 		beforeSend : function(xhr) {
@@ -1460,14 +1524,15 @@ function startListeningForLogClicks(){
 		$('.log_details').toggle(400, 'swing');
 	});
 
+	// Select a log entry
 	$('.log').unbind('click');
 	$(".log").click(function(e){
 		$('.log').removeClass("log_click");
 
-		if($(e.target).is("div")){
+		if($(e.target).is("div") && !$(e.target).hasClass("show_history")){
 			actionElement = $(e.target);
 
-		}else if($(e.target).parent().is("div")){
+		}else if($(e.target).parent().is("div") && !$(e.target).parent().hasClass("show_history")){
 			actionElement = $(e.target).parent();
 		}
 

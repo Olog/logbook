@@ -100,7 +100,8 @@ $(document).ready(function(){
 	}
 
 	// Show log if it we have an URL
-	if(selectedLog !== -1 && !isNaN(selectedLog)) {
+	if(selectedLog !== -1 && !isNaN(selectedLog) && selectedLog !== "") {
+		l(selectedLog);
 		var log = getLog(selectedLog);
 
 		if(log[0] !== null) {

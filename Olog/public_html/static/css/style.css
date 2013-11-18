@@ -29,16 +29,20 @@ html, body {
 	padding: 5px;
 }
 
+.log:hover {
+	background-color: #ffffff;
+}
+
+.log > img {
+	margin-bottom: 3px;
+}
+
 .log_light {
 	background-color: #f5f5f5;
 }
 
 .log_dark {
 	background-color: #f2f2f2;
-}
-
-.log:hover {
-	background-color: #ffffff;
 }
 
 .log_click {
@@ -63,8 +67,18 @@ html, body {
 	background-color: #eeeeee;
 }
 
-.log > img {
-	margin-bottom: 3px;
+.log_history {
+	margin-left: 20px;
+	padding-left: 5px;
+	border-left: 1px solid #ddd;
+}
+
+.log_history_light {
+	background-color: #fbfbfb;
+}
+
+.log_history_dark {
+	background-color: #f9f9f9;
 }
 /* Style log END */
 
@@ -398,4 +412,17 @@ html, body {
 .property_header {
 	cursor: pointer;
 	background-color: #eeeeee;
+}
+
+.show_history {
+	text-align: center;
+}
+
+.history_separator {
+	margin: 0;
+	padding: 0;
+	margin-top: 5px;
+	height: 1px;
+	background-color: #ddd;
+	border: none;
 }

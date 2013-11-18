@@ -19,7 +19,6 @@ $(document).ready(function(){
 
 	// Get log id parameter from url
 	logId = $.url().param("id");
-	logId = parseInt(logId);
 
 	// Check url parameters
 	checkUrlParameters(logId);
@@ -48,7 +47,7 @@ $(document).ready(function(){
 	getLogNew(logId, function(data) {
 		l(data);
 		var log = [];
-		log[0] = data;
+		log[0] = data[0];
 
 		// Check if log object exists
 		checkLogObject(log[0]);
@@ -155,7 +154,8 @@ $(document).ready(function(){
 		l(log[0]);
 
 		// Append id
-		log[0].id = logId;
+		var logParts = logId.split("_");
+		log[0].id = logParts[0];
 
 		if(isValidLog(log) === true) {
 			modifyLog(log);
@@ -253,7 +253,7 @@ function checkLogObject(log) {
 
 /**
  * Fill in the form with log data
- * @param {type} log
+ * @param {type} log object with log entry data
  */
 function fillInForm(log) {
 	$("#log_body").val(log.description);

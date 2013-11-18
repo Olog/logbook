@@ -46,7 +46,7 @@ $(document).ready(function(){
 	var id = urlObject.attr("anchor");
 
 	if(id !== undefined) {
-		selectedLog = parseInt(id);
+		selectedLog = id;
 	}
 
 	// Delete cookie when Olog resizes
@@ -558,4 +558,25 @@ function saveFilterData(dataToBeSaved) {
  */
 function saveOlogSettingsData(dataToBeSaved) {
 	$.cookie(settingsCookieName, JSON.stringify(dataToBeSaved));
+}
+
+/**
+ *
+ * @param {type} id id od the input element
+ * @param {type} name type of the filter (logbooks or tags)
+ */
+function toggleChildren(){
+
+	$('.log').find('.show_history').unbind('keyup');
+	$('.log').find('.show_history').keyup(function(e){
+		var rawId = $(e.target).find('input[name=raw_id]');
+		l(rawId);
+
+		// Slide up items that does not contain filters and are not selected
+		$('.child_' + rawId).slideToggle();
+
+		if($('.child_' + rawId).is(":hidden")) {
+
+		}
+	});
 }

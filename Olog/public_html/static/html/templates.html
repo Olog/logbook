@@ -24,6 +24,31 @@ and open the template in the editor.
 				{{#non_image_attachments}}
 				<img src="static/img/mail_attachment.png" title="Log entry also contains non-image attachments" />
 				{{/non_image_attachments}}
+
+				{{#history}}
+				<div class="show_history">
+					<input type="hidden" name="raw_id" value="{{rawId}}" />
+					Show history <i class="icon-chevron-up"></i>
+				</div>
+				{{/history}}
+			</div>
+		</script>
+
+		<!-- Log entry history template -->
+		<script id="template_log_history" type="text/template">
+			<div class="{{parent_color}} child_{{rawId}}" style="display: none">
+				<div class="log log_history {{color}}">
+					<input type="hidden" name="id" value="{{id}}" />
+					<p class="text-info">{{owner}}, {{createdDate}}</p>
+					{{description}}
+					<br />
+					{{#attachments}}
+					<img src="{{imageUrl}}" class="img-rounded" />
+					{{/attachments}}
+					{{#non_image_attachments}}
+					<img src="static/img/mail_attachment.png" title="Log entry also contains non-image attachments" />
+					{{/non_image_attachments}}
+				</div>
 			</div>
 		</script>
 
