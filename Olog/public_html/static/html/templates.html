@@ -26,9 +26,9 @@ and open the template in the editor.
 				{{/non_image_attachments}}
 
 				{{#history}}
-				<div class="show_history">
+				<div class="show_history" onclick="toggleChildren({{rawId}}, this)">
 					<input type="hidden" name="raw_id" value="{{rawId}}" />
-					Show history <i class="icon-chevron-up"></i>
+					<span class="history_info">Show history</span> <i class="icon-chevron-up history_icon"></i>
 				</div>
 				{{/history}}
 			</div>
@@ -36,7 +36,7 @@ and open the template in the editor.
 
 		<!-- Log entry history template -->
 		<script id="template_log_history" type="text/template">
-			<div class="{{parent_color}} child_{{rawId}}" style="display: none">
+			<div class="{{click}} {{parent_color}} child_{{rawId}}" style="display: none">
 				<div class="log log_history {{color}}">
 					<input type="hidden" name="id" value="{{id}}" />
 					<p class="text-info">{{owner}}, {{createdDate}}</p>

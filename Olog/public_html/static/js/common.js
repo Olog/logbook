@@ -565,18 +565,27 @@ function saveOlogSettingsData(dataToBeSaved) {
  * @param {type} id id od the input element
  * @param {type} name type of the filter (logbooks or tags)
  */
-function toggleChildren(){
+function toggleChildren(rawId, element){
+	l("toggle children");
+	//var rawId = $(e.target).find('input[name=raw_id]').val();
+	l(rawId);
 
-	$('.log').find('.show_history').unbind('keyup');
-	$('.log').find('.show_history').keyup(function(e){
-		var rawId = $(e.target).find('input[name=raw_id]');
-		l(rawId);
+	l($($('.child_' + rawId)[0]).is(":visible"));
 
-		// Slide up items that does not contain filters and are not selected
-		$('.child_' + rawId).slideToggle();
+	var infoElement = $(element).find("span");
+	var iconElement = $(element).find("i");
 
-		if($('.child_' + rawId).is(":hidden")) {
+	if($('.child_' + rawId).is(":hidden")) {
+		infoElement.text("Hide history");
+		iconElement.removeClass("icon-chevron-up");
+		iconElement.addClass("icon-chevron-down");
 
-		}
-	});
+	} else {
+		infoElement.text("Show history");
+		iconElement.removeClass("icon-chevron-down");
+		iconElement.addClass("icon-chevron-up");
+	}
+
+	// Slide up items that does not contain filters and are not selected
+	$('.child_' + rawId).slideToggle();
 }

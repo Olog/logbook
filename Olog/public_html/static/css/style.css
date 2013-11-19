@@ -46,7 +46,7 @@ html, body {
 }
 
 .log_click {
-	background-color: #82bcd9;
+	background-color: #82bcd9 !important;
 }
 
 .log_click > p {

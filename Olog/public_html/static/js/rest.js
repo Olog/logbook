@@ -105,7 +105,6 @@ function loadLogs(page, ignorePreviousSearchString){
 
 	$.getJSON(searchQuery, function(logs) {
 		$(".log-last").remove();
-		toggleChildren();
 		repeatLogs(logs, false);
 		appendAddMoreLog("load_logs");
 		startListeningForLogClicks();
@@ -1526,7 +1525,7 @@ function startListeningForLogClicks(){
 
 	// Select a log entry
 	$('.log').unbind('click');
-	$(".log").click(function(e){
+	$('.log').click(function(e){
 		$('.log').removeClass("log_click");
 
 		if($(e.target).is("div") && !$(e.target).hasClass("show_history")){
@@ -1534,6 +1533,9 @@ function startListeningForLogClicks(){
 
 		}else if($(e.target).parent().is("div") && !$(e.target).parent().hasClass("show_history")){
 			actionElement = $(e.target).parent();
+
+		} else {
+			actionElement = $(e.target).parent().parent();
 		}
 
 		var id = actionElement.find('[name=id]').val();
