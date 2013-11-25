@@ -36,6 +36,16 @@ $(document).ready(function(){
 		}
 	);
 
+	// Select include hostory
+	$('#search-checkbox').prop('checked', ologSettings.includeHistory);
+
+	// Listen to include history chenckbox change
+	$('#search-checkbox').unbind('change');
+	$('#search-checkbox').on('change', function(e) {
+		ologSettings.includeHistory = $(e.target).prop('checked');
+		saveOlogSettingsData(ologSettings);
+	});
+
 	// Creante new Log
 	$('#new_log').click(function(e){
 		window.location.href = "new_log.html";
@@ -100,7 +110,7 @@ $(document).ready(function(){
 	}
 
 	// Show log if it we have an URL
-	if(selectedLog !== -1 && !isNaN(selectedLog) && selectedLog !== "") {
+	if(selectedLog !== "") {
 		l(selectedLog);
 		var log = getLog(selectedLog);
 
@@ -108,7 +118,7 @@ $(document).ready(function(){
 			showLog(log[0], log[1]);
 
 		} else {
-			selectedLog = -1;
+			selectedLog = "";
 		}
 	}
 

@@ -97,7 +97,10 @@ function loadLogs(page, ignorePreviousSearchString){
 		}
 	}
 
-	searchQuery += "history=&";
+	// Append history paramater
+	if(ologSettings.includeHistory) {
+		searchQuery += historyParameter + "=&";
+	}
 
 	// Save query to global var
 	searchURL = searchQuery;
@@ -148,12 +151,23 @@ function getLog(id){
 	} else {
 		$.ajaxSetup({async:false});
 		var idParts = id.split("_");
+		var url = serviceurl + 'logs?id=' + idParts[0];
 
-		$.getJSON(serviceurl + 'logs?id=' + idParts[0], function(log) {
-			savedLogs[id] = log;
-			logData = log;
+		// Append include history parameter because we can get old version from
+		// URL but have history disabled
+		url += '&' + historyParameter;
+
+		l(url);
+
+		// Get log/logs data
+		$.getJSON(url, function(logs) {
+
+			$.each(logs, function(i, log) {
+				savedLogs[log.id + '_' + log.version] = log
+			});
+
+			logData = savedLogs[id];
 		});
-		//$.ajaxSetup({async:true});
 	}
 
 	return [logData, logId];
@@ -175,10 +189,22 @@ function getLogNew(id, myFunction){
 
 	} else {
 		var idParts = id.split("_");
+		var url = serviceurl + 'logs?id=' + idParts[0];
 
-		$.getJSON(serviceurl + 'logs?id=' + idParts[0], function(log) {
-			savedLogs[id] = log;
-			myFunction(log);
+		// Append include history parameter because we can get old version from
+		// URL but have history disabled
+		url += '&' + historyParameter;
+
+		l(url);
+
+		// Get log/logs data
+		$.getJSON(url, function(logs) {
+
+			$.each(logs, function(i, log) {
+				savedLogs[log.id + '_' + log.version] = log;
+			});
+
+			myFunction(savedLogs[id]);
 		});
 	}
 }
@@ -198,7 +224,7 @@ function showLog(log, id){
 	//$("#log_description").attr("rows", lines.length);
 
 	$("#log_owner").html(log.owner);
-	$("#log_date").html(formatDate(log.createdDate));
+	$("#log_date").html(formatDate(log.modifiedDate));
 	$("#log_level").html(log.level);
 
 	$("#modify_log_link").attr("href", "modify_log.html?id=" + id);
@@ -208,7 +234,7 @@ function showLog(log, id){
 		var template = getTemplate("template_log_details_edited");
 
 		var item = {
-			editedDate: formatDate(log.modifiedDate)
+			editedDate: formatDate(log.createdDate)
 		};
 
 		var html = Mustache.to_html(template, item);

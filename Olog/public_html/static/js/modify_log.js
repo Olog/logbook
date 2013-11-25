@@ -47,7 +47,7 @@ $(document).ready(function(){
 	getLogNew(logId, function(data) {
 		l(data);
 		var log = [];
-		log[0] = data[0];
+		log[0] = data;
 
 		// Check if log object exists
 		checkLogObject(log[0]);

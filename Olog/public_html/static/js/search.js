@@ -252,6 +252,11 @@ function generateSearchQuery(dataArray) {
 		queryString += "end=" + returnTimeFilterTimestamp(undefined, dataArray['to'])[1] + '&';
 	}
 
+	// Append include history parameter
+	if(ologSettings.includeHistory) {
+		queryString += historyParameter + "=&";
+	}
+
 	// Set new search query to its place
 	$("#search-query").val(newValue);
 	searchForLogs(queryString, true);

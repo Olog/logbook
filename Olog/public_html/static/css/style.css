@@ -281,6 +281,10 @@ html, body {
 	width: 90%;
 }
 
+.search-checkbox {
+	padding-bottom: 5px;
+}
+
 .log_title {
 	padding: 7px 7px 7px 7px;
 	margin: 0;

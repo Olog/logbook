@@ -14,6 +14,10 @@ $(document).ready(function(){
 	// Read data from settings cookie and set it to ologSettings object
 	if($.cookie(settingsCookieName) !== undefined) {
 		ologSettings = $.parseJSON($.cookie(settingsCookieName));
+
+	} else {
+		// Set includeHistory
+		ologSettings.includeHistory = includeHistory;
 	}
 
 	// Set version number
@@ -562,8 +566,8 @@ function saveOlogSettingsData(dataToBeSaved) {
 
 /**
  *
- * @param {type} id id od the input element
- * @param {type} name type of the filter (logbooks or tags)
+ * @param {type} rawId id of the first child element
+ * @param {type} element type of the filter (logbooks or tags)
  */
 function toggleChildren(rawId, element){
 	l("toggle children");

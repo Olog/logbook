@@ -45,7 +45,7 @@ var filtersCookieName = "filters";
 var sessionCookieName = "SESSION";
 
 // Write logs to console
-var writeLogs = true;
+var writeLogs = false;
 
 // First page name
 var firstPageName = "index.html";
@@ -140,7 +140,7 @@ var levels = ["Info", "Problem", "Request", "Suggestion", "Urgent"];
 var searchURL = "";
 
 // Current Log displayed
-var selectedLog = -1;
+var selectedLog = "";
 
 // Html file that contain modal windows
 var modalWindows = "static/html/modal_windows.html";
@@ -153,3 +153,7 @@ var selectedElements = {};
 
 // Olog settings that are saved in Olog settings cookie
 var ologSettings = {};
+
+var includeHistory = true;
+
+var historyParameter = "history";
