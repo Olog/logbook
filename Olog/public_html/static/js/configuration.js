@@ -154,6 +154,11 @@ var selectedElements = {};
 // Olog settings that are saved in Olog settings cookie
 var ologSettings = {};
 
+// Should history be included by default
 var includeHistory = true;
 
+// URL parameter for displaying log's history
 var historyParameter = "history";
+
+// URL parameter for displaying particular version of log entry
+var versionParameter = "version";
