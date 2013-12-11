@@ -431,6 +431,125 @@ function repeat(source_id, target_id, data, property, showByDefault, showSelecte
 	}
 }
 
+/*
+ * Prepare parent (active) and children (inactive) log version to be displayed
+ * @param {type} i current index of parent log element
+ * @param {type} children array of children together with parent
+ * @param {type} prepend should new logs be appended or prepended
+ */
+function prepareParentAndChildren(i, children, prepend) {
+	var logTemplate = getTemplate("template_log");
+	var historyTemplate = getTemplate("template_log_history");
+	var html = "";
+	var htmlBlock = "";
+
+	var item = children[0];
+
+	// Build customized Log object
+	var newItem = {
+		description: returnFirstXWords(item.description, 40),
+		owner: item.owner,
+		createdDate: formatDate(item.modifiedDate),
+		id: item.id + '_' + item.version,
+		rawId: item.id,
+		attachments : [],
+		non_image_attachments: false
+	};
+
+	// Append history show/hide link
+	if(children.length > 1) {
+		newItem.history = true;
+
+	} else {
+		newItem.history = false;
+	}
+
+	// Alternate background colors
+	if(i%2 === 0) {
+		newItem.color = "log_dark";
+
+	} else {
+		newItem.color = "log_light";
+	}
+
+	// Check if we have an URL and select selected Log
+	if(selectedLog !== -1 && parseInt(item.id) === selectedLog) {
+		newItem.click = "log_click";
+
+	} else {
+		newItem.click = "";
+	}
+
+	// Append image attachments
+	if(item.attachments.length !== 0){
+
+		$.each(item.attachments, function(j, attachment) {
+
+			// Skip non-image attachments
+			if(!isImage(attachment.contentType)){
+				newItem.non_image_attachments = true;
+				return;
+			}
+
+			// Create custom attribute thumbnail object
+			newItem.attachments.push(
+				{imageUrl: serviceurl + "attachments/" + item.id + "/" + attachment.fileName + ":thumbnail"}
+			);
+		});
+	}
+
+	html = Mustache.to_html(logTemplate, newItem);
+
+	// Append or prepend html
+	if(prepend === false) {
+		$("#load_logs").append(html);
+
+	} else {
+		htmlBlock += html;
+	}
+
+	// Append children
+	$.each(children, function(i, child) {
+
+		// Skip the first log
+		if(i === 0) {
+			return;
+		}
+
+		// Build customized Log object
+		var childItem = {
+			description: returnFirstXWords(child.description, 40),
+			owner: child.owner,
+			createdDate: formatDate(child.modifiedDate),
+			id: child.id + '_' + child.version,
+			rawId: child.id,
+			attachments : [],
+			non_image_attachments: false,
+			parent_color: newItem.color
+		};
+
+		// Alternate background colors
+		if(i%2 === 0) {
+			childItem.color = "log_history_light";
+
+		} else {
+			childItem.color = "log_history_dark";
+		}
+
+		// Check if we have an URL and select selected Log
+		if(selectedLog !== -1 && parseInt(child.id) === selectedLog) {
+			childItem.click = "log_click";
+
+		} else {
+			childItem.click = "";
+		}
+
+		html = Mustache.to_html(historyTemplate, childItem);
+		$("#load_logs").append(html);
+
+	});
+}
+
 /**
  * Show logs in the middle section. Some of the data must be formated to be shown properly
  * @param {type} data data in JSON format
@@ -438,127 +557,34 @@ function repeat(source_id, target_id, data, property, showByDefault, showSelecte
  * @returns replaces template with data and puts it in the right place
  */
 function repeatLogs(data, prepend){
-	var logTemplate = getTemplate("template_log");
-	var historyTemplate = getTemplate("template_log_history");
-	var html = "";
-	var htmlBlock = "";
 	var children = [];
+
+	var logId = "";
 
 	// Go through all the logs
 	$.each(data, function(i, item) {
 		savedLogs[item.id + "_" + item.version] = item;
+		var currentLogId = item.id;
 
-		// Do not show older versions of log entry by default
-		if(item.state === "Inactive") {
-			children.push(item);
-			return;
-		}
+		// If id has changed, show logs and clean children array
+		if(logId !== currentLogId) {
 
-		// Build customized Log object
-		var newItem = {
-			description: returnFirstXWords(item.description, 40),
-			owner: item.owner,
-			createdDate: formatDate(item.modifiedDate),
-			id: item.id + '_' + item.version,
-			rawId: item.id,
-			attachments : [],
-			non_image_attachments: false
-		};
+			if(children.length > 0) {
 
-		// Append history show/hide link
-		if(children.length > 0) {
-			newItem.history = true;
-
-		} else {
-			newItem.history = false;
-		}
-
-		// Alternate background colors
-		if(i%2 === 0) {
-			newItem.color = "log_dark";
-
-		} else {
-			newItem.color = "log_light";
-		}
-
-		// Check if we have an URL and select selected Log
-		if(selectedLog !== -1 && parseInt(item.id) === selectedLog) {
-			newItem.click = "log_click";
-
-		} else {
-			newItem.click = "";
-		}
-
-		// Append image attachments
-		if(item.attachments.length !== 0){
-
-			$.each(item.attachments, function(j, attachment) {
-
-				// Skip non-image attachments
-				if(!isImage(attachment.contentType)){
-					newItem.non_image_attachments = true;
-					return;
+				// Reverse the order of children
+				if(ologSettings.logVersionOrder) {
+					children = children.reverse();
 				}
 
-				// Create custom attribute thumbnail object
-				newItem.attachments.push(
-					{imageUrl: serviceurl + "attachments/" + item.id + "/" + attachment.fileName + ":thumbnail"}
-				);
-			});
-		}
-
-		html = Mustache.to_html(logTemplate, newItem);
-
-		// Append or prepend html
-		if(prepend === false) {
-			$("#load_logs").append(html);
-
-		} else {
-			htmlBlock += html;
-		}
-
-		// Append children
-		$.each(children, function(i, child) {
-
-			// Build customized Log object
-			var childItem = {
-				description: returnFirstXWords(child.description, 40),
-				owner: child.owner,
-				createdDate: formatDate(child.modifiedDate),
-				id: child.id + '_' + child.version,
-				rawId: child.id,
-				attachments : [],
-				non_image_attachments: false,
-				parent_color: newItem.color
-			};
-
-			// Alternate background colors
-			if(i%2 === 0) {
-				childItem.color = "log_history_light";
-
-			} else {
-				childItem.color = "log_history_dark";
+				prepareParentAndChildren(i, children, prepend);
 			}
 
-			// Check if we have an URL and select selected Log
-			if(selectedLog !== -1 && parseInt(child.id) === selectedLog) {
-				childItem.click = "log_click";
+			children = [];
+		}
 
-			} else {
-				childItem.click = "";
-			}
-
-			html = Mustache.to_html(historyTemplate, childItem);
-			$("#load_logs").append(html);
-
-		});
-		children = [];
+		children.push(item);
+		logId = currentLogId;
 	});
-
-	// Prepend the whole block of Logs in the beginning of list
-	if(prepend === true) {
-		$("#load_logs #form-search").after(htmlBlock);
-	}
 }
 
 /*

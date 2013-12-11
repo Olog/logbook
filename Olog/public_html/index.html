@@ -91,13 +91,17 @@
 		<a name="#top"></a>
 		<div class="container-middle">
 			<div id="load_logs" class="well container-scroll-middle">
-				<div class="form-search input-append" id="form-search">
+				<div class="form-search-box" id="form-search-box">
 					<label class="search-checkbox checkbox">
 						<input id="search-checkbox" type="checkbox"> Include history
 					</label>
-					<br />
-					<input type="text" placeholder="Search ..." id="search-query" class="search_input">
-					<button id="search-button" class="btn">Search</button>
+					<label id="search-order-block" class="search-checkbox checkbox">
+						<input id="search-order" type="checkbox"> Show newest first
+					</label>
+					<div class="input-append">
+						<input type="text" placeholder="Search ..." id="search-query" class="search_input">
+						<button id="search-button" type="button" class="btn">Search</button>
+					</div>
 				</div>
 				<!-- Template -->
 			</div>

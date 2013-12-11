@@ -18,6 +18,9 @@ $(document).ready(function(){
 	} else {
 		// Set includeHistory
 		ologSettings.includeHistory = includeHistory;
+
+		// Set logVersionOrder
+		ologSettings.logVersionOrder = logVersionOrder;
 	}
 
 	// Set version number

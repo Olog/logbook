@@ -43,8 +43,28 @@ $(document).ready(function(){
 	$('#search-checkbox').unbind('change');
 	$('#search-checkbox').on('change', function(e) {
 		ologSettings.includeHistory = $(e.target).prop('checked');
+		$('#search-order-block').toggle();
 		saveOlogSettingsData(ologSettings);
 	});
+
+	// Show log order flag
+	if(ologSettings.includeHistory) {
+		$('#search-order-block').show();
+
+		// Select include hostory
+		$('#search-order').prop('checked', ologSettings.logVersionOrder);
+
+		// Listen to change of log entry order
+		$('#search-order').unbind('change');
+		$('#search-order').on('change', function(e) {
+			ologSettings.logVersionOrder = $(e.target).prop('checked');
+			saveOlogSettingsData(ologSettings);
+		});
+
+	// Do not show log order flag
+	} else {
+		$('#search-order-block').hide();
+	}
 
 	// Creante new Log
 	$('#new_log').click(function(e){

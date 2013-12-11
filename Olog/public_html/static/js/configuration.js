@@ -162,3 +162,6 @@ var historyParameter = "history";
 
 // URL parameter for displaying particular version of log entry
 var versionParameter = "version";
+
+// Default version order
+var logVersionOrder = true;
