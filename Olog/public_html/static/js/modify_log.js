@@ -170,8 +170,9 @@ $(document).ready(function(){
 	$(document).on('successfully_modified', function(e){
 
 		setTimeout(function(){
-			uploadFiles(logId, uploadData, "#fileupload2");
-			uploadPastedFiles(logId, firefoxPastedData);
+			var logParts = logId.split("_");
+			uploadFiles(logParts[0], uploadData, "#fileupload2");
+			uploadPastedFiles(logParts[0], firefoxPastedData);
 			window.location.href = firstPageName;
 		}, 500);
 	});

@@ -13,7 +13,7 @@
 var version = "0.4";
 
 // For accessing the REST service
-var serviceurl = location.protocol + "//localhost:8080/Olog/resources/";
+var serviceurl = window.location.protocol + "//localhost:8080/Olog/resources/";
 
 // For all the dates shown in client
 // Format docs can be found at http://momentjs.com/docs/#/displaying/format/
@@ -45,7 +45,7 @@ var filtersCookieName = "filters";
 var sessionCookieName = "SESSION";
 
 // Write logs to console
-var writeLogs = false;
+var writeLogs = true;
 
 // First page name
 var firstPageName = "index.html";
