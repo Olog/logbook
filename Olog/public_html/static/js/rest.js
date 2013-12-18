@@ -219,21 +219,35 @@ function showLog(log, id){
 
 	$("#modify_log_link").attr("href", "modify_log.html?id=" + id);
 
-	// Show date edited
-	if(log.createdDate !== log.modifiedDate){
-		var template = getTemplate("template_log_details_edited");
+	var item = undefined;
+	var html = "";
+	var template = undefined;
 
-		var item = {
-			editedDate: formatDate(log.createdDate)
+	// Show date modified
+	if(log.createdDate !== log.modifiedDate){
+		template = getTemplate("template_log_details_edited");
+
+		item = {
+			editedDate: formatDate(log.modifiedDate)
 		};
 
-		var html = Mustache.to_html(template, item);
+		html = Mustache.to_html(template, item);
 
 		$('#log_details_edited').html(html);
 
 	} else {
 		$('#log_details_edited').html("");
 	}
+
+	// Show date created
+	template = getTemplate("template_log_details_created");
+
+	item = {
+		createdDate: formatDate(log.createdDate)
+	};
+
+	html = Mustache.to_html(template, item);
+	$('#log_details_created').html(html);
 
 	// Load log logbooks
 	$("#load_log_logbooks").html("");
@@ -449,12 +463,19 @@ function prepareParentAndChildren(i, children, prepend) {
 	var newItem = {
 		description: returnFirstXWords(item.description, 40),
 		owner: item.owner,
-		createdDate: formatDate(item.modifiedDate),
+		createdDate: formatDate(item.createdDate),
+		modifiedDate: formatDate(item.modifiedDate),
+		modified: false,
 		id: item.id + '_' + item.version,
 		rawId: item.id,
 		attachments : [],
 		non_image_attachments: false
 	};
+
+	// Was log entry modified?
+	if(item.createdDate !== item.modifiedDate) {
+		newItem.modified = true;
+	}
 
 	// Append history show/hide link
 	if(children.length > 1) {
@@ -520,13 +541,20 @@ function prepareParentAndChildren(i, children, prepend) {
 		var childItem = {
 			description: returnFirstXWords(child.description, 40),
 			owner: child.owner,
-			createdDate: formatDate(child.modifiedDate),
+			createdDate: formatDate(child.createdDate),
+			modifiedDate: formatDate(child.modifiedDate),
+			modified: false,
 			id: child.id + '_' + child.version,
 			rawId: child.id,
 			attachments : [],
 			non_image_attachments: false,
 			parent_color: newItem.color
 		};
+
+		// Was log entry modified?
+		if(child.createdDate !== child.modifiedDate) {
+			childItem.modified = true;
+		}
 
 		// Alternate background colors
 		if(i%2 === 0) {

@@ -17,7 +17,7 @@ var serviceurl = window.location.protocol + "//localhost:8080/Olog/resources/";
 
 // For all the dates shown in client
 // Format docs can be found at http://momentjs.com/docs/#/displaying/format/
-var dateFormat = "MMMM Do YYYY, h:mm a";
+var dateFormat = "M/D/YY, h:mm a";
 
 // jQuery datepicker plugin has its onw date format so it is defined separately.
 // Format switches can be found at http://api.jqueryui.com/datepicker/
