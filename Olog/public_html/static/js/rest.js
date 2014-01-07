@@ -455,7 +455,6 @@ function prepareParentAndChildren(i, children, prepend) {
 	var logTemplate = getTemplate("template_log");
 	var historyTemplate = getTemplate("template_log_history");
 	var html = "";
-	var htmlBlock = "";
 
 	var item = children[0];
 
@@ -526,7 +525,7 @@ function prepareParentAndChildren(i, children, prepend) {
 		$("#load_logs").append(html);
 
 	} else {
-		htmlBlock += html;
+		$(".log").first().before(html);
 	}
 
 	// Append children
@@ -588,9 +587,16 @@ function repeatLogs(data, prepend){
 	var children = [];
 
 	var logId = "";
+	var logIndex = 0;
+
+	// If we are prepending new data, reverse the order of logs so the will be prepended correctly
+	if(prepend) {
+		data.reverse();
+	}
 
 	// Go through all the logs
 	$.each(data, function(i, item) {
+		logIndex = i;
 		savedLogs[item.id + "_" + item.version] = item;
 		var currentLogId = item.id;
 
@@ -613,6 +619,12 @@ function repeatLogs(data, prepend){
 		children.push(item);
 		logId = currentLogId;
 	});
+
+	// Print the last element (with children)
+	if(children.length > 0) {
+		logIndex ++;
+		prepareParentAndChildren(logIndex, children, prepend);
+	}
 }
 
 /*
