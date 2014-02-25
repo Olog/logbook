@@ -97,8 +97,8 @@ function loadLogs(page, ignorePreviousSearchString){
 		}
 	}
 
-	// Append history paramater
-	if(ologSettings.includeHistory) {
+	// Append history paramater if it is not yet appended
+	if(ologSettings.includeHistory && !("history" in $.url(searchQuery).param())) {
 		searchQuery += historyParameter + "=&";
 	}
 
@@ -116,6 +116,9 @@ function loadLogs(page, ignorePreviousSearchString){
 		$('.log img').last().load(function(){
 			scrollToLastLog();
 		});
+
+		// Trigger event when all the logs are loaded
+		$('#load_logs').trigger('logsloaded');
 	});
 }
 
@@ -124,13 +127,24 @@ function loadLogs(page, ignorePreviousSearchString){
  */
 function loadLogsAutomatically(){
 
+	var scrollLock = false;
+
+	$('#load_logs').on('logsloaded', function() {
+		scrollLock = false;
+	});
+
 	// Automatically load new logs when at the end of the page
 	$('#load_logs').scroll(function(e){
 		var scrollDiv = $('#load_logs');
 
-		if(Math.floor(scrollDiv.prop('scrollHeight') - scrollDiv.scrollTop()) <= Math.floor(scrollDiv.height() + 1) && limit === true){
-			page = page  + 1;
-			loadLogs(page, false);
+		if((scrollDiv.scrollTop() + scrollDiv.innerHeight() >= scrollDiv.prop('scrollHeight')) && limit === true){
+			l('scroll locked? ' + scrollLock);
+
+			if(!scrollLock) {
+				scrollLock = true;
+				page = page  + 1;
+				loadLogs(page, false);
+			}
 		}
 	});
 }
