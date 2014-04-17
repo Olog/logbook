@@ -165,16 +165,19 @@ function getLog(id){
 	} else {
 		$.ajaxSetup({async:false});
 		var idParts = id.split("_");
-		var url = serviceurl + 'logs/' + idParts[0];
+		var url = serviceurl + 'logs?id=' + idParts[0];
 
-		// Append version parameter that enabled us to get particular version from DB
-		url += '/?' + versionParameter + '=' + idParts[1];
+		// Append include history parameter because we can get old version from
+ 		// URL but have history disabled
+ 		url += '&' + historyParameter;
 
 		l(url);
 
 		// Get log/logs data
-		$.getJSON(url, function(log) {
-			savedLogs[log.id + '_' + log.version] = log;
+		$.getJSON(url, function(logs) {
+			$.each(logs, function(i, log) {
+ 				savedLogs[log.id + '_' + log.version] = log
+ 			});
 			logData = savedLogs[id];
 		});
 	}
@@ -198,16 +201,19 @@ function getLogNew(id, myFunction){
 
 	} else {
 		var idParts = id.split("_");
-		var url = serviceurl + 'logs/' + idParts[0];
+		var url = serviceurl + 'logs?id=' + idParts[0];
 
-		// Append version parameter that enabled us to get particular version from DB
-		url += '/?' + versionParameter + '=' + idParts[1];
+		// Append include history parameter because we can get old version from
+ 		// URL but have history disabled
+ 		url += '&' + historyParameter;
 
 		l(url);
 
 		// Get log/logs data
-		$.getJSON(url, function(log) {
-			savedLogs[log.id + '_' + log.version] = log;
+		$.getJSON(url, function(logs) {
+			$.each(logs, function(i, log) {
+ 				savedLogs[log.id + '_' + log.version] = log;
+ 			});
 			myFunction(savedLogs[id]);
 		});
 	}
