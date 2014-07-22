@@ -15,7 +15,7 @@ and open the template in the editor.
 		<script id="template_log" type="text/template">
 			<div class="log {{click}} {{color}}">
 				<input type="hidden" name="id" value="{{id}}" />
-				<span class="text-info log_header">{{owner}}, {{createdDate}} </span>{{#modified}}<span class="muted log_header_right">{{modifiedDate}}</span>{{/modified}}
+				<span title="Created" class="text-info log_header">{{owner}}, {{createdDate}} </span>{{#modified}}<span title="Modified" class="muted log_header_right">{{modifiedOwner}}, {{modifiedDate}}</span>{{/modified}}
 				<br/>
 				{{description}}
 				<br />
@@ -40,7 +40,7 @@ and open the template in the editor.
 			<div class="{{click}} {{parent_color}} child_{{rawId}}" style="display: none">
 				<div class="log log_history {{color}}">
 					<input type="hidden" name="id" value="{{id}}" />
-					<span class="text-info log_header">{{owner}}, {{createdDate}} </span>{{#modified}}<span class="muted log_header_right">{{modifiedDate}}</span>{{/modified}}
+					<span title="Created" class="text-info log_header">{{owner}}, {{createdDate}} </span>{{#modified}}<span title="Modified" class="muted log_header_right">{{modifiedOwner}}, {{modifiedDate}}</span>{{/modified}}
 					<br />
 					{{description}}
 					<br />

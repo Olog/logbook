@@ -96,7 +96,13 @@ function searchForLogs(searchQuery, resetPageCouner) {
 		page = 1;
 	}
 
-	searchQuery = serviceurl + 'logs?' + searchQuery + 'page=' + page + '&limit=' + numberOfLogsPerLoad;
+	searchQuery = serviceurl + 'logs?' + searchQuery + 'page=' + page + '&limit=' + numberOfLogsPerLoad + '&';
+
+	// Append include history parameter
+	if(ologSettings.includeHistory && !("history" in $.url(searchQuery).param())) {
+		searchQuery += historyParameter + "=&";
+	}
+
 	searchURL = searchQuery;
 
 	l(searchURL);
@@ -111,7 +117,6 @@ function searchForLogs(searchQuery, resetPageCouner) {
 		scrollToLastLog();
 
 		$('.log img').last().load(function(){
-			//l("ready!");
 			scrollToLastLog();
 		});
 	});
@@ -253,7 +258,7 @@ function generateSearchQuery(dataArray) {
 	}
 
 	// Append include history parameter
-	if(ologSettings.includeHistory) {
+	if(ologSettings.includeHistory && !("history" in $.url(queryString).param())) {
 		queryString += historyParameter + "=&";
 	}
 

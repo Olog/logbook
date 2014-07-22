@@ -169,7 +169,9 @@ function getLog(id){
 
 		// Append include history parameter because we can get old version from
  		// URL but have history disabled
- 		url += '&' + historyParameter;
+		if(!("history" in $.url(url).param())) {
+			url += '&' + historyParameter + '=&';
+		}
 
 		l(url);
 
@@ -205,7 +207,9 @@ function getLogNew(id, myFunction){
 
 		// Append include history parameter because we can get old version from
  		// URL but have history disabled
- 		url += '&' + historyParameter;
+		if(!("history" in $.url(url).param())) {
+			url += '&' + historyParameter + '=&';
+		}
 
 		l(url);
 
@@ -470,8 +474,9 @@ function repeat(source_id, target_id, data, property, showByDefault, showSelecte
  * @param {type} i current index of parent log element
  * @param {type} children array of children together with parent
  * @param {type} prepend should new logs be appended or prepended
+ * @param {type} logOwners dictionary which holds logs' owners
  */
-function prepareParentAndChildren(i, children, prepend) {
+function prepareParentAndChildren(i, children, prepend, logOwners) {
 	var logTemplate = getTemplate("template_log");
 	var historyTemplate = getTemplate("template_log_history");
 	var html = "";
@@ -481,7 +486,8 @@ function prepareParentAndChildren(i, children, prepend) {
 	// Build customized Log object
 	var newItem = {
 		description: returnFirstXWords(item.description, 40),
-		owner: item.owner,
+		owner: logOwners[item.id + '_1'],
+		modifiedOwner: item.owner,
 		createdDate: formatDate(item.createdDate),
 		modifiedDate: formatDate(item.modifiedDate),
 		modified: false,
@@ -559,7 +565,8 @@ function prepareParentAndChildren(i, children, prepend) {
 		// Build customized Log object
 		var childItem = {
 			description: returnFirstXWords(child.description, 40),
-			owner: child.owner,
+			owner: logOwners[child.id + '_1'],
+			modifiedOwner: child.owner,
 			createdDate: formatDate(child.createdDate),
 			modifiedDate: formatDate(child.modifiedDate),
 			modified: false,
@@ -608,6 +615,12 @@ function repeatLogs(data, prepend){
 
 	var logId = "";
 	var logIndex = 0;
+	var logOwners = {};
+
+	// HACK: Get owner of the first version of log entry
+	$.each(data, function(i, item) {
+		logOwners[item.id + "_" + item.version] = item.owner;
+	});
 
 	// If we are prepending new data, reverse the order of logs so the will be prepended correctly
 	if(prepend) {
@@ -630,7 +643,7 @@ function repeatLogs(data, prepend){
 					children = children.reverse();
 				}
 
-				prepareParentAndChildren(i, children, prepend);
+				prepareParentAndChildren(i, children, prepend, logOwners);
 			}
 
 			children = [];
@@ -643,7 +656,7 @@ function repeatLogs(data, prepend){
 	// Print the last element (with children)
 	if(children.length > 0) {
 		logIndex ++;
-		prepareParentAndChildren(logIndex, children, prepend);
+		prepareParentAndChildren(logIndex, children, prepend, logOwners);
 	}
 }
 
