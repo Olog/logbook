@@ -273,7 +273,23 @@ html, body {
 
 .search_input {
 	display: inline-block;
-	width: 80%;
+	width: 70%;
+	padding-right: 40px !important;
+}
+
+#search-query-clean {
+	position:relative;
+	left: -30px;
+	top: 5px;
+	z-index: -1;
+	cursor: pointer;
+	width: 16px;
+	height: 16px;
+}
+
+#search-button {
+	position: relative;
+	left: -15px;
 }
 
 .form-search-box {

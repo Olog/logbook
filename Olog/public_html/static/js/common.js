@@ -556,7 +556,15 @@ function enableCreatingAndModifying() {
 function saveFilterData(dataToBeSaved) {
 	l("save filters data");
 	l(dataToBeSaved);
+	showHideSearchCleanButton($('#search-query'));
 	$.cookie(filtersCookieName, JSON.stringify(dataToBeSaved));
+}
+
+/**
+ * Delete filter cookie when user presses clean filters button
+ */
+function deleteFilterData() {
+	$.removeCookie(filtersCookieName);
 }
 
 /**

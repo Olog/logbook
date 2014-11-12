@@ -13,6 +13,13 @@ var autocomplete = searchTypes;
 
 $(document).ready(function(){
 
+	// Listen to include history chenckbox change
+	$('#search-query-clean').unbind('click');
+	$('#search-query-clean').on('click', function(e) {
+		deleteFilterData();
+		window.location.reload();
+	});
+
 	// Create
 	$.each(keyMap, function(key, value){
 		searchTypes.push(key);
@@ -289,15 +296,14 @@ function extractLast(term) {
  */
 function searchAutocomplete() {
 
-	$("#search-query")
-		// don't navigate away from the field on tab when selecting an item
-		.bind("keydown", function(event) {
+	// don't navigate away from the field on tab when selecting an item
+	$("#search-query").bind("keydown", function(event) {
 			if (event.keyCode === $.ui.keyCode.TAB &&
 				$(this).data("ui-autocomplete").menu.active) {
 				event.preventDefault();
 			}
-		})
-		.autocomplete({
+
+		}).autocomplete({
 			minLength: 0,
 			source: function(request, response) {
 				// delegate back to autocomplete, but extract the last term

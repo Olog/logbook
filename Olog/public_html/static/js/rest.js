@@ -754,15 +754,22 @@ function repeatProperties(properties) {
  * @param {type} id div id that holds the template
  * @returns template as a string
  */
+var templateCache = {};
 function getTemplate(id){
 	$.ajaxSetup({async:false});
 	var template = "";
 
-	$('#template_container').load(templates + ' #' + id, function(response, status, xhr){
-		template = $('#' + id).html();
-	});
+	if(id in templateCache) {
+		return templateCache[id];
+	} else {
 
-	return template;
+		$('#template_container').load(templates + ' #' + id, function(response, status, xhr){
+			template = $('#' + id).html();
+			templateCache[id] = template;
+		});
+
+		return template;
+	}
 }
 
 /*

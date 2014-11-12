@@ -148,6 +148,9 @@ $(document).ready(function(){
 		check = setInterval(checkForNewLogs, updateInterval * 1000);
 	}
 
+	// Check if there is someting in the search button and show/hide clean icon
+	showHideSearchCleanButton($('#search-query'));
+
 	// Handle go to top button
 	$('#back_to_top_button').click(function(e){
 		var id = $.url().attr("anchor");
@@ -165,6 +168,13 @@ $(document).ready(function(){
 				scrollTop: element.parent().offset().top
 			}, 100);
 		}
+	});
+
+	$('#search-query').unbind("keyup");
+	$('#search-query').bind("keyup", function(event) {
+		// Check if input is empty. If it is empty hide clean button,
+		// if it is not, show clean button
+		showHideSearchCleanButton($(event.target));
 	});
 });
 
@@ -232,6 +242,20 @@ function checkForNewLogs() {
 			startListeningForLogClicks();
 			$("#load_logs").prepend(searchLog);
 		});
+	}
+}
+
+/**
+ * Show or hide search clean button according to search input content length
+ * @param {DOMelement} el html element
+ */
+function showHideSearchCleanButton(el) {
+
+	if(el.val().length < 1) {
+		$('#search-query-clean').css('z-index', '-1');
+
+	} else {
+		$('#search-query-clean').css('z-index', '2');
 	}
 }
 
