@@ -1,0 +1,22 @@
+/*
+ * Common styles used in all files
+ *
+ * @author: Dejan Dežman <dejan.dezman@cosylab.com>
+ * @created: 2014-11-21
+ */
+
+html, body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	width: 100%;
+}
+
+.container {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.bold {
+	font-weight: bold;
+}

@@ -263,31 +263,6 @@ function startListeningForToggleFilterClicks() {
 }
 
 /**
- * Close filter group and leave selected items visible
- * @param {type} groupContainer container object that holds filters
- */
-function closeFilterGroup(groupContainer) {
-	groupContainer.find('li:gt(0)').addClass('display_none');
-
-	// Style attribute is added when filter items are being filtered
-	groupContainer.find('li:gt(0)').removeAttr("style");
-	groupContainer.find('li:gt(0) .multilist_clicked').parent().removeClass('display_none');
-
-	var arrow = groupContainer.find('li i.toggle-from');
-	toggleChevron(arrow, false);
-
-	// Check if filtersOpened is defined
-	if(ologSettings.filtersOpened === undefined) {
-		ologSettings.filtersOpened = {};
-	}
-
-	ologSettings.filtersOpened[groupContainer.attr('id')] = false;
-
-	// Save settings into a cookie
-	saveOlogSettingsData(ologSettings);
-}
-
-/**
  * Open filter group
  * @param {type} groupContainer container that holds filters
  */
@@ -306,35 +281,4 @@ function openFilterGroup(groupContainer) {
 
 	// Save settings into a cookie
 	saveOlogSettingsData(ologSettings);
-}
-
-/**
- * Toggle chevron on an element
- * @param {type} element element that contains chevron
- * @param openGroup define this argument if you want to enforce open/close group
- */
-function toggleChevron(element, openGroup) {
-
-	if(openGroup === undefined) {
-
-		if($(element).hasClass('icon-chevron-down')) {
-			$(element).removeClass('icon-chevron-down');
-			$(element).addClass('icon-chevron-right');
-
-		} else {
-			$(element).removeClass('icon-chevron-right');
-			$(element).addClass('icon-chevron-down');
-		}
-
-	} else {
-
-		if(openGroup === false) {
-			$(element).removeClass('icon-chevron-down');
-			$(element).addClass('icon-chevron-right');
-
-		} else {
-			$(element).removeClass('icon-chevron-right');
-			$(element).addClass('icon-chevron-down');
-		}
-	}
 }

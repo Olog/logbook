@@ -113,7 +113,7 @@ $(document).ready(function(){
 
 		// Show sign in form
 		var template = getTemplate('template_logged_out');
-		var html = Mustache.to_html(template, {"user": "User"});
+		var html = Mustache.to_html(template, {"user": "Guest"});
 		$('#top_container').html(html);
 		login();
 		disableCreatingNewAndModifying();

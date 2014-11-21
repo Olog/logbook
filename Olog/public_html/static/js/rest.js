@@ -137,7 +137,7 @@ function loadLogsAutomatically(){
 	$('#load_logs').scroll(function(e){
 		var scrollDiv = $('#load_logs');
 
-		if((scrollDiv.scrollTop() + scrollDiv.innerHeight() >= scrollDiv.prop('scrollHeight')) && limit === true){
+		if((scrollDiv.scrollTop() + scrollDiv.innerHeight() >= scrollDiv.prop('scrollHeight') - 2) && limit === true){
 			l('scroll locked? ' + scrollLock);
 
 			if(!scrollLock) {
@@ -172,8 +172,6 @@ function getLog(id){
 		if(!("history" in $.url(url).param())) {
 			url += '&' + historyParameter + '=&';
 		}
-
-		l(url);
 
 		// Get log/logs data
 		$.getJSON(url, function(logs) {
@@ -230,7 +228,6 @@ function getLogNew(id, myFunction){
  */
 function showLog(log, id){
 	$('#load_log').show("fast");
-	//l(log);
 
 	var desc = log.description;
 
@@ -242,6 +239,7 @@ function showLog(log, id){
 	$("#log_level").html(log.level);
 
 	$("#modify_log_link").attr("href", "modify_log.html?id=" + id);
+	$("#print_log_link").attr("href", "print_log.html?id=" + id);
 
 	var item = undefined;
 	var html = "";
@@ -456,7 +454,6 @@ function repeat(source_id, target_id, data, property, showByDefault, showSelecte
 		}
 
 		html = Mustache.to_html(template, customItem);
-
 		$('#'+target_id).append(html);
 	});
 
@@ -483,10 +480,17 @@ function prepareParentAndChildren(i, children, prepend, logOwners) {
 
 	var item = children[0];
 
+	// Original owner
+	var originalOwner = logOwners[item.id + '_1'];
+
+	if(originalOwner === undefined) {
+		originalOwner = item.owner;
+	}
+
 	// Build customized Log object
 	var newItem = {
 		description: returnFirstXWords(item.description, 40),
-		owner: logOwners[item.id + '_1'],
+		owner: originalOwner,
 		modifiedOwner: item.owner,
 		createdDate: formatDate(item.createdDate),
 		modifiedDate: formatDate(item.modifiedDate),
@@ -616,11 +620,13 @@ function repeatLogs(data, prepend){
 	var logId = "";
 	var logIndex = 0;
 	var logOwners = {};
+	l(data);
 
 	// HACK: Get owner of the first version of log entry
 	$.each(data, function(i, item) {
 		logOwners[item.id + "_" + item.version] = item.owner;
 	});
+	l(logOwners);
 
 	// If we are prepending new data, reverse the order of logs so the will be prepended correctly
 	if(prepend) {
@@ -755,13 +761,15 @@ function repeatProperties(properties) {
  * @returns template as a string
  */
 var templateCache = {};
+
 function getTemplate(id){
-	$.ajaxSetup({async:false});
 	var template = "";
 
 	if(id in templateCache) {
 		return templateCache[id];
+
 	} else {
+		$.ajaxSetup({async:false});
 
 		$('#template_container').load(templates + ' #' + id, function(response, status, xhr){
 			template = $('#' + id).html();

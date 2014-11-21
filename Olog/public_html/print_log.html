@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Olog</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" type="text/css" href="static/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="static/css/bootstrap-responsive.css">
+		<link rel="stylesheet" type="text/css" href="static/css/print_style.css">
+		<link rel="stylesheet" type="text/css" href="static/css/bootstrap-tagmanager.css">
+		<link rel="stylesheet" type="text/css" href="static/css/jquery-ui-1.10.3.custom.min.css">
+
+		<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+		<!--[if lt IE 9]>
+				<script src="../assets/js/html5shiv.js"></script>
+		<![endif]-->
+
+		<link rel="shortcut icon" href="static/img/favicon.png">
+	</head>
+	<body>
+
+		<div class="container">
+			<div>
+				<h4>Log id: <span id="log_id"></span>, Log version: <span id="log_version"></span></h4>
+			</div>
+			<div>
+				<p><span class="bold">Owner:</span> <span id="log_owner"></span></p>
+			</div>
+			<div>
+				<p><span class="bold">Log created:</span> <span id="log_date"></span></p>
+			</div>
+			<div>
+				<p><span class="bold">Level:</span> <span id="log_level"></span></p>
+			</div>
+			<div>
+				<p><span class="bold">Logbooks:</span> <span id="load_log_logbooks"></span></p>
+			</div>
+			<div>
+				<p><span class="bold">Tags:</span> <span id="load_log_tags"></span></p>
+			</div>
+			<div>
+				<p>
+					<span class="bold">Description:</span>
+					<br/>
+					<span id="log_description"></span>
+				</p>
+			</div>
+			<div>
+				<span class="bold">Attachments:</span>
+				<br/>
+				<span id="load_log_attachments"></span>
+			</div>
+			<div>
+				<br/>
+				<p><span class="bold">Date printed:</span> <span id="date_printed"></span></p>
+			</div>
+		</div>
+
+		<!-- Templates
+		==================================================== -->
+		<div id="template_container"></div>
+
+		<!-- Import javascript files
+		================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script src="static/js/jquery-2.0.2.js"></script>
+		<script src="static/js/jquery-ui-1.10.3.custom.min.js"></script>
+		<script src="static/js/jquery-ui-timepicker-addon.js"></script>
+		<script src="static/js/jquery.cookie.js"></script>
+		<script src="static/js/purl.js"></script>
+		<script src="static/js/bootstrap.js"></script>
+		<script src="static/js/moment.min.js"></script>
+		<script src="static/js/mustache.js"></script>
+		<script src="static/js/configuration.js"></script>
+		<script src="static/js/helper.js"></script>
+		<script src="static/js/multilist.js"></script>
+		<script src="static/js/rest.js"></script>
+		<script src="static/js/print_log.js"></script>
+
+	</body>
+</html>

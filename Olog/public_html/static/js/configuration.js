@@ -10,7 +10,7 @@
 
 
 // Version number
-var version = "0.4";
+var version = "0.5";
 
 // For accessing the REST service
 var serviceurl = window.location.protocol + "//" + window.location.host + "/Olog/resources/";
