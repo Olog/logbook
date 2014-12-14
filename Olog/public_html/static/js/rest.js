@@ -231,7 +231,7 @@ function showLog(log, id){
 
 	var desc = log.description;
 
-	$("#log_description").html(multiLineHtmlEncode(desc));
+	$("#log_description").html(preHtmlEncode(desc));
 	//$("#log_description").attr("rows", lines.length);
 
 	$("#log_owner").html(log.owner);
