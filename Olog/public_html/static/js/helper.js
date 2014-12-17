@@ -154,6 +154,14 @@ function multiLineHtmlEncode(value) {
 }
 
 /**
+ * Parse input sctring and enclose in <pre></pre> tags
+ * @param {type} value input value
+ */
+function preHtmlEncode(value) {
+	return '<pre>' + value + '</pre>';
+}
+
+/**
  * Convert string from html to text
  * @param {type} value input value
  * @returns textual presentation of html
