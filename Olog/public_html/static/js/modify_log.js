@@ -23,6 +23,16 @@ $(document).ready(function(){
 	// Check url parameters
 	checkUrlParameters(logId);
 
+    	// Initialize datetimepicker
+        $('#eventStart').datetimepicker(
+		{
+			changeMonth: true,
+			changeYear: true,
+			dateFormat: datePickerDateFormat,
+			firstDay: datePickerFirstName,
+		}
+	);
+
 	// Wait for dataselected
 	$('#load_tags_m').on('dataselected', function(e, data){
 
@@ -144,6 +154,9 @@ $(document).ready(function(){
 			var html = Mustache.to_html(template, {"name": name, "selected":selected});
 			$('#level_input').append(html);
 		});
+                
+                // Load eventStart
+                $("#eventStart").val(moment.unix(log[0].eventStart/1000).format(datePickerDateFormatMometParseString));
 	});
 
 	// Listen for new Log form submit

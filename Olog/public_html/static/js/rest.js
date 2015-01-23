@@ -236,6 +236,7 @@ function showLog(log, id){
 
 	$("#log_owner").html(log.owner);
 	$("#log_date").html(formatDate(log.modifiedDate));
+	$("#log_eventStart").html(formatDate(log.eventStart));
 	$("#log_level").html(log.level);
 
 	$("#modify_log_link").attr("href", "modify_log.html?id=" + id);
@@ -270,6 +271,15 @@ function showLog(log, id){
 
 	html = Mustache.to_html(template, item);
 	$('#log_details_created').html(html);
+        
+        // Show event start
+	template = getTemplate("template_log_details_eventStart");
+
+	item = {
+		eventStart: formatDate(log.eventStart)
+	};
+        html = Mustache.to_html(template, item);
+	$('#log_details_eventStart').html(html);
 
 	// Load log logbooks
 	$("#load_log_logbooks").html("");
@@ -494,6 +504,7 @@ function prepareParentAndChildren(i, children, prepend, logOwners) {
 		modifiedOwner: item.owner,
 		createdDate: formatDate(item.createdDate),
 		modifiedDate: formatDate(item.modifiedDate),
+		eventStart: formatDate(item.eventStart),
 		modified: false,
 		id: item.id + '_' + item.version,
 		rawId: item.id,
@@ -573,6 +584,7 @@ function prepareParentAndChildren(i, children, prepend, logOwners) {
 			modifiedOwner: child.owner,
 			createdDate: formatDate(child.createdDate),
 			modifiedDate: formatDate(child.modifiedDate),
+			eventStart: formatDate(child.eventStart),
 			modified: false,
 			id: child.id + '_' + child.version,
 			rawId: child.id,
@@ -849,12 +861,13 @@ function showDeleteModal(modalId, name){
  */
 function generateLogObject() {
 	var log = [{
-		"description":"",
-		"logbooks":[],
-		"tags":[],
-		"properties":[],
-		"attachments":[],
-		"level":""
+            "description": "",
+            "logbooks": [],
+            "tags": [],
+            "properties": [],
+            "attachments": [],
+            "level": "",
+            "eventStart": ""
 	}];
 
 	// Set description
@@ -934,6 +947,9 @@ function generateLogObject() {
 
 	// Set Level
 	log[0].level = $('#level_input').find(":selected").val();
+        
+	// Set eventStart
+	log[0].eventStart = moment($('#eventStart').val(),datePickerDateFormatMometParseString ).format('X')*1000;
 
 	return log;
 }

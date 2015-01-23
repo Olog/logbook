@@ -12,6 +12,15 @@ $(document).ready(function(){
 	// Initialize tooltip
 	$('#tooltip').tooltip({placement: "bottom"});
 
+	// Initialize datetimepicker
+        $('#eventStart').datetimepicker(
+		{
+			changeMonth: true,
+			changeYear: true,
+			dateFormat: datePickerDateFormat,
+			firstDay: datePickerFirstName
+		}
+	);
 	// Wait for dataload
 	$('#load_tags_m').on('dataloaded', function(e){
 		autocompleteTags(savedTags);
@@ -126,6 +135,9 @@ $(document).ready(function(){
 			dockingTr.before(html);
 		});
 	});
+        
+        // Initialize eventStart with now
+        $('#eventStart').val(moment().format(datePickerDateFormatMometParseString));
 
 	// Focus the textarea when starting to add new log entry
 	$('#log_body').focus();

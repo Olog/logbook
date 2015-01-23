@@ -15,7 +15,7 @@ and open the template in the editor.
 		<script id="template_log" type="text/template">
 			<div class="log {{click}} {{color}}">
 				<input type="hidden" name="id" value="{{id}}" />
-				<span title="Created" class="text-info log_header">{{owner}}, {{createdDate}} </span>{{#modified}}<span title="Modified" class="muted log_header_right">{{modifiedOwner}}, {{modifiedDate}}</span>{{/modified}}
+				<span title="Created" class="text-info log_header">{{owner}}, {{eventStart}} | {{createdDate}} </span>{{#modified}}<span title="Modified" class="muted log_header_right">{{modifiedOwner}}, {{modifiedDate}}</span>{{/modified}}
 				<br/>
 				{{description}}
 				<br />
@@ -40,7 +40,7 @@ and open the template in the editor.
 			<div class="{{click}} {{parent_color}} child_{{rawId}}" style="display: none">
 				<div class="log log_history {{color}}">
 					<input type="hidden" name="id" value="{{id}}" />
-					<span title="Created" class="text-info log_header">{{owner}}, {{createdDate}} </span>{{#modified}}<span title="Modified" class="muted log_header_right">{{modifiedOwner}}, {{modifiedDate}}</span>{{/modified}}
+					<span title="Created" class="text-info log_header">{{owner}}, {{eventStart}} | {{createdDate}} </span>{{#modified}}<span title="Modified" class="muted log_header_right">{{modifiedOwner}}, {{modifiedDate}}</span>{{/modified}}
 					<br />
 					{{description}}
 					<br />
@@ -110,6 +110,11 @@ and open the template in the editor.
 		<!-- Show info about when log entry has been created. -->
 		<script id="template_log_details_created" type="text/template">
 			<i title="Created date" class="icon-pencil"></i> {{createdDate}}
+		</script>
+                
+                <!-- Show info about when log entry event start. -->
+		<script id="template_log_details_eventStart" type="text/template">
+			<i title="Event Time" class="icon-time"></i> {{eventStart}}
 		</script>
 
 		<!-- Add new attachment button. Currently this is not used. -->
