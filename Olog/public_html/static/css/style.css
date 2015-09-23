@@ -461,3 +461,7 @@ html, body {
 	top: 5px;
 	padding-bottom: 5px;
 }
+
+#delete_log_link {
+	cursor: pointer;
+}

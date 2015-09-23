@@ -228,6 +228,7 @@ function getLogNew(id, myFunction){
  */
 function showLog(log, id){
 	$('#load_log').show("fast");
+	globalLogId = id;
 
 	var desc = log.description;
 
@@ -1365,6 +1366,42 @@ function modifyLogbook(logbook, name) {
 			}else {
 				loadLogbooks("load_logbooks_m");
 			}
+		}
+	});
+}
+
+/**
+ * Delete Log and reload filters
+ * @param id of the Log entry
+ */
+function deleteLog(id) {
+	var userCredentials = $.parseJSON($.cookie(sessionCookieName));
+
+	$.ajax( {
+		type: "DELETE",
+		url : serviceurl + 'logs/' + id,
+		contentType: 'application/json; charset=utf-8',
+		beforeSend : function(xhr) {
+			var base64 = encode64(userCredentials["username"] + ":" + userCredentials["password"]);
+			xhr.setRequestHeader("Authorization", "Basic " + base64);
+		},
+		statusCode: {
+			403: function(){
+				showError("You do not have permission to delete this Log!", "#new_logbook_error_block", "#new_logbook_error_body", "#new_logbook_error_x");
+			},
+			500: function(){
+				showError("Server error!", "#new_logbook_error_block", "#new_logbook_error_body", "#new_logbook_error_x");
+			}
+		},
+		error : function(xhr, ajaxOptions, thrownError) {
+			l("something went wrong");
+		},
+		success : function(model) {
+			l("Log delete command sent to the server");
+			$('#deleteLogModal').modal("hide");
+
+			// Just reload page
+			location.reload();
 		}
 	});
 }

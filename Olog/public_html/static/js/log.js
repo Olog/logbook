@@ -317,3 +317,4 @@ function removePastedAttachment(element, id) {
 	firefoxPastedData[id] = null;
 	$(element).parent().remove();
 }
+

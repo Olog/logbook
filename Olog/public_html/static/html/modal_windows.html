@@ -66,6 +66,29 @@ index.html document and shown to the user.
 				</div>
 			</div>
 
+			<!-- Delete log ============================================== -->
+			<div id="deleteLogModal" class="modal hide fade">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h3>Delete Log</h3>
+				</div>
+				<div class="modal-body">
+
+					<div id="new_logbook_error_block" class="alert alert-error">
+						<button type="button" class="close" id="new_logbook_error_x">&times;</button>
+						<h4>Error!</h4>
+						<span id="new_logbook_error_body"></span>
+					</div>
+
+					<input id="name_original" type="hidden" name="name_original" value="" />
+					Are you sure you want to delete selected Log?
+				</div>
+				<div class="modal-footer">
+					<a href="#" onclick="deleteLogHandler()" class="btn btn-primary">Yes</a>
+					<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
+				</div>
+			</div>
+
 			<!-- Delete logbook ============================================== -->
 			<div id="deleteLogbookModal" class="modal hide fade">
 				<div class="modal-header">

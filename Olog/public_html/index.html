@@ -118,7 +118,17 @@
 			<div id="load_log" class="well container-scroll-last-one">
 
 				<div class="log_title">
-					<h5><span id="log_owner"></span>, <span id="log_date"></span><a class="log_show_details" href="#view"><i class="icon-info-sign"></i> <span id="show_details">Show details</span></a><a id="modify_log_link" href="modify_log.html"><i title="Modify Log Entry" class="icon-pencil float_right float_right_padding"></i></a><a id="print_log_link" target="_blank" href="print_log.html"><i title="Print Log Entry" class="icon-print float_right float_right_padding"></i></a></h5>
+					<h5>
+						<span id="log_owner"></span>, <span id="log_date"></span>
+						<a class="log_show_details" href="#view"><i class="icon-info-sign"></i> <span id="show_details">Show details</span></a>
+						<a id="delete_log_link" href="#" onclick="showDeleteModal('deleteLogModal', globalLogId);"><i title="Delete Log Entry" class="icon-remove float_right float_right_padding"></i></a>
+						<a id="modify_log_link" href="modify_log.html">
+							<i title="Modify Log Entry" class="icon-pencil float_right float_right_padding"></i>
+						</a>
+						<a id="print_log_link" target="_blank" href="print_log.html">
+							<i title="Print Log Entry" class="icon-print float_right float_right_padding"></i>
+						</a>
+					</h5>
 				</div>
 
 				<div class="log_details display_none">

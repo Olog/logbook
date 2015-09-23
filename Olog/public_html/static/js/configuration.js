@@ -165,3 +165,9 @@ var versionParameter = "version";
 
 // Default version order
 var logVersionOrder = true;
+
+// Place delete button into Log details and allow deleting if this property is set to true
+var allowDeletingLogs = false;
+
+// Global log id placeholder
+var globalLogId = undefined;

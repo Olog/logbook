@@ -127,11 +127,17 @@ $(document).ready(function(){
 		var html = Mustache.to_html(template, {"user": firstLetterToUppercase(credentials["username"])});
 		$('#top_container').html(html);
 		enableCreatingAndModifying();
+		
+		// Disable deleting if allowDeletingLogs is set to false
+		if(allowDeletingLogs === false) {
+			$('#delete_log_link').hide();
+		}
 	}
 
 	// Show log if it we have an URL
 	if(selectedLog !== "") {
 		l(selectedLog);
+		globalLogId = selectedLog;
 		var log = getLog(selectedLog);
 
 		if(log[0] !== null) {
@@ -329,4 +335,13 @@ function loadCreatedFromFilters() {
 	} else {
 		closeFilterGroup($('#load_time_from_to'));
 	}
+}
+
+/**
+ * Delete log.
+ */
+function deleteLogHandler() {
+	var originalName = $('#name_original').val();
+	l(originalName);
+	deleteLog(originalName.split("_")[0]);
 }

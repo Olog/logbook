@@ -321,6 +321,7 @@ function disableCreatingNewAndModifying() {
 	$('#new_logbook_and_tag').addClass("disabled");
 	$('#new_logbook_and_tag').attr("disabled", true);
 	$('#modify_log_link').hide();
+	$('#delete_log_link').hide();
 }
 
 /**
@@ -369,13 +370,13 @@ function toggleChildren(rawId, element){
 
 	if($('.child_' + rawId).is(":hidden")) {
 		infoElement.text("Hide history");
-		iconElement.removeClass("icon-chevron-up");
+		iconElement.removeClass("icon-chevron-right");
 		iconElement.addClass("icon-chevron-down");
 
 	} else {
 		infoElement.text("Show history");
 		iconElement.removeClass("icon-chevron-down");
-		iconElement.addClass("icon-chevron-up");
+		iconElement.addClass("icon-chevron-right");
 	}
 
 	// Slide up items that does not contain filters and are not selected
