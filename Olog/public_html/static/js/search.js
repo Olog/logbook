@@ -340,8 +340,6 @@ function searchAutocomplete() {
 
 				} else if(selectedItem === "logbook:") {
 					autocomplete = savedLogbooks.concat(searchTypes);
-				} else if(selectedItem === "owner:") {
-					autocomplete = savedOwners.concat(searchTypes);
 				}
 
 				// add placeholder to get the comma-and-space at the end
