@@ -35,6 +35,11 @@ $(document).ready(function(){
 		generateSearchQuery(data);
 	});
 
+	// Wait for dataselect on owner filter
+	$('#load_owners').on('dataselected', function(e, data){
+		generateSearchQuery(data);
+	});
+
 	// Wait for dataselect on time from filter
 	$('#load_time_from').on('dataselected', function(e, data){
 		generateSearchQuery(data);
@@ -141,7 +146,7 @@ function parseSearchLanguage(value){
 	var filterType = "";
 	var remainder = "";
 
-	var re = new RegExp("(tag:|logbook:|from:|to:|^)(.*?)(tag:.*|logbook:.*|from:.*|to:.*|$)", "i");
+	var re = new RegExp("(owner:|tag:|logbook:|from:|to:|^)(.*?)(owner:.*|tag:.*|logbook:.*|from:.*|to:.*|$)", "i");
 	var searchParts = re.exec(value);
 
 	if(searchParts === null) {
@@ -252,6 +257,12 @@ function generateSearchQuery(dataArray) {
 		queryString += "tag=" + dataArray['list2'] + '&';
 	}
 
+	// If at least one owner is selected, append owner part to a search query
+	if(dataArray['owner'] !== undefined && dataArray['owner'].length !== 0) {
+		newValue += "owner: " + dataArray['owner'] + ' ';
+		queryString += "owner=" + dataArray['owner'] + '&';
+	}
+
 	// From time filter is set, append time part to a search query
 	if(dataArray['from'] !== undefined && dataArray['from'].length !== 0) {
 		newValue += "from: " + dataArray['from'] + ' ';
@@ -329,6 +340,8 @@ function searchAutocomplete() {
 
 				} else if(selectedItem === "logbook:") {
 					autocomplete = savedLogbooks.concat(searchTypes);
+				} else if(selectedItem === "owner:") {
+					autocomplete = savedOwners.concat(searchTypes);
 				}
 
 				// add placeholder to get the comma-and-space at the end

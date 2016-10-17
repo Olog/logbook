@@ -56,6 +56,7 @@ var firstPageName = "index.html";
 var keyMap = {
 	'tag:': 'tag=',
 	'logbook:': 'logbook=',
+	'owner:': 'owner=',
 	'from:': 'start=',
 	'start:': 'start=',
 	'end:': 'end=',
