@@ -1,0 +1,411 @@
+/*
+ * Common styles used in all files
+ *
+ * @author: Dejan DeÅ¾man <dejan.dezman@cosylab.com>
+ */
+
+@import 'variables.scss';
+
+
+html, body {
+	@include space-reset;
+	height: 100%;
+	width: 100%;
+}
+
+.version {
+	font-size: 10px;
+	@include space-reset;
+}
+
+.top-margin {
+	margin-top: 60px;
+}
+
+/* Style log START */
+.log {
+	display: block;
+	cursor: pointer;
+	border-top: 1px solid $gray-400;
+	padding: 5px;
+	position: relative;
+	&:hover {
+		background-color: white;
+	}
+	img {
+		margin-bottom: 3px;
+	}
+}
+
+.log_light {
+	background-color: $gray-100;
+}
+
+.log_dark {
+	background-color: $gray-200;
+}
+
+.log_click {
+	background-color: $blue-100 !important;
+	span {
+		color: white;
+	}
+	&:hover {
+		background-color: $blue-100;
+	}
+}
+
+.log-last {
+	display: block;
+	cursor: pointer;
+	border-top: 1px solid $gray-400;
+	padding: 5px;
+	&:hover {
+		background-color: $gray-300;
+	}
+}
+
+
+
+.log_history {
+	margin-left: 20px;
+	padding-left: 5px;
+	border-left: 1px solid #ddd;
+}
+
+.log_history_light {
+	background-color: $gray-100;
+}
+
+.log_history_dark {
+	background-color: $gray-300;
+}
+/* Style log END */
+
+.olog-nav {
+	background-color: $gray-300;
+	margin: 0;
+	padding: 7px;
+	@include border-radius(0px);
+}
+
+.well {
+	@include space-reset;
+}
+
+@media (max-width: 1023px) {
+
+	.container-left, .container-middle, .container-right, .container-middle-right {
+		float: none;
+		padding: 0px 20px 20px 20px;
+	}
+
+	/*
+	 * Back to top button
+	 */
+	#back_to_top_button {
+		position:fixed;
+		bottom: 5px;
+		right: 5px;
+		width: 50px;
+		height: 50px;
+		background-color: $blue-200;
+		border: 1px solid $gray-500;
+		@include border-radius(4px);
+		cursor: pointer;
+		text-align: center;
+		opacity: 0.6;
+		display: block;
+		i{
+			margin-top: 15px;
+		}
+	}
+}
+
+@media (min-width: 1024px) {
+
+	.container-resize, .container-resize2,.container-resize3 {
+		position: fixed;
+		left: 20%;
+		top: 45px;
+		width: 5px;
+		bottom: 0px;
+		z-index: 501;
+		div {
+			position: relative;
+			height: 100%;
+			width: 100%;
+			&:hover {
+				cursor: col-resize;
+			}
+		}
+	}
+	.container-resize2{
+		left: 50%;
+	}
+	.container-resize2{
+		left: 80%;
+	}
+
+	.container-left {
+		position: absolute;
+		left: 0px;
+		top: 45px;
+		width: 20%;
+		bottom: 0px;
+	}
+
+	.container-middle {
+		position: absolute;
+		left: 20%;
+		width: 30%;
+		top: 45px;
+		bottom: 0px;
+	}
+
+	.container-right {
+		position: absolute;
+		right: 0px;
+		top: 45px;
+		width: 50%;
+		bottom: 0px;
+	}
+
+	.container-middle-right {
+		position: absolute;
+		right: 0px;
+		top: 45px;
+		width: 80%;
+		bottom: 0px;
+	}
+
+	/* Scrollable columns START*/
+	.container-scroll {
+		position: absolute;
+		top: 5px;
+		right: 0px;
+		left: 5px;
+		bottom: 5px;
+		overflow-y: auto;
+	}
+
+	.container-scroll-middle {
+		position: absolute;
+		top: 5px;
+		right: 0px;
+		left: 5px;
+		bottom: 5px;
+		overflow-y: auto;
+	}
+
+	.container-scroll-last-one {
+		position: absolute;
+		top: 5px;
+		right: 5px;
+		left: 5px;
+		bottom: 5px;
+		overflow-y: auto;
+	}
+	/* Scrollable columns END*/
+
+	#back_to_top_button {
+		display: none;
+	}
+}
+
+#load_log {
+	display:none;
+}
+
+.float_right {
+	float: right;
+}
+
+.float_right_padding {
+	padding: 3px;
+}
+
+.close_label, .close_label:hover, .close_label:focus {
+	color: white;
+	text-decoration: none;
+}
+
+.user_dropdown_menu {
+	padding: 10px;
+}
+
+.search_input {
+	display: inline-block;
+	width: 70%;
+	padding-right: 40px !important;
+}
+
+#search-query-clean {
+	position:relative;
+	left: -30px;
+	top: 5px;
+	z-index: -1;
+	cursor: pointer;
+	width: 16px;
+	height: 16px;
+}
+
+#search-button {
+	position: relative;
+	left: -15px;
+}
+
+.form-search-box {
+	margin: 5px;
+	margin-bottom: 0px;
+}
+
+.form-search-box > div {
+	width: 90%;
+}
+
+.search-checkbox {
+	padding-bottom: 5px;
+}
+
+.log_title {
+	padding: 7px 7px 7px 7px;
+	margin: 0;
+	border-bottom: 1px solid $gray-400;
+}
+
+.log_body {
+	padding: 10px;
+	border-bottom: 1px solid $gray-400;
+	background-color: white;
+}
+
+.log_title > h5 {
+	@include space-reset;
+}
+
+.log_details {
+	padding: 5px;
+	margin: 0;
+	border-bottom: 1px solid $gray-400;
+	background-color: $gray-300;
+}
+
+.display_none {
+	display: none;
+}
+
+.log_show_details {
+	font-weight: normal;
+	text-decoration: none;
+	padding-left: 10px;
+	&:hover {
+		text-decoration: none;
+		color: $blue-200;
+	}
+}
+
+.log_attachments {
+	padding: 5px;
+	margin: 0;
+	background-color: $gray-300;
+	border-bottom: 1px solid $gray-400;
+	display: none;
+}
+
+.log_properties {
+	padding: 5px;
+	margin: 0;
+	background-color: white;
+	border-bottom: 1px solid $gray-400;
+}
+
+.disable_selecting_text {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: moz-none;
+	-ms-user-select: none;
+}
+
+.property_body {
+	display: none;
+}
+
+.attachment_info {
+	color: $gray-700;
+}
+
+.login_error {
+	color: $red-100;
+	display: none;
+}
+
+#new_logbook_error_block {
+	display: none;
+}
+
+#load_log_attachments > a > img {
+	margin-bottom: 3px;
+}
+
+#attachments_size_dropdown {
+	display: none;
+}
+
+/* css for timepicker */
+@import 'ui_timepicker.scss';
+
+#top_container {
+	display: block;
+}
+
+.clear {
+	clear: both;
+}
+
+.margin-left {
+	margin-left: 10px;
+}
+
+.log_view_details {
+	font-weight: bold;
+	font-size: 13px;
+	color: $gray-600;
+}
+
+.property_header {
+	cursor: pointer;
+	background-color: $gray-300;
+}
+
+.show_history {
+	text-align: center;
+}
+
+.history_separator {
+	@include space-reset;
+	margin-top: 5px;
+	height: 1px;
+	background-color: $gray-400;
+	border: none;
+}
+
+.log_header {
+	padding-bottom: 5px;
+}
+
+.log_header_right {
+	position: absolute;
+	right: 5px;
+	top: 5px;
+	padding-bottom: 5px;
+}
+
+#delete_log_link {
+	cursor: pointer;
+}
+
+@import 'log.scss';
+@import 'print_style.scss';
+@import 'multilist.scss';

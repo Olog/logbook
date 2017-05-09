@@ -6,8 +6,7 @@
 
 .multilist {
 	list-style-type: none;
-	margin: 0;
-	padding: 0;
+	@include space-reset;
 	display: block;
 	padding-bottom: 20px;
 }
@@ -17,12 +16,11 @@
 	padding-top: 3px;
 	padding-bottom: 3px;
 	display: block;
-	color: #0088cc;
+	color: $blue-200;
 	cursor: pointer;
-}
-
-.multilist_item:hover{
-	background-color: #ffffff;
+	&:hover{
+		background-color: white;
+	}
 }
 
 .multilist_header {
@@ -30,13 +28,13 @@
 	padding-top: 10px;
 	padding-bottom: 3px;
 	font-weight: bold;
-	color: #999999;
-	background-color: #e3e3e3;
+	color: $gray-800;
+	background-color: $gray-350;
 	cursor: pointer;
 }
 
 .multilist_filter {
-	background-color: #e3e3e3;
+	background-color: $gray-350;
 }
 
 .filters_filter {
@@ -52,15 +50,15 @@ input.filter_search {
 }
 
 .multilist_clicked, .multilist_clicked:hover {
-	background-color: #82bcd9;
-	color: #ffffff;
+	background-color: $blue-100;
+	color: white;
 }
 
 .list {
 	font-weight: bold;
 }
 
-.list2, .list3, .list4, .list5 {}
+//.list2, .list3, .list4, .list5 {}
 
 .multilist_icons {
 	display: none;
@@ -80,6 +78,5 @@ input.filter_search {
 	vertical-align: top;
 }
 
-.toggle-filters {}
-
-.toggle-from {}
+//.toggle-filters {}
+//.toggle-from {}

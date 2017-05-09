@@ -5,38 +5,13 @@
  */
 
 @media (max-width: 1023px) {
-
-	.container-modify-left {
-		float: none;
-		padding: 0px 20px 20px 20px;
-	}
-
-	.container-modify-right {
+	.container-modify-left,.container-modify-right {
 		float: none;
 		padding: 0px 20px 20px 20px;
 	}
 }
 
 @media (min-width: 1024px) {
-
-	.container-resize3 {
-		position: fixed;
-		left: 80%;
-		top: 45px;
-		width: 5px;
-		bottom: 0px;
-		z-index: 501;
-	}
-
-	.container-resize3 > div {
-		position:relative;
-		height: 100%;
-		width: 100%;
-	}
-
-	.container-resize3 > div:hover {
-		cursor: col-resize;
-	}
 
 	.container-modify-left {
 		position: absolute;
@@ -112,18 +87,17 @@
 .fileinput-button {
 	position: relative;
 	overflow: hidden;
-}
-
-.fileinput-button > input {
-	cursor: pointer;
-	direction: ltr;
-	font-size: 23px;
-	margin: 0;
-	opacity: 0;
-	position: absolute;
-	right: 0;
-	top: 0;
-	transform: translate(-300px, 0px) scale(4);
+	input {
+		cursor: pointer;
+		direction: ltr;
+		font-size: 23px;
+		margin: 0;
+		opacity: 0;
+		position: absolute;
+		right: 0;
+		top: 0;
+		transform: translate(-300px, 0px) scale(4);
+	}
 }
 
 .upload-progress {
@@ -159,15 +133,17 @@
 }
 
 .new_property_header {
-	background-color: #eeeeee;
+	background-color: $gray-300;
 }
 
 /* Override multiselection colors */
+.container-modify-right{
+	.multilist_item {
+		color: $green-200;
+	}
+	.multilist_clicked, .multilist_clicked:hover {
+		background-color: $green-100;
+		color: white;
+	}
+}
 
-.multilist_item {
-	color: #468847;
-}
-.multilist_clicked, .multilist_clicked:hover {
-	background-color: #5ab45a;
-	color: white;
-}
