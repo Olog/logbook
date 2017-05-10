@@ -264,24 +264,24 @@ function toggleChevron(element, openGroup) {
 
 	if(openGroup === undefined) {
 
-		if($(element).hasClass('icon-chevron-down')) {
-			$(element).removeClass('icon-chevron-down');
-			$(element).addClass('icon-chevron-right');
+		if($(element).hasClass('glyphicon-chevron-down')) {
+			$(element).removeClass('glyphicon-chevron-down');
+			$(element).addClass('glyphicon-chevron-right');
 
 		} else {
-			$(element).removeClass('icon-chevron-right');
-			$(element).addClass('icon-chevron-down');
+			$(element).removeClass('glyphicon-chevron-right');
+			$(element).addClass('glyphicon-chevron-down');
 		}
 
 	} else {
 
 		if(openGroup === false) {
-			$(element).removeClass('icon-chevron-down');
-			$(element).addClass('icon-chevron-right');
+			$(element).removeClass('glyphicon-chevron-down');
+			$(element).addClass('glyphicon-chevron-right');
 
 		} else {
-			$(element).removeClass('icon-chevron-right');
-			$(element).addClass('icon-chevron-down');
+			$(element).removeClass('glyphicon-chevron-right');
+			$(element).addClass('glyphicon-chevron-down');
 		}
 	}
 }

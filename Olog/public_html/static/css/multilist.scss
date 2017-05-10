@@ -28,7 +28,7 @@
 	padding-top: 10px;
 	padding-bottom: 3px;
 	font-weight: bold;
-	color: $gray-800;
+	color: $gray-950;
 	background-color: $gray-350;
 	cursor: pointer;
 }
@@ -42,11 +42,15 @@
 }
 
 input.filter_search {
-	height: 15px;
 	display:inline-block;
 	margin: 5px;
-	padding: 4px 6px 4px 6px;
+
+	//need to set these to overwrite padding from bootstrap
+	padding-top:0;
+	padding-bottom:0;
+	font-size:$sm-font;
 	width: 70%;
+	height:100%;
 }
 
 .multilist_clicked, .multilist_clicked:hover {
@@ -64,10 +68,11 @@ input.filter_search {
 	display: none;
 }
 
-.list5 > input {
+.list5 input {
 	margin:0px;
-	width: 120px;
-	height:15px;
+	width: 90%;
+	font-size:$sm-font;
+	height:100%;
 }
 
 #datepicker_from {

@@ -334,12 +334,12 @@ function startListeningForPropertyClicks() {
 		tbody.toggle();
 
 		if(tbody.is(':visible')) {
-			arrow.removeClass('icon-chevron-right');
-			arrow.addClass('icon-chevron-down');
+			arrow.removeClass('glyphicon-chevron-right');
+			arrow.addClass('glyphicon-chevron-down');
 
 		} else {
-			arrow.removeClass('icon-chevron-down');
-			arrow.addClass('icon-chevron-right');
+			arrow.removeClass('glyphicon-chevron-down');
+			arrow.addClass('glyphicon-chevron-right');
 		}
 	});
 }
@@ -789,7 +789,6 @@ function getTemplate(id){
 function showAddModal(modalId){
 	$('#modal_container').load(modalWindows + ' #' + modalId, function(response, status, xhr){
 		$('#' + modalId).modal('toggle');
-
 		$('#' + modalId).on('shown', function(){
 			$('#' + modalId).find('input[name=name]').focus();
 		});

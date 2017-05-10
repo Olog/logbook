@@ -253,7 +253,7 @@ function startListeningForToggleFilterClicks() {
 		var arrow = ulParent.find('li i.toggle-from');
 
 		// When hiding elements, don't hide seleted ones
-		if(arrow.hasClass('icon-chevron-down')) {
+		if(arrow.hasClass('glyphicon-chevron-down')) {
 			closeFilterGroup(ulParent);
 
 		} else {

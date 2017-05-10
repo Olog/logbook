@@ -209,6 +209,9 @@ function resizeManager() {
 		$(middlePane).width($(middlePane).width() + diff);
 		dims.middle_pane_width = $(middlePane).width() + diff;
 
+        $(rightPane).width($(window).width() - dims.right_pane_left);
+        dims.right_pane_width = $(window).width() - dims.right_pane_left;
+
 		ologSettings.resize = dims;
 		saveOlogSettingsData(ologSettings);
 	});
@@ -370,13 +373,13 @@ function toggleChildren(rawId, element){
 
 	if($('.child_' + rawId).is(":hidden")) {
 		infoElement.text("Hide history");
-		iconElement.removeClass("icon-chevron-right");
-		iconElement.addClass("icon-chevron-down");
+		iconElement.removeClass("glyphicon-chevron-right");
+		iconElement.addClass("glyphicon-chevron-down");
 
 	} else {
 		infoElement.text("Show history");
-		iconElement.removeClass("icon-chevron-down");
-		iconElement.addClass("icon-chevron-right");
+		iconElement.removeClass("glyphicon-chevron-down");
+		iconElement.addClass("glyphicon-chevron-right");
 	}
 
 	// Slide up items that does not contain filters and are not selected

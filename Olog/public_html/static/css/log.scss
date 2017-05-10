@@ -15,40 +15,21 @@
 
 	.container-modify-left {
 		position: absolute;
-		left: 0px;
+		left: 0;
 		left: auto;
-		top: 45px;
+		top: 0;
 		width: 80%;
-		bottom: 0px;
+		bottom: 0;
 	}
 
 	.container-modify-right {
 		position: absolute;
-		right: 0px;
-		top: 45px;
+		right: 0;
+		top: 0;
 		width: 20%;
-		bottom: 0px;
+		bottom: 0;
 	}
 
-	/* Scrollable columns START*/
-	.container-scroll {
-		position: absolute;
-		top: 5px;
-		right: 0px;
-		left: 5px;
-		bottom: 5px;
-		overflow-y: auto;
-	}
-
-	.container-scroll-last-one {
-		position: absolute;
-		top: 5px;
-		right: 5px;
-		left: 5px;
-		bottom: 5px;
-		overflow-y: auto;
-	}
-	/* Scrollable columns END*/
 }
 
 .log_body > textarea {
@@ -68,6 +49,9 @@
 
 #error_block {
 	display: none;
+	margin-bottom:0;
+	color:$red-100;
+	padding-bottom:0;
 }
 
 #files > div {
@@ -144,6 +128,20 @@
 	.multilist_clicked, .multilist_clicked:hover {
 		background-color: $green-100;
 		color: white;
+		a{
+			color:$green-200;
+			&:hover{
+				color:$gray-400;
+			}
+		}
 	}
+}
+
+//overwrite bootstrap
+pre{
+	white-space:pre-wrap;
+	word-wrap:normal;
+	border:none;
+	background-color:transparent;
 }
 

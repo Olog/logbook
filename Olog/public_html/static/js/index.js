@@ -168,11 +168,17 @@ $(document).ready(function(){
 
 		} else {
 			var element = $('input[value=' + id + ']');
-			l(element.offset().top);
+			console.log(element);
+			if(element.offset() === undefined){
+				//immediately after page is loaded
+                window.location.href = firstPageName + "#top";
+            }else{
+                l(element.offset().top);
 
-			$('html, body').animate({
-				scrollTop: element.parent().offset().top
-			}, 100);
+                $('html, body').animate({
+                    scrollTop: element.parent().offset().top
+                }, 100);
+			}
 		}
 	});
 

@@ -29,7 +29,7 @@ and open the template in the editor.
 				{{#history}}
 				<div class="show_history" onclick="toggleChildren({{rawId}}, this)">
 					<input type="hidden" name="raw_id" value="{{rawId}}" />
-					<span class="history_info">Show history</span> <i class="icon-chevron-right history_icon"></i>
+					<span class="history_info">Show history</span> <i class="glyphicon glyphicon-chevron-right history_icon"></i>
 				</div>
 				{{/history}}
 			</div>
@@ -63,12 +63,12 @@ and open the template in the editor.
 
 		<!-- Logbook filter item -->
 		<script id="template_logbook" type="text/template">
-			<li><span class="list multilist_item disable_selecting_text {{clicked}} {{color}}">{{name}}<a href="#" onclick="showDeleteModal('deleteLogbookModal', '{{name}}');"><i class="icon-trash float_right multilist_icons float_right_padding"></i></a><a href="#" onclick="showEditLogbookModal('editLogbookModal', '{{name}}', '{{owner}}');"><i class="icon-pencil float_right multilist_icons"></i></a></span></li>
+			<li><span class="list multilist_item disable_selecting_text {{clicked}} {{color}}">{{name}}<a href="#" onclick="showDeleteModal('deleteLogbookModal', '{{name}}');"><i class="glyphicon glyphicon-trash float_right multilist_icons float_right_padding"></i></a><a href="#" onclick="showEditLogbookModal('editLogbookModal', '{{name}}', '{{owner}}');"><i class="glyphicon glyphicon-pencil float_right multilist_icons"></i></a></span></li>
 		</script>
 
 		<!-- Tag filter item -->
 		<script id="template_tag" type="text/template">
-			<li class="{{show}}"><span class="list2 multilist_item disable_selecting_text {{clicked}} {{color}}">{{name}}<a href="#" onclick="showDeleteModal('deleteTagModal', '{{name}}');"><i class="icon-trash float_right multilist_icons float_right_padding"></i></a><a href="#" onclick="showEditTagModal('editTagModal', '{{name}}');"><i class="icon-pencil float_right multilist_icons"></i></a></span></li>
+			<li class="{{show}}"><span class="list2 multilist_item disable_selecting_text {{clicked}} {{color}}">{{name}}<a href="#" onclick="showDeleteModal('deleteTagModal', '{{name}}');"><i class="glyphicon glyphicon-trash float_right multilist_icons float_right_padding"></i></a><a href="#" onclick="showEditTagModal('editTagModal', '{{name}}');"><i class="glyphicon glyphicon-pencil float_right multilist_icons"></i></a></span></li>
 		</script>
 
 		<!-- Create from filter item -->
@@ -93,8 +93,8 @@ and open the template in the editor.
 
 		<!-- Log's attachments in the right pane that are not images. -->
 		<script id="template_log_attachment_not_image" type="text/template">
-			<br/ >
-			<i class="icon-file"></i> <a target="_blank" href="{{imageUrl}}">{{fileName}}</a>
+			<br/>
+			<i class="glyphicon glyphicon-file"></i> <a target="_blank" href="{{imageUrl}}">{{fileName}}</a>
 		</script>
 
 		<!-- Log's image attachments in the middle pane  -->
@@ -104,12 +104,12 @@ and open the template in the editor.
 
 		<!-- If Log entry was modified, show pencil and date modified. -->
 		<script id="template_log_details_edited" type="text/template">
-			<i title="Modified date" class="icon-edit"></i> {{editedDate}}
+			<i title="Modified date" class="glyphicon glyphicon-edit"></i> {{editedDate}}
 		</script>
 
 		<!-- Show info about when log entry has been created. -->
 		<script id="template_log_details_created" type="text/template">
-			<i title="Created date" class="icon-pencil"></i> {{createdDate}}
+			<i title="Created date" class="glyphicon glyphicon-pencil"></i> {{createdDate}}
 		</script>
 
 		<!-- Add new attachment button. Currently this is not used. -->
@@ -129,38 +129,45 @@ and open the template in the editor.
 
 		<!-- If user is logged in, show sign out list entry and user name on top -->
 		<script id="template_logged_in" type="text/template">
-			<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
-				<i class="icon-user icon-white"></i>
-				{{user}}
-				<strong class="caret"></strong>
-			</a>
-			<ul class="dropdown-menu">
-				<li><a onclick="logout()" href="#">Sign out</a></li>
-			</ul>
+			<li>
+				<a  href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+					aria-haspopup="true" aria-expanded="false">
+					<span class="glyphicon glyphicon-user"></span>
+					{{user}}
+					<span class="caret"></span>
+				</a>
+				<ul class="dropdown-menu">
+					<li><a onclick="logout()" href="#">Sign out</a></li>
+				</ul>
+			</li>
+
 		</script>
 
 		<!-- If user is not logged in, show log in form and allow user to log in. -->
 		<script id="template_logged_out" type="text/template">
-			<a id="user_login_dropdown" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
-				<i class="icon-user icon-white"></i>
-				{{user}}
-				<strong class="caret"></strong>
-			</a>
-			<div class="dropdown-menu user_dropdown_menu">
-				<form id="user_submit_form" action="#" method="post">
-					<fieldset>
-						<legend>Sign in</legend>
-						<label>Username</label>
-						<input id="user_username" type="text" placeholder="Your username ...">
+			<li>
+				<a id="user_login_dropdown" class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">
+					<span class="glyphicon glyphicon-user"></span>
+					{{user}}
+					<span class="caret"></span>
+				</a>
+				<div class="dropdown-menu user_dropdown_menu">
+					<form id="user_submit_form" action="#" method="post">
+						<fieldset>
+							<legend>Sign in</legend>
+							<label>Username</label>
+							<input id="user_username" type="text" class="form-control" placeholder="Your username ...">
 
-						<label>Password</label>
-						<input id="user_password" type="password" placeholder="Your password ..."><br />
+							<label>Password</label>
+							<input id="user_password" class="form-control"  type="password" placeholder="Your password ..."><br />
 
-						<button type="submit" id="user_login" class="btn btn-primary">Sign in</button>
-					</fieldset>
-				</form>
-				<span id="login_error" class="login_error">The username or password is incorrect!</span>
-			</div>
+							<button type="submit" id="user_login" class="btn btn-primary">Sign in</button>
+						</fieldset>
+					</form>
+					<span id="login_error" class="login_error">The username or password is incorrect!</span>
+				</div>
+			</li>
+
 		</script>
 
 		<!-- Existing attachments in modify log html document -->
@@ -177,7 +184,7 @@ and open the template in the editor.
 		<!-- Log's existing attachments in the right pane that are not images. -->
 		<script id="template_existing_attachment_not_image" type="text/template">
 			<div>
-				<i class="icon-file"></i> <a target="_blank" href="{{file_url}}">{{img_name}}</a>
+				<i class="glyphicon glyphicon-file"></i> <a target="_blank" href="{{file_url}}">{{img_name}}</a>
 				<br />
 				<button onclick="showDeleteAttachmentNotImageModal(this)" type="button" class="btn btn-danger">Remove</button>
 			</div>
@@ -200,7 +207,7 @@ and open the template in the editor.
 				<table class="table table-bordered">
 					<thead>
 						<tr class="property_header">
-							<th colspan="2"><i class="icon-chevron-right"></i> {{name}}</th>
+							<th colspan="2"><i class="glyphicon glyphicon-chevron-right"></i> {{name}}</th>
 						</tr>
 					</thead>
 					<tbody class="property_body">
@@ -221,7 +228,7 @@ and open the template in the editor.
 				<table class="table table-bordered">
 					<thead>
 						<tr class="property_header">
-							<th colspan="2"><i class="icon-chevron-right"></i> {{name}}</th>
+							<th colspan="2"><i class="glyphicon glyphicon-chevron-right"></i> {{name}}</th>
 						</tr>
 					</thead>
 					<tbody class="property_body">
@@ -242,7 +249,7 @@ and open the template in the editor.
 				<table class="table table-bordered">
 					<thead>
 						<tr class="new_property_header">
-							<th colspan="2"><input name="name" placeholder="Enter property name ..." /><i class="remove_property icon-remove-sign pull-right"></i></th>
+							<th colspan="2"><input name="name" placeholder="Enter property name ..." /><i class="remove_property glyphicon glyphicon-remove-sign pull-right"></i></th>
 						</tr>
 					</thead>
 					<tbody class="new_property_body">

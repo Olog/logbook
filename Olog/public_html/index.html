@@ -4,10 +4,10 @@
 		<title>Olog</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" type="text/css" href="static/css/bootstrap.css">
-		<link rel="stylesheet" type="text/css" href="static/css/bootstrap-responsive.css">
-		<link rel="stylesheet" type="text/css" href="static/css/bootstrap-tagmanager.css">
-		<link rel="stylesheet" type="text/css" href="static/css/jquery-ui-1.10.3.custom.min.css">
+		<link rel="stylesheet" type="text/css"  href="static/css/lib/bootstrap.min.css">
+
+		<link rel="stylesheet" type="text/css" href="static/css/lib/bootstrap-tagmanager.css">
+		<link rel="stylesheet" type="text/css" href="static/css/lib/jquery-ui-1.10.3.custom.min.css">
 		<link rel="stylesheet" type="text/css" href="static/css/style.css">
 
 		<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -18,193 +18,236 @@
 		<link rel="shortcut icon" href="static/img/favicon.png">
 	</head>
 	<body>
-
 	<!-- Header
 	==================================================== -->
-	<div class="navbar navbar-inverse">
-		<div class="navbar-inner">
-			<div class="container">
-
-				<a class="brand" href="index.html">Olog <span class="version"></span></a>
-
-				<ul class="nav">
-					<li class="divider-vertical"></li>
-				</ul>
-
-				<div id="add_btn_group" style="z-index: -1;" class="btn-group">
-					<button id="new_log" class="btn btn-primary"><i class="icon-plus icon-white"></i> Log Entry</button>
-					<button id="new_logbook_and_tag" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-						<span class="caret"></span>
-					</button>
-					<ul class="dropdown-menu">
-						<li><a onclick="showAddModal('myModal');"><i class="icon-plus"></i> Logbook</a></li>
-						<li><a onclick="showAddModal('myTagModal');"><i class="icon-plus"></i> Tag</a></li>
-					</ul>
-				</div>
-
-				<span id="top_container" class="pull-right btn-group">
-					<!-- Template -->
-				</span>
-
+	<nav class="navbar navbar-inverse navbar-static-top">
+		<div class="container-fluid">
+			<!-- mobile view collapsed section -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand brand" href="index.html">Olog <span class="version"></span></a>
 			</div>
-		</div>
-	</div>
-
-	<div>
-		<!-- Left navigation -->
-		<div class="container-left">
-			<div id="load_filters" class="well container-scroll">
-				<div class="log_title">
-					<h5>Filter Log Entries</h5>
-				</div>
-
-				<!--<i id="load_logbooks_chevron" class="icon-chevron-down margin-left toggle-filters disable_selecting_text"></i>Logbooks
-				<input class="filter_search" id="logbooks_filter_search" type="text" placeholder="Filter Logbooks ..." />-->
-				<ul class="multilist" id="load_logbooks">
-					<li class="multilist_header disable_selecting_text"><i id="load_logbooks_chevron" class="icon-chevron-down vertical-align toggle-from"></i> LOGBOOKS</li>
-					<li class="multilist_filter"><i class="filters_filter icon-filter"></i><input class="filter_search" id="logbooks_filter_search" type="text" placeholder="Filter Logbooks ..." /></li>
-					<!-- Template -->
-				</ul>
-				<!--<i id="load_tags_chevron" class="icon-chevron-down margin-left toggle-filters disable_selecting_text"></i><input class="filter_search" id="tags_filter_search" type="text" placeholder="Filter Tags ..." />-->
-				<ul class="multilist" id="load_tags">
-					<li class="multilist_header disable_selecting_text"><i id="load_tags_chevron" class="icon-chevron-right vertical-align toggle-from"></i> TAGS</li>
-					<li class="multilist_filter display_none"><i class="filters_filter icon-filter"></i><input class="filter_search" id="tags_filter_search" type="text" placeholder="Filter Tags ..." /></li>
-					<!-- Template -->
-				</ul>
-				<ul class="multilist" id="load_time_from">
-					<li class="multilist_header disable_selecting_text"><i id="load_from_chevron" class="icon-chevron-right vertical-align toggle-from"></i> CREATED FROM</li>
-					<!-- Template -->
-				</ul>
-				<ul class="multilist" id="load_time_from_to">
-					<li class="multilist_header disable_selecting_text"><i id="load_from_to_chevron" class="icon-chevron-right vertical-align toggle-from"></i> CREATED FROM - TO</li>
-					<li id="from_to_filter_li" class="display_none log_dark"><span id="from_to_filter" class="list5 multilist_item disable_selecting_text">From <input type="text" id="datepicker_from" /><br />To <input type="text" id="datepicker_to" /></span></li>
-				</ul>
-			</div>
-		</div>
-
-		<div class="container-resize">
-			<div id="container-resize"></div>
-		</div>
-
-		<!-- List of Logs -->
-		<a name="#top"></a>
-		<div class="container-middle">
-			<div id="load_logs" class="well container-scroll-middle">
-				<div class="form-search-box" id="form-search-box">
-					<label class="search-checkbox checkbox">
-						<input id="search-checkbox" type="checkbox"> Include history
-					</label>
-					<label id="search-order-block" class="search-checkbox checkbox">
-						<input id="search-order" type="checkbox"> Show newest first
-					</label>
-					<div class="input-append">
-						<input autocomplete="off" type="text" placeholder="Search ..." id="search-query" class="search_input" />
-						<img alt="" id="search-query-clean" src="static/img/clean.png" />
-						<button id="search-button" type="button" class="btn">Search</button>
-					</div>
-				</div>
-				<!-- Template -->
-			</div>
-		</div>
-
-		<div class="container-resize2">
-			<div id="container-resize2"></div>
-		</div>
-
-		<!-- Log view -->
-		<a name="#view"></a>
-		<div class="container-right">
-			<div id="load_log" class="well container-scroll-last-one">
-
-				<div class="log_title">
-					<h5>
-						<span id="log_owner"></span>, <span id="log_date"></span>
-						<a class="log_show_details" href="#view"><i class="icon-info-sign"></i> <span id="show_details">Show details</span></a>
-						<a id="delete_log_link" href="#" onclick="showDeleteModal('deleteLogModal', globalLogId);"><i title="Delete Log Entry" class="icon-remove float_right float_right_padding"></i></a>
-						<a id="modify_log_link" href="modify_log.html">
-							<i title="Modify Log Entry" class="icon-pencil float_right float_right_padding"></i>
-						</a>
-						<a id="print_log_link" target="_blank" href="print_log.html">
-							<i title="Print Log Entry" class="icon-print float_right float_right_padding"></i>
-						</a>
-					</h5>
-				</div>
-
-				<div class="log_details display_none">
-					<i title="Logbooks" class="icon-book"></i><span id="load_log_logbooks"> <span class="label label-warning">logbook</span> <span class="label label-warning">logbook</span> <span class="label label-warning">logbook</span></span>
-					<br />
-					<i title="Tags" class="icon-tags"></i><span id="load_log_tags"> <span class="label label-info">tag</span> <span class="label label-info">tag</span> <span class="label label-info">tag <a class="close_label" href="#">&times;</a></span></span>
-					<br />
-					<i title="Level" class="icon-tasks"></i> <span id="log_level"></span>
-					<div id="log_details_created"></div>
-					<div id="log_details_edited"></div>
-				</div>
-
-				<div class="log_body">
-					<!-- <textarea disabled="disabled" id="log_description"></textarea>-->
-					<span id="log_description"></span>
-				</div>
-
-				<div class="log_attachments">
-					<span class="log_view_details">Attachments</span>
-					<div id="attachments_size_dropdown" class="btn-group pull-right">
-						<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-							<i title="Image size" class="icon-picture"></i>
-							<span class="caret"></span>
+			<div class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li class="dropdown" id="add_btn_group">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+						   aria-expanded="false">
+							Add New <span class="caret"></span>
 						</a>
 						<ul class="dropdown-menu">
-							<li><a href="#">small</a></li>
-							<li class="active"><a href="#">medium</a></li>
-							<li><a href="#">large</a></li>
+							<li>
+								<a href="#"  id="new_log"><i class="glyphicon glyphicon-plus"></i> Log Entry</a>
+							</li>
+							<li><a href="#" onclick="showAddModal('myModal');"><i class="glyphicon glyphicon-plus"></i> Logbook</a></li>
+							<li><a href="#" onclick="showAddModal('myTagModal');"><i class="glyphicon glyphicon-plus"></i> Tag</a></li>
 						</ul>
-					</div>
-					<br/>
-					<br/>
-					<div id="load_log_attachments">
+					</li>
+				</ul>
+				<ul id="top_container" class="nav navbar-nav navbar-right">
+					<!-- Template -->
+				</ul>
+			</div>
+		</div>
+	</nav>
 
+	<div class="container-fluid content-area">
+		<!-- Left navigation -->
+		<div class="row full-row">
+			<div class="col-lg-12 col-md-12 full-row">
+				<div class="container-left">
+					<div id="load_filters" class="well container-scroll">
+						<div class="log_title">
+							<h5>Filter Log Entries</h5>
+						</div>
+
+						<!--<i id="load_logbooks_chevron" class="glyphicon glyphicon-chevron-down margin-left toggle-filters disable_selecting_text"></i>Logbooks
+                        <input class="filter_search" id="logbooks_filter_search" type="text" placeholder="Filter Logbooks ..." />-->
+						<ul class="multilist" id="load_logbooks">
+							<li class="multilist_header disable_selecting_text">
+								<i id="load_logbooks_chevron" class="glyphicon glyphicon-chevron-right vertical-align toggle-from"></i> LOGBOOKS
+							</li>
+							<li class="multilist_filter">
+								<i class="filters_filter glyphicon glyphicon-filter"></i>
+								<input class="filter_search form-control" id="logbooks_filter_search" type="text" placeholder="Filter Logbooks ..." />
+							</li>
+							<!-- Template -->
+						</ul>
+						<!--<i id="load_tags_chevron" class="icon-chevron-down margin-left toggle-filters disable_selecting_text"></i><input class="filter_search" id="tags_filter_search" type="text" placeholder="Filter Tags ..." />-->
+						<ul class="multilist" id="load_tags">
+							<li class="multilist_header disable_selecting_text">
+								<i id="load_tags_chevron" class="glyphicon glyphicon-chevron-right vertical-align toggle-from"></i> TAGS
+							</li>
+							<li class="multilist_filter display_none">
+								<i class="filters_filter glyphicon glyphicon-filter"></i>
+								<input class="filter_search form-control" id="tags_filter_search" type="text" placeholder="Filter Tags ..." />
+							</li>
+							<!-- Template -->
+						</ul>
+						<ul class="multilist" id="load_time_from">
+							<li class="multilist_header disable_selecting_text">
+								<i id="load_from_chevron" class="glyphicon glyphicon-chevron-right vertical-align toggle-from"></i> CREATED FROM
+							</li>
+							<!-- Template -->
+						</ul>
+						<ul class="multilist" id="load_time_from_to">
+							<li class="multilist_header disable_selecting_text">
+								<i id="load_from_to_chevron" class="glyphicon glyphicon-chevron-right vertical-align toggle-from"></i> CREATED FROM - TO
+							</li>
+							<li id="from_to_filter_li" class="display_none log_dark">
+								<span id="from_to_filter" class="list5 multilist_item disable_selecting_text">
+									<span class="form-group">
+										From
+										<input type="text" id="datepicker_from" class="form-control"/>
+									</span>
+									<span class="form-group">
+										To
+										<input type="text" id="datepicker_to" class="form-control" />
+									</span>
+								</span>
+							</li>
+						</ul>
 					</div>
 				</div>
 
-				<div class="log_properties">
-					<span class="log_view_details">Properties</span><br/>
-					<br/>
-					<div>
-						<table class="table table-bordered">
-							<thead>
-								<tr class="property_header disable_selecting_text">
-									<th colspan="2"><i class="icon-chevron-right"></i> Property 1</th>
-								</tr>
-							</thead>
-							<tbody class="property_body">
-								<tr>
-									<td>key</td>
-									<td>value</td>
-								</tr>
-								<tr>
-									<td>key</td>
-									<td>value</td>
-								</tr>
-							</tbody>
-						</table>
+				<div class="container-resize">
+					<div id="container-resize"></div>
+				</div>
+
+				<!-- List of Logs -->
+				<a name="#top"></a>
+				<div class="container-middle">
+					<div id="load_logs" class="well container-scroll-middle">
+						<div class="form-search-box" id="form-search-box">
+							<div class="checkbox">
+								<label class="search-checkbox">
+									<input id="search-checkbox" type="checkbox"> Include history
+								</label>
+							</div>
+							<div class="checkbox">
+								<label id="search-order-block" class="search-checkbox">
+									<input id="search-order" type="checkbox"> Show newest first
+								</label>
+							</div>
+							<div class="input-group">
+								<input autocomplete="off" type="text" placeholder="Search ..." id="search-query" class="search_input form-control" />
+								<!--<img alt="" id="search-query-clean" src="static/img/clean.png" /> -->
+								<span id="search-query-clean" class="glyphicon glyphicon-remove-sign"></span>
+								<div class="input-group-btn">
+									<button id="search-button" type="button" class="btn btn-success">
+										Search
+									</button>
+								</div>
+							</div>
+						</div>
+						<!-- Template -->
 					</div>
-					<div>
-						<table class="table table-bordered">
-							<thead>
-								<tr class="property_header">
-									<th colspan="2"><i class="icon-chevron-right"></i> Property 1</th>
-								</tr>
-							</thead>
-							<tbody class="property_body">
-								<tr>
-									<td>key</td>
-									<td>value</td>
-								</tr>
-								<tr>
-									<td>key</td>
-									<td>value</td>
-								</tr>
-							</tbody>
-						</table>
+				</div>
+
+				<div class="container-resize2">
+					<div id="container-resize2"></div>
+				</div>
+
+				<!-- Log view -->
+				<a name="#view"></a>
+				<div class="container-right">
+					<div id="load_log" class="well container-scroll-last-one">
+
+						<div class="log_title">
+							<h5>
+								<span id="log_owner"></span>, <span id="log_date"></span>
+								<a class="log_show_details" href="#view"><i class="glyphicon glyphicon-info-sign"></i> <span id="show_details">Show details</span></a>
+								<a id="delete_log_link" href="#" onclick="showDeleteModal('deleteLogModal', globalLogId);"><i title="Delete Log Entry" class="glyphicon glyphicon-remove-sign float_right float_right_padding"></i></a>
+								<a id="modify_log_link" href="modify_log.html">
+									<i title="Modify Log Entry" class="glyphicon glyphicon-pencil float_right float_right_padding"></i>
+								</a>
+								<a id="print_log_link" target="_blank" href="print_log.html">
+									<i title="Print Log Entry" class="glyphicon glyphicon-print float_right float_right_padding"></i>
+								</a>
+							</h5>
+						</div>
+
+						<div class="log_details display_none">
+							<i title="Logbooks" class="glyphicon glyphicon-book"></i><span id="load_log_logbooks"> <span class="label label-warning">logbook</span> <span class="label label-warning">logbook</span> <span class="label label-warning">logbook</span></span>
+							<br />
+							<i title="Tags" class="glyphicon glyphicon-tags"></i><span id="load_log_tags"> <span class="label label-info">tag</span> <span class="label label-info">tag</span> <span class="label label-info">tag <a class="close_label" href="#">&times;</a></span></span>
+							<br />
+							<i title="Level" class="glyphicon glyphicon-tasks"></i> <span id="log_level"></span>
+							<div id="log_details_created"></div>
+							<div id="log_details_edited"></div>
+						</div>
+
+						<div class="log_body">
+							<!-- <textarea disabled="disabled" id="log_description"></textarea>-->
+							<span id="log_description"></span>
+						</div>
+
+						<div class="log_attachments">
+							<span class="log_view_details">Attachments</span>
+							<div id="attachments_size_dropdown" class="btn-group pull-right">
+								<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+									<i title="Image size" class="glyphicon glyphicon-picture"></i>
+									<span class="caret"></span>
+								</a>
+								<ul class="dropdown-menu">
+									<li><a href="#">small</a></li>
+									<li class="active"><a href="#">medium</a></li>
+									<li><a href="#">large</a></li>
+								</ul>
+							</div>
+							<br/>
+							<br/>
+							<div id="load_log_attachments">
+
+							</div>
+						</div>
+
+						<div class="log_properties">
+							<span class="log_view_details">Properties</span><br/>
+							<br/>
+							<div>
+								<table class="table table-bordered">
+									<thead>
+									<tr class="property_header disable_selecting_text">
+										<th colspan="2"><i class="glyphicon glyphicon-chevron-right"></i> Property 1</th>
+									</tr>
+									</thead>
+									<tbody class="property_body">
+									<tr>
+										<td>key</td>
+										<td>value</td>
+									</tr>
+									<tr>
+										<td>key</td>
+										<td>value</td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+							<div>
+								<table class="table table-bordered">
+									<thead>
+									<tr class="property_header">
+										<th colspan="2"><i class="glyphicon glyphicon-chevron-right"></i> Property 1</th>
+									</tr>
+									</thead>
+									<tbody class="property_body">
+									<tr>
+										<td>key</td>
+										<td>value</td>
+									</tr>
+									<tr>
+										<td>key</td>
+										<td>value</td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -213,7 +256,7 @@
 
 	<!-- Back to top button -->
 	<div id="back_to_top_button">
-		<i class="icon-chevron-up icon-white"></i>
+		<i class="glyphicon glyphicon-chevron-up icon-white"></i>
 	</div>
 
 	<!-- Modal windows
@@ -232,8 +275,8 @@
 	<script src="static/js/jquery-ui-timepicker-addon.js"></script>
 	<script src="static/js/jquery.cookie.js"></script>
 	<script src="static/js/purl.js"></script>
-	<script src="static/js/bootstrap.js"></script>
 	<script src="static/js/moment.min.js"></script>
+	<script src="static/js/bootstrap.min.js"></script>
 	<script src="static/js/mustache.js"></script>
 	<script src="static/js/configuration.js"></script>
 	<script src="static/js/helper.js"></script>
