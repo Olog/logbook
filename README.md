@@ -4,7 +4,7 @@ Olog is a lightweight web client for [olog-service](https://github.com/Olog/olog
 ## Technologies and plugins used
 
  * HTML5
- * [Bootstrap 2.3.2](http://twitter.github.io/bootstrap/)
+ * [Bootstrap 3.3.7](http://twitter.github.io/bootstrap/)
  * [jQuery 2.0.2](http://jquery.com/)
  * [jQuery UI 1.10.3](http://jqueryui.com/)
  * [jQuery UI timepicker 1.3.1](http://trentrichardson.com/examples/timepicker/)
