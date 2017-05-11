@@ -9,6 +9,16 @@
 	@include space-reset;
 	display: block;
 	padding-bottom: 20px;
+
+	.multilist_header {
+		padding-left: 10px;
+		padding-top: 10px;
+		padding-bottom: 3px;
+		font-weight: bold;
+		color: $gray-950;
+		background-color: $gray-350;
+		cursor: pointer;
+	}
 }
 
 .multilist_item {
@@ -21,16 +31,20 @@
 	&:hover{
 		background-color: white;
 	}
-}
+	a i.glyphicon{
+		padding:3px;
+		@include border-radius(3px);
+		color:white;
+		&.glyphicon-pencil{
+			background-color: $green-100;
+			border:1px solid darken($green-100, 15%);
+		}
+		&.glyphicon-trash{
+			background-color: $red-100;
+			border:1px solid darken($red-100, 15%);
 
-.multilist_header {
-	padding-left: 10px;
-	padding-top: 10px;
-	padding-bottom: 3px;
-	font-weight: bold;
-	color: $gray-950;
-	background-color: $gray-350;
-	cursor: pointer;
+		}
+	}
 }
 
 .multilist_filter {
