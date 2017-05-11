@@ -1,9 +1,169 @@
 /*
- * Styles specific to new and modify log files
+ * Styles specific to logs
  *
  * @author: Dejan Dežman <dejan.dezman@cosylab.com>
  */
 
+
+/**
+ Style log START
+*/
+.log {
+	display: block;
+	cursor: pointer;
+	border-top: 1px solid $gray-400;
+	padding: 5px;
+	position: relative;
+	&:hover {
+		background-color: white;
+	}
+	img {
+		margin-bottom: 3px;
+	}
+	.log_header {
+		padding-bottom: 5px;
+	}
+
+	.log_header_right {
+		position: absolute;
+		right: 5px;
+		top: 5px;
+		padding-bottom: 5px;
+	}
+}
+
+.log_light {
+	background-color: $gray-100;
+}
+
+.log_dark {
+	background-color: $gray-200;
+}
+
+.log_click {
+	background-color: $blue-100 !important;
+	span {
+		color: white;
+	}
+	&:hover {
+		background-color: $blue-100;
+	}
+}
+
+.log-last {
+	display: block;
+	cursor: pointer;
+	border-top: 1px solid $gray-400;
+	padding: 5px;
+	&:hover {
+		background-color: $gray-300;
+	}
+}
+
+.log_history {
+	margin-left: 20px;
+	padding-left: 5px;
+	border-left: 1px solid #ddd;
+	&.log_history_light {
+		background-color: $gray-100;
+	}
+	&.log_history_dark {
+		background-color: $gray-300;
+	}
+}
+/* Style log END */
+
+/**
+ Log form elements
+ */
+.log_title {
+	padding: 7px 7px 7px 7px;
+	margin: 0;
+	border-bottom: 1px solid $gray-400;
+	h5{
+		@include space-reset;
+	}
+}
+
+.log_body {
+	padding: 10px;
+	border-bottom: 1px solid $gray-400;
+	background-color: white;
+}
+
+.log_details {
+	padding: 5px;
+	margin: 0;
+	border-bottom: 1px solid $gray-400;
+	background-color: $gray-300;
+	.form-group{
+		margin-bottom:5px;
+		padding-left:5px;
+		input, select{
+			margin-left:5px;
+			width:25%;
+			display:inline-block;
+		}
+	}
+}
+
+.log_show_details {
+	font-weight: normal;
+	text-decoration: none;
+	padding-left: 10px;
+	&:hover {
+		text-decoration: none;
+		color: $blue-200;
+	}
+}
+
+.log_attachments {
+	padding: 5px;
+	margin: 0;
+	background-color: $gray-300;
+	border-bottom: 1px solid $gray-400;
+}
+.log_properties {
+	padding: 5px;
+	margin: 0;
+	background-color: white;
+	border-bottom: 1px solid $gray-400;
+}
+
+.log_view_details {
+	font-weight: bold;
+	font-size: 13px;
+	color: $gray-600;
+}
+
+#load_log_attachments > a > img {
+	margin-bottom: 3px;
+}
+
+.attachment_info {
+	color: $gray-700;
+}
+
+.property_header {
+	cursor: pointer;
+	background-color: $gray-300;
+}
+
+.show_history {
+	text-align: center;
+}
+
+.history_separator {
+	@include space-reset;
+	margin-top: 5px;
+	height: 1px;
+	background-color: $gray-400;
+	border: none;
+}
+
+#delete_log_link {
+	cursor: pointer;
+}
 @media (max-width: 1023px) {
 	.container-modify-left,.container-modify-right {
 		float: none;
@@ -34,24 +194,11 @@
 
 .log_body > textarea {
 	display: inline-block;
-	width: 98%;
+	width: 100%;
 }
 
 .log_attachments {
 	display: block;
-}
-
-.new_log_button {
-	margin-right: 5px;
-	margin-top: 10px;
-	height: 30px;
-}
-
-#error_block {
-	display: none;
-	margin-bottom:0;
-	color:$red-100;
-	padding-bottom:0;
 }
 
 #files > div {
@@ -62,10 +209,6 @@
 #list_existing_attachments > div {
 	float:left;
 	margin: 20px;
-}
-
-.clear {
-	clear: both;
 }
 
 .fileinput-button {
@@ -88,13 +231,8 @@
 	opacity: 0.5;
 }
 
-.upload-progress-loader {
-	display: none;
-}
-
 /* Paste area styles */
 #paste-area {
-	display: none;
 	position: absolute;
 	left: -99em;
 }
@@ -137,11 +275,4 @@
 	}
 }
 
-//overwrite bootstrap
-pre{
-	white-space:pre-wrap;
-	word-wrap:normal;
-	border:none;
-	background-color:transparent;
-}
 

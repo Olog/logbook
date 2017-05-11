@@ -79,18 +79,18 @@
 										<i title="Back" class="glyphicon glyphicon-arrow-left"></i>
 									</span>
 									Modify Log Entry
-									<i id="cancel_editing_x" class="icon-remove-sign float_right float_right_padding"></i>
+									<i id="cancel_editing_x" class="glyphicon glyphicon-remove-sign float_right float_right_padding"></i>
 								</h5>
 							</div>
 
 							<div class="log_details">
 								<div class="form-group">
 									<i title="Logbooks" class="glyphicon glyphicon-book"></i>
-									<input type="text" name="logbooks" id="logbooks_input" placeholder="Enter Logbooks ..." class="tm-input tm-input-warning tm-input-mini form-control" data-provide="typeahead" />
+									<input type="text" name="logbooks" id="logbooks_input" placeholder="Enter Logbooks ..." class="tm-input tm-input-warning tm-input-mini form-control" autocomplete="off" data-provide="typeahead" />
 								</div>
 								<div class="form-group">
 									<i title="Tags" class="glyphicon glyphicon-tags"></i>
-									<input type="text" name="tags" id="tags_input" placeholder="Enter Tags ..." class="tm-input tm-input-info tm-input-mini form-control" data-provide="typeahead" />
+									<input type="text" name="tags" id="tags_input" placeholder="Enter Tags ..." class="tm-input tm-input-info tm-input-mini form-control" autocomplete="off" data-provide="typeahead" />
 								</div>
 								<div class="form-group">
 									<i title="Level" class="glyphicon glyphicon-tasks"></i>
@@ -127,9 +127,11 @@
 								<span class="log_view_details">Properties</span><br/>
 								<br/>
 							</div>
+							<div class="float_right_padding">
+								<button class="btn float_right new_log_button" id="cancel_editing_button" type="button">Cancel</button>
+								<input type="submit" class="btn float_right btn-primary new_log_button" value="Save" />
+							</div>
 
-							<button class="btn float_right new_log_button" id="cancel_editing_button" type="button">Cancel</button>
-							<input type="submit" class="btn float_right btn-primary new_log_button" value="Save" />
 							<div class="clear"></div>
 						</form>
 
@@ -184,6 +186,7 @@
 	<script src="static/js/jquery.cookie.js"></script>
 	<script src="static/js/purl.js"></script>
 	<script src="static/js/bootstrap.min.js"></script>
+	<script src="static/js/bootstrap3-typeahead.min.js"></script>
 	<script src="static/js/moment.min.js"></script>
 	<script src="static/js/mustache.js"></script>
 	<script src="static/js/bootstrap-tagmanager.js"></script>
