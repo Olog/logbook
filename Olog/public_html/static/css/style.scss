@@ -44,8 +44,20 @@ html, body {
 nav.navbar{
 	height:$navbar-height;
 	margin-bottom:0;
+	a.navbar-brand{
+		border-right:1px solid $nav-font-color;
+	}
 	.dropdown-menu{
-		min-width:245%;
+		&.user_dropdown_menu{
+			min-width:245%;
+		}
+		border:1px solid $nav-font-color;
+		border-top:0; // overwrite for placement
+		a{
+			&:hover{
+				background-color:$gray-400;
+			}
+		}
 	}
 	.navbar-collapse.collapse, .navbar-collapse.collapsing {
 		background-color:$nav-bg;
@@ -64,6 +76,33 @@ nav.navbar{
 	.version {
 		font-size: 10px;
 		@include space-reset;
+	}
+	.nav-btn-group{
+		margin-left:15px;
+		position:relative;
+		li{
+			a{
+				padding-left:10px;
+				padding-right:10px;
+			}
+
+			&:last-child{
+				position:initial;
+			}
+		}
+		ul.dropdown-menu{
+			min-width:0;
+			width:100%;
+			position:absolute;
+			left:0;
+			right:0;
+			top:100%;
+			a{
+				padding-left:15px;
+				padding-right:15px;
+
+			}
+		}
 	}
 }
 
