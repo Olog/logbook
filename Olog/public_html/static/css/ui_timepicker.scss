@@ -4,6 +4,7 @@
  * @author: Dena Mujtaba
  */
 
+
 .ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
 .ui-timepicker-div dl { text-align: left; }
 .ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
@@ -14,3 +15,99 @@
 .ui-timepicker-rtl{ direction: rtl; }
 .ui-timepicker-rtl dl { text-align: right; }
 .ui-timepicker-rtl dl dd { margin: 0 65px 10px 10px; }
+
+//Custom styling to overwrite
+#ui-datepicker-div{
+  z-index:1000 !important; //overlap everything
+  border:1px solid $gray-700;
+  border-radius:0;
+  outline:none;
+  box-shadow: 3px 4px 5px rgba(0,0,0,.5);
+  .ui-datepicker-header{
+    //heading containing arrows, month,year
+    background:none;
+    border:0;
+    border-bottom:1px solid $blue-100;
+    border-radius:0;
+    a.ui-corner-all{
+      color:$gray-900;
+      &:hover{
+        cursor:pointer;
+        background:none;
+        border:0;
+      }
+    }
+    select{
+      border:0;
+      border-bottom:1px solid $blue-100;
+      font-size:$sm-font;
+      font-weight:normal;
+      padding-left:5px;
+    }
+
+  }
+  .ui-datepicker-calendar{
+    font-size:$sm-font; //overwrite
+
+    th{
+      padding:2px 5px;
+      background-color:$blue-100;
+      color:white;
+      font-weight:normal;
+    }
+    td{
+      a{
+        background:none;
+        border:0;
+        background-color:$gray-400;
+        &:hover{
+          background-color:$gray-100;
+        }
+
+      }
+      &.ui-datepicker-current-day a{
+        background-color:lighten($green-100, 30%);
+      }
+      &.ui-datepicker-today a{
+          background-color:$gray-500;
+      }
+    }
+  }
+
+  .ui-timepicker-div{
+    font-size:$sm-font;
+    color:$gray-900;
+    div.ui-slider{
+      border-radius:0;
+      .ui-slider-handle{
+        border-radius:0;
+        background:0;
+        background-color:$blue-100;
+        border:1px solid darken($blue-100, 30%);
+        &:focus{
+          background-color:lighten($green-100,30%);
+        }
+      }
+    }
+  }
+
+  .ui-datepicker-buttonpane{
+    button{
+      font-size:$sm-font;
+      background:none;
+      color:white;
+      border:0;
+      background-color:$blue-100;
+      &:hover{
+        cursor:pointer;
+        background-color:darken($blue-100, 20%);
+      }
+      &.ui-datepicker-close{
+        background-color:lighten($green-100, 7%);
+        &:hover{
+          background-color:lighten($green-100, 15%);
+        }
+      }
+    }
+  }
+}

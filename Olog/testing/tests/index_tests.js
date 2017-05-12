@@ -19,9 +19,6 @@ QUnit.test("Test Delete Logbook", function(assert){
 
     assert.equal((deleteModal.length > 0), true, "Test Modal was added");
 
-    deleteLogbookHandler();
-
-    assert.equal((testlogbk.length <=0), true, "Test Logbook was deleted");
 
 })
 
