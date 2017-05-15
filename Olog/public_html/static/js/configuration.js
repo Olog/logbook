@@ -172,3 +172,6 @@ var allowDeletingLogs = false;
 
 // Global log id placeholder
 var globalLogId = undefined;
+
+//If in read-only mode
+var inReadOnly = false;

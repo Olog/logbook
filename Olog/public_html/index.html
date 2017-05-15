@@ -33,7 +33,7 @@
 				<a class="navbar-brand brand" href="index.html">Olog <span class="version"></span></a>
 			</div>
 			<div class="collapse navbar-collapse">
-				<ul class="nav navbar-nav nav-btn-group" id="top_nav_btns">
+				<ul class="nav navbar-nav nav-btn-group" read-only="false" id="top_nav_btns">
 					<li>
 						<a href="#"  id="new_log"><i class="glyphicon glyphicon-plus"></i> Log Entry</a>
 					</li>
@@ -46,6 +46,13 @@
 							<li><a href="#" onclick="showAddModal('myModal');"><i class="glyphicon glyphicon-plus"></i> Logbook</a></li>
 							<li><a href="#" onclick="showAddModal('myTagModal');"><i class="glyphicon glyphicon-plus"></i> Tag</a></li>
 						</ul>
+					</li>
+				</ul>
+				<ul class="nav navbar-nav">
+					<li>
+						<a href="#" id="read_only_mode">
+							<i class="glyphicon glyphicon-eye-open"></i> View in Read-Only
+						</a>
 					</li>
 				</ul>
 				<ul id="top_container" class="nav navbar-nav navbar-right">
@@ -161,8 +168,8 @@
 							<h5>
 								<span id="log_owner"></span>, <span id="log_date"></span>
 								<a class="log_show_details" href="#view"><i class="glyphicon glyphicon-info-sign"></i> <span id="show_details">Show details</span></a>
-								<a id="delete_log_link" href="#" onclick="showDeleteModal('deleteLogModal', globalLogId);"><i title="Delete Log Entry" class="glyphicon glyphicon-remove-sign float_right float_right_padding"></i></a>
-								<a id="modify_log_link" href="modify_log.html">
+								<a id="delete_log_link" read-only="false" href="#" onclick="showDeleteModal('deleteLogModal', globalLogId);"><i title="Delete Log Entry" class="glyphicon glyphicon-remove-sign float_right float_right_padding"></i></a>
+								<a id="modify_log_link" read-only="false" href="modify_log.html">
 									<i title="Modify Log Entry" class="glyphicon glyphicon-pencil float_right float_right_padding"></i>
 								</a>
 								<a id="print_log_link" target="_blank" href="print_log.html">

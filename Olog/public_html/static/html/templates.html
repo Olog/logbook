@@ -63,12 +63,30 @@ and open the template in the editor.
 
 		<!-- Logbook filter item -->
 		<script id="template_logbook" type="text/template">
-			<li><span class="list multilist_item disable_selecting_text {{clicked}} {{color}}">{{name}}<a href="#" onclick="showDeleteModal('deleteLogbookModal', '{{name}}');"><i class="glyphicon glyphicon-trash float_right multilist_icons float_right_padding"></i></a><a href="#" onclick="showEditLogbookModal('editLogbookModal', '{{name}}', '{{owner}}');"><i class="glyphicon glyphicon-pencil float_right multilist_icons"></i></a></span></li>
+			<li>
+				<span class="list multilist_item disable_selecting_text {{clicked}} {{color}}">{{name}}
+					<a href="#" read-only="false" onclick="showDeleteModal('deleteLogbookModal', '{{name}}');">
+						<i class="glyphicon glyphicon-trash float_right multilist_icons float_right_padding"></i>
+					</a>
+					<a href="#" read-only="false" onclick="showEditLogbookModal('editLogbookModal', '{{name}}', '{{owner}}');">
+						<i class="glyphicon glyphicon-pencil float_right multilist_icons"></i>
+					</a>
+				</span>
+			</li>
 		</script>
 
 		<!-- Tag filter item -->
 		<script id="template_tag" type="text/template">
-			<li class="{{show}}"><span class="list2 multilist_item disable_selecting_text {{clicked}} {{color}}">{{name}}<a href="#" onclick="showDeleteModal('deleteTagModal', '{{name}}');"><i class="glyphicon glyphicon-trash float_right multilist_icons float_right_padding"></i></a><a href="#" onclick="showEditTagModal('editTagModal', '{{name}}');"><i class="glyphicon glyphicon-pencil float_right multilist_icons"></i></a></span></li>
+			<li class="{{show}}">
+				<span class="list2 multilist_item disable_selecting_text {{clicked}} {{color}}">{{name}}
+					<a href="#" read-only="false" onclick="showDeleteModal('deleteTagModal', '{{name}}');">
+						<i class="glyphicon glyphicon-trash float_right multilist_icons float_right_padding"></i>
+					</a>
+					<a href="#" read-only="false" onclick="showEditTagModal('editTagModal', '{{name}}');">
+						<i class="glyphicon glyphicon-pencil float_right multilist_icons"></i>
+					</a>
+				</span>
+			</li>
 		</script>
 
 		<!-- Create from filter item -->
@@ -146,7 +164,7 @@ and open the template in the editor.
 
 		<!-- If user is logged in, show sign out list entry and user name on top -->
 		<script id="template_logged_in" type="text/template">
-			<li>
+			<li read-only="false" >
 				<a  href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
 					aria-haspopup="true" aria-expanded="false">
 					<span class="glyphicon glyphicon-user"></span>
@@ -162,7 +180,7 @@ and open the template in the editor.
 
 		<!-- If user is not logged in, show log in form and allow user to log in. -->
 		<script id="template_logged_out" type="text/template">
-			<li>
+			<li read-only="false">
 				<a id="user_login_dropdown" class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">
 					<span class="glyphicon glyphicon-user"></span>
 					{{user}}
