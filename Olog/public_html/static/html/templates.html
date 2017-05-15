@@ -127,6 +127,23 @@ and open the template in the editor.
 			<li {{active}}><a href="#">{{name}}</a></li>
 		</script>
 
+		<!-- If user is logged in, show the buttons to create new items through the navbar -->
+		<script id="template_navbar_btns" type="text/template">
+			<li>
+				<a href="#"  id="new_log"><i class="glyphicon glyphicon-plus"></i> Log Entry</a>
+			</li>
+			<li class="dropdown" id="add_btn_group">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+				   aria-expanded="false">
+					<span class="caret"></span>
+				</a>
+				<ul class="dropdown-menu">
+					<li><a href="#" onclick="showAddModal('myModal');"><i class="glyphicon glyphicon-plus"></i> Logbook</a></li>
+					<li><a href="#" onclick="showAddModal('myTagModal');"><i class="glyphicon glyphicon-plus"></i> Tag</a></li>
+				</ul>
+			</li>
+		</script>
+
 		<!-- If user is logged in, show sign out list entry and user name on top -->
 		<script id="template_logged_in" type="text/template">
 			<li>

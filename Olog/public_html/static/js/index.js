@@ -115,7 +115,8 @@ $(document).ready(function(){
 		var template = getTemplate('template_logged_out');
 		var html = Mustache.to_html(template, {"user": "Guest"});
 		$('#top_container').html(html);
-		login();
+        $('#top_nav_btns').remove();
+        login();
 		disableCreatingNewAndModifying();
 
 	// If user is not signed in, show sign out link
@@ -126,6 +127,7 @@ $(document).ready(function(){
 		var template = getTemplate('template_logged_in');
 		var html = Mustache.to_html(template, {"user": firstLetterToUppercase(credentials["username"])});
 		$('#top_container').html(html);
+
 		enableCreatingAndModifying();
 		
 		// Disable deleting if allowDeletingLogs is set to false
