@@ -233,7 +233,7 @@ function showLog(log, id){
 	var desc = log.description;
 
     //escape the text for any html elements entered
-	$("#log_description").text(desc).html();
+	$("#log_description").text(escapeHTML(desc));
 	setMarkdown("log_description");
 
 	//$("#log_description").attr("rows", lines.length);

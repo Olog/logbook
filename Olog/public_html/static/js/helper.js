@@ -293,3 +293,14 @@ function toggleChevron(element, openGroup) {
 function saveOlogSettingsData(dataToBeSaved) {
 	$.cookie(settingsCookieName, JSON.stringify(dataToBeSaved));
 }
+
+/**
+ * Use the browser's built-in functionality to quickly and safely escape
+ * the string
+ * @param str
+ */
+function escapeHTML(str){
+    var div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+}
