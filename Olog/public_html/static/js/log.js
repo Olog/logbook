@@ -58,6 +58,7 @@ function initialize(logId) {
 
 	//set the markdown editor to the textarea
     new SimpleMDE({
+        forceSync: true,
 		toolbar: [
 			"bold",
 			"italic",
