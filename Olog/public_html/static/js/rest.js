@@ -232,7 +232,10 @@ function showLog(log, id){
 
 	var desc = log.description;
 
-	$("#log_description").html(preHtmlEncode(desc));
+    //escape the text for any html elements entered
+	$("#log_description").text(desc).html();
+	setMarkdown("log_description");
+
 	//$("#log_description").attr("rows", lines.length);
 
 	$("#log_owner").html(log.owner);
@@ -308,6 +311,26 @@ function showLog(log, id){
 	}
 }
 
+/**
+ * Display textarea as markdown
+ * @param str element id to set mardown to
+ */
+function setMarkdown(str){
+	//remove any other markdown previews for this textarea
+    $('.CodeMirror').remove();
+    //create the SimpleMDE instance to render text from markdown
+    var markdownRender = new SimpleMDE({
+        element: document.getElementById(str),
+        toolbar:false,
+        status:false,
+		shortcuts: false,
+        forceSync: true
+    })
+	//display
+    markdownRender.togglePreview(str);
+
+
+}
 /**
  * When Log details and with them properties are loaded, start listening for
  * clicks on property headers.

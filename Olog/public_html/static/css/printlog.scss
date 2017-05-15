@@ -1,0 +1,34 @@
+/**
+ All styles for print_log
+
+  @author: Dena Mujtaba
+ */
+
+#print_container{
+
+  .log_print_title{
+    padding-top:20px;
+  }
+
+  .log_print_description{
+
+    .CodeMirror{
+      border: 0;
+    }
+
+    .CodeMirror-vscrollbar{
+      display:none !important;
+    }
+    .CodeMirror-scroll{
+      display:none;
+    }
+
+    .editor-preview{
+      padding:10px;
+      background-color:$gray-100;
+      border:1px solid $gray-400;
+      @include border-radius(5px);
+
+    }
+  }
+}

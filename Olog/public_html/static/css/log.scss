@@ -89,8 +89,12 @@
 
 .log_body {
 	padding: 10px;
+	padding-top:20px;
+	background-color:white;
 	border-bottom: 1px solid $gray-400;
-	background-color: white;
+	word-break:keep-all;
+	font-size:12px;
+
 }
 
 .log_details {

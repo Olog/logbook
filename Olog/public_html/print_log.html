@@ -5,6 +5,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" type="text/css"  href="static/css/lib/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="static/css/lib/simplemde.min.css">
 		<link rel="stylesheet" type="text/css" href="static/css/style.css">
 		<link rel="stylesheet" type="text/css" href="static/css/lib/bootstrap-tagmanager.css">
 
@@ -17,8 +18,8 @@
 	</head>
 	<body>
 
-		<div class="container">
-			<div>
+		<div class="container" id="print_container">
+			<div class="log_print_title">
 				<h4>Log id: <span id="log_id"></span>, Log version: <span id="log_version"></span></h4>
 			</div>
 			<div>
@@ -36,11 +37,11 @@
 			<div>
 				<p><span class="bold">Tags:</span> <span id="load_log_tags"></span></p>
 			</div>
-			<div>
+			<div class="log_print_description">
 				<p>
 					<span class="bold">Description:</span>
 					<br/>
-					<span id="log_description"></span>
+					<textarea id="log_description" disabled></textarea>
 				</p>
 			</div>
 			<div>
@@ -70,6 +71,8 @@
 		<script src="static/js/bootstrap3-typeahead.min.js"></script>
 		<script src="static/js/moment.min.js"></script>
 		<script src="static/js/mustache.js"></script>
+		<script src="static/js/simplemde.min.js"></script>
+
 		<script src="static/js/configuration.js"></script>
 		<script src="static/js/helper.js"></script>
 		<script src="static/js/multilist.js"></script>

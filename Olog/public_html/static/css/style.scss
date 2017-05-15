@@ -9,7 +9,6 @@
 @import 'ui_timepicker.scss';
 @import 'hidden.scss';
 
-
 html, body {
 	@include space-reset;
 	height: 100%;
@@ -138,6 +137,7 @@ pre{
 	word-wrap:normal;
 	border:none;
 	background-color:transparent;
+	word-break:keep-all;
 }
 
 @media (max-width: 1023px) {
@@ -316,3 +316,4 @@ pre{
 
 @import 'log.scss';
 @import 'multilist.scss';
+@import 'printlog.scss';

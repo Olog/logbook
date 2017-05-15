@@ -16,6 +16,7 @@ Olog is a lightweight web client for [olog-service](https://github.com/Olog/olog
  * [Purl (A JavaScript URL parser) 2.3.1](https://github.com/allmarkedup/purl)
  * [jQuery File Upload Plugin 5.31.6](https://github.com/blueimp/jQuery-File-Upload)
  * [Qunit 2.3.2](http://qunitjs.com/)
+ * [SimpleMDE - Markdown Editor 1.11.2] (https://github.com/NextStepWebs/simplemde-markdown-editor)
 
 ## Installation instructions
 
