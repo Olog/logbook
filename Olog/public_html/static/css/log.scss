@@ -95,6 +95,33 @@
 	word-break:keep-all;
 	font-size:12px;
 
+	.log_body textarea {
+		display: inline-block;
+		width: 100%;
+	}
+
+	.editor-toolbar{
+		@include border-radius(5px);
+		border:1px solid $gray-500;
+		&:before, &:after{
+			margin:0;
+		}
+		a{
+			&:hover{
+				border:1px solid transparent;
+				background-color:$blue-100;
+			}
+		}
+	}
+
+	.CodeMirror{
+		@include border-radius(5px);
+		border:1px solid $gray-500;
+		//styling to overwrite markdown render
+	}
+
+
+
 }
 
 .log_details {
@@ -198,11 +225,6 @@
 
 }
 
-.log_body > textarea {
-	display: inline-block;
-	width: 100%;
-}
-
 .log_attachments {
 	display: block;
 }
@@ -280,5 +302,6 @@
 		}
 	}
 }
+
 
 
