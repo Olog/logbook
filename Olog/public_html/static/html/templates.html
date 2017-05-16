@@ -15,16 +15,31 @@ and open the template in the editor.
 		<script id="template_log" type="text/template">
 			<div class="log {{click}} {{color}}">
 				<input type="hidden" name="id" value="{{id}}" />
-				<span title="Created" class="text-info log_header">{{owner}}, {{createdDate}} </span>{{#modified}}<span title="Modified" class="muted log_header_right">{{modifiedOwner}}, {{modifiedDate}}</span>{{/modified}}
-				<br/>
-				{{description}}
-				<br />
-				{{#attachments}}
-				<img src="{{imageUrl}}" class="img-rounded" />
-				{{/attachments}}
-				{{#non_image_attachments}}
-				<img src="static/img/mail_attachment.png" title="Log entry also contains non-image attachments" />
-				{{/non_image_attachments}}
+				<span class="header">
+					<span title="Created" class="text-info log_header">
+						{{owner}}
+					</span>
+					{{#modified}}
+							<span title="Modified" class="muted log_header_right">Modified: {{modifiedOwner}} @ {{modifiedDate}}</span>
+					{{/modified}}
+					{{#startdate}}
+							<span title="StartDate" class="muted log_start_date">StartDate: {{modifiedDate}}</span>
+					{{/startdate}}
+				</span>
+				<span class="description">
+					<span class="owner">
+						{{createdDate}}
+					</span>
+					{{description}}
+				</span>
+				<span class="attachment">
+					{{#attachments}}
+					<img src="{{imageUrl}}" class="img-rounded" />
+					{{/attachments}}
+					{{#non_image_attachments}}
+					<img src="static/img/mail_attachment.png" title="Log entry also contains non-image attachments" />
+					{{/non_image_attachments}}
+				</span>
 
 				{{#history}}
 				<div class="show_history" onclick="toggleChildren({{rawId}}, this)">
@@ -40,9 +55,23 @@ and open the template in the editor.
 			<div class="{{click}} {{parent_color}} child_{{rawId}}" style="display: none">
 				<div class="log log_history {{color}}">
 					<input type="hidden" name="id" value="{{id}}" />
-					<span title="Created" class="text-info log_header">{{owner}}, {{createdDate}} </span>{{#modified}}<span title="Modified" class="muted log_header_right">{{modifiedOwner}}, {{modifiedDate}}</span>{{/modified}}
-					<br />
-					{{description}}
+					<span class="header">
+						<span title="Created" class="text-info log_header">
+							{{owner}}
+						</span>
+						{{#modified}}
+								<span title="Modified" class="muted log_header_right">Modified: {{modifiedOwner}} @ {{modifiedDate}}</span>
+						{{/modified}}
+						{{#startdate}}
+								<span title="StartDate" class="muted log_start_date">StartDate: {{modifiedDate}}</span>
+						{{/startdate}}
+					</span>
+					<span class="description">
+						<span class="owner">
+							{{createdDate}}
+						</span>
+						{{description}}
+					</span>
 					<br />
 					{{#attachments}}
 					<img src="{{imageUrl}}" class="img-rounded" />

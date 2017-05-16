@@ -140,11 +140,99 @@ pre{
 	word-break:keep-all;
 }
 
+.container-scroll-middle .log-content-area{
+	$search-height:160px;
+	position:relative;
+	display:block;
+	height:100%;
+	#search-button {
+		position: relative;
+		left: -15px;
+	}
+
+	.form-search-box {
+		position:absolute;
+		top:0;
+		left:0;
+		right:0;
+		height:$search-height;
+		z-index:502;
+		background-color:$gray-100;
+		display:block;
+		padding:5px;
+		margin-bottom: 0px;
+		border-bottom:1px solid $gray-700;
+		box-shadow: 0 4px 4px -2px $gray-700;
+		-moz-box-shadow: 0 4px 4px -2px $gray-700;
+		-webkit-box-shadow: 0 4px 4px -2px $gray-700;
+		.input-group{
+			margin-bottom:5px;
+			#search-query-clean {
+				position: absolute;
+				right:95px;
+				top:50%;
+				transform:translateY(-50%);
+				cursor:pointer;
+				color:$gray-500;
+				&:hover{
+					color:$red-100;
+				}
+			}
+			input{
+				border:1px solid $green-100;
+				&:focus{
+					z-index:2;
+					outline:0;
+					box-shadow:none;
+					//overwrite index in bootstrap due to search query clean btn
+				}
+			}
+		}
+		.search-checkbox {
+			padding-bottom: 5px;
+		}
+	}
+
+	.logs-area{
+		position:absolute;
+		top:$search-height;
+		overflow:auto;
+		left:0;
+		right:0;
+		bottom:0;
+	}
+}
+
 @media (max-width: 1023px) {
+
+	nav.navbar{
+		.nav-btn-group{
+			ul.dropdown-menu{
+				position:relative;
+			}
+		}
+	}
 
 	.container-left, .container-middle, .container-right, .container-middle-right {
 		float: none;
 		padding: 0px 20px 20px 20px;
+		display:block;
+		width:100%;
+
+	}
+	.container-scroll-middle{
+		min-height:25vh;
+		.log-content-area{
+			width:100%;
+			.form-search-box, .logs-area{
+				display:block;
+				position:relative;
+				&.logs-area{
+					top:0;
+					width:100%;
+				}
+			}
+		}
 	}
 
 	/*
@@ -231,6 +319,7 @@ pre{
 		bottom:0;
 		overflow-y: auto;
 	}
+
 	/* Scrollable columns END*/
 	#back_to_top_button {
 		display: none;
@@ -258,41 +347,6 @@ pre{
 	display: inline-block;
 	width: 70%;
 	padding-right: 40px !important;
-}
-
-#search-button {
-	position: relative;
-	left: -15px;
-}
-
-.form-search-box {
-	margin: 5px;
-	margin-bottom: 0px;
-	.input-group{
-		margin-bottom:5px;
-		#search-query-clean {
-			position: absolute;
-			right:95px;
-			top:50%;
-			transform:translateY(-50%);
-			cursor:pointer;
-			color:$gray-500;
-			&:hover{
-				color:$red-100;
-			}
-		}
-		input{
-			border:1px solid $green-100;
-			&:focus{
-				z-index:2;
-				//overwrite index in bootstrap due to search query clean btn
-			}
-		}
-
-	}
-	.search-checkbox {
-		padding-bottom: 5px;
-	}
 }
 
 .disable_selecting_text {

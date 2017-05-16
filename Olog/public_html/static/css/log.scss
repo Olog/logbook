@@ -9,47 +9,91 @@
  Style log START
 */
 .log {
+	padding:5px 0 0;
 	display: block;
 	cursor: pointer;
 	border-top: 1px solid $gray-400;
-	padding: 5px;
 	position: relative;
 	&:hover {
-		background-color: white;
+		background-color: lighten($blue-100, 25%);
 	}
 	img {
 		margin-bottom: 3px;
 	}
-	.log_header {
-		padding-bottom: 5px;
+
+	span.header, span.description, span.attachment, div.show_history{
+		padding:2.5px 5px;
+		display:block;
+		font-size:$sm-font;
+		&.description{
+			line-height:1.3;
+			color:$gray-950;
+			span.owner{
+				display:inline-block;
+				margin-right:5px;
+				color:$nav-bg;
+				font-weight:bolder;
+			}
+		}
+		&.header{
+			padding-bottom:0;
+			span{
+				display:inline-block;
+				&.log_header_right{
+					float:right;
+					color:$green-100;
+				}
+				&.log_start_date{
+					width:100%;
+					display:block;
+					text-align:right;
+					float:right;
+					color:$red-100;
+				}
+			}
+		}
+		&.show_history{
+			background-color:$gray-300;
+			padding: 2.5px 0;
+			text-align: center;
+			font-size:$xsm-font;
+			&:hover{
+				background-color:mix($blue-100, $gray-300, 50%);
+			}
+		}
+	}
+	&.log_click{
+		background-color:lighten($green-100, 25%);
+		border:1px solid $green-100;
+		border-bottom:0;
+
+		//select the log after this one
+		&+.log{
+			border-top:1px solid $green-200;
+		}
+		span.header{
+			font-weight:bolder;
+
+			.log_header_right{
+				color:$green-200;
+			}
+			.log_start_date{
+				color:mix($red-100, $green-200, 50%) !important;
+			}
+		}
+		div.show_history{
+			background-color:mix($green-100, $gray-300, 50%);
+		}
 	}
 
-	.log_header_right {
-		position: absolute;
-		right: 5px;
-		top: 5px;
-		padding-bottom: 5px;
-		font-size:$sm-font;
-		color:$gray-700;
-	}
 }
 
 .log_light {
-	background-color: $gray-100;
+	background-color: white;
 }
 
 .log_dark {
-	background-color: $gray-200;
-}
-
-.log_click {
-	background-color: $blue-100 !important;
-	span {
-		color: white;
-	}
-	&:hover {
-		background-color: $blue-100;
-	}
+	background-color: $gray-050;
 }
 
 .log-last {
@@ -86,6 +130,7 @@
 		@include space-reset;
 	}
 }
+
 
 .log_body {
 	padding: 10px;
@@ -126,6 +171,12 @@
 			}
 		}
 		margin-bottom:5px;
+
+		&.disabled-for-preview{
+			a{
+				background-color:transparent;
+			}
+		}
 	}
 
 	.CodeMirror{
@@ -191,10 +242,6 @@
 .property_header {
 	cursor: pointer;
 	background-color: $gray-300;
-}
-
-.show_history {
-	text-align: center;
 }
 
 .history_separator {
