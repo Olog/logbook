@@ -229,7 +229,6 @@ function getLogNew(id, myFunction){
 function showLog(log, id){
 	$('#load_log').show("fast");
 	globalLogId = id;
-
 	var desc = log.description;
 
     //escape the text for any html elements entered
@@ -518,6 +517,8 @@ function prepareParentAndChildren(i, children, prepend, logOwners) {
 		createdDate: formatDate(item.createdDate),
 		modifiedDate: formatDate(item.modifiedDate),
 		modified: false,
+		startdate: false,
+		eventStart: formatDate(item.eventStart),
 		id: item.id + '_' + item.version,
 		rawId: item.id,
 		attachments : [],
@@ -525,8 +526,10 @@ function prepareParentAndChildren(i, children, prepend, logOwners) {
 	};
 
 	// Was log entry modified?
+	//Set the modified date and event Start date
 	if(item.createdDate !== item.modifiedDate) {
 		newItem.modified = true;
+		newItem.startdate = true;
 	}
 
 	// Append history show/hide link
