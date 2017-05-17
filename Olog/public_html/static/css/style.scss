@@ -143,7 +143,7 @@ pre{
 }
 
 .container-scroll-middle .log-content-area{
-	$search-height:160px;
+	$search-height:100px;
 	position:relative;
 	display:block;
 	height:100%;
@@ -168,6 +168,7 @@ pre{
 		-moz-box-shadow: 0 4px 4px -2px $gray-700;
 		-webkit-box-shadow: 0 4px 4px -2px $gray-700;
 		.input-group{
+			margin-top:5px;
 			margin-bottom:5px;
 			#search-query-clean {
 				position: absolute;
@@ -190,8 +191,50 @@ pre{
 				}
 			}
 		}
-		.search-checkbox {
-			padding-bottom: 5px;
+		.search-checkbox{
+			margin:2px;
+			display:inline-block;
+			input[type=checkbox]{
+				position:absolute;
+				display:none;
+				&+label{
+					-webkit-appearance: push-button;
+					-moz-appearance: button;
+					display: inline-block;
+					cursor:pointer;
+					outline:none;
+					padding:2.5px 5px;
+					color:white;
+					font-weight:normal;
+					border-radius:5px;
+					font-size:$sm-font;
+					background-color:lighten($pink-100,20%);
+					border:1px solid $pink-100;
+					transition:background-color 1s, border 1s;
+					&:hover{
+						border:1px solid $green-100;
+						background-color:lighten($green-100, 15%);
+					}
+					&:before{
+						font-family: 'Glyphicons Halflings';
+						content: "\e083";
+					}
+				}
+				&:checked{
+					&+label{
+						background-color:lighten($green-100, 15%);
+						border:1px solid $green-100;
+						&:before{
+							font-family: 'Glyphicons Halflings';
+							content: "\e067";
+						}
+						&:hover{
+							border:1px solid $pink-100;
+							background-color:lighten($pink-100,20%);
+						}
+					}
+				}
+			}
 		}
 	}
 
