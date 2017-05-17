@@ -58,13 +58,6 @@ $(document).ready(function(){
         saveOlogSettingsData(ologSettings);
     });
 
-    if(ologSettings.includeStartDate){
-        $('.log span.log_start_date').show();
-    }else{
-        // Select include
-        $('#startdate-order').prop('checked', false);
-        $('.log span.log_start_date').hide();
-    }
 	// Show log order flag
 	if(ologSettings.includeHistory) {
 		$('#search-order-block').show();
@@ -214,6 +207,13 @@ $(document).ready(function(){
 		// if it is not, show clean button
 		showHideSearchCleanButton($(event.target));
 	});
+
+    if(ologSettings.includeStartDate !== undefined && ologSettings.includeStartDate === true){
+        $('.log span.log_start_date').show();
+    }else{
+        // Select include
+        $('.log span.log_start_date').hide();
+    }
 
 	//check if in readonly mode
 	if(ologSettings.inreadonly === undefined){

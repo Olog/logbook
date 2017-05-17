@@ -123,7 +123,6 @@ h3{
 .well {
 	@include space-reset;
 	border:1px solid $gray-700;
-	border-top:0;
 }
 
 .clear {
@@ -199,7 +198,7 @@ pre{
 				position:absolute;
 				display:none;
 				&+label{
-					-webkit-appearance: push-button;
+					//-webkit-appearance: push-button;
 					-moz-appearance: button;
 					display: inline-block;
 					cursor:pointer;
@@ -246,6 +245,23 @@ pre{
 		left:0;
 		right:0;
 		bottom:0;
+	}
+}
+
+//typeahead div
+.ui-autocomplete{
+	z-index:502;
+	padding:0;
+	@include border-radius(0);
+	li{
+		a.ui-state-focus{
+			background:none;
+			@include border-radius(0);
+			color:$green-200;
+			border:1px solid $green-200;
+			padding:3px 7px;
+			cursor:pointer;
+		}
 	}
 }
 
@@ -407,6 +423,7 @@ pre{
 .login_error, #new_logbook_error_block, #error_block {
 	margin-bottom:0;
 	color:$red-100;
+	@include border-radius(0);
 }
 
 #top_container {

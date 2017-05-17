@@ -43,37 +43,36 @@
 
 	}
 
-}
-
-.multilist_item {
-	padding-left: 27px;
-	padding-top: 3px;
-	padding-bottom: 3px;
-	display: block;
-	color: $blue-200;
-	cursor: pointer;
-	&:hover{
-		background-color: white;
-	}
-	a i.glyphicon{
-		padding:3px;
-		@include border-radius(3px);
-		color:$gray-950;
-		&.glyphicon-pencil{
-			//background-color: $green-100;
-			//border:1px solid darken($green-100, 15%);
+	.multilist_item {
+		padding-left: 27px;
+		padding-top: 3px;
+		padding-bottom: 3px;
+		display: block;
+		color: $blue-200;
+		cursor: pointer;
+		&:hover{
+			background-color: white;
 		}
-		&.glyphicon-trash{
-			//background-color: $red-100;
-			//border:1px solid darken($red-100, 15%);
-
+		a i.glyphicon{
+			padding:3px;
+			@include border-radius(3px);
+			color:$gray-950;
+			&.glyphicon-pencil{
+				color: $blue-200;
+			}
+			&.glyphicon-trash{
+				color: $pink-100;
+			}
+			&:hover{
+				cursor:pointer;
+				color:$blue-green-200;
+			}
 		}
 	}
-}
-
-.multilist_clicked, .multilist_clicked:hover {
-	background-color: $blue-100;
-	color: white;
+	.multilist_clicked, .multilist_clicked:hover {
+		background-color: $blue-100;
+		color: white;
+	}
 }
 
 .list {

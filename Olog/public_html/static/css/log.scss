@@ -126,9 +126,13 @@
 .log_title {
 	padding: 7px 7px 7px 7px;
 	margin: 0;
-	border-bottom: 1px solid $gray-400;
+	color:white;
+	background-color:$blue-gray-700;
 	h5{
 		@include space-reset;
+		a{
+			color:$blue-100;
+		}
 	}
 }
 
@@ -350,11 +354,11 @@
 /* Override multiselection colors */
 .container-modify-right{
 	.multilist_item {
-		color: $green-200;
+		color: $green-200 !important;
 	}
 	.multilist_clicked, .multilist_clicked:hover {
-		background-color: $green-100;
-		color: white;
+		background-color: $green-100 !important;
+		color: white !important;
 		a{
 			color:$green-200;
 			&:hover{
