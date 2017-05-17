@@ -159,6 +159,7 @@ pre{
 		right:0;
 		height:$search-height;
 		z-index:502;
+		overflow-y:auto;
 		background-color:$gray-100;
 		display:block;
 		padding:5px;
