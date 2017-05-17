@@ -14,6 +14,20 @@ $(document).ready(function(){
 	// Activate resize manager
 	resizeManager();
 
+	var timenow = new Date(Date.now() - 20000);
+
+    // Set datepickers
+    $('#startdate_input').datetimepicker(
+        {
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: "D, d M yy",
+			timeFormat: "HH:mm:ss",
+            maxDateTime: timenow,
+            firstDay: datePickerFirstName
+        }
+    );
+
 	// Initialize tooltip
 	$('#tooltip').tooltip({placement: "bottom"});
 
@@ -144,6 +158,14 @@ $(document).ready(function(){
 			var html = Mustache.to_html(template, {"name": name, "selected":selected});
 			$('#level_input').append(html);
 		});
+
+		//set the date for the datetimepicker to set eventStart Date
+        var date = new Date(
+                log[0].eventStart
+        );
+
+        $('#startdate_input').datetimepicker('setDate', date);
+
 	});
 
 	// Listen for new Log form submit
@@ -156,10 +178,11 @@ $(document).ready(function(){
 		// Append id
 		var logParts = logId.split("_");
 		log[0].id = logParts[0];
-
 		if(isValidLog(log) === true) {
-			modifyLog(log);
-			$('#files div').addClass('upload-progress');
+
+            modifyLog(log);
+
+            $('#files div').addClass('upload-progress');
 			$('#files div p button').remove();
 			$('#files div button').remove();
 			$('.upload-progress-loader').show();

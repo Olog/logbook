@@ -240,6 +240,7 @@ function showLog(log, id){
 
 	$("#log_owner").html(log.owner);
 	$("#log_date").html(formatDate(log.modifiedDate));
+	$("#log_date").html(formatDate(log.modifiedDate));
 	$("#log_level").html(log.level);
 
 	$("#modify_log_link").attr("href", "modify_log.html?id=" + id);
@@ -328,8 +329,6 @@ function setMarkdown(str){
     })
 	//display
     markdownRender.togglePreview(str);
-
-
 }
 /**
  * When Log details and with them properties are loaded, start listening for
@@ -877,7 +876,8 @@ function generateLogObject() {
 		"tags":[],
 		"properties":[],
 		"attachments":[],
-		"level":""
+		"level":"",
+		"eventStart":""
 	}];
 
 	// Set description
@@ -957,6 +957,13 @@ function generateLogObject() {
 
 	// Set Level
 	log[0].level = $('#level_input').find(":selected").val();
+
+	var startdateinput = $('#startdate_input');
+
+	if(startdateinput.length > 0){
+		//input only present on the edit page
+        log[0].eventStart = new Date(startdateinput.val()).toISOString();
+    }
 
 	return log;
 }
@@ -1111,6 +1118,9 @@ function modifyLog(log) {
 			403: function(){
 				showError("You do not have permission to modify this Log!", "#error_block", "#error_body", "#new_logbook_error_x");
 			},
+            404: function(){
+                showError("Something went wrong, this log could not be changed!", "#error_block", "#error_body", "#new_logbook_error_x");
+            },
 			500: function(){
 				showError("Something went wrong!", "#error_block", "#error_body", "#new_logbook_error_x");
 			}

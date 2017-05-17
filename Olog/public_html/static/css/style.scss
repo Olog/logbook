@@ -122,6 +122,8 @@ h3{
 
 .well {
 	@include space-reset;
+	border:1px solid $gray-700;
+	border-top:0;
 }
 
 .clear {
