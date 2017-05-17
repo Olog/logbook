@@ -215,6 +215,7 @@ $(document).ready(function(){
 		showHideSearchCleanButton($(event.target));
 	});
 
+	//check if in readonly mode
 	if(ologSettings.inreadonly === undefined){
 		setReadOnly(false);
 	}else{

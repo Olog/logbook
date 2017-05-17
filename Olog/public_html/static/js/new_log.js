@@ -102,7 +102,9 @@ $(document).ready(function(){
 	// Initialize common Log functionality
 	initialize(null);
 
-	// Upload
+    createMarkdownTextarea("log_body");
+
+    // Upload
 	upload('fileupload');
 
 	// Start listening for Firefox paste events

@@ -38,6 +38,7 @@
 		&.header{
 			padding-bottom:0;
 			span{
+				color:$blue-300;
 				display:inline-block;
 				&.log_header_right{
 					float:right;
@@ -58,7 +59,7 @@
 			text-align: center;
 			font-size:$xsm-font;
 			&:hover{
-				background-color:mix($blue-100, $gray-300, 50%);
+				background-color:$blue-gray-300;
 			}
 		}
 	}
@@ -138,7 +139,9 @@
 	background-color:white;
 	border-bottom: 1px solid $gray-400;
 	word-break:keep-all;
-	font-size:12px;
+
+	//Size ~14px font
+	font-size:$md-font/1.15;
 
 	.log_body textarea {
 		display: inline-block;

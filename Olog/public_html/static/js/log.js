@@ -56,24 +56,6 @@ function initialize(logId) {
 		showCancelEditingLogModal(logId);
 	});
 
-	//set the markdown editor to the textarea
-    new SimpleMDE({
-        forceSync: true,
-		toolbar: [
-			"bold",
-			"italic",
-			"strikethrough",
-			"|",
-			"heading",
-			"heading-smaller",
-			"heading-bigger",
-			"|",
-			"unordered-list", "ordered-list", "link", "image", "table",
-			"|",
-			"preview", "guide"
-		],
-		status: false
-	});
 }
 
 /**

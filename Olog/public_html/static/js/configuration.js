@@ -14,6 +14,7 @@ var version = "0.5";
 
 // For accessing the REST service
 var serviceurl = window.location.protocol + "//" + window.location.host + "/Olog/resources/";
+var serviceurl = "https://localhost:8181/Olog/resources/";
 
 // For all the dates shown in client
 // Format docs can be found at http://momentjs.com/docs/#/displaying/format/
@@ -133,6 +134,16 @@ var smallScreenResolutionWidth = 1024;
 // Available Levels
 var levels = ["Info", "Problem", "Request", "Suggestion", "Urgent"];
 
+//Markdown toolbar sections
+var mdToolbar = [
+	"bold", "italic", "strikethrough",
+    "|",
+    "heading", "heading-smaller", "heading-bigger",
+    "|",
+    "unordered-list", "ordered-list", "link", "image", "table",
+	"|",
+	"preview", "guide"
+	]
 /**
  * Global variables needed by more than one page. SHOULD NOT BE CONFIGURED BY THE USER!
  */

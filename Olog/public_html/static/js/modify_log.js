@@ -280,7 +280,10 @@ function checkLogObject(log) {
  * @param {type} log object with log entry data
  */
 function fillInForm(log) {
-	$("#log_body").val(log.description);
+	$("#log_body").text(log.description);
+    //escape the text for any html elements entered
+    createMarkdownTextarea("log_body");
+
 	var notImages = new Array();
 
 	if(log.attachments.length !== 0) {

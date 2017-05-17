@@ -304,3 +304,18 @@ function escapeHTML(str){
     div.appendChild(document.createTextNode(str));
     return div.innerHTML;
 }
+
+/**
+ * Set a textarea to edit markdown content
+ * @param textarea id of element to set editor to
+ */
+function createMarkdownTextarea(textarea){
+    //set the markdown editor to the textarea
+    new SimpleMDE({
+		element: document.getElementById(textarea),
+        forceSync: true,
+        toolbar: mdToolbar,
+        status: false
+    });
+
+}

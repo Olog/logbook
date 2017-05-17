@@ -329,6 +329,7 @@ function setMarkdown(str){
 	//display
     markdownRender.togglePreview(str);
 }
+
 /**
  * When Log details and with them properties are loaded, start listening for
  * clicks on property headers.

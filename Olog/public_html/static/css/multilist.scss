@@ -11,14 +11,38 @@
 	padding-bottom: 20px;
 
 	.multilist_header {
-		padding-left: 10px;
-		padding-top: 10px;
-		padding-bottom: 3px;
+		padding:10px 10px 3px;
 		font-weight: bold;
-		color: $gray-950;
-		background-color: $gray-350;
+		color: $gray-100;
+		background-color:$blue-gray-700;
 		cursor: pointer;
 	}
+
+	.multilist_filter {
+		background-color: lighten($green-100, 15%);
+
+		.filters_filter {
+			margin-left: 10px;
+		}
+
+		input.filter_search {
+			display:inline-block;
+			margin: 5px;
+			border:2px solid $green-100;
+			color:$green-200;
+			//need to set these to overwrite padding from bootstrap
+			padding-top:2px;
+			padding-bottom:2px;
+			font-size:$sm-font;
+			width: 70%;
+			height:100%;
+			&:focus{
+				background-color:lighten($green-100, 50%);
+			}
+		}
+
+	}
+
 }
 
 .multilist_item {
@@ -34,37 +58,17 @@
 	a i.glyphicon{
 		padding:3px;
 		@include border-radius(3px);
-		color:white;
+		color:$gray-950;
 		&.glyphicon-pencil{
-			background-color: $green-100;
-			border:1px solid darken($green-100, 15%);
+			//background-color: $green-100;
+			//border:1px solid darken($green-100, 15%);
 		}
 		&.glyphicon-trash{
-			background-color: $red-100;
-			border:1px solid darken($red-100, 15%);
+			//background-color: $red-100;
+			//border:1px solid darken($red-100, 15%);
 
 		}
 	}
-}
-
-.multilist_filter {
-	background-color: $gray-350;
-}
-
-.filters_filter {
-	margin-left: 10px;
-}
-
-input.filter_search {
-	display:inline-block;
-	margin: 5px;
-
-	//need to set these to overwrite padding from bootstrap
-	padding-top:0;
-	padding-bottom:0;
-	font-size:$sm-font;
-	width: 70%;
-	height:100%;
 }
 
 .multilist_clicked, .multilist_clicked:hover {
