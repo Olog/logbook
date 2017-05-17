@@ -158,6 +158,9 @@ var ologSettings = {};
 // Should history be included by default
 var includeHistory = true;
 
+//If the StartDate should be displayed for logs
+var includeStartDate = true;
+
 // URL parameter for displaying log's history
 var historyParameter = "history";
 

@@ -19,6 +19,9 @@ $(document).ready(function(){
 		// Set includeHistory
 		ologSettings.includeHistory = includeHistory;
 
+        // Set include StartDate
+        ologSettings.includeStartDate = includeStartDate;
+
 		// Set logVersionOrder
 		ologSettings.logVersionOrder = logVersionOrder;
 	}

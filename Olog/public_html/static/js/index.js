@@ -36,17 +36,35 @@ $(document).ready(function(){
 		}
 	);
 
-	// Select include hostory
-	$('#search-checkbox').prop('checked', ologSettings.includeHistory);
+	// Select include history
+    $('#search-checkbox').prop('checked', ologSettings.includeHistory);
 
-	// Listen to include history chenckbox change
-	$('#search-checkbox').unbind('change');
-	$('#search-checkbox').on('change', function(e) {
-		ologSettings.includeHistory = $(e.target).prop('checked');
-		$('#search-order-block').toggle();
-		saveOlogSettingsData(ologSettings);
-	});
+    // Listen to include history checkbox change
+    $('#search-checkbox').unbind('change');
+    $('#search-checkbox').on('change', function(e) {
+        ologSettings.includeHistory = $(e.target).prop('checked');
+        $('#search-order-block').toggle();
+        saveOlogSettingsData(ologSettings);
+    });
 
+    // Select include
+    $('#startdate-order').prop('checked', ologSettings.includeStartDate);
+
+    // Listen to include checkbox change
+    $('#startdate-order').unbind('change');
+    $('#startdate-order').on('change', function(e) {
+        ologSettings.includeStartDate = $(e.target).prop('checked');
+        $('.log span.log_start_date').toggle();
+        saveOlogSettingsData(ologSettings);
+    });
+
+    if(ologSettings.includeStartDate){
+        $('.log span.log_start_date').show();
+    }else{
+        // Select include
+        $('#startdate-order').prop('checked', false);
+        $('.log span.log_start_date').hide();
+    }
 	// Show log order flag
 	if(ologSettings.includeHistory) {
 		$('#search-order-block').show();
