@@ -319,3 +319,13 @@ function createMarkdownTextarea(textarea){
     });
 
 }
+
+/**
+ * Will trigger a Ctrl + Left click on an element
+ * @param elem
+ */
+function ctrlClickElement(elem){
+    e = jQuery.Event("keydown");
+    fake = $.extend({}, e, {which: 50, ctrlKey: true});
+    $(elem).trigger(fake);
+}

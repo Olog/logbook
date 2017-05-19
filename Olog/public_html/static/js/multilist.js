@@ -62,14 +62,14 @@ function multiselect(name, saveSelectedItemsIntoACookie){
 			// Add element among selected elements
 			if(clicked === false) {
 				$(e.target).addClass("multilist_clicked");
-				selectedElements[name + '_index'][$(e.target).text()] = "true";
-				selectedElements[name].push($(e.target).text());
+				selectedElements[name + '_index'][$.trim($(e.target).text())] = "true";
+				selectedElements[name].push($.trim($(e.target).text()));
 
 			// Remove elements from selected elements
 			} else {
 				$(e.target).removeClass("multilist_clicked");
-				selectedElements[name + '_index'][$(e.target).text()] = "false";
-				removeDeselectedFilter(name, $(e.target).text());
+				selectedElements[name + '_index'][$.trim($(e.target).text())] = "false";
+				removeDeselectedFilter(name, $.trim($(e.target).text()));
 			}
 
 			// Trigger event and set cookie with data
@@ -180,13 +180,13 @@ function singleselect(name){
 
 			// Set from
 			if(from !== undefined) {
-				selectedElements['from'] = from;
+				selectedElements['from'] = $.trim(from);
 
 			}
 
 			// Set to
 			if(to !== undefined) {
-				selectedElements['to'] = to;
+				selectedElements['to'] = $.trim(to);
 			}
 
 		// If element is clicked clear to and from
@@ -214,7 +214,7 @@ function fromToChanged() {
 	l(datepickerFrom);
 
 	if(datepickerFrom !== undefined && datepickerFrom !== "") {
-		selectedElements['from'] = datepickerFrom;
+		selectedElements['from'] = $.trim(datepickerFrom);
 	}
 
 	// Get datepicker to
@@ -222,7 +222,7 @@ function fromToChanged() {
 	l(datepickerTo);
 
 	if(datepickerTo !== undefined && datepickerTo !== "") {
-		selectedElements['to'] = datepickerTo;
+		selectedElements['to'] = $.trim(datepickerTo);
 	}
 
 	// Trigger event and set cookie with data

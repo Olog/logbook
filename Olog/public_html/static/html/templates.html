@@ -93,7 +93,8 @@ and open the template in the editor.
 		<!-- Logbook filter item -->
 		<script id="template_logbook" type="text/template">
 			<li>
-				<span class="list multilist_item disable_selecting_text {{clicked}} {{color}}">{{name}}
+				<span class="list multilist_item disable_selecting_text {{clicked}} {{color}}"  name-attr="{{name}}">
+					{{name}}
 					<a href="#" read-only="false" onclick="showDeleteModal('deleteLogbookModal', '{{name}}');">
 						<i class="glyphicon glyphicon-trash float_right multilist_icons float_right_padding"></i>
 					</a>
@@ -107,7 +108,7 @@ and open the template in the editor.
 		<!-- Tag filter item -->
 		<script id="template_tag" type="text/template">
 			<li class="{{show}}">
-				<span class="list2 multilist_item disable_selecting_text {{clicked}} {{color}}">{{name}}
+				<span class="list2 multilist_item disable_selecting_text {{clicked}} {{color}}" name-attr="{{name}}">{{name}}
 					<a href="#" read-only="false" onclick="showDeleteModal('deleteTagModal', '{{name}}');">
 						<i class="glyphicon glyphicon-trash float_right multilist_icons float_right_padding"></i>
 					</a>

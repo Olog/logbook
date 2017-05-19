@@ -32,7 +32,7 @@ $(document).ready(function(){
 
 	// Wait for dataselect on tags filter
 	$('#load_tags').on('dataselected', function(e, data){
-		generateSearchQuery(data);
+        generateSearchQuery(data);
 	});
 
 	// Wait for dataselect on owner filter
@@ -235,6 +235,9 @@ function generateSearchQuery(dataArray) {
 
 	var newValue = "";
 
+	//Used to hold the dataArray value from each list type
+	var tempArr = "";
+
 	// Append general search to a search query
 	if(parsedStringParts[0] === "" && value !== ""){
 		newValue = parsedStringParts[1];
@@ -245,35 +248,45 @@ function generateSearchQuery(dataArray) {
 		}
 	}
 
-	// If at least one logbook is selected, append logbook part to a search query
+    tempArr = $.trim(dataArray['list']);
+    // If at least one logbook is selected, append logbook part to a search query
 	if(dataArray['list'] !== undefined && dataArray['list'].length !== 0) {
-		newValue += "logbook: " + dataArray['list'] + ' ';
-		queryString += "logbook=" + dataArray['list'] + '&';
+        newValue += "logbook: " + tempArr + ' ';
+		queryString += "logbook=" + tempArr + '&';
 	}
+    syncSearchTags(tempArr, "logbook");
 
-	// If at least one tag is selected, append tag part to a search query
+    tempArr = $.trim(dataArray['list2']);
+    // If at least one tag is selected, append tag part to a search query
 	if(dataArray['list2'] !== undefined && dataArray['list2'].length !== 0) {
-		newValue += "tag: " + dataArray['list2'] + ' ';
-		queryString += "tag=" + dataArray['list2'] + '&';
-	}
+        newValue += "tag: " + tempArr + ' ';
+		queryString += "tag=" + tempArr + '&';
+    }
+    syncSearchTags(tempArr, "tagt");
 
-	// If at least one owner is selected, append owner part to a search query
+    tempArr = $.trim(dataArray['owner']);
+    // If at least one owner is selected, append owner part to a search query
 	if(dataArray['owner'] !== undefined && dataArray['owner'].length !== 0) {
-		newValue += "owner: " + dataArray['owner'] + ' ';
-		queryString += "owner=" + dataArray['owner'] + '&';
-	}
+        newValue += "owner: " + tempArr + ' ';
+		queryString += "owner=" + tempArr + '&';
+    }
+    syncSearchTags(tempArr, "owner");
 
-	// From time filter is set, append time part to a search query
+    tempArr = $.trim(dataArray['from']);
+    // From time filter is set, append time part to a search query
 	if(dataArray['from'] !== undefined && dataArray['from'].length !== 0) {
-		newValue += "from: " + dataArray['from'] + ' ';
+        newValue += "from: " + tempArr + ' ';
 		queryString += "start=" + returnTimeFilterTimestamp(dataArray['from'], undefined)[0] + '&';
-	}
+    }
+    syncSearchTags(tempArr, "from");
 
-	// If to time filter is set, append time part to a search query
+    tempArr = $.trim(dataArray['to']);
+    // If to time filter is set, append time part to a search query
 	if(dataArray['to'] !== undefined && dataArray['to'].length !== 0) {
-		newValue += "to: " + dataArray['to'] + ' ';
+        newValue += "to: " + tempArr + ' ';
 		queryString += "end=" + returnTimeFilterTimestamp(undefined, dataArray['to'])[1] + '&';
-	}
+    }
+    syncSearchTags(tempArr, "to");
 
 	// Append include history parameter
 	if(ologSettings.includeHistory && !("history" in $.url(queryString).param())) {

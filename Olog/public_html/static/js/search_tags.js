@@ -4,9 +4,6 @@
  * @author: Dena Mujtaba
  */
 
-//TODO: connect tags that when change, search.
-//TODO: Also connect left multilist search options
-
 //on load
 $(document).ready(function(){
     var main = $('#filter-search-input');
@@ -42,16 +39,18 @@ $(document).ready(function(){
 
             inputType.text('');
 
-            $(this).attr('type-attr', '');
+            $(this).attr('type-attr', '').focusout();
         }
+
     });
 
     filterList.find('li').click(function(){
 
         inputType.text($(this).text());
 
-        input.attr('type-attr', $(this).attr('type-attr')).focus();
+        input.attr('type-attr', $(this).attr('type-attr'));
     })
+
 
 });
 
@@ -73,8 +72,26 @@ function setTagClickEvents(main){
  */
 function handleTagClick(tag){
 
-    delete searchInputElements[tag.attr("type-attr")][tag.find('span').text()];
+    var txtValue = $.trim(tag.find('span').text());
 
+    //handle list select based on type
+    switch(tag.attr("type-attr")){
+        case "logbook":
+            //ctrlClickElement('#load_logbooks span[name-attr="'+txtValue+'"]');
+            break;
+        case "tagt":
+
+            break;
+        case "owner":
+            break;
+        case "from":
+            break;
+        case "to":
+            break;
+
+    }
+
+    delete searchInputElements[tag.attr("type-attr")][txtValue];
     tag.remove();
 }
 
@@ -85,7 +102,7 @@ function handleTagClick(tag){
  * @param val tag text value
  * @param type search type belonging to the tag
  */
-function addTag(main, tagsArea,val, type){
+function addTag(main, tagsArea, val, type){
 
     searchInputElements[type][val] = val;
 
@@ -94,12 +111,34 @@ function addTag(main, tagsArea,val, type){
         {
             "type": type,
             "value": val
-
         });
 
     tagsArea.append(html);
 
-    console.log(searchInputElements);
-
     setTagClickEvents(main);
+}
+
+/**
+ * Changes the tags in the search column for type category to match selected items
+ * @param dataArr Items to set
+ * @param type Array to change
+ */
+function syncSearchTags(dataArr, type){
+
+    if(dataArr === null){
+        dataArr = "";
+    }
+
+    var main = $('#filter-search-input');
+    var tagsArea = main.find('span.tag-wrapper');
+
+    //reset the tags for this type
+    tagsArea.find('span[type-attr="'+type+'"]').remove();
+
+    searchInputElements[type].length = 0;
+    if(dataArr !== undefined && dataArr.length !== 0){
+        $.each(dataArr.split(","), function (index, value) {
+            addTag(main, tagsArea, value, type);
+        });
+    }
 }
