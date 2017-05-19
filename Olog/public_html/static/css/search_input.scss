@@ -1,0 +1,164 @@
+/**
+ All styles for search tags input
+
+  @author: Dena Mujtaba
+ */
+
+$input-split: 88%;
+.filter-search-input{
+  padding:4px;
+  display:block;
+  position:relative;
+  width:100%;
+  .mock-input-wrap{
+    @include border-radius(3px);
+    position:relative;
+    background-color:white;
+    vertical-align:middle;
+    display:inline-block;
+    width:$input-split;
+    .clear-search{
+      font-size:$xsm-font;
+      position:absolute;
+      top:10px;
+      right:5px;
+      color:white;
+      background-color:$gray-800;
+      padding:2px;
+      @include border-radius(2px);
+      border:1px solid $gray-950;
+      &:hover{
+        cursor:pointer;
+        background-color:$pink-100;
+      }
+    }
+
+  }
+  .mock-input{
+    @include border-radius(3px);
+    white-space: nowrap;
+    overflow-x:auto;
+    position:relative;
+    border:1px solid $green-100;
+    background-color:white;
+    padding:5px;
+    display:block;
+    width:100%;
+    height:100%;
+    span{
+      &.tag-wrapper{
+        display:inline;
+      }
+
+      &.tag{
+        display:inline-block;
+        margin:2px;
+        color:white;
+        font-size:12px;
+        padding:2px 7px;
+        @include border-radius(2px);
+        cursor:pointer;
+       // border:1px solid $gray-700;
+        transition:background-color .5s;
+        background-color:$gray-800;
+        &:hover{
+          background-color:mix($red-100, $gray-800, 50%);
+        }
+        &[type-attr="logbook"]{
+          background-color: $green-200;
+          &:hover{
+            background-color:mix($pink-100, $green-200, 50%);
+          }
+        }
+        &[type-attr="from"],&[type-attr="to"],
+        &[type-attr="start"], &[type-attr="end"]{
+          background-color:desaturate($pink-100, 20%);
+          &:hover{
+            background-color:mix($pink-100, $gray-700, 50%);
+          }
+        }
+        &[type-attr="tagt"]{
+          background-color:$blue-200;
+          &:hover{
+            background-color:mix($blue-200, $pink-100, 50%);
+          }
+
+        }
+        i{
+          display:inline-block;
+          margin-left:3px;
+        }
+      }
+    }
+    div.type-area{
+      display:inline;
+    }
+    .input-type{
+      display:inline;
+      font-size:13px;
+      color:$gray-700;
+      margin:2px;
+    }
+    input[type="text"]{
+      display:inline-block;
+      border:0;
+      outline:0;
+      box-shadow:none;
+      font-size:12px;
+      width:90%;
+      margin:2px 5px;
+      &[type-attr="tagt"]{
+        color:$blue-200;
+      }
+      &[type-attr="logbook"]{
+        color:$green-200;
+      }
+      &[type-attr="timestamp"]{
+        color:$pink-100;
+      }
+      color:$gray-700;
+    }
+  }
+  .mock-submit-btn{
+    vertical-align:middle;
+    width:98% - $input-split;
+    font-size:12px;
+    display:inline-block;
+    background-color:lighten($green-100,10%);
+    padding:3px;
+    @include border-radius(3px);
+    border:1px solid $green-100;
+    text-align:center;
+    color:white;
+    &:hover{
+      cursor:pointer;
+      background-color:lighten($green-200, 20%);
+    }
+  }
+
+  ul.filter-options{
+    position:absolute;
+    display:none;
+    background-color:white;
+    list-style-type:none;
+    padding:0;
+    top:100%;
+    width:100%;
+    left:0;
+    border:1px solid $gray-700;
+    li{
+      display:block;
+      padding:2px 9px;
+      font-size:13px;
+      &:nth-child(odd){
+        background-color:$gray-300;
+      }
+      color:$gray-900;
+      &:hover{
+        cursor:pointer;
+        color:$blue-200;
+        background-color:$blue-100;
+      }
+    }
+  }
+}

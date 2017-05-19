@@ -142,7 +142,6 @@ pre{
 }
 
 .container-scroll-middle .log-content-area{
-	$search-height:100px;
 	position:relative;
 	display:block;
 	height:100%;
@@ -158,7 +157,6 @@ pre{
 		right:0;
 		height:$search-height;
 		z-index:502;
-		overflow-y:auto;
 		background-color:$gray-100;
 		display:block;
 		padding:5px;
@@ -168,9 +166,9 @@ pre{
 		-moz-box-shadow: 0 4px 4px -2px $gray-700;
 		-webkit-box-shadow: 0 4px 4px -2px $gray-700;
 		.input-group{
-			margin-top:5px;
-			margin-bottom:5px;
-			#search-query-clean {
+			width:100%;
+			display:block;
+			.search-query-clean {
 				position: absolute;
 				right:95px;
 				top:50%;
@@ -182,7 +180,6 @@ pre{
 				}
 			}
 			input{
-				border:1px solid $green-100;
 				&:focus{
 					z-index:2;
 					outline:0;
@@ -433,3 +430,4 @@ pre{
 @import 'log.scss';
 @import 'multilist.scss';
 @import 'printlog.scss';
+@import 'search_input.scss';

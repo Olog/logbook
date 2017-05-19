@@ -174,7 +174,7 @@ $(document).ready(function(){
 	}
 
 	// Check if there is someting in the search button and show/hide clean icon
-	showHideSearchCleanButton($('#search-query'));
+	//showHideSearchCleanButton($('#search-query'));
 
 	// Handle go to top button
 	$('#back_to_top_button').click(function(e){

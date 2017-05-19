@@ -143,6 +143,19 @@ var mdToolbar = [
 	"|",
 	"preview", "guide"
 	]
+
+//Used to keep track of the search tags and information
+var searchInputElements = {
+    tagt:{},
+    logbook:{},
+    start:{},
+    end:{},
+    owner:{},
+    from:{},
+    to:{},
+    default:{}
+};
+
 /**
  * Global variables needed by more than one page. SHOULD NOT BE CONFIGURED BY THE USER!
  */
