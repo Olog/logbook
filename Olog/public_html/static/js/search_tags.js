@@ -13,6 +13,30 @@ $(document).ready(function(){
     var inputType = main.find('.input-type');
    // var clearSearch = main.find('.clear-search');
 
+    var template = getTemplate('template_search_tag_filter');
+
+    //loop and create the options for filtering tags
+    $.each(keyMap, function(index, value){
+
+
+        var name = index;
+        var type = name.split(':')[0];
+
+        console.log('type: ' + type + ' name: '+name);
+        if(type === "tag"){
+            type = "tagt";
+        }
+
+        var html = Mustache.to_html(template,
+            {
+                "type": type,
+                "name": name
+            });
+
+        filterList.append(html);
+
+    });
+
     setTagClickEvents(main);
 
     input.focusin(function(){
