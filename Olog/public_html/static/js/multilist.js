@@ -73,16 +73,25 @@ function multiselect(name, saveSelectedItemsIntoACookie){
 			}
 
 			// Trigger event and set cookie with data
-			$(e.target).parent().unbind('dataselected');
-			$(e.target).parent().trigger('dataselected', selectedElements);
-
-			if(saveSelectedItemsIntoACookie === undefined || (saveSelectedItemsIntoACookie !== undefined && saveSelectedItemsIntoACookie === true)) {
-				saveFilterData(selectedElements);
-			}
+            saveSelectedItems($(e.target), saveSelectedItemsIntoACookie);
 		}
 	});
 }
 
+/**
+ * saves the multilist items into the cookie
+ * @param e Element to handle
+ * @param saveSelectedItemsIntoACookie Bool to save
+ */
+function saveSelectedItems(e, saveSelectedItemsIntoACookie){
+    // Trigger event and set cookie with data
+    e.parent().unbind('dataselected');
+    e.parent().trigger('dataselected', selectedElements);
+
+    if(saveSelectedItemsIntoACookie === undefined || (saveSelectedItemsIntoACookie !== undefined && saveSelectedItemsIntoACookie === true)) {
+        saveFilterData(selectedElements);
+    }
+}
 /**
  * Find deselected element and remove it from the list of selected elements
  * @param {type} name name of the array (tags or logbooks)
@@ -98,7 +107,6 @@ function removeDeselectedFilter(name, element) {
 }
 
 /**
- *
  * @param {type} id id od the input element
  * @param {type} name type of the filter (logbooks or tags)
  */
@@ -198,9 +206,7 @@ function singleselect(name){
 		}
 
 		// Trigger event and set cookie with data
-		$(e.target).parent().unbind('dataselected');
-		$(e.target).parent().trigger('dataselected', selectedElements);
-		saveFilterData(selectedElements);
+        saveSelectedItems($(e.target), true);
 	});
 }
 
@@ -225,9 +231,11 @@ function fromToChanged() {
 		selectedElements['to'] = $.trim(datepickerTo);
 	}
 
+	var datepicker = $('#datepicker_to').parent();
 	// Trigger event and set cookie with data
-	$('#datepicker_to').parent().unbind('dataselected');
-	$('#datepicker_to').parent().trigger('dataselected', selectedElements);
+    datepicker.unbind('dataselected');
+    datepicker.trigger('dataselected', selectedElements);
+    datepicker.parent().addClass('multilist_clicked');
 	saveFilterData(selectedElements);
 
 }

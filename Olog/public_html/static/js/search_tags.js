@@ -15,7 +15,6 @@ $(document).ready(function(){
 
     setTagClickEvents(main);
 
-
     input.focusin(function(){
         filterList.slideDown();
     });
@@ -76,17 +75,33 @@ function handleTagClick(tag){
 
     //handle list select based on type
     switch(tag.attr("type-attr")){
+
         case "logbook":
-            //ctrlClickElement('#load_logbooks span[name-attr="'+txtValue+'"]');
-            break;
         case "tagt":
+            var name = "list";
+
+            if (tag.attr("type-attr") === "tagt")
+                name = 'list2';
+
+            var elem = $('span.'+name+'[name-attr="'+txtValue+'"]').first();
+
+            elem.removeClass("multilist_clicked");
+
+            selectedElements[name + '_index'][$.trim(elem.text())] = "false";
+
+            removeDeselectedFilter(name, $.trim(elem.text()));
+
+            saveSelectedItems(elem, true);
 
             break;
-        case "owner":
-            break;
+
         case "from":
+            $('span.list3 input[value="'+txtValue+'"]').parent().trigger('click');
             break;
+
         case "to":
+            $('span.list5').trigger('click');
+
             break;
 
     }
@@ -108,10 +123,10 @@ function addTag(main, tagsArea, val, type){
 
     var template = getTemplate('search_tag_input');
     var html = Mustache.to_html(template,
-        {
-            "type": type,
-            "value": val
-        });
+    {
+        "type": type,
+        "value": val
+    });
 
     tagsArea.append(html);
 
