@@ -357,6 +357,8 @@ function saveFilterData(dataToBeSaved) {
  */
 function deleteFilterData() {
 	$.removeCookie(filtersCookieName);
+    ologSettings.searchInputElements = undefined;
+    saveOlogSettingsData(ologSettings);
 }
 
 /**

@@ -36,15 +36,7 @@ function multiselect(name, saveSelectedItemsIntoACookie){
 	$('.' + name).click(function(e){
 		var clicked = false;
 
-		// Check if filter index exists
-		if(selectedElements[name + '_index'] === undefined || selectedElements[name + '_index'] === null) {
-			selectedElements[name + '_index'] = {};
-		}
-
-		// Check if filter array exists
-		if(selectedElements[name] === undefined) {
-			selectedElements[name] = new Array();
-		}
+        setDefaultMultiListArr(name);
 
 		if($(e.target).is("span")){
 
@@ -61,9 +53,7 @@ function multiselect(name, saveSelectedItemsIntoACookie){
 
 			// Add element among selected elements
 			if(clicked === false) {
-				$(e.target).addClass("multilist_clicked");
-				selectedElements[name + '_index'][$.trim($(e.target).text())] = "true";
-				selectedElements[name].push($.trim($(e.target).text()));
+                setItemSelected(name, $(e.target));
 
 			// Remove elements from selected elements
 			} else {
@@ -79,14 +69,48 @@ function multiselect(name, saveSelectedItemsIntoACookie){
 }
 
 /**
+ * Sets default values id the lists in the multilist have not been initialized yet
+ * @param name
+ * @param elem
+ */
+function setDefaultMultiListArr(name){
+    if(selectedElements[name + '_index'] === undefined || selectedElements[name + '_index'] === null) {
+        selectedElements[name + '_index'] = {};
+    }
+
+    // Check if filter array exists
+    if(selectedElements[name] === undefined) {
+        selectedElements[name] = new Array();
+    }
+}
+
+/**
+ * Sets an element in the multilist as selected
+ * @param name List name
+ * @param elem The target of the selected element
+ */
+function setItemSelected(name, elem){
+	if(!elem.hasClass('multilist_clicked')){
+        elem.addClass("multilist_clicked");
+        selectedElements[name + '_index'][$.trim(elem.text())] = "true";
+        selectedElements[name].push($.trim(elem.text()));
+	}
+}
+
+/**
  * saves the multilist items into the cookie
  * @param e Element to handle
  * @param saveSelectedItemsIntoACookie Bool to save
+ * @param triggerEvent if we should trigger dataselected on the element
  */
-function saveSelectedItems(e, saveSelectedItemsIntoACookie){
-    // Trigger event and set cookie with data
-    e.parent().unbind('dataselected');
-    e.parent().trigger('dataselected', selectedElements);
+function saveSelectedItems(e, saveSelectedItemsIntoACookie, triggerEvent=true){
+
+	if(triggerEvent){
+        // Trigger event and set cookie with data
+        e.parent().unbind('dataselected');
+        e.parent().trigger('dataselected', selectedElements);
+	}
+
 
     if(saveSelectedItemsIntoACookie === undefined || (saveSelectedItemsIntoACookie !== undefined && saveSelectedItemsIntoACookie === true)) {
         saveFilterData(selectedElements);

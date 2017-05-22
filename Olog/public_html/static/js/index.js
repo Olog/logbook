@@ -187,7 +187,7 @@ $(document).ready(function(){
 
 		} else {
 			var element = $('input[value=' + id + ']');
-			console.log(element);
+
 			if(element.offset() === undefined){
 				//immediately after page is loaded
                 window.location.href = firstPageName + "#top";

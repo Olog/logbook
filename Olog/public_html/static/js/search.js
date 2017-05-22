@@ -270,7 +270,7 @@ function generateSearchQuery(dataArray) {
         newValue += "owner: " + tempArr + ' ';
 		queryString += "owner=" + tempArr + '&';
     }
-    syncSearchTags(tempArr, "owner");
+    //syncSearchTags(tempArr, "owner");
 
     tempArr = $.trim(dataArray['from']);
     // From time filter is set, append time part to a search query

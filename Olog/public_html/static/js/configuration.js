@@ -142,18 +142,20 @@ var mdToolbar = [
     "unordered-list", "ordered-list", "link", "image", "table",
 	"|",
 	"preview", "guide"
-	]
+	];
+
 
 //Used to keep track of the search tags and information
 var searchInputElements = {
-    tagt:{},
     logbook:{},
+    tagt:{},
     start:{},
     end:{},
     owner:{},
     from:{},
     to:{},
-    default:{}
+    search:{},
+	default:{}
 };
 
 /**
