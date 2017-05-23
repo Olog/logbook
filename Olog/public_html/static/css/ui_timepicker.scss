@@ -27,7 +27,7 @@
     //heading containing arrows, month,year
     background:none;
     border:0;
-    border-bottom:1px solid $blue-100;
+    border-bottom:1px solid $blue-green-200;
     border-radius:0;
     a.ui-corner-all{
       color:$gray-900;
@@ -43,6 +43,7 @@
       font-size:$sm-font;
       font-weight:normal;
       padding-left:5px;
+      padding-bottom:5px;
     }
 
   }
@@ -51,7 +52,7 @@
 
     th{
       padding:2px 5px;
-      background-color:$blue-100;
+      background-color:$blue-green-200;
       color:white;
       font-weight:normal;
     }
@@ -59,7 +60,8 @@
       a{
         background:none;
         border:0;
-        background-color:$gray-400;
+        background-color:$gray-300;
+        color:$blue-gray-500;
         &:hover{
           background-color:$gray-100;
         }
@@ -85,7 +87,8 @@
         background-color:$blue-100;
         border:1px solid darken($blue-100, 30%);
         &:focus{
-          background-color:lighten($green-100,30%);
+          outline:0;
+          background-color:lighten($green-100,10%);
         }
       }
     }
@@ -97,13 +100,15 @@
       background:none;
       color:white;
       border:0;
-      background-color:$blue-100;
+      font-weight:normal;
+      background-color:$blue-gray-500;
       &:hover{
         cursor:pointer;
-        background-color:darken($blue-100, 20%);
+        background-color:darken($blue-gray-500, 10%);
       }
       &.ui-datepicker-close{
-        background-color:lighten($green-100, 7%);
+        background-color:lighten($green-100, 5%);
+        border:1px solid darken($green-100, 7%);
         &:hover{
           background-color:lighten($green-100, 15%);
         }

@@ -52,7 +52,7 @@ $(document).ready(function(){
         var typ = $(this).attr('type-attr') || "default";
 
         //on the keypress of ',' or 'enter'
-        if((code === 13 || code === 188 || code === 186 ) && val) {
+        if((code === 13 || code === 188) && val) {
 
             //set tag
             var createTag = addTag(main,tagsArea, val,typ );
@@ -89,7 +89,7 @@ $(document).ready(function(){
             addTag(main, tagsArea, val, type, true );
 
         })
-    })
+    });
 
     //generate the search query
     generateTagsSearch();
@@ -110,6 +110,18 @@ function generateTagsSearch(){
 
     //Will hold the elements of the search query from the search tags input
     var tempArr = "";
+
+    tempArr = Object.keys(dataArray['default']);
+    if(tempArr.length !== 0 && tempArr[0] === "length") tempArr.shift();
+    var temp2 = Object.keys(dataArray['search']);
+    if(temp2.length !== 0 && temp2[0] === "length") tempArr.shift();
+    tempArr = tempArr + temp2;
+
+    //Enter default search items firsts
+    if(tempArr !== undefined && tempArr.length !== 0) {
+        newValue += "search: " + $.trim(tempArr) + ' ';
+        queryString += "search=*" + $.trim(tempArr) + '*&';
+    }
 
     tempArr = Object.keys(dataArray['logbook']);
     if(tempArr.length !== 0 && tempArr[0] === "length") tempArr.shift();
@@ -228,6 +240,7 @@ function handleTagClick(tag){
 
     }
 
+    console.log(searchInputElements);
     delete searchInputElements[tag.attr("type-attr")][txtValue];
     tag.remove();
 
@@ -245,7 +258,7 @@ function handleTagClick(tag){
  * @param override If tag is auto generated from selections/ saved
  * @return boolean if tag was successfully created
  */
-function addTag(main, tagsArea, val, type, override = false){
+function addTag(main, tagsArea, val, type, override=false){
 
     if(checkValidTag(val, type) || override){
         searchInputElements[type][val] = val;
