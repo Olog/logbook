@@ -30,8 +30,18 @@ $green-100: #5ab45a;
 $green-200: #468847;
 
 $blue-gray-300: mix($blue-100, $gray-300, 50%);
+$blue-gray-500: mix($blue-100, $gray-950, 50%);
 $blue-gray-700: #5a6a77;
 $blue-green-200: adjust-hue(mix($blue-200, $green-200, 50%), 25%);
+
+/**
+ * Search Bar Tag Colors
+ */
+$tag-colors: (
+  'logbook': $green-200,
+  'tagt': $blue-200,
+  'timestamp': $pink-100
+);
 
 /**
   Navigation Vars
@@ -71,4 +81,18 @@ $search-height:130px;
 @mixin space-reset{
   margin: 0;
   padding: 0;
+}
+
+/**
+ * Get a color from a map
+ * @param $key Name of key from the map
+ * @param $mapname Name of map to select from
+ */
+@function get($key, $mapname) {
+  @if map-has-key($mapname, $key) {
+    @return map-get($mapname, $key);
+  }
+
+  @warn "Unknown `#{$key}` in #{$mapname}.";
+  @return null;
 }

@@ -14,35 +14,51 @@
 		padding:10px 10px 3px;
 		font-weight: bold;
 		color: $gray-100;
-		background-color:$blue-gray-700;
+		background-color:$blue-gray-500 !important;
 		cursor: pointer;
 	}
 
 	.multilist_filter {
-		background-color: lighten($green-100, 15%);
-
+		background-color: $blue-gray-500 !important;
+		border-top:1px solid $blue-gray-700;
 		.filters_filter {
 			margin-left: 10px;
 		}
-
+		.filters_filter{
+			color:white;
+		}
 		input.filter_search {
 			display:inline-block;
 			margin: 5px;
-			border:2px solid $green-100;
+			border:1px solid $gray-900;
 			color:$green-200;
 			//need to set these to overwrite padding from bootstrap
-			padding-top:2px;
-			padding-bottom:2px;
+			padding-top:4px;
+			padding-bottom:4px;
 			font-size:$sm-font;
 			width: 70%;
 			height:100%;
+			@include border-radius(3px);
 			&:focus{
 				background-color:lighten($green-100, 50%);
+
+				//overwrite
+				outline:none;
+				box-shadow:none;
 			}
 		}
 
 	}
 
+	li{
+		background-color:white;
+		&:nth-child(odd){
+			background-color:$gray-200;
+		}
+		&:hover{
+			background-color: $gray-400;
+		}
+	}
 	.multilist_item {
 		padding-left: 27px;
 		padding-top: 3px;
@@ -50,8 +66,16 @@
 		display: block;
 		color: $blue-200;
 		cursor: pointer;
+		word-wrap: break-word;
+		overflow:hidden;
+		background-color:transparent !important;
+		.multilist_icons{
+			display:none;
+		}
 		&:hover{
-			background-color: white;
+			.multilist_icons.allow_display{
+				display:block;
+			}
 		}
 		a i.glyphicon{
 			padding:3px;
@@ -70,22 +94,31 @@
 		}
 	}
 	.multilist_clicked, .multilist_clicked:hover {
-		background-color: $blue-100;
-		color: white;
+		background-color:mix($pink-100, $gray-200, 50%) !important;
+		color: $gray-100;
+		$list-count: 1;
+		@each $type, $colorname  in $tag-colors {
+			$list-type : '';
+			@if $list-count != 1{
+				$list-type: $list-count;
+			}
+			&.list#{$list-type}{
+				background-color:mix($colorname, $gray-200, 50%) !important;
+			}
+			$list-count: $list-count + 1;
+		}
+
 	}
-}
+	.list {
+		font-weight: bold;
+	}
 
-.list {
-	font-weight: bold;
-}
-
-//.list2, .list3, .list4, .list5 {}
-
-.list5 input {
-	margin:0px;
-	width: 90%;
-	font-size:$sm-font;
-	height:100%;
+	.list5 input {
+		margin:0px;
+		width: 90%;
+		font-size:$sm-font;
+		height:100%;
+	}
 }
 
 #datepicker_from {

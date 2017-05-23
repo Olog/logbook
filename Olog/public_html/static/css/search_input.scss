@@ -120,19 +120,11 @@ $input-split: 88%;
       width:90%;
       margin:2px 5px;
       color:$gray-700;
-
-      &[type-attr="tagt"]{
-        color:$blue-200;
+      @each $type, $colorname in $tag-colors {
+        &[type-attr=#{$type}]{
+          color: $colorname;
+        }
       }
-
-      &[type-attr="logbook"]{
-        color:$green-200;
-      }
-
-      &[type-attr="timestamp"]{
-        color:$pink-100;
-      }
-
     }
   }
   .mock-submit-btn{

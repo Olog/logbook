@@ -128,10 +128,16 @@
 	margin: 0;
 	color:white;
 	background-color:$blue-gray-700;
+
 	h5{
+		font-weight:normal;
 		@include space-reset;
+
 		a{
 			color:$blue-100;
+			&:hover{
+				color:$gray-300;
+			}
 		}
 	}
 }

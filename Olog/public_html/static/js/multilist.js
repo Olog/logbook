@@ -21,16 +21,17 @@ function multiselect(name, saveSelectedItemsIntoACookie){
 	numberOfLogsPerLoad = oldLogsPerLoad;
 
 	// Change color on hover
-	$('.' + name).hover(function(e){
+	//$('.' + name).hover(function(e){
 		if($.cookie(sessionCookieName) !== undefined) {
-			$(e.target).find(".multilist_icons").show("fast");
+			$("." + name + " .multilist_icons").addClass("allow_display");
+			//$(e.target).find(".multilist_icons").show("fast");
 		}
-	});
+	//});
 
 	// Restore color when mouse laves the element
-	$('.' + name).mouseleave(function(e){
-		$(e.target).find(".multilist_icons").hide("fast");
-	});
+	//$('.' + name).mouseleave(function(e){
+	//	$(e.target).find(".multilist_icons").hide("fast");
+	//});
 
 	// Listen for clicks on elements
 	$('.' + name).click(function(e){

@@ -52,7 +52,7 @@ $(document).ready(function(){
         var typ = $(this).attr('type-attr') || "default";
 
         //on the keypress of ',' or 'enter'
-        if((code === 13 || code === 188) && val) {
+        if((code === 13 || code === 188 || code === 186 ) && val) {
 
             //set tag
             var createTag = addTag(main,tagsArea, val,typ );

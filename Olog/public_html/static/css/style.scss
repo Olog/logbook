@@ -423,6 +423,28 @@ pre{
 	display: block;
 }
 
+/**
+ * Overwrite styling for tags to match search bar tags
+ * 	original file: lib/bootstrap-tagmanager.css
+ */
+.tm-tag{
+	&.tm-tag-warning, &.tm-tag-info{
+		color:white;
+		padding:2px 5px;
+		border-radius:2px;
+	}
+	&.tm-tag-warning{
+		$col: lighten(get('logbook', $tag-colors), 5%);
+		background-color: $col;
+		border:0;
+	}
+	&.tm-tag-info{
+		$col: lighten(get('tagt', $tag-colors), 2%);
+		background-color: $col;
+		border:0;
+	}
+}
+
 @import 'log.scss';
 @import 'multilist.scss';
 @import 'printlog.scss';

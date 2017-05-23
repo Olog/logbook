@@ -398,7 +398,7 @@ function setReadOnly(set) {
         $('#read_only_mode').html('<i class="glyphicon glyphicon-edit"></i> Leave Read-Only');
 
         //if an element is already hidden, do not change its state
-        $('[read-only="false"]:hidden').attr('read-only', 'true').css('opacity', '0').attr("disabled", true);
+        $('[read-only="false"]:hidden').attr('read-only', 'true').css('opacity', '0').attr("disabled", true).css('pointer-events', 'none');
 
         //hide elements un available in read only
         $('[read-only="false"]:visible').hide();
@@ -408,7 +408,7 @@ function setReadOnly(set) {
 
         //display elements
         $('[read-only="false"]').show();
-        $('[read-only="true"]').css('opacity', '1');
+        $('[read-only="true"]').css('opacity', '1').css('pointer-events', 'all');;
     }
 
     //save option
