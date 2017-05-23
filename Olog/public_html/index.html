@@ -193,26 +193,48 @@
 
 						<div class="log_title">
 							<h5>
-								<span id="log_owner"></span>, <span id="log_date"></span>
-								<a class="log_show_details" href="#view"><i class="glyphicon glyphicon-info-sign"></i> <span id="show_details">Show details</span></a>
-								<a id="delete_log_link" read-only="false" href="#" onclick="showDeleteModal('deleteLogModal', globalLogId);"><i title="Delete Log Entry" class="glyphicon glyphicon-remove-sign float_right float_right_padding"></i></a>
-								<a id="modify_log_link" read-only="false" href="modify_log.html">
-									<i title="Modify Log Entry" class="glyphicon glyphicon-pencil float_right float_right_padding"></i>
+								<span id="log_owner"></span> : <span id="log_date"></span>
+
+								<a id="delete_log_link" class="log_modify_link float_right float_right_padding" read-only="false" href="#" onclick="showDeleteModal('deleteLogModal', globalLogId);">
+									<i title="Delete Log Entry" class="glyphicon glyphicon-remove-sign"></i>
+									DELETE
 								</a>
-								<a id="print_log_link" target="_blank" href="print_log.html">
-									<i title="Print Log Entry" class="glyphicon glyphicon-print float_right float_right_padding"></i>
+								<a id="modify_log_link" class="log_modify_link float_right float_right_padding" read-only="false" href="modify_log.html">
+									<i title="Modify Log Entry" class="glyphicon glyphicon-pencil"></i>
+									EDIT
+								</a>
+								<a id="print_log_link"  class="log_modify_link  float_right float_right_padding" target="_blank" href="print_log.html">
+									<i title="Print Log Entry" class="glyphicon glyphicon-print"></i>
+									PRINT
+								</a>
+								<a class="log_show_details log_modify_link  float_right_padding float_right" href="#view">
+									<i class="glyphicon glyphicon-info-sign"></i>
+									INFO
 								</a>
 							</h5>
 						</div>
 
 						<div class="log_details display_none">
-							<i title="Logbooks" class="glyphicon glyphicon-book"></i><span id="load_log_logbooks"> <span class="label label-warning">logbook</span> <span class="label label-warning">logbook</span> <span class="label label-warning">logbook</span></span>
-							<br />
-							<i title="Tags" class="glyphicon glyphicon-tags"></i><span id="load_log_tags"> <span class="label label-info">tag</span> <span class="label label-info">tag</span> <span class="label label-info">tag <a class="close_label" href="#">&times;</a></span></span>
-							<br />
-							<i title="Level" class="glyphicon glyphicon-tasks"></i> <span id="log_level"></span>
-							<div id="log_details_created"></div>
-							<div id="log_details_edited"></div>
+							<div class="log_details_row">
+								<i title="Logbooks" class="glyphicon glyphicon-book"></i>
+								<span id="load_log_logbooks"></span>
+							</div>
+							<div class="log_details_row">
+								<i title="Tags" class="glyphicon glyphicon-tags"></i>
+								<span id="load_log_tags"></span>
+							</div>
+							<div class="log_details_row">
+								<span class="info_group">
+									<i title="Level" class="glyphicon glyphicon-tasks"></i>
+									<span id="log_level"></span>
+								</span>
+								<span class="info_group">
+									<span id="log_details_created"></span>
+								</span>
+								<span class="info_group">
+									<span id="log_details_edited"></span>
+								</span>
+							</div>
 						</div>
 
 						<div class="log_body">

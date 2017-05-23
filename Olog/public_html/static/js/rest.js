@@ -1713,16 +1713,6 @@ function startListeningForLogClicks(){
 	// Toggle show details
 	$('.log_show_details').unbind('click');
 	$('.log_show_details').click(function(e){
-
-		if($('.log_details').is(':visible')) {
-			$('#show_details').text('Show details');
-			l("show details");
-
-		} else {
-			$('#show_details').text('Hide details');
-			l("hide details");
-		}
-
 		$('.log_details').toggle(400, 'swing');
 	});
 

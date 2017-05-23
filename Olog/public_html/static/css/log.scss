@@ -124,30 +124,38 @@
  Log form elements
  */
 .log_title {
-	padding: 7px 7px 7px 7px;
+	padding: 9px 13px;
 	margin: 0;
-	color:white;
+	color:lighten($blue-gray-700, 50%);
 	background-color:$blue-gray-700;
 
 	h5{
+		text-transform:capitalize;
 		font-weight:normal;
 		@include space-reset;
 
 		a{
-			color:$blue-100;
+			text-decoration:none;
+			color:$blue-gray-300;
 			&:hover{
-				color:$gray-300;
+				color:$blue-100;
+			}
+			&.log_modify_link{
+				display:block;
+				vertical-align:middle;
+				height:100%;
+				padding:0 12px;
 			}
 		}
+
 	}
 }
-
 
 .log_body {
 	padding: 10px;
 	padding-top:20px;
-	background-color:white;
-	border-bottom: 1px solid $gray-400;
+	background-color:transparent;
+	//border-bottom: 1px solid $gray-400;
 	word-break:keep-all;
 
 	//Size ~14px font
@@ -196,34 +204,47 @@
 		@include border-radius(5px);
 		border:1px solid $gray-500;
 		//styling to overwrite markdown render
+
+		.editor-preview{
+			background-color:white;
+		}
 	}
 }
 
 .log_details {
-	padding: 5px;
 	margin: 0;
 	border-bottom: 1px solid $gray-400;
 	background-color: $gray-300;
 	.form-group{
 		margin-bottom:5px;
 		padding-left:5px;
+		padding-top:5px;
 		input, select{
 			margin-left:5px;
 			width:25%;
 			display:inline-block;
 		}
 	}
-}
-
-.log_show_details {
-	font-weight: normal;
-	text-decoration: none;
-	padding-left: 10px;
-	&:hover {
-		text-decoration: none;
-		color: $blue-200;
+	.log_details_row{
+		padding:5px 10px;
+		display:block;
+		width:100%;
+		border-bottom:1px solid rgba(0,0,0,.15);
+		&:last-child{
+			border-bottom:0;
+		}
+		color:rgba(0,0,0,.65);
+		.info_group{
+			display:inline-block;
+			height:100%;
+			padding-left:5px;
+			&:first-child{
+				padding:0;
+			}
+		}
 	}
 }
+
 
 .log_attachments {
 	padding: 5px;
