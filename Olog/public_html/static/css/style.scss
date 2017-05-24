@@ -123,7 +123,9 @@ h3{
 
 .well {
 	@include space-reset;
-	border:1px solid $gray-700;
+	border:1px solid $gray-500;
+	border-top:0;
+	border-bottom:0;
 }
 
 .clear {
@@ -313,6 +315,11 @@ pre{
 			margin-top: 15px;
 		}
 	}
+
+	.well{
+		border-top:1px solid $gray-500;
+		border-bottom:1px solid $gray-500;
+	}
 }
 
 @media (min-width: 1024px) {
@@ -349,6 +356,10 @@ pre{
 	.container-left {
 		left: 0;
 		width: 20%;
+		.well{
+			border-left:0;
+			border-right:0;
+		}
 	}
 
 	.container-middle {
@@ -376,7 +387,18 @@ pre{
 		bottom:0;
 		overflow-y: auto;
 	}
+	.container-scroll-last-one .well{
+		border-left:0;
+		border-right:0;
+	}
+	.container-scroll{
+		border-left:0;
+		border-right:0;
+	}
 
+	.container-modify-right .well{
+		border-right:0;
+	}
 	/* Scrollable columns END*/
 	#back_to_top_button {
 		display: none;
@@ -433,6 +455,7 @@ pre{
 	&.tm-tag-warning, &.tm-tag-info{
 		color:white;
 		padding:2px 5px;
+		font-size:$xsm-font;
 		border-radius:2px;
 	}
 	&.tm-tag-warning{

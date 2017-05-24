@@ -8,8 +8,13 @@
 
   .log_print_title{
     padding-top:20px;
+    display:block;
+    text-align:center;
   }
 
+  .tm-tag{
+    font-size: $md-font;
+  }
   .log_print_description{
 
     .CodeMirror{
@@ -30,5 +35,13 @@
       @include border-radius(5px);
 
     }
+  }
+
+  #load_log_attachments{
+    margin-bottom:5px;
+  }
+  p{
+    margin-top:3px;
+
   }
 }

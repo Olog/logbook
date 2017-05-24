@@ -51,11 +51,15 @@
 					float:right;
 					color:$red-100;
 				}
+				&[title="Created"]{
+					font-weight:bold;
+				}
 			}
 		}
 		&.show_history{
 			background-color:$gray-300;
 			padding: 2.5px 0;
+			text-align: center;
 			text-align: center;
 			font-size:$xsm-font;
 			&:hover{
@@ -70,30 +74,6 @@
 			}
 		}
 	}
-	&.log_click{
-		background-color:lighten($green-100, 25%);
-		border:1px solid $green-100;
-		border-bottom:0;
-
-		//select the log after this one
-		&+.log{
-			border-top:1px solid $green-200;
-		}
-		span.header{
-			font-weight:bolder;
-
-			.log_header_right{
-				color:$green-200;
-			}
-			.log_start_date{
-				color:$pink-100 !important;
-			}
-		}
-		div.show_history{
-			background-color:mix($green-100, $gray-300, 50%);
-		}
-	}
-
 }
 
 .log_light {
@@ -123,6 +103,29 @@
 	}
 	&.log_history_dark {
 		background-color: $gray-300;
+	}
+}
+.log_click{
+	background-color:lighten($green-100, 25%) !important;
+	border:1px solid $green-100;
+	border-bottom:0;
+
+	//select the log after this one
+	&+.log{
+		border-top:1px solid $green-200 !important;
+	}
+	span.header{
+		font-weight:bolder;
+
+		.log_header_right{
+			color:$green-200;
+		}
+		.log_start_date{
+			color:$pink-100 !important;
+		}
+	}
+	div.show_history{
+		background-color:mix($green-100, $gray-300, 50%) !important;
 	}
 }
 /* Style log END */
@@ -155,8 +158,14 @@
 				padding:0 12px;
 			}
 		}
-
 	}
+	#delete_log_link {
+		cursor: pointer;
+	}
+	#cancel_editing_x {
+		cursor: pointer;
+	}
+
 }
 
 .log_body {
@@ -389,6 +398,7 @@
 	#files{
 		display:block;
 		div{
+			float:left;
 			background-color:$gray-300;
 			border:1px solid $border-color;
 			border-radius:2px;
@@ -414,23 +424,20 @@
 			}
 		}
 	}
-}
 
+	#cancel_editing_button {
+		margin-bottom: 5px;
+		padding-bottom: 5px;
+	}
 
-.attachment_info {
-	color: $gray-700;
-}
+	#list_existing_attachments > div {
+		float:left;
+		margin: 20px;
+	}
 
-.history_separator {
-	@include space-reset;
-	margin-top: 5px;
-	height: 1px;
-	background-color: $gray-400;
-	border: none;
-}
-
-#delete_log_link {
-	cursor: pointer;
+	.upload-progress {
+		opacity: 0.5;
+	}
 }
 
 @media (max-width: 1023px) {
@@ -462,16 +469,6 @@
 }
 
 
-#files > div {
-	float:left;
-	margin: 20px;
-}
-
-#list_existing_attachments > div {
-	float:left;
-	margin: 20px;
-}
-
 .fileinput-button {
 	position: relative;
 	overflow: hidden;
@@ -488,27 +485,10 @@
 	}
 }
 
-.upload-progress {
-	opacity: 0.5;
-}
-
 /* Paste area styles */
 #paste-area {
 	position: absolute;
 	left: -99em;
-}
-
-#back_button {
-	display: inline-block;
-}
-
-#cancel_editing_x {
-	cursor: pointer;
-}
-
-#cancel_editing_button {
-	margin-bottom: 5px;
-	padding-bottom: 5px;
 }
 
 /* Override multiselection colors */
