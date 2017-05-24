@@ -251,6 +251,7 @@ function showLog(log, id){
 
 	// Show date modified
 	if(log.createdDate !== log.modifiedDate){
+		//First set the log modified date
 		template = getTemplate("template_log_details_edited");
 
 		item = {
@@ -261,7 +262,18 @@ function showLog(log, id){
 
 		$('#log_details_edited').html(html);
 
-	} else {
+		//Then set the log event start date
+        template = getTemplate("template_log_details_startdate");
+
+        item = {
+        	eventStartDate: formatDate(log.eventStart)
+		};
+
+		html = Mustache.to_html(template, item);
+
+        $('#log_details_startdate').html(html);
+
+    } else {
 		$('#log_details_edited').html("");
 	}
 

@@ -161,6 +161,11 @@ and open the template in the editor.
 			<i title="Modified date" class="glyphicon glyphicon-edit"></i> {{editedDate}}
 		</script>
 
+		<!-- If Log entry was modified, show event start date/time with clock -->
+		<script id="template_log_details_startdate" type="text/template">
+			<i title="Modified date" class="glyphicon glyphicon-time"></i> {{eventStartDate}}
+		</script>
+
 		<!-- Show info about when log entry has been created. -->
 		<script id="template_log_details_created" type="text/template">
 			<i title="Created date" class="glyphicon glyphicon-pencil"></i> {{createdDate}}

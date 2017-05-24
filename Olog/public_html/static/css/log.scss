@@ -229,6 +229,7 @@
 }
 
 .log_details {
+	position:relative;
 	margin: 0;
 	border-bottom: 1px solid $gray-400;
 	background-color: $gray-300;
@@ -261,6 +262,17 @@
 		}
 	}
 
+	//span pointer to the corresponding btn
+	.arrow-pointer{
+		$size : 10px;
+		display:block;
+		position:absolute;
+		border-left:$size solid transparent;
+		border-right:$size solid transparent;
+		border-bottom:$size solid $gray-300;
+		top:-9%;
+		right:200px;
+	}
 }
 
 .log_properties, .log_attachments {
