@@ -301,7 +301,7 @@ pre{
 	nav.navbar{
 		.nav-btn-group{
 			ul.dropdown-menu{
-				position:relative;
+				position:absolute;
 			}
 		}
 	}
@@ -353,6 +353,16 @@ pre{
 	.well{
 		border-top:1px solid $gray-500;
 		border-bottom:1px solid $gray-500;
+	}
+}
+
+@media (max-width: 768px){
+	nav.navbar{
+		.nav-btn-group{
+			ul.dropdown-menu{
+				position:relative;
+			}
+		}
 	}
 }
 
