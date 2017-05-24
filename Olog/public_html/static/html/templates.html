@@ -323,13 +323,16 @@ and open the template in the editor.
 				<table class="table table-bordered">
 					<thead>
 						<tr class="new_property_header">
-							<th colspan="2"><input name="name" placeholder="Enter property name ..." /><i class="remove_property glyphicon glyphicon-remove-sign pull-right"></i></th>
+							<th colspan="2">
+								<input name="name" placeholder="Enter property name ..." class="form-control"/>
+								<i class="remove_property glyphicon glyphicon-remove-sign pull-right"></i>
+							</th>
 						</tr>
 					</thead>
 					<tbody class="new_property_body">
 						<tr>
-							<td><input name="key" placeholder="Enter key name ..." /></td>
-							<td><input name="value" placeholder="Enter value ..." /></td>
+							<td><input name="key" placeholder="Enter key name ..." class="form-control" /></td>
+							<td><input name="value" placeholder="Enter value ..."  class="form-control"/></td>
 						</tr>
 						<tr>
 							<td colspan="2"><a class="add_a_key_value_pair" href="#properties">Add a Key, Value pair ...</a></td>
@@ -342,8 +345,8 @@ and open the template in the editor.
 		<!-- New key - value pair for a property -->
 		<script id="template_add_key_value_pair_to_property" type="text/template">
 			<tr>
-				<td><input name="key" placeholder="Enter key name ..." /></td>
-				<td><input name="value" placeholder="Enter value ..." /></td>
+				<td><input name="key" placeholder="Enter key name ..."  class="form-control" /></td>
+				<td><input name="value" placeholder="Enter value ..."  class="form-control" /></td>
 			</tr>
 		</script>
 
