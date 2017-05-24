@@ -139,6 +139,9 @@
 	color:lighten($blue-gray-700, 50%);
 	background-color:$blue-gray-700;
 	overflow:hidden;
+	box-shadow: 0 3px 3px -2px $gray-800;
+	-moz-box-shadow: 0 3px 3px -2px $gray-800;
+	-webkit-box-shadow: 0 3px 3px -1px $gray-800;
 
 	h5{
 		text-transform:capitalize;
@@ -233,16 +236,6 @@
 	margin: 0;
 	border-bottom: 1px solid $gray-400;
 	background-color: $gray-300;
-	.form-group{
-		margin-bottom:5px;
-		padding-left:5px;
-		padding-top:5px;
-		input, select{
-			margin-left:5px;
-			width:25%;
-			display:inline-block;
-		}
-	}
 	.log_details_row{
 		padding:5px 10px;
 		display:block;
@@ -262,6 +255,33 @@
 		}
 	}
 
+	.form-group{
+		margin-bottom:5px;
+		padding-left:5px;
+		padding-top:5px;
+		input, select{
+			margin-left:5px;
+			width:25%;
+			display:inline-block;
+			background-color:transparent;
+			color:$blue-gray-700;
+			border:0;
+			outline:0;
+			box-shadow:none;
+			&:focus{
+				font-weight:bolder;
+			}
+			&.hasDatepicker{
+				border-bottom: 1px solid $blue-gray-700;
+				@include border-radius(0);
+			}
+		}
+		select{
+			border-bottom:1px solid $blue-gray-700;
+			@include border-radius(0);
+		}
+	}
+
 	//span pointer to the corresponding btn
 	.arrow-pointer{
 		$size : 10px;
@@ -273,6 +293,11 @@
 		top:-9%;
 		right:200px;
 	}
+
+	border-bottom: 1px solid $gray-700;
+	box-shadow: 0 3px 3px -2px $gray-700;
+	-moz-box-shadow: 0 3px 3px -2px $gray-700;
+	-webkit-box-shadow: 0 3px 3px -2px $gray-700;
 }
 
 .log_properties, .log_attachments {
@@ -407,7 +432,7 @@
 	}
 
 	//Where all the file uploads are displayed
-	#files{
+	#files, #list_existing_attachments{
 		display:block;
 		div{
 			float:left;
@@ -416,23 +441,26 @@
 			border-radius:2px;
 			margin:12px 9px;
 			padding:5px 9px;
-			p{
-				margin:0;
-				canvas{
-					display:block;
-					margin:3px auto;
-				}
-				span,button{
-					display:block;
-					font-size: $sm-font * .75;
-					margin-top:-7px; //overwrite generated <br>
-					width:100%;
-					text-align:center;
-					padding-top:4px;
-				}
-				button{
-					padding:3px;
-				}
+			font-size: $sm-font * .75;
+			text-align:center;
+			p {
+				margin: 0;
+			}
+			canvas,img{
+				display:block;
+				margin:3px auto;
+			}
+
+			span, button{
+				display:block;
+				font-size: $sm-font * .75;
+				margin-top:0; //overwrite generated <br>
+				width:100%;
+				text-align:center;
+				padding-top:4px;
+			}
+			button{
+				padding:3px;
 			}
 		}
 	}
