@@ -34,7 +34,7 @@ and open the template in the editor.
 				</span>
 				<span class="attachment">
 					{{#attachments}}
-					<img src="{{imageUrl}}" class="img-rounded" />
+					<img src="{{imageUrl}}"/>
 					{{/attachments}}
 					{{#non_image_attachments}}
 					<img src="static/img/mail_attachment.png" title="Log entry also contains non-image attachments" />
@@ -72,13 +72,14 @@ and open the template in the editor.
 						</span>
 						{{description}}
 					</span>
-					<br />
-					{{#attachments}}
-					<img src="{{imageUrl}}" class="img-rounded" />
-					{{/attachments}}
-					{{#non_image_attachments}}
-					<img src="static/img/mail_attachment.png" title="Log entry also contains non-image attachments" />
-					{{/non_image_attachments}}
+					<span class="attachment">
+						{{#attachments}}
+						<img src="{{imageUrl}}"  />
+						{{/attachments}}
+						{{#non_image_attachments}}
+						<img src="static/img/mail_attachment.png" title="Log entry also contains non-image attachments" />
+						{{/non_image_attachments}}
+					</span>
 				</div>
 			</div>
 		</script>
@@ -141,7 +142,7 @@ and open the template in the editor.
 
 		<!-- Log's attachments in the right pane -->
 		<script id="template_log_attachment" type="text/template">
-			<a target="_blank" href="{{imageUrl}}"><img width="{{imageWidth}}" height="{{imageHeight}}" src="{{imageUrl}}" class="img-rounded" /></a>
+			<a target="_blank" href="{{imageUrl}}"><img width="{{imageWidth}}" height="{{imageHeight}}" src="{{imageUrl}}" /></a>
 		</script>
 
 		<!-- Log's attachments in the right pane that are not images. -->
@@ -152,7 +153,7 @@ and open the template in the editor.
 
 		<!-- Log's image attachments in the middle pane  -->
 		<script id="template_log_list_attachment" type="text/template">
-			<img src="{{imageUrl}}" class="img-rounded" />
+			<img src="{{imageUrl}}"  />
 		</script>
 
 		<!-- If Log entry was modified, show pencil and date modified. -->

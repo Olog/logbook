@@ -62,6 +62,13 @@
 				background-color:$blue-gray-300;
 			}
 		}
+		&.attachment{
+			img{
+				@include border-radius(0);
+				margin-top:3px;
+				margin-bottom:0;
+			}
+		}
 	}
 	&.log_click{
 		background-color:lighten($green-100, 25%);
@@ -251,7 +258,7 @@
 	padding: 5px 10px;
 	margin: 0;
 	background-color: transparent;
-
+	display:block;
 	.log_view_details {
 		font-weight: bold;
 		font-size: 13px;
@@ -359,11 +366,56 @@
 	.property_header {
 		cursor: pointer;
 	}
+	#load_log_attachments > a > img {
+		margin-bottom: 3px;
+	}
+
+	span.fileinput-button, #add_a_property{
+		$col: $blue-gray-700;
+		background-color:$col;
+		padding:4px 13px;
+		border:1px solid darken($col, 7%);
+		font-size:$sm-font;
+		color:white;
+		text-decoration:none;
+		margin-left:5px;
+		@include border-radius(3px);
+		&:hover{
+			background-color:darken($col, 7%);
+		}
+	}
+
+	//Where all the file uploads are displayed
+	#files{
+		display:block;
+		div{
+			background-color:$gray-300;
+			border:1px solid $border-color;
+			border-radius:2px;
+			margin:12px 9px;
+			padding:5px 9px;
+			p{
+				margin:0;
+				canvas{
+					display:block;
+					margin:3px auto;
+				}
+				span,button{
+					display:block;
+					font-size: $sm-font * .75;
+					margin-top:-7px; //overwrite generated <br>
+					width:100%;
+					text-align:center;
+					padding-top:4px;
+				}
+				button{
+					padding:3px;
+				}
+			}
+		}
+	}
 }
 
-#load_log_attachments > a > img {
-	margin-bottom: 3px;
-}
 
 .attachment_info {
 	color: $gray-700;
@@ -380,6 +432,7 @@
 #delete_log_link {
 	cursor: pointer;
 }
+
 @media (max-width: 1023px) {
 	.container-modify-left,.container-modify-right {
 		float: none;
@@ -408,9 +461,6 @@
 
 }
 
-.log_attachments {
-	display: block;
-}
 
 #files > div {
 	float:left;
