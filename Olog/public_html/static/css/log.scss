@@ -290,8 +290,8 @@
 		border-left:$size solid transparent;
 		border-right:$size solid transparent;
 		border-bottom:$size solid $gray-300;
-		top:-9%;
-		right:200px;
+		top:-8%;
+		right:35px;
 	}
 
 	border-bottom: 1px solid $gray-700;
@@ -480,6 +480,13 @@
 	}
 }
 
+.log_edit_btn_options{
+	display:block;
+	padding:5px;
+	button, input{
+		margin:5px 10px;
+	}
+}
 @media (max-width: 1023px) {
 	.container-modify-left,.container-modify-right {
 		float: none;

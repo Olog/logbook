@@ -1272,7 +1272,8 @@ function login() {
 				400: function(){
 					saveUserCredentials(username, password);
 					l("User logged in");
-				},
+
+                },
 				404: function(){
 					$('#login_error').show('fast');
 				}
@@ -1284,8 +1285,9 @@ function login() {
 
 			}
 		});
-		window.location.href = firstPageName;
-	});
+        window.location.href = firstPageName;
+
+    });
 }
 
 /**

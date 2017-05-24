@@ -136,6 +136,40 @@ h3{
 	margin-left: 10px;
 }
 
+.btn{
+	background-color:transparent;
+	color:$blue-gray-700;
+	transition:background-color .75s, color .75s;
+	&:hover{
+		color: $blue-200;
+		background:none;
+		box-shadow:none;
+	}
+	&.btn-success{
+		color:white;
+		border:1px solid $green-100;
+		background-color:lighten($green-100, 15%);
+		&:hover{
+			background-color:$green-100;
+		}
+	}
+	&.btn-danger{
+		color:white;
+		border:1px solid $pink-100;
+		background-color:lighten($pink-100, 15%);
+		&:hover{
+			background-color:$pink-100;
+		}
+	}
+	&.btn-primary{
+		 color:white;
+		 border:1px solid darken($blue-gray-500, 5%);
+		 background-color:$blue-gray-500;
+		 &:hover{
+			 background-color:$blue-gray-500;
+		 }
+	 }
+}
 pre{
 	white-space:pre-wrap;
 	word-wrap:normal;
