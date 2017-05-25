@@ -262,20 +262,21 @@ function showLog(log, id){
 
 		$('#log_details_edited').html(html);
 
-		//Then set the log event start date
-        template = getTemplate("template_log_details_startdate");
-
-        item = {
-        	eventStartDate: formatDate(log.eventStart)
-		};
-
-		html = Mustache.to_html(template, item);
-
-        $('#log_details_startdate').html(html);
 
     } else {
 		$('#log_details_edited').html("");
 	}
+
+    //Then set the log event start date
+    template = getTemplate("template_log_details_startdate");
+
+    item = {
+        eventStartDate: formatDate(log.eventStart)
+    };
+
+    html = Mustache.to_html(template, item);
+
+    $('#log_details_startdate').html(html);
 
 	// Show date created
 	template = getTemplate("template_log_details_created");
@@ -530,7 +531,7 @@ function prepareParentAndChildren(i, children, prepend, logOwners) {
 		createdDate: formatDate(item.createdDate),
 		modifiedDate: formatDate(item.modifiedDate),
 		modified: false,
-		startdate: false,
+		startdate: true,
 		eventStart: formatDate(item.eventStart),
 		id: item.id + '_' + item.version,
 		rawId: item.id,
@@ -542,7 +543,6 @@ function prepareParentAndChildren(i, children, prepend, logOwners) {
 	//Set the modified date and event Start date
 	if(item.createdDate !== item.modifiedDate) {
 		newItem.modified = true;
-		newItem.startdate = true;
 	}
 
 	// Append history show/hide link

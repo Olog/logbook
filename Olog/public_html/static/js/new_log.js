@@ -9,6 +9,21 @@ $(document).ready(function(){
 	// Activate resize manager
 	resizeManager();
 
+
+    var timenow = new Date(Date.now() - 20000);
+
+    // Set datepickers
+    $('#startdate_input').datetimepicker(
+        {
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: "D, d M yy",
+            timeFormat: "HH:mm:ss",
+            maxDateTime: timenow,
+            firstDay: datePickerFirstName
+        }
+    );
+
 	// Initialize tooltip
 	$('#tooltip').tooltip({placement: "bottom"});
 

@@ -19,12 +19,12 @@ and open the template in the editor.
 					<span title="Created" class="text-info log_header">
 						{{owner}}
 					</span>
-					{{#modified}}
-							<span title="Modified" class="muted log_header_right">Modified: {{modifiedOwner}} @ {{modifiedDate}}</span>
-					{{/modified}}
 					{{#startdate}}
-							<span title="StartDate" class="muted log_start_date">Event Start: {{eventStart}}</span>
+							<span title="StartDate" class="muted log_header_right log_start_date">Event Start: {{eventStart}}</span>
 					{{/startdate}}
+					{{#modified}}
+							<span title="Modified" class="muted log_row_date">Modified: {{modifiedOwner}} @ {{modifiedDate}}</span>
+					{{/modified}}
 				</span>
 				<span class="description">
 					<span class="owner">
@@ -59,12 +59,13 @@ and open the template in the editor.
 						<span title="Created" class="text-info log_header">
 							{{owner}}
 						</span>
+						{{#startdate}}
+								<span title="StartDate" class="muted log_header_right log_start_date">Event Start: {{eventStart}}</span>
+						{{/startdate}}
 						{{#modified}}
 								<span title="Modified" class="muted log_header_right">Modified: {{modifiedOwner}} @ {{modifiedDate}}</span>
 						{{/modified}}
-						{{#startdate}}
-								<span title="StartDate" class="muted log_start_date">Event Start: {{eventStart}}</span>
-						{{/startdate}}
+
 					</span>
 					<span class="description">
 						<span class="owner">
