@@ -51,7 +51,7 @@
 				<ul class="nav navbar-nav">
 					<li>
 						<a href="#" id="read_only_mode">
-							<i class="glyphicon glyphicon-eye-open"></i> View in Read-Only
+							<i class="glyphicon glyphicon-eye-open"></i> Read-Only Mode
 						</a>
 					</li>
 				</ul>
@@ -199,19 +199,20 @@
 									<i class="glyphicon glyphicon-info-sign"></i>
 									INFO
 								</a>
-								<a id="delete_log_link" class="log_modify_link float_right float_right_padding" read-only="false" href="#" onclick="showDeleteModal('deleteLogModal', globalLogId);">
-									<i title="Delete Log Entry" class="glyphicon glyphicon-remove-sign"></i>
-									DELETE
+
+
+								<a id="print_log_link"  class="log_modify_link  float_right float_right_padding" target="_blank" href="print_log.html">
+									<i title="Print Log Entry" class="glyphicon glyphicon-print"></i>
+									PRINT
 								</a>
 								<a id="modify_log_link" class="log_modify_link float_right float_right_padding" read-only="false" href="modify_log.html">
 									<i title="Modify Log Entry" class="glyphicon glyphicon-pencil"></i>
 									EDIT
 								</a>
-								<a id="print_log_link"  class="log_modify_link  float_right float_right_padding" target="_blank" href="print_log.html">
-									<i title="Print Log Entry" class="glyphicon glyphicon-print"></i>
-									PRINT
+								<a id="delete_log_link" class="log_modify_link float_right float_right_padding" read-only="false" href="#" onclick="showDeleteModal('deleteLogModal', globalLogId);">
+									<i title="Delete Log Entry" class="glyphicon glyphicon-remove-sign"></i>
+									DELETE
 								</a>
-
 							</h5>
 						</div>
 

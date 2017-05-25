@@ -83,10 +83,12 @@ $(document).ready(function(){
 	});
 
 	//toggle read-only mode
+	/**
     $('#read_only_mode').click(function(){
         inReadOnly = !inReadOnly;
         setReadOnly(inReadOnly);
     });
+	 */
 
 	// Load Logbooks
 	loadLogbooks("load_logbooks", true, true, true);
@@ -216,14 +218,7 @@ $(document).ready(function(){
     }
 
 	//check if in readonly mode
-	if(ologSettings.inreadonly === undefined){
-		setReadOnly(false);
-	}else{
-		if(ologSettings.inreadonly){
-            setReadOnly(ologSettings.inreadonly);
-        }
-		inReadOnly = ologSettings.inreadonly;
-	}
+	setReadOnly(inReadOnly);
 });
 
 /**
@@ -393,9 +388,8 @@ function deleteLogHandler() {
  * @param set bool value to turn on/off
  */
 function setReadOnly(set) {
-
 	if(set){
-        $('#read_only_mode').html('<i class="glyphicon glyphicon-edit"></i> Leave Read-Only');
+        $('#read_only_mode').show();
 
         //if an element is already hidden, do not change its state
         $('[read-only="false"]:hidden').attr('read-only', 'true').css('opacity', '0').attr("disabled", true).css('pointer-events', 'none');
@@ -404,14 +398,10 @@ function setReadOnly(set) {
         $('[read-only="false"]:visible').hide();
 
 	}else{
-        $('#read_only_mode').html('<i class="glyphicon glyphicon-eye-open"></i> View in Read-Only');
+        $('#read_only_mode').hide();
 
         //display elements
         $('[read-only="false"]').show();
         $('[read-only="true"]').css('opacity', '1').css('pointer-events', 'all');;
     }
-
-    //save option
-    ologSettings.inreadonly = set;
-    saveOlogSettingsData(ologSettings);
 }

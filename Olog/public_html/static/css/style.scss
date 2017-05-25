@@ -104,6 +104,10 @@ nav.navbar{
 			}
 		}
 	}
+	#read_only_mode{
+		pointer-events:none;
+		color:$red-100;
+	}
 }
 
 .glyphicon{
@@ -139,6 +143,7 @@ h3{
 .btn{
 	background-color:transparent;
 	color:$blue-gray-700;
+	padding:5px 25px;
 	transition:background-color .75s, color .75s;
 	&:hover{
 		color: $blue-200;
@@ -170,6 +175,34 @@ h3{
 		 }
 	 }
 }
+
+.modal-content{
+	@include border-radius(3px);
+	border:0;
+	.modal-header, .modal-body, .modal-footer{
+		padding:10px;
+		margin:0 10px;
+	}
+	.modal-header{
+		border-bottom:1px solid $gray-500;
+		h3{
+			font-size: $lg-font;
+			color:$gray-900;
+		}
+		button{
+			color:$pink-100;
+			opacity:.75;
+		}
+	}
+	.modal-body{
+		border-bottom:1px solid $gray-500;
+		.form-group{
+			margin-bottom:0;
+			margin-top:10px;
+		}
+	}
+}
+
 pre{
 	white-space:pre-wrap;
 	word-wrap:normal;

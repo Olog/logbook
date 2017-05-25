@@ -134,6 +134,7 @@ $input-split: 88%;
     display:inline-block;
     text-align:center;
     button{
+      padding:5px 10px;
       left:0 !important; //overwrite in #search-button
       border:1px solid $green-100;
     }
