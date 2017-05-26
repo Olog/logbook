@@ -232,6 +232,7 @@ and open the template in the editor.
 					<form id="user_submit_form" action="#" method="post">
 						<fieldset>
 							<legend>Sign in</legend>
+							<span id="login_error" class="login_error">The username or password is incorrect!</span>
 							<div class="form-group">
 								<label>Username</label>
 								<input id="user_username" type="text" class="form-control" placeholder="Your username ...">
@@ -242,10 +243,9 @@ and open the template in the editor.
 								<input id="user_password" class="form-control"  type="password" placeholder="Your password ..."><br />
 							</div>
 
-							<button type="submit" id="user_login" class="btn btn-primary">Sign in</button>
+							<button type="submit" id="user_login" class="btn btn-success">Sign in</button>
 						</fieldset>
 					</form>
-					<span id="login_error" class="login_error">The username or password is incorrect!</span>
 				</div>
 			</li>
 

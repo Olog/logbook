@@ -974,11 +974,14 @@ function generateLogObject() {
 	// Set Level
 	log[0].level = $('#level_input').find(":selected").val();
 
-	var startdateinput = $('#startdate_input');
+	var startDateInput = $('#startdate_input');
 
-	if(startdateinput.length > 0){
+	if(startDateInput.length > 0){
 		//input only present on the edit page
-        log[0].eventStart = new Date(startdateinput.val()).toISOString();
+		var dateVal = startDateInput.val();
+		if(dateVal){
+            log[0].eventStart = new Date(startDateInput.val()).toISOString();
+        }
     }
 
 	return log;
@@ -1272,11 +1275,17 @@ function login() {
 				400: function(){
 					saveUserCredentials(username, password);
 					l("User logged in");
-
+                    window.location.href = firstPageName;
+                },
+                401: function(){
+                    $('#login_error').text('The username or password is incorrect!').show('fast').css('display', 'block');
                 },
 				404: function(){
-					$('#login_error').show('fast');
-				}
+					$('#login_error').text('The username or password is incorrect!').show('fast').css('display', 'block');
+				},
+                500: function(){
+                    $('#login_error').text('Something went wrong while trying to login.').show('fast').css('display', 'block');
+                }
 			},
 			error : function(xhr, ajaxOptions, thrownError) {
 
@@ -1285,7 +1294,6 @@ function login() {
 
 			}
 		});
-        window.location.href = firstPageName;
 
     });
 }

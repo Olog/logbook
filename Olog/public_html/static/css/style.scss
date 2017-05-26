@@ -517,6 +517,15 @@ pre{
 	margin-bottom:0;
 	color:$red-100;
 	@include border-radius(0);
+	&.login_error{
+		margin:-5px 0 5px;
+		background-color:lighten($red-100, 20%);
+		color:darken($red-100, 10%);
+		border-radius:5px;
+		border:1px solid $red-100;
+		padding:5px 10px;
+		font-size:$sm-font;
+	}
 }
 
 #top_container {
