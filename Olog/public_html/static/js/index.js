@@ -388,20 +388,25 @@ function deleteLogHandler() {
  * @param set bool value to turn on/off
  */
 function setReadOnly(set) {
-	if(set){
+    var readOnlyElems = $('[read-only="false"]');
+    if(set){
+
         $('#read_only_mode').show();
 
         //if an element is already hidden, do not change its state
-        $('[read-only="false"]:hidden').attr('read-only', 'true').css('opacity', '0').attr("disabled", true).css('pointer-events', 'none');
 
-        //hide elements un available in read only
-        $('[read-only="false"]:visible').hide();
+		readOnlyElems.not(":visible").attr('read-only-hidden', 'true');
+
+        readOnlyElems.hide().attr("disabled", true).css('pointer-events', 'none');
 
 	}else{
+        readOnlyElems.not(":visible").attr('read-only-hidden', 'true');
+
         $('#read_only_mode').hide();
 
         //display elements
-        $('[read-only="false"]').show();
-        $('[read-only="true"]').css('opacity', '1').css('pointer-events', 'all');;
+        readOnlyElems.show().css('opacity', '1').css('pointer-events', 'all');
+        $('[read-only-hidden="true"]').hide();
+
     }
 }
