@@ -8,8 +8,12 @@
 	list-style-type: none;
 	@include space-reset;
 	display: block;
-	padding-bottom: 20px;
+	//padding-bottom: 20px;
+	border-top:1px solid $blue-gray-700;
 
+	&:first-child{
+		border-top:0;
+	}
 	.multilist_header {
 		padding:10px 10px 3px;
 		font-weight: bold;

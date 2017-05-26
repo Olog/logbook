@@ -44,13 +44,25 @@ html, body {
 nav.navbar{
 	height:$navbar-height;
 	margin-bottom:0;
+	min-height:$navbar-height;
+
+	$nav-link-padding: 10px;
+	.navbar-nav > li > a{
+		padding-top:10px;
+		padding-bottom:10px;
+		color:$nav-font-color;
+	}
 	a.navbar-brand{
+		height:$navbar-height;
+		padding:$nav-link-padding $nav-link-padding;
 		border-right:1px solid $nav-font-color;
 	}
 	.dropdown-menu{
 		&.user_dropdown_menu{
 			min-width:245%;
+			padding: 10px;
 		}
+
 		border:1px solid $nav-font-color;
 		border-top:0; // overwrite for placement
 		a{
@@ -71,6 +83,7 @@ nav.navbar{
 					color:white;
 				}
 			}
+
 		}
 	}
 	.version {
@@ -107,6 +120,15 @@ nav.navbar{
 	#read_only_mode{
 		pointer-events:none;
 		color:$red-100;
+	}
+	input{
+		transition:border .5s, color .5s;
+		&:focus{
+			border:1px solid $gray-800;
+			color:$blue-200;
+			outline:0;
+			box-shadow:none !important;
+		}
 	}
 }
 
@@ -176,30 +198,48 @@ h3{
 	 }
 }
 
-.modal-content{
-	@include border-radius(3px);
-	border:0;
-	.modal-header, .modal-body, .modal-footer{
-		padding:10px;
-		margin:0 10px;
-	}
-	.modal-header{
-		border-bottom:1px solid $gray-500;
-		h3{
-			font-size: $lg-font;
-			color:$gray-900;
+.modal-dialog{
+	top:20%;
+	.modal-content{
+		@include border-radius(3px);
+		border:0;
+		box-shadow:none;
+		border:2px solid $gray-900;
+
+		.modal-header, .modal-body, .modal-footer{
+			padding:10px;
+			margin:0 10px;
 		}
-		button{
-			color:$pink-100;
-			opacity:.75;
+		.modal-header{
+			border-bottom:1px solid $gray-500;
+			h3{
+				font-size: $lg-font;
+				color:$gray-900;
+			}
+			button{
+				color:$pink-100;
+				opacity:.75;
+			}
+		}
+		.modal-body{
+			.form-group{
+				margin-bottom:0;
+				margin-top:5px;
+
+				input{
+					margin-bottom:10px;
+					transition:border .5s, color .5s;
+					&:focus{
+						border:1px solid $gray-800;
+						color:$blue-200;
+						outline:0;
+						box-shadow:none !important;
+					}
+				}
+			}
 		}
 	}
-	.modal-body{
-		.form-group{
-			margin-bottom:0;
-			margin-top:10px;
-		}
-	}
+
 }
 
 pre{
@@ -331,6 +371,10 @@ pre{
 @media (max-width: 1023px) {
 
 	nav.navbar{
+		button.navbar-toggle{
+			margin-top:2px;
+			margin-bottom:0;
+		}
 		.nav-btn-group{
 			ul.dropdown-menu{
 				position:absolute;
@@ -492,10 +536,6 @@ pre{
 .close_label, .close_label:hover, .close_label:focus {
 	color: white;
 	text-decoration: none;
-}
-
-.user_dropdown_menu {
-	padding: 10px;
 }
 
 .search_input {
