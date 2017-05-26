@@ -98,4 +98,19 @@
 
     }
   }
+
+  .log_properties div{
+    border:0;
+    table tbody{
+      display:block;
+      tr{
+        display:block;
+        td{
+          float:left;
+          width:50%;
+          display:inline-block;
+        }
+      }
+    }
+  }
 }
