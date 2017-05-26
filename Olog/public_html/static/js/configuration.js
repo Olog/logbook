@@ -202,4 +202,4 @@ var allowDeletingLogs = false;
 var globalLogId = undefined;
 
 // If in read-only mode
-var inReadOnly = fas;
+var inReadOnly = false;
