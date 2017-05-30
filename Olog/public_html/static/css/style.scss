@@ -349,6 +349,42 @@ pre{
 		right:0;
 		bottom:0;
 	}
+
+	#log-scroll-up{
+		z-index:503;
+		position:absolute;
+		bottom:5px;
+		right:5%;
+		font-size:$xsm-font;
+	}
+}
+
+/**
+	Button Styling used for window scrolling
+ */
+.rescroll-btn{
+	background-color: $blue-300;
+	border: 2px solid $blue-200;
+	@include border-radius(4px);
+	cursor: pointer;
+	text-align: center;
+	padding:8px;
+	opacity: 0.6;
+	transition:background-color .5s;
+	color:white;
+	&:hover{
+		opacity:.9;
+		background-color:$blue-200;
+	}
+
+	&.scroll-back{
+		border: 2px solid $green-200;
+		background-color:$green-100;
+		&:hover{
+			background-color:mix($green-100, $yellow-100);
+		}
+	}
+
 }
 
 //typeahead div
@@ -399,6 +435,7 @@ pre{
 				&.logs-area{
 					top:0;
 					width:100%;
+					max-height:85vh;
 				}
 			}
 		}
@@ -412,18 +449,8 @@ pre{
 		position:fixed;
 		bottom: 5px;
 		right: 5px;
-		width: 50px;
-		height: 50px;
-		background-color: $blue-200;
-		border: 1px solid $gray-500;
-		@include border-radius(4px);
-		cursor: pointer;
-		text-align: center;
-		opacity: 0.6;
 		display: block;
-		i{
-			margin-top: 15px;
-		}
+		font-size:$md-font;
 	}
 
 	.well{

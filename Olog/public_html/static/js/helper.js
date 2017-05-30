@@ -317,5 +317,20 @@ function createMarkdownTextarea(textarea){
         toolbar: mdToolbar,
         status: false
     });
+}
 
+/**
+ * Check if an element is in the view after scrolling
+ * @param elem The element to view
+ * @returns {boolean}
+ */
+function isScrolledIntoView(elem)
+{
+    var docViewTop = $(window).scrollTop();
+    var docViewBottom = docViewTop + $(window).height();
+
+    var elemTop = elem.offset().top;
+    var elemBottom = elemTop + elem.height();
+
+    return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
 }

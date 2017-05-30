@@ -219,6 +219,50 @@ $(document).ready(function(){
 
 	//check if in readonly mode
 	setReadOnly(inReadOnly);
+
+    //set the scroll handler on the logs content area
+    var scrollbtn = $('#log-scroll-up');
+	var loadlogsarea = $('#load_logs');
+    scrollbtn.hide();
+
+    loadlogsarea.bind('scroll', function () {
+        var scrollTop = $(this).scrollTop();
+
+		if ( scrollTop > 100 ) {
+            scrollbtn.show().removeClass('scroll-back');
+            scrollbtn.find('.glyphicon').removeClass('glyphicon-arrow-left').addClass('glyphicon-chevron-up');;
+        } else {
+            scrollbtn.hide();
+        }
+
+        var selectedLog = loadlogsarea.find('.log_click').first();
+        if(selectedLog.length > 0 && !isScrolledIntoView(selectedLog)){
+            //there is a log selected, show new btn
+            scrollbtn.show().addClass('scroll-back');
+            scrollbtn.find('.glyphicon').addClass('glyphicon-arrow-left').removeClass('glyphicon-chevron-up');;
+        }
+	});
+
+	scrollbtn.on('click',function(){
+        var selectedLog = loadlogsarea.find('.log_click').first();
+        if($(this).hasClass('scroll-back')){
+			//scroll to the nearest log
+            loadlogsarea.animate({ scrollTop:loadlogsarea.scrollTop()+selectedLog.offset().top - selectedLog.height()*3 }, { duration: 'medium', easing: 'swing' });
+		}else{
+			//scroll to the top of the logs area
+            loadlogsarea.animate({
+                scrollTop: 20
+            }, 'slow');
+		}
+
+
+        if(selectedLog.length > 0 && !isScrolledIntoView(selectedLog)){
+        	//there is a log selected, show new btn
+			$(this).addClass('scroll-back');
+            $(this).find('.glyphicon').addClass('glyphicon-arrow-left').removeClass('glyphicon-chevron-up');
+        }
+	})
+
 });
 
 /**
