@@ -58,11 +58,22 @@ $(document).ready(function(){
         saveOlogSettingsData(ologSettings);
     });
 
+    // Select include
+    $('#description-toggle').prop('checked', ologSettings.includeLogDescription);
+
+    // Listen to include checkbox change
+    $('#description-toggle').unbind('change');
+    $('#description-toggle').on('change', function(e) {
+        ologSettings.includeLogDescription = $(e.target).prop('checked');
+        $('.log span.description').toggleClass('noshow');
+        saveOlogSettingsData(ologSettings);
+    });
+
 	// Show log order flag
 	if(ologSettings.includeHistory) {
 		$('#search-order-block').show();
 
-		// Select include hostory
+		// Select include history
 		$('#search-order').prop('checked', ologSettings.logVersionOrder);
 
 		// Listen to change of log entry order
@@ -76,6 +87,7 @@ $(document).ready(function(){
 	} else {
 		$('#search-order-block').hide();
 	}
+
 
 	// Create new Log
 	$('#new_log').click(function(e){
@@ -210,13 +222,6 @@ $(document).ready(function(){
 		showHideSearchCleanButton($(event.target));
 	});
 
-    if(ologSettings.includeStartDate !== undefined && ologSettings.includeStartDate === true){
-        $('.log span.log_start_date').show();
-    }else{
-        // Select include
-        $('.log span.log_start_date').hide();
-    }
-
 	//check if in readonly mode
 	setReadOnly(inReadOnly);
 
@@ -230,7 +235,7 @@ $(document).ready(function(){
 
 		if ( scrollTop > 100 ) {
             scrollbtn.show().removeClass('scroll-back');
-            scrollbtn.find('.glyphicon').removeClass('glyphicon-arrow-left').addClass('glyphicon-chevron-up');;
+            scrollbtn.find('.glyphicon').removeClass('glyphicon-arrow-left').addClass('glyphicon-chevron-up');
         } else {
             scrollbtn.hide();
         }
@@ -264,6 +269,7 @@ $(document).ready(function(){
 	})
 
     setMultilstCollapseEvent();
+
 
 });
 

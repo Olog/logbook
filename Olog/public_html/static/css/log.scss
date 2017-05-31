@@ -34,6 +34,10 @@
 				color: $gray-950;
 				font-weight:bolder;
 			}
+			&.noshow{
+				height:15px;
+				opacity:0;
+			}
 		}
 		&.header{
 			padding-bottom:0;

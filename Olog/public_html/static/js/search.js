@@ -132,6 +132,22 @@ function searchForLogs(searchQuery, resetPageCouner) {
 			scrollToLastLog();
 		});
 	});
+
+    if(ologSettings.includeStartDate){
+        $('.log span.log_start_date').show();
+    }else{
+        // Select include
+        $('.log span.log_start_date').hide();
+    }
+
+    if(ologSettings.includeLogDescription){
+        $('.log span.description').removeClass('noshow');
+        $('.log_history span.description').removeClass('noshow');
+    }else{
+        // Select include
+        $('.log span.description').addClass('noshow');
+        $('.log_history span.description').addClass('noshow');
+    }
 }
 
 /**

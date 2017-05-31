@@ -214,7 +214,6 @@ function saveSelectedItems(e, saveSelectedItemsIntoACookie, triggerEvent=true){
         e.parent().trigger('dataselected', selectedElements);
 	}
 
-
     if(saveSelectedItemsIntoACookie === undefined || (saveSelectedItemsIntoACookie !== undefined && saveSelectedItemsIntoACookie === true)) {
         saveFilterData(selectedElements);
     }

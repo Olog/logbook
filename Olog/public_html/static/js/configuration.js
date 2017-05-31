@@ -186,6 +186,9 @@ var includeHistory = true;
 //If the StartDate should be displayed for logs
 var includeStartDate = true;
 
+//If the Log Descriptions should be displayed
+var includeLogDescription = true;
+
 // URL parameter for displaying log's history
 var historyParameter = "history";
 
@@ -203,3 +206,4 @@ var globalLogId = undefined;
 
 // If in read-only mode
 var inReadOnly = false;
+
