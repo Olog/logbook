@@ -36,6 +36,17 @@ $(document).ready(function(){
 		}
 	);
 
+	var checkboxSelectArea = $('#checkbox-select-area');
+	var checkList = checkboxSelectArea.find('.checkbox-list-area');
+    checkboxSelectArea.click(function(e){
+        event.stopPropagation();
+        checkList.show();
+
+	});
+
+    $('html').click(function() {
+        checkList.hide();
+    });
 	// Select include history
     $('#search-checkbox').prop('checked', ologSettings.includeHistory);
 
@@ -45,6 +56,8 @@ $(document).ready(function(){
         ologSettings.includeHistory = $(e.target).prop('checked');
         $('#search-order-block').toggle();
         saveOlogSettingsData(ologSettings);
+        checkList.hide();
+
     });
 
     // Select include
@@ -56,6 +69,8 @@ $(document).ready(function(){
         ologSettings.includeStartDate = $(e.target).prop('checked');
         $('.log span.log_start_date').toggle();
         saveOlogSettingsData(ologSettings);
+        checkList.hide();
+
     });
 
     // Select include
@@ -67,6 +82,8 @@ $(document).ready(function(){
         ologSettings.includeLogDescription = $(e.target).prop('checked');
         $('.log span.description').toggleClass('noshow');
         saveOlogSettingsData(ologSettings);
+        checkList.hide();
+
     });
 
 	// Show log order flag
@@ -81,7 +98,8 @@ $(document).ready(function(){
 		$('#search-order').on('change', function(e) {
 			ologSettings.logVersionOrder = $(e.target).prop('checked');
 			saveOlogSettingsData(ologSettings);
-		});
+            checkList.hide();
+        });
 
 	// Do not show log order flag
 	} else {
