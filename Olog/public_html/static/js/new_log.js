@@ -146,6 +146,8 @@ $(document).ready(function(){
 
 	// Focus the textarea when starting to add new log entry
 	$('#log_body').focus();
+
+    setMultilstCollapseEvent();
 });
 
 /**

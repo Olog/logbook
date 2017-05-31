@@ -235,7 +235,7 @@ function resizeManager() {
             dims.middle_pane_left = 0;
 
             //limit the size
-            if($(middlePane).width() < dims.left_pane_width + minWidth && e.pageX < dims.middle_pane_width){
+            if($(middlePane).width() + 10 < dims.left_pane_width + minWidth && e.pageX < dims.middle_pane_width){
 				return;
 			}
 

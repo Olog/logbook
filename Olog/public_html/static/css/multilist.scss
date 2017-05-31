@@ -153,7 +153,7 @@
 		cursor:pointer;
 		box-shadow:-1px 0px 1px 1px rgba(0,0,0,.2);
 		$size: 15px;
-		opacity:.75;
+		opacity:.65;
 		border-left:1px solid $gray-950;
 		&:before{
 			width: 0;
@@ -161,7 +161,7 @@
 			content: '';
 			position:absolute;
 			top:50%;
-			opacity:.8;
+			opacity:.7;
 			right:0;
 			transform:translateY(-50%);
 			border-top: $size solid transparent;
@@ -212,6 +212,25 @@
 			&:hover{
 				&:before{
 					border-left: $size solid $hovcolor;
+				}
+			}
+
+			&.closed{
+				right:0;
+				left:auto;
+				border-left:1px solid $gray-950;
+				border-right:0;
+				&:before{
+					right:0;
+					left:auto;
+					border-left: 0;
+					border-right: $size solid $bgcolor;
+				}
+				&:hover{
+					&:before{
+						border-left: 0;
+						border-right: $size solid $hovcolor;
+					}
 				}
 			}
 		}

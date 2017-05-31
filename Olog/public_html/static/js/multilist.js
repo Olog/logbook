@@ -74,33 +74,77 @@ function multiselect(name, saveSelectedItemsIntoACookie){
  * Sets the multilist section collapse button event handler
  */
 function setMultilstCollapseEvent(){
-    var containermiddle = $('.container-middle');
-    var resize2 =  $('.container-resize2');
-    var resize =  $('.container-resize');
     var multilistcollapse = $('#min-multilists');
     var multilistcontainer = multilistcollapse.parent();
-	var containerleft = $('.container-left').width();
 
     var set = ologSettings.collapse_multilist;
     if(set === undefined){
-    	set = false;
+        set = false;
+    }
+
+	if(multilistcollapse.hasClass('min-right')){
+		//collapse the multilist to the right side
+		var containermodifyleft = $('.container-modify-left');
+		var resize3 = $('.container-resize3');
+
+        setCollapseMultilistRight(multilistcollapse, set, multilistcontainer,containermodifyleft, resize3 );
+        multilistcollapse.click( function() {
+            setCollapseMultilistRight($(this), !($(this).hasClass('closed')), multilistcontainer,containermodifyleft, resize3 );
+        })
+
+	}else{
+		//collapse to the left side of the screen
+
+        var containermiddle = $('.container-middle');
+        var resize2 =  $('.container-resize2');
+        var resize =  $('.container-resize');
+        var containerleft = $('.container-left').width();
+
+        setCollapseMultilistLeft(multilistcollapse, set, multilistcontainer, containermiddle, resize2, containerleft );
+
+        multilistcollapse.click( function(e){
+
+            setCollapseMultilistLeft($(this), !($(this).hasClass('closed')), multilistcontainer, containermiddle, resize2,resize.offset().left );
+
+            var origsetting =  multilistcontainer.width();
+            resize.css('left',origsetting);
+
+            containermiddle.width(resize2.offset().left - origsetting).css('left',  multilistcontainer.width());
+        });
 	}
 
-    setCollapseMultilist(multilistcollapse, set, multilistcontainer, containermiddle, resize2, containerleft );
-
-    multilistcollapse.click( function(e){
-
-        setCollapseMultilist($(this), !($(this).hasClass('closed')), multilistcontainer, containermiddle, resize2,resize.offset().left );
-
-        var origsetting =  multilistcontainer.width();
-        resize.css('left',origsetting);
-
-        containermiddle.width(resize2.offset().left - origsetting).css('left',  multilistcontainer.width());
-    });
 }
 
 /**
- * Collapse the multilist
+ * Collapse the multilist to the right
+ * @param elem Element to control the collapse
+ * @param set Boolean to close=true/ open=false multilist
+ * @param parent Outer elemet of multilist to resize
+ * @param containerchange section to change the width of after resizing
+ * @param origleft original position to switch the middle area back to
+ */
+function setCollapseMultilistRight(elem, set, parent, containerchange, origleft){
+    var that = elem;
+
+    if(set){
+        parent.css('width', '0').css('border-left', '0').css('background-color', 'transparent');
+        that.addClass('closed');
+        containerchange.width('100%');
+        origleft.css('pointer-events', 'none').css('z-index', '-1');
+
+    }else{
+        that.removeClass('closed');
+        parent.css('width', '100%').css('border-left', '').css('background-color', '');
+        origleft.css('pointer-events', 'all').css('z-index', '509');
+        containerchange.width(origleft.offset().left);
+	}
+
+    ologSettings.collapse_multilist = set;
+    saveOlogSettingsData(ologSettings);
+}
+
+/**
+ * Collapse the multilist to the left
  * @param elem Element to control the collapse
  * @param set Boolean to close=true/ open=false multilist
  * @param parent Outer elemet of multilist to resize
@@ -108,7 +152,7 @@ function setMultilstCollapseEvent(){
  * @param resizediv div that allows resizing of sections
  * @param origleft original position to switch the middle area back to
  */
-function setCollapseMultilist(elem, set, parent, containerchange, resizediv, origleft){
+function setCollapseMultilistLeft(elem, set, parent, containerchange, resizediv, origleft){
 	var that = elem;
 	if(set){
         parent.width(0);

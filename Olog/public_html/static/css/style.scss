@@ -476,7 +476,7 @@ pre{
 		top:0;
 		width: $resize-bar-wid;
 		bottom: 0;
-		z-index: 501;
+		z-index: 509;
 		div {
 			position: relative;
 			height: 100%;
@@ -576,6 +576,7 @@ pre{
 	-khtml-user-select: none;
 	-moz-user-select: moz-none;
 	-ms-user-select: none;
+	border:0;
 }
 
 
