@@ -75,6 +75,7 @@
 		background-color:transparent !important;
 		.multilist_icons{
 			display:none;
+			z-index:506;
 		}
 		&:hover{
 			.multilist_icons.allow_display{
@@ -131,6 +132,91 @@
 
 .vertical-align {
 	vertical-align: top;
+}
+
+.multilist-container{
+	position:relative;
+	height:100%;
+	#min-multilists{
+		$bgcolor: $blue-green-200;
+		$hovcolor: $blue-gray-700;
+		$wid: 5px;
+		z-index:502;
+		position:absolute;
+		width:$wid;
+		background-color:$bgcolor;
+		display:inline-block;
+		top:0;
+		bottom:0;
+		right:0;
+		transition:background-color .25s, width .2s;
+		cursor:pointer;
+		box-shadow:-1px 0px 1px 1px rgba(0,0,0,.2);
+		$size: 15px;
+		opacity:.75;
+		border-left:1px solid $gray-950;
+		&:before{
+			width: 0;
+			height: 0;
+			content: '';
+			position:absolute;
+			top:50%;
+			opacity:.8;
+			right:0;
+			transform:translateY(-50%);
+			border-top: $size solid transparent;
+			border-bottom: $size solid transparent;
+			border-right: $size solid $bgcolor;
+			transition:border .5s, width .5s;
+		}
+		&:hover{
+			width:7px;
+			background-color:$hovcolor;
+			&:before{
+				$size:16px;
+				border-top: $size solid transparent;
+				border-bottom: $size solid transparent;
+				border-right: $size solid $hovcolor;
+			}
+		}
+		&.closed{
+			left:-$wid/2;
+			z-index:505;
+			position:fixed;
+			border-right:1px solid $gray-950;
+			border-left:0;
+			&:before{
+				left:0;
+				right:auto;
+				border-right: 0;
+				border-left: $size solid $bgcolor;
+			}
+			&:hover{
+				&:before{
+					border-left: $size solid $hovcolor;
+				}
+			}
+		}
+		&.min-right{
+			border-right:1px solid $gray-950;
+			border-left:0;
+			left:0;
+			right:auto;
+			box-shadow:1px 0px 1px 1px rgba(0,0,0,.2);
+			&:before{
+				left:0;
+				right:auto;
+				border-right: 0;
+				border-left: $size solid $bgcolor;
+			}
+			&:hover{
+				&:before{
+					border-left: $size solid $hovcolor;
+				}
+			}
+		}
+
+	}
 }
 
 //.toggle-filters {}

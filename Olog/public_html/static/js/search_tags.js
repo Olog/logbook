@@ -240,7 +240,6 @@ function handleTagClick(tag){
 
     }
 
-    console.log(searchInputElements);
     delete searchInputElements[tag.attr("type-attr")][txtValue];
     tag.remove();
 

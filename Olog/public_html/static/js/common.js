@@ -144,6 +144,8 @@ function resizeManager() {
 			modify_right_pane_width: undefined
 		};
 
+		ologSettings.resize = dims;
+
 		// Set the rest of the sizes so we don't get into trouble
 		/*if($(middlePane).doesExist()){
 			var middlePaneWidth = $(middlePane).width();
@@ -179,6 +181,7 @@ function resizeManager() {
 		$('.container-resize').css({left: dims.middle_pane_left});
 		$('.container-resize2').css({left: dims.right_pane_left});
 		$('.container-resize3').css({left: dims.modify_right_pane_left});
+
 	}
 
 	// Drag left resizer
@@ -227,7 +230,18 @@ function resizeManager() {
 	// Drag right resizer
 	$('.container-resize2').on('drag', function(e){
 		dims.left_pane_width = $(leftPane).width();
-		dims.middle_pane_left = dims.left_pane_width;
+
+		if(ologSettings.collapse_multilist){
+            dims.middle_pane_left = 0;
+
+            //limit the size
+            if($(middlePane).width() < dims.left_pane_width + minWidth && e.pageX < dims.middle_pane_width){
+				return;
+			}
+
+		}else{
+            dims.middle_pane_left = dims.left_pane_width;
+        }
 
 		//l(dims);
 

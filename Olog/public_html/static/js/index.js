@@ -263,6 +263,8 @@ $(document).ready(function(){
         }
 	})
 
+    setMultilstCollapseEvent();
+
 });
 
 /**

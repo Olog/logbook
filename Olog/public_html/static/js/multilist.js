@@ -67,6 +67,64 @@ function multiselect(name, saveSelectedItemsIntoACookie){
             saveSelectedItems($(e.target), saveSelectedItemsIntoACookie);
 		}
 	});
+
+}
+
+/**
+ * Sets the multilist section collapse button event handler
+ */
+function setMultilstCollapseEvent(){
+    var containermiddle = $('.container-middle');
+    var resize2 =  $('.container-resize2');
+    var resize =  $('.container-resize');
+    var multilistcollapse = $('#min-multilists');
+    var multilistcontainer = multilistcollapse.parent();
+	var containerleft = $('.container-left').width();
+
+    var set = ologSettings.collapse_multilist;
+    if(set === undefined){
+    	set = false;
+	}
+
+    setCollapseMultilist(multilistcollapse, set, multilistcontainer, containermiddle, resize2, containerleft );
+
+    multilistcollapse.click( function(e){
+
+        setCollapseMultilist($(this), !($(this).hasClass('closed')), multilistcontainer, containermiddle, resize2,resize.offset().left );
+
+        var origsetting =  multilistcontainer.width();
+        resize.css('left',origsetting);
+
+        containermiddle.width(resize2.offset().left - origsetting).css('left',  multilistcontainer.width());
+    });
+}
+
+/**
+ * Collapse the multilist
+ * @param elem Element to control the collapse
+ * @param set Boolean to close=true/ open=false multilist
+ * @param parent Outer elemet of multilist to resize
+ * @param containerchange section to change the width of after resizing
+ * @param resizediv div that allows resizing of sections
+ * @param origleft original position to switch the middle area back to
+ */
+function setCollapseMultilist(elem, set, parent, containerchange, resizediv, origleft){
+	var that = elem;
+	if(set){
+        parent.width(0);
+        that.addClass('closed');
+        containerchange.width(resizediv.offset().left).css('left', '0');
+
+	}else{
+        that.removeClass('closed');
+        parent.width('100%');
+        containerchange.width(resizediv.offset().left - origleft).css('left',origleft );
+
+        ologSettings.resize.middle_pane_left = origleft;
+    }
+
+    ologSettings.collapse_multilist = set;
+    saveOlogSettingsData(ologSettings);
 }
 
 /**
