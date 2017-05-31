@@ -422,13 +422,12 @@ pre{
 		float: none;
 		padding: 0px 20px 20px 20px;
 		display:block;
-		width:100%;
+		width:100% !important;
 
 	}
 	.container-scroll-middle{
 		min-height:25vh;
 		.log-content-area{
-			width:100%;
 			.form-search-box, .logs-area{
 				display:block;
 				position:relative;
