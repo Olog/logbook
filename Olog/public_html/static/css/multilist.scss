@@ -138,11 +138,11 @@
 	position:relative;
 	height:100%;
 	#min-multilists{
-		$bgcolor: $blue-green-200;
+		$bgcolor: $gray-950;
 		$hovcolor: $blue-gray-700;
 		$wid: 5px;
-		z-index:502;
-		position:absolute;
+		z-index:510;
+		position:fixed;
 		width:$wid;
 		background-color:$bgcolor;
 		display:inline-block;
@@ -151,10 +151,10 @@
 		right:0;
 		transition:background-color .25s, width .2s;
 		cursor:pointer;
-		box-shadow:-1px 0px 1px 1px rgba(0,0,0,.2);
+		box-shadow:1px 0px 1px 1px rgba(0,0,0,.2);
 		$size: 15px;
 		opacity:.65;
-		border-left:1px solid $gray-950;
+		border-right:1px solid $gray-950;
 		&:before{
 			width: 0;
 			height: 0;
@@ -180,11 +180,9 @@
 			}
 		}
 		&.closed{
-			left:-$wid/2;
+			left:0;
 			z-index:505;
 			position:fixed;
-			border-right:1px solid $gray-950;
-			border-left:0;
 			&:before{
 				left:0;
 				right:auto;
@@ -200,9 +198,8 @@
 		&.min-right{
 			border-right:1px solid $gray-950;
 			border-left:0;
-			left:0;
 			right:auto;
-			box-shadow:1px 0px 1px 1px rgba(0,0,0,.2);
+			box-shadow:-1px 0px 1px 1px rgba(0,0,0,.2);
 			&:before{
 				left:0;
 				right:auto;

@@ -118,6 +118,8 @@ function resizeManager() {
 	var modifyLeftPane = ".container-modify-left";
 	var modifyRightPane = ".container-modify-right";
 
+	var multilistCollapse = $('#min-multilists');
+
 	// Resize left and middle section
 	$('.container-resize').draggable({axis: "x"});
 
@@ -208,6 +210,9 @@ function resizeManager() {
 			return;
 		}
 
+        //set the multilist collapse
+        multilistCollapse.css('left', e.pageX - multilistCollapse.width());
+
 		var diff = oldWidth - e.pageX;
 
 		$(leftPane).width(e.pageX);
@@ -295,6 +300,10 @@ function resizeManager() {
 		if(dims.modify_right_pane_width < minWidth && e.pageX > dims.modify_right_pane_left) {
 			return;
 		}
+
+
+        //set the multilist collapse
+        multilistCollapse.css('left', e.pageX);
 
 		var diff = oldWidth - e.pageX;
 

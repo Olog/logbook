@@ -301,7 +301,6 @@ pre{
 			width:100%;
 			padding:5px 10px;
 			border-bottom:1px solid $gray-700;
-			margin-bottom:5px;
 			cursor:pointer;
 			position:relative;
 			overflow:visible;
@@ -510,13 +509,18 @@ pre{
 		top:0;
 		width: $resize-bar-wid;
 		bottom: 0;
-		z-index: 509;
+		z-index: 515;
 		div {
 			position: relative;
 			height: 100%;
 			width: 100%;
 			&:hover {
 				cursor: col-resize;
+				background-color:$blue-gray-700;
+				border:1px solid $gray-950;
+				opacity:.5;
+				border-top:0;
+				border-bottom:0;
 			}
 		}
 	}
@@ -525,6 +529,7 @@ pre{
 	}
 	.container-resize3{
 		left: 80%;
+
 	}
 
 	.container-left, .container-middle, .container-right, .container-middle-right{

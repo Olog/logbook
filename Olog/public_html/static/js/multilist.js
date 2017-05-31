@@ -100,16 +100,17 @@ function setMultilstCollapseEvent(){
         var resize =  $('.container-resize');
         var containerleft = $('.container-left').width();
 
-        setCollapseMultilistLeft(multilistcollapse, set, multilistcontainer, containermiddle, resize2, containerleft );
+        setCollapseMultilistLeft(multilistcollapse, set, multilistcontainer, containermiddle, resize2, containerleft,resize );
 
         multilistcollapse.click( function(e){
 
-            setCollapseMultilistLeft($(this), !($(this).hasClass('closed')), multilistcontainer, containermiddle, resize2,resize.offset().left );
+            setCollapseMultilistLeft($(this), !($(this).hasClass('closed')), multilistcontainer, containermiddle, resize2,resize.offset().left,resize );
 
             var origsetting =  multilistcontainer.width();
             resize.css('left',origsetting);
 
             containermiddle.width(resize2.offset().left - origsetting).css('left',  multilistcontainer.width());
+        	$(this).css('left', origsetting);
         });
 	}
 
@@ -128,12 +129,12 @@ function setCollapseMultilistRight(elem, set, parent, containerchange, origleft)
 
     if(set){
         parent.css('width', '0').css('border-left', '0').css('background-color', 'transparent');
-        that.addClass('closed');
+        that.addClass('closed').css('right', 0).css('left', 'auto');
         containerchange.width('100%');
         origleft.css('pointer-events', 'none').css('z-index', '-1');
 
     }else{
-        that.removeClass('closed');
+        that.removeClass('closed').css('left', origleft + that.width()).css('right', 'auto');
         parent.css('width', '100%').css('border-left', '').css('background-color', '');
         origleft.css('pointer-events', 'all').css('z-index', '509');
         containerchange.width(origleft.offset().left);
@@ -147,22 +148,24 @@ function setCollapseMultilistRight(elem, set, parent, containerchange, origleft)
  * Collapse the multilist to the left
  * @param elem Element to control the collapse
  * @param set Boolean to close=true/ open=false multilist
- * @param parent Outer elemet of multilist to resize
+ * @param parent Outer element of multilist to resize
  * @param containerchange section to change the width of after resizing
  * @param resizediv div that allows resizing of sections
  * @param origleft original position to switch the middle area back to
+ * @param resize The div that allows resizing for the left most element
  */
-function setCollapseMultilistLeft(elem, set, parent, containerchange, resizediv, origleft){
+function setCollapseMultilistLeft(elem, set, parent, containerchange, resizediv, origleft, resize){
 	var that = elem;
 	if(set){
         parent.width(0);
-        that.addClass('closed');
+        that.addClass('closed').css('left','' );
         containerchange.width(resizediv.offset().left).css('left', '0');
-
+		resize.css('pointer-events', 'none');
 	}else{
-        that.removeClass('closed');
+        resize.css('pointer-events', '');
         parent.width('100%');
         containerchange.width(resizediv.offset().left - origleft).css('left',origleft );
+        that.removeClass('closed').css('left', origleft - that.width());
 
         ologSettings.resize.middle_pane_left = origleft;
     }
