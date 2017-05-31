@@ -189,6 +189,9 @@ var includeStartDate = true;
 //If the Log Descriptions should be displayed
 var includeLogDescription = true;
 
+//If the Attachments in Logs should be displayed
+var includeLogAttachment = true;
+
 // URL parameter for displaying log's history
 var historyParameter = "history";
 

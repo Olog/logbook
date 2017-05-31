@@ -148,6 +148,14 @@ function searchForLogs(searchQuery, resetPageCouner) {
         $('.log span.description').addClass('noshow');
         $('.log_history span.description').addClass('noshow');
     }
+
+    if(ologSettings.includeLogAttachment){
+        $('.log span.attachment').show()
+    }else{
+        // Select include
+        $('.log span.attachment').hide();
+    }
+
 }
 
 /**

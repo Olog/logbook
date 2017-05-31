@@ -86,6 +86,18 @@ $(document).ready(function(){
 
     });
 
+    // Select include
+    $('#attachments-toggle').prop('checked', ologSettings.includeLogAttachment);
+
+    // Listen to include checkbox change
+    $('#attachments-toggle').unbind('change');
+    $('#attachments-toggle').on('change', function(e) {
+        ologSettings.includeLogAttachment = $(e.target).prop('checked');
+        $('.log span.attachment').toggle();
+        saveOlogSettingsData(ologSettings);
+        checkList.hide();
+    });
+
 	// Show log order flag
 	if(ologSettings.includeHistory) {
 		$('#search-order-block').show();
