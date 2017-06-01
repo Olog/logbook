@@ -55,20 +55,20 @@
 	}
 
 	li{
-		background-color:white;
-		&:nth-child(odd){
-			background-color:$gray-200;
-		}
+		background-color:$gray-200;
 		&:hover{
 			background-color: $gray-400;
 		}
+
 	}
 	.multilist_item {
-		padding-left: 27px;
+		position:relative;
+		font-size:$sm-font;
+		padding-left: 32px;
 		padding-top: 3px;
 		padding-bottom: 3px;
 		display: block;
-		color: $blue-200;
+		color: $gray-900;
 		cursor: pointer;
 		word-wrap: break-word;
 		overflow:hidden;
@@ -108,16 +108,34 @@
 				$list-type: $list-count;
 			}
 			&.list#{$list-type}{
-				background-color:mix($colorname, $gray-200, 50%) !important;
+				$col: mix($colorname, $gray-200, 50%);
+				color:darken($col, 32%);
+				background-color:lighten($col, 5%) !important;
 			}
 			$list-count: $list-count + 1;
 		}
 
 	}
-	.list {
-		font-weight: bold;
+
+	.list, .list2{
+		&:before{
+          font-family: 'Glyphicons Halflings';
+          content:'\e041';
+          font-size:10px;
+          position:absolute;
+          display:block;
+          left:14px;
+          top:50%;
+          vertical-align:center;
+          transform:translateY(-50%);
+		}
 	}
 
+  .list{
+    &:before{
+      content:'\e043';
+    }
+  }
 	.list5 input {
 		margin:0px;
 		width: 90%;
