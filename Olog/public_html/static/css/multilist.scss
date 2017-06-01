@@ -15,11 +15,27 @@
 		border-top:0;
 	}
 	.multilist_header {
-		padding:10px 10px 3px;
+		padding:8px 10px;
 		font-weight: bold;
 		color: $gray-100;
 		background-color:$blue-gray-500 !important;
 		cursor: pointer;
+      .multilist-add{
+        float:right;
+        display:inline-block;
+        text-decoration:none;
+        padding:3px 5px;
+        font-size:$xsm-font;
+        background-color:$blue-gray-700;
+        @include border-radius(100%);
+        i{
+          color:white;
+        }
+        &:hover{
+          background-color:lighten($blue-gray-500, 5%);
+          cursor:pointer;
+        }
+      }
 	}
 
 	.multilist_filter {
@@ -82,20 +98,22 @@
 				display:block;
 			}
 		}
-		a i.glyphicon{
-			padding:3px;
-			@include border-radius(3px);
-			color:$gray-950;
-			&.glyphicon-pencil{
-				color: $blue-200;
-			}
-			&.glyphicon-trash{
-				color: $pink-100;
-			}
-			&:hover{
-				cursor:pointer;
-				color:$blue-green-200;
-			}
+		a i.glyphicon:not(.linkpart){
+          padding:4px;
+          font-size:9px;
+          @include border-radius(100%);
+          color:white;
+          margin:0 5px 0 0;
+          background-color:$gray-900;
+          &:hover{
+            cursor:pointer;
+            &.glyphicon-pencil{
+              background-color: $blue-200;
+            }
+            &.glyphicon-trash{
+              background-color: $pink-100;
+            }
+          }
 		}
 	}
 	.multilist_clicked, .multilist_clicked:hover {
@@ -136,12 +154,17 @@
       content:'\e043';
     }
   }
-	.list5 input {
-		margin:0px;
-		width: 90%;
-		font-size:$sm-font;
-		height:100%;
-	}
+  .list5{
+    &:hover{
+      background-color:transparent;
+    }
+    input {
+      margin:0px;
+      width: 90%;
+      font-size:$sm-font;
+      height:100%;
+    }
+  }
 }
 
 #datepicker_from {

@@ -59,6 +59,18 @@
           border-bottom:0;
           font-size:$sm-font;
         }
+        &.tm-tag-warning{
+          $col: mix(get('logbook', $tag-colors), $gray-200, 50%);
+          color:darken($col, 32%);
+          border:1px solid darken($col, 5%);
+          background-color:lighten($col, 5%);
+        }
+        &.tm-tag-info{
+          $col: mix(get('tagt', $tag-colors), $gray-200, 50%);
+          color:darken($col, 32%);
+          border:1px solid darken($col, 5%);
+          background-color:lighten($col, 5%);
+        }
       }
     }
   }

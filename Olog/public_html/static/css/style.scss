@@ -42,6 +42,8 @@ html, body {
  * Main navigation bar styles
  */
 nav.navbar{
+    background-color:$nav-bg;
+  border:0;
 	height:$navbar-height;
 	margin-bottom:0;
 	min-height:$navbar-height;
@@ -54,7 +56,8 @@ nav.navbar{
 	}
 	a.navbar-brand{
 		height:$navbar-height;
-		padding:$nav-link-padding $nav-link-padding;
+        color: $blue-100;
+		padding:$nav-link-padding $nav-link-padding*2;
 		border-right:1px solid $nav-font-color;
 	}
 	.dropdown-menu{
@@ -72,8 +75,8 @@ nav.navbar{
 		}
 	}
 	.navbar-collapse.collapse, .navbar-collapse.collapsing {
-		background-color:$nav-bg;
-		&.in{
+      background-color:$nav-bg;
+      &.in{
 			.dropdown-menu{
 				min-width:100%;
 			}
@@ -643,21 +646,26 @@ pre{
  * 	original file: lib/bootstrap-tagmanager.css
  */
 .tm-tag{
+  border-radius:20px !important;
+  margin-left:3px;
+  margin-right:2px;
 	&.tm-tag-warning, &.tm-tag-info{
 		color:white;
 		padding:2px 5px;
 		font-size:$xsm-font;
-		border-radius:2px;
+        box-shadow:none;
 	}
 	&.tm-tag-warning{
-		$col: lighten(get('logbook', $tag-colors), 5%);
-		background-color: $col;
-		border:0;
+      $col: mix(get('logbook', $tag-colors), $gray-200, 50%);
+      color:darken($col, 32%);
+      border:1px solid darken($col, 5%);
+      background-color:lighten($col, 5%);
 	}
 	&.tm-tag-info{
-		$col: lighten(get('tagt', $tag-colors), 2%);
-		background-color: $col;
-		border:0;
+      $col: mix(get('tagt', $tag-colors), $gray-200, 50%);
+      color:darken($col, 32%);
+      border:1px solid darken($col, 5%);
+      background-color:lighten($col, 5%);
 	}
 }
 
