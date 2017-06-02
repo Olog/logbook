@@ -363,3 +363,14 @@ function setReadOnly(set) {
     }
 
 }
+
+/**
+ * returns the sort parameter for loading logs
+ */
+function sortBy(){
+	if(sortByEventStart){
+		return "eventStart";
+	}else{
+		return "created";
+	}
+}

@@ -115,6 +115,11 @@ function searchForLogs(searchQuery, resetPageCouner) {
 		searchQuery += historyParameter + "=&";
 	}
 
+    //add the sort param into the search query
+    if(!("sort" in $.url(searchQuery).param())) {
+        searchQuery += 'sort=' + sortBy() + "&";
+    }
+
 	searchURL = searchQuery;
 
 	l(searchURL);

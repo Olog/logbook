@@ -98,6 +98,33 @@ $(document).ready(function(){
         checkList.hide();
     });
 
+    // Select include
+    $('#createdat-sort').prop('checked', !ologSettings.sortByEventStart);
+
+    // Listen to include checkbox change
+    $('#createdat-sort').unbind('change');
+    $('#createdat-sort').on('change', function(e) {
+        ologSettings.sortByEventStart = !($(e.target).prop('checked'));
+
+        $('#startdate-sort').prop('checked', ologSettings.sortByEventStart);
+        saveOlogSettingsData(ologSettings);
+        checkList.hide();
+    });
+
+    // Select include
+    $('#startdate-sort').prop('checked', ologSettings.sortByEventStart);
+
+    // Listen to include checkbox change
+    $('#startdate-sort').unbind('change');
+    $('#startdate-sort').on('change', function(e) {
+        ologSettings.sortByEventStart = $(e.target).prop('checked');
+
+        $('#createdat-sort').prop('checked', !ologSettings.sortByEventStart);
+
+        saveOlogSettingsData(ologSettings);
+        checkList.hide();
+    });
+
 	// Show log order flag
 	if(ologSettings.includeHistory) {
 		$('#search-order-block').show();
@@ -318,7 +345,7 @@ function checkForNewLogs() {
 
 		// Generate a search query
 		if(searchURL === "") {
-			searchQuery = "page=1&limit=" + numberOfLogsPerLoad + '&start=' + lastLogSeconds + '&end=' + currentSeconds;
+			searchQuery = "page=1&limit=" + numberOfLogsPerLoad + '&start=' + lastLogSeconds + '&end=' + currentSeconds + '&';
 
 		} else {
 			var queryString = $.url(searchURL).param();
@@ -352,6 +379,10 @@ function checkForNewLogs() {
 				searchQuery += 'end=' + currentSeconds + '&';
 			}
 		}
+        //add the sort param into the search query
+        if(!("sort" in $.url(searchQuery).param())) {
+            searchQuery += 'sort=' + sortBy() + "&";
+        }
 
 		l("check: " + searchQuery);
 

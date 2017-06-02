@@ -179,6 +179,11 @@ function generateTagsSearch(){
         queryString += historyParameter + "=&";
     }
 
+    //add the sort param into the search query
+    if(!("sort" in $.url(queryString).param())) {
+        queryString += 'sort=' + sortBy() + "&";
+    }
+
     // Set new search query to its place
     searchInputArea.val(newValue);
 

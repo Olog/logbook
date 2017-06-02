@@ -265,7 +265,7 @@ pre{
 
 //bootstrap tooltip styling
 div.tooltip{
-	$col: mix(desaturate($blue-200, 20%), $gray-200, 50%);
+	$col: mix(desaturate($green-100, 20%), $gray-200, 50%);
 	.tooltip-inner{
 		color:darken($col, 42%);
 		background-color:lighten($col, 5%);
@@ -357,63 +357,78 @@ div.tooltip{
 				color:mix($gray-900, $green-100, 70%);
 			}
 			.checkbox-list-area{
-					display:none;
+				display:none;
 
-					position:absolute;
-					z-index:509;
-					width:85%;
-					top:110%;
-					left:50%;
-					transform:translateX(-50%);
-					background-color:$gray-200;
-					border:1px solid $gray-700;
-					box-shadow:1px 1px 2px 0px rgba(0,0,0,.4);
-					padding-bottom:5px;
-					@include border-radius(2px);
-					.search-checkbox{
-						display:block;
-						width:100%;
-						input[type=checkbox]{
-							position:absolute;
-							display:none;
+				position:absolute;
+				z-index:509;
+				width:50%;
+				top:110%;
+				left:1%;
+				//left:50%;
+				//transform:translateX(-50%);
+				background-color:$gray-200;
+				border:1px solid $gray-700;
+				box-shadow:2px 2px 1px 0px rgba(0,0,0,.4);
+				padding-bottom:5px;
+				@include border-radius(1px);
+				.search-checkbox{
+					display:block;
+					width:100%;
+					input[type=checkbox]{
+						position:absolute;
+						display:none;
+						&+label{
+							color:$gray-800;
+							margin:0;
+							width:100%;
+							height:100%;
+							display: inline-block;
+							cursor:pointer;
+							outline:none;
+							padding:.5px 10px;
+							font-weight:normal;
+							font-size:$xsm-font;
+							transition:background-color .4s;
+							&:hover{
+								color:$blue-gray-500;
+							}
+							&:before{
+								font-family: 'Glyphicons Halflings';
+								content: "\e083";
+								opacity:0;
+							}
+						}
+						&:checked{
 							&+label{
-								color:$gray-600;
-								margin:0;
-								width:100%;
-								height:100%;
-								display: inline-block;
-								cursor:pointer;
-								outline:none;
-								padding:2.5px 10px;
-								font-weight:normal;
-								font-size:$xsm-font;
-								transition:background-color .4s;
-								&:hover{
-									color:$blue-gray-500;
-								}
+								color:$blue-green-200;
 								&:before{
 									font-family: 'Glyphicons Halflings';
-									content: "\e083";
-									opacity:0;
+									content: "\e013";
+									opacity:1;
 								}
-							}
-							&:checked{
-								&+label{
-									color:$blue-green-200;
-									&:before{
-										font-family: 'Glyphicons Halflings';
-										content: "\e013";
-										opacity:1;
-									}
-									&:hover{
-										color:$blue-gray-500;
-									}
+								&:hover{
+									color:$blue-gray-500;
 								}
 							}
 						}
 					}
-
 				}
+
+				.checkbox-title{
+					display:block;
+					width:100%;
+					padding:0 5px;
+					label{
+						width:100%;
+						padding:.5px 10px;
+						font-size:$xsm-font;
+						font-weight:normal;
+						color:$gray-600;
+						border-bottom:1px solid $gray-400;
+					}
+				}
+
+			}
 		}
 
 	}

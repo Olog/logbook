@@ -192,6 +192,9 @@ var includeLogDescription = true;
 //If the Attachments in Logs should be displayed
 var includeLogAttachment = true;
 
+//If logs should be sorted by event start date instead
+var sortByEventStart = false;
+
 // URL parameter for displaying log's history
 var historyParameter = "history";
 
@@ -209,4 +212,6 @@ var globalLogId = undefined;
 
 // If in read-only mode
 var inReadOnly = false;
+
+
 

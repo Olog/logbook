@@ -105,6 +105,11 @@ function loadLogs(page, ignorePreviousSearchString){
 		searchQuery += historyParameter + "=&";
 	}
 
+	//add the sort param into the search query
+    if(!("sort" in $.url(searchQuery).param())) {
+        searchQuery += 'sort=' + sortBy() + "&";
+    }
+
 	// Save query to global var
 	searchURL = searchQuery;
 	l(searchURL);
