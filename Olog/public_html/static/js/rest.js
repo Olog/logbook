@@ -34,6 +34,7 @@ function loadLogbooks(targetId, showByDefault, saveSelectedItemsIntoACookie, sho
 		startListeningForToggleFilterClicks();
 
 		$('#'+targetId).trigger('dataloaded', selectedElements);
+        setReadOnly(inReadOnly);
 
 	}).fail(function(){
 		$('#modal_container').load(modalWindows + ' #serverErrorModal', function(response, status, xhr){
@@ -60,7 +61,9 @@ function loadTags(targetId, showByDefault, saveSelectedItemsIntoACookie, showSel
 		startListeningForToggleFilterClicks();
 
 		$('#'+targetId).trigger('dataloaded', selectedElements);
-	});
+        setReadOnly(inReadOnly);
+
+    });
 }
 
 /**

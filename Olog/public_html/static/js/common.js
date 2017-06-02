@@ -367,6 +367,8 @@ function enableCreatingAndModifying() {
 	$('#new_log').attr("disabled", false);
 	$('#new_logbook_and_tag').removeClass("disabled");
 	$('#new_logbook_and_tag').attr("disabled", false);
+    $('#modify_log_link').show();
+    $('#delete_log_link').show();
 }
 
 /**

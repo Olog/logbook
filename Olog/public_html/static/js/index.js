@@ -124,13 +124,6 @@ $(document).ready(function(){
 		window.location.href = "new_log.html";
 	});
 
-	//toggle read-only mode
-	/**
-    $('#read_only_mode').click(function(){
-        inReadOnly = !inReadOnly;
-        setReadOnly(inReadOnly);
-    });
-	 */
 
 	// Load Logbooks
 	loadLogbooks("load_logbooks", true, true, true);
@@ -252,8 +245,6 @@ $(document).ready(function(){
 		showHideSearchCleanButton($(event.target));
 	});
 
-	//check if in readonly mode
-	setReadOnly(inReadOnly);
 
     //set the scroll handler on the logs content area
     var scrollbtn = $('#log-scroll-up');
@@ -274,7 +265,7 @@ $(document).ready(function(){
         if(selectedLog.length > 0 && !isScrolledIntoView(selectedLog)){
             //there is a log selected, show new btn
             scrollbtn.show().addClass('scroll-back');
-            scrollbtn.find('.glyphicon').addClass('glyphicon-arrow-left').removeClass('glyphicon-chevron-up');;
+            scrollbtn.find('.glyphicon').addClass('glyphicon-arrow-left').removeClass('glyphicon-chevron-up');
         }
 	});
 
@@ -300,7 +291,11 @@ $(document).ready(function(){
 
     setMultilstCollapseEvent();
     setTooltips();
+
+    //check if in readonly mode
+    setReadOnly(inReadOnly);
 });
+
 
 /**
  * Check for new Log entries and load them if there are any.
@@ -475,19 +470,10 @@ function setReadOnly(set) {
         $('#read_only_mode').show();
 
         //if an element is already hidden, do not change its state
-
-		readOnlyElems.not(":visible").attr('read-only-hidden', 'true');
-
-        readOnlyElems.hide().attr("disabled", true).css('pointer-events', 'none');
-
 	}else{
-        readOnlyElems.not(":visible").attr('read-only-hidden', 'true');
 
         $('#read_only_mode').hide();
+        readOnlyElems.attr('read-only', 'true');
+	}
 
-        //display elements
-        readOnlyElems.show().css('opacity', '1').css('pointer-events', 'all');
-        $('[read-only-hidden="true"]').hide();
-
-    }
 }
