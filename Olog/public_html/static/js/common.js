@@ -356,6 +356,8 @@ function disableCreatingNewAndModifying() {
 	$('#new_logbook_and_tag').attr("disabled", true);
 	$('#modify_log_link').hide();
 	$('#delete_log_link').hide();
+	$('#new_logbook_multilist').hide().attr("disabled", true);
+	$('#new_tag_multilist').hide().attr("disabled", true);
 }
 
 /**
@@ -369,6 +371,8 @@ function enableCreatingAndModifying() {
 	$('#new_logbook_and_tag').attr("disabled", false);
     $('#modify_log_link').show();
     $('#delete_log_link').show();
+    $('#new_logbook_multilist').show().attr("disabled", false);
+    $('#new_tag_multilist').show().attr("disabled", false);
 }
 
 /**

@@ -344,3 +344,22 @@ function setTooltips(){
         container: 'body'
     });
 }
+
+/**
+ * Will change the page on/off from read-only mode
+ * @param set bool value to turn on/off
+ */
+function setReadOnly(set) {
+    var readOnlyElems = $('[read-only="false"]');
+    if(set){
+
+        $('#read_only_mode').show();
+
+        //if an element is already hidden, do not change its state
+    }else{
+
+        $('#read_only_mode').hide();
+        readOnlyElems.attr('read-only', 'true');
+    }
+
+}
