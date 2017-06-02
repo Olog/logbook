@@ -4,7 +4,7 @@
   @author: Dena Mujtaba
  */
 
-$input-split: 88%;
+$input-split: 93%;
 .filter-search-input{
   padding:4px;
   display:block;
@@ -22,8 +22,8 @@ $input-split: 88%;
     .clear-search{
       font-size:$md-font;
       position:absolute;
-      top:20px;
-      right:5px;
+      top:18px;
+      right:7px;
       transform:translateY(-50%);
       line-height:.75;
 
@@ -43,7 +43,7 @@ $input-split: 88%;
     white-space: nowrap;
     overflow-x:auto;
     position:relative;
-    border:1px solid $green-100;
+    border:1px solid $gray-500;
     background-color:white;
     padding:5px;
     display:block;
@@ -140,15 +140,28 @@ $input-split: 88%;
     }
   }
   .mock-submit-btn{
-    width:98% - $input-split;
     vertical-align:middle;
-    font-size:12px;
     display:inline-block;
     text-align:center;
     button{
-      padding:5px 10px;
-      left:0 !important; //overwrite in #search-button
-      border:1px solid $green-100;
+      padding:0;
+      left:auto !important; //overwrite in #search-button
+      border:0;
+      background-color:transparent;
+      color:$gray-900;
+      font-weight:bolder;
+      font-size:16px;
+      position:absolute;
+      right:2%;
+      top:50%;
+      transform:translateY(-50%);
+      transition:none;
+      &:hover{
+        cursor:pointer;
+        background-color:transparent;
+        border:0;
+        color:$green-100;
+      }
     }
   }
 
@@ -177,7 +190,7 @@ $input-split: 88%;
       &:hover{
         cursor:pointer;
         color:$blue-200;
-        background-color:$blue-100;
+        background-color:lighten($blue-100, 10%);
       }
     }
   }

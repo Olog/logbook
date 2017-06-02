@@ -22,7 +22,7 @@
 	}
 
 	span.header, span.description, span.attachment, div.show_history{
-		padding:2.5px 5px;
+		padding:2.5px 15px;
 		display:block;
 		font-size:$sm-font;
 		&.description{
@@ -49,15 +49,24 @@
 					color:$green-100;
 				}
 				&.log_row_date{
-					width:100%;
-					display:block;
 					text-align:right;
 					float:right;
-					color:$green-100;
+					width:100%;
+					display:block;
+					.span-content{
+						width:auto;
+						font-size:$xsm-font;
+						$col: mix(desaturate($green-100, 10%), $gray-200, 50%);
+						color:darken($col, 35%);
+					}
+
 				}
 				&.log_start_date{
 					float:right;
-					color:$red-100;
+					font-size:$xsm-font;
+
+					$col: mix(desaturate($pink-100, 3%), $gray-200, 70%);
+					color:darken($col, 15%);
 				}
 
 				&[title="Created"]{
@@ -202,7 +211,7 @@
 
 .log_body {
 	padding: 10px;
-	padding-top:20px;
+	padding-top:15px;
 	background-color:transparent;
 	//border-bottom: 1px solid $gray-400;
 	word-break:keep-all;
@@ -250,6 +259,7 @@
 	}
 
 	.CodeMirror{
+		color:$gray-950;
 		@include border-radius(5px);
 		border:1px solid $gray-500;
 		//styling to overwrite markdown render
@@ -329,6 +339,9 @@
 	-webkit-box-shadow: 0 3px 3px -2px $gray-700;
 }
 
+#load_log{
+	background-color:mix($blue-gray-500, $gray-100, 8%);
+}
 .log_properties, .log_attachments {
 	padding: 5px 10px;
 	margin: 0;
@@ -519,6 +532,7 @@
 }
 @media (max-width: 1023px) {
 	.container-modify-left,.container-modify-right {
+		width:100% !important;
 		float: none;
 		padding: 0px 20px 20px 20px;
 	}

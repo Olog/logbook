@@ -43,7 +43,7 @@ html, body {
  */
 nav.navbar{
     background-color:$nav-bg;
-  border:0;
+    border:0;
 	height:$navbar-height;
 	margin-bottom:0;
 	min-height:$navbar-height;
@@ -61,17 +61,27 @@ nav.navbar{
 		border-right:1px solid $nav-font-color;
 	}
 	.dropdown-menu{
+      padding:0;
+      background-color:$gray-200;
 		&.user_dropdown_menu{
 			min-width:245%;
 			padding: 10px;
 		}
 
-		border:1px solid $nav-font-color;
+		border:1px solid $gray-700;
 		border-top:0; // overwrite for placement
 		a{
+          padding:8px 10px;
+          font-size:12px;
+          color:$gray-900;
 			&:hover{
-				background-color:$gray-400;
+              background-color:$gray-300;
+              color:mix($blue-200, $gray-900, 70%);
 			}
+          &:last-child{
+            border-bottom-right-radius:5px;
+            border-bottom-left-radius:5px;
+          }
 		}
 	}
 	.navbar-collapse.collapse, .navbar-collapse.collapsing {
@@ -253,6 +263,37 @@ pre{
 	word-break:keep-all;
 }
 
+//bootstrap tooltip styling
+div.tooltip{
+	$col: mix(desaturate($blue-200, 20%), $gray-200, 50%);
+	.tooltip-inner{
+		color:darken($col, 42%);
+		background-color:lighten($col, 5%);
+		border:1px solid darken($col, 32%);
+	}
+	&.tooltip-bottom .tooltip-arrow{
+		top: 0;
+		left: 50%;
+		margin-left: -5px;
+		border-bottom-color: darken($col, 32%);
+		border-width: 0 5px 5px;
+	}
+	&.tooltip-right .tooltip-arrow{
+		top: 0;
+		left: 50%;
+		margin-left: -5px;
+		color:$col !important;
+		border-right-color: $col;
+		border-width: 0 5px 5px;
+	}
+	&.tooltip-left .tooltip-arrow{
+		top: 0;
+		left: 50%;
+		margin-left: -5px;
+		border-left-color: $col;
+		border-width: 0 5px 5px;
+	}
+}
 .container-scroll-middle .log-content-area{
 	position:relative;
 	display:block;
@@ -298,7 +339,7 @@ pre{
 		}
 
 		.checkbox-select-area{
-			color:$gray-700;
+			color:mix($gray-800, $green-100, 50%);
 			font-weight:bolder;
 			display:block;
 			width:100%;
@@ -312,7 +353,8 @@ pre{
 			}
 
 			&:hover{
-				color:$gray-950;
+              background-color:mix($gray-200, $green-100, 95%);
+				color:mix($gray-900, $green-100, 70%);
 			}
 			.checkbox-list-area{
 					display:none;

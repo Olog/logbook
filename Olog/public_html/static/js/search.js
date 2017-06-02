@@ -155,6 +155,7 @@ function searchForLogs(searchQuery, resetPageCouner) {
         // Select include
         $('.log span.attachment').hide();
     }
+    setTooltips();
 
 }
 

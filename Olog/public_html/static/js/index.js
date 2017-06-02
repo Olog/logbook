@@ -296,11 +296,10 @@ $(document).ready(function(){
 			$(this).addClass('scroll-back');
             $(this).find('.glyphicon').addClass('glyphicon-arrow-left').removeClass('glyphicon-chevron-up');
         }
-	})
+	});
 
     setMultilstCollapseEvent();
-
-
+    setTooltips();
 });
 
 /**

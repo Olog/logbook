@@ -334,3 +334,13 @@ function isScrolledIntoView(elem)
 
     return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
 }
+
+/**
+ * Sets the bootstrap tooltip for all elements with the attribute
+ */
+function setTooltips(){
+    //set all the tooltips for log spans
+    $('[data-toggle="tooltip"]').tooltip({
+        container: 'body'
+    });
+}

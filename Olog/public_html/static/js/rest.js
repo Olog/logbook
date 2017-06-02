@@ -143,6 +143,7 @@ function loadLogs(page, ignorePreviousSearchString){
         // Select include
         $('.log span.attachment').hide();
     }
+    setTooltips();
 }
 
 /**
@@ -1775,6 +1776,9 @@ function startListeningForLogClicks(){
 
 		} else {
 			actionElement = $(e.target).parent().parent();
+			if(actionElement.hasClass('header')){
+				actionElement = actionElement.parent();
+			}
 		}
 
 		var id = actionElement.find('[name=id]').val();
