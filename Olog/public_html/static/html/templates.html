@@ -19,24 +19,26 @@ and open the template in the editor.
 					<span title="Created" class="text-info log_header">
 						{{owner}}
 					</span>
-					{{#startdate}}
-						<span class="muted log_header_right log_start_date"  data-toggle="tooltip" data-placement="right" title="Event Start Time">
-							<i class="glyphicon glyphicon-time"></i>
-							{{eventStart}}
-						</span>
-					{{/startdate}}
 					{{#modified}}
-							<span class="muted log_row_date">
-								<span class="span-content"  title="Modified" data-toggle="tooltip" data-placement="bottom">
-									<i class="	glyphicon glyphicon-edit"></i>
-									{{modifiedOwner}} @ {{modifiedDate}}
-								</span>
-							</span>
+						<span class="muted log_header_right log_row_date"   title="Modified At" data-toggle="tooltip" data-placement="right">
+							<i class="	glyphicon glyphicon-edit"></i>
+							{{modifiedOwner}} @ {{modifiedDate}}
+						</span>
 					{{/modified}}
+
 				</span>
 				<span class="description">
 					<span class="owner">
-						{{createdDate}}
+						<span class="muted log_createdat_date"  data-toggle="tooltip" data-placement="left" title="Created At">
+							<i class="glyphicon glyphicon-pencil"></i>
+							{{createdDate}}
+						</span>
+						{{#startdate}}
+						<span class="muted log_start_date"  data-toggle="tooltip" data-placement="left" title="Event Start Time">
+							<i class="glyphicon glyphicon-time"></i>
+							{{eventStart}}
+						</span>
+						{{/startdate}}
 					</span>
 					{{description}}
 				</span>
@@ -64,29 +66,31 @@ and open the template in the editor.
 				<div class="log log_history {{color}}">
 					<input type="hidden" name="id" value="{{id}}" />
 					<span class="header">
-						<span title="Created" class="text-info log_header">
-							{{owner}}
-						</span>
-					{{#startdate}}
-						<span class="muted log_header_right log_start_date"  data-toggle="tooltip" data-placement="right" title="Event Start Time">
-							<i class="glyphicon glyphicon-time"></i>
-							{{eventStart}}
-						</span>
-					{{/startdate}}
-					{{#modified}}
-							<span class="muted log_row_date"  >
-								<span class="span-content"  title="Modified" data-toggle="tooltip" data-placement="bottom">
-									<i class="	glyphicon glyphicon-edit"></i>
-									{{modifiedOwner}} @ {{modifiedDate}}
-								</span>
-							</span>
-					{{/modified}}
+					<span title="Created" class="text-info log_header">
+						{{owner}}
 					</span>
+					{{#modified}}
+						<span class="muted log_header_right log_row_date"  title="Modified At" data-toggle="tooltip" data-placement="right">
+							<i class="	glyphicon glyphicon-edit"></i>
+							{{modifiedOwner}} @ {{modifiedDate}}
+						</span>
+					{{/modified}}
+
+				</span>
 					<span class="description">
 						<span class="owner">
-							{{createdDate}}
+							<span class="muted log_createdat_date"  data-toggle="tooltip" data-placement="left" title="Created At">
+								<i class="glyphicon glyphicon-pencil"></i>
+								{{createdDate}}
+							</span>
+							{{#startdate}}
+							<span class="muted log_start_date"  data-toggle="tooltip" data-placement="left" title="Event Start Time">
+								<i class="glyphicon glyphicon-time"></i>
+								{{eventStart}}
+							</span>
+							{{/startdate}}
 						</span>
-						{{description}}
+					{{description}}
 					</span>
 					<span class="attachment">
 						{{#attachments}}
@@ -103,7 +107,10 @@ and open the template in the editor.
 		<!-- Add more logs template -->
 		<script id="template_log_add_more" type="text/template">
 			<div class="log-last">
-				<a href="#" onclick="loadLogs({{page}});" id="add_more">Load more Log entries ...</a>
+				<a href="#" onclick="loadLogs({{page}});" id="add_more">
+					<i class="glyphicon glyphicon-refresh"></i>
+					Load more Log entries
+				</a>
 			</div>
 		</script>
 

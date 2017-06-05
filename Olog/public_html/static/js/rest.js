@@ -131,9 +131,11 @@ function loadLogs(page, ignorePreviousSearchString){
 
     if(ologSettings.includeStartDate){
         $('.log span.log_start_date').show();
+        $('.log span.log_createdat_date').hide();
     }else{
         // Select include
         $('.log span.log_start_date').hide();
+        $('.log span.log_createdat_date').show();
     }
 
     if(ologSettings.includeLogDescription){
@@ -1784,7 +1786,7 @@ function startListeningForLogClicks(){
 
 		} else {
 			actionElement = $(e.target).parent().parent();
-			if(actionElement.hasClass('header')){
+			if(actionElement.hasClass('header') || actionElement.hasClass('description')){
 				actionElement = actionElement.parent();
 			}
 		}

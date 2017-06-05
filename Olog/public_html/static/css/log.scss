@@ -31,8 +31,14 @@
 			span.owner{
 				display:inline-block;
 				margin-right:5px;
+				font-size:$xsm-font;
 				color: $gray-950;
 				font-weight:bolder;
+				.log_start_date{
+					$col: mix(desaturate($pink-100, 3%), $gray-200, 70%);
+					color:darken($col, 15%);
+				}
+
 			}
 			&.noshow{
 				height:15px;
@@ -49,23 +55,10 @@
 					color:$green-100;
 				}
 				&.log_row_date{
-					text-align:right;
-					float:right;
-					width:100%;
-					display:block;
-					.span-content{
-						width:auto;
-						font-size:$xsm-font;
-						$col: mix(desaturate($green-100, 10%), $gray-200, 50%);
-						color:darken($col, 35%);
-					}
-
-				}
-				&.log_start_date{
 					float:right;
 					font-size:$xsm-font;
 
-					$col: mix(desaturate($pink-100, 3%), $gray-200, 70%);
+					$col: mix(desaturate($green-100, 3%), $gray-200, 70%);
 					color:darken($col, 15%);
 				}
 
@@ -111,8 +104,19 @@
 	cursor: pointer;
 	border-top: 1px solid $gray-400;
 	padding: 5px;
+	text-align:center;
+	font-size:$sm-font;
+	background-color:$gray-400;
+	color:white !important;
+	transition: background-color .5s;
 	&:hover {
-		background-color: $gray-300;
+		background-color: $gray-600;
+		a{
+			text-decoration:none;
+			i{
+				@include animation-spin;
+			}
+		}
 	}
 }
 

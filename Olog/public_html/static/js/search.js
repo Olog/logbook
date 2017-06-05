@@ -140,9 +140,11 @@ function searchForLogs(searchQuery, resetPageCouner) {
 
     if(ologSettings.includeStartDate){
         $('.log span.log_start_date').show();
+        $('.log span.log_createdat_date').hide();
     }else{
         // Select include
         $('.log span.log_start_date').hide();
+        $('.log span.log_createdat_date').show();
     }
 
     if(ologSettings.includeLogDescription){

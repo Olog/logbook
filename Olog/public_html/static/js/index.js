@@ -68,6 +68,7 @@ $(document).ready(function(){
     $('#startdate-order').on('change', function(e) {
         ologSettings.includeStartDate = $(e.target).prop('checked');
         $('.log span.log_start_date').toggle();
+        $('.log span.log_createdat_date').toggle();
         saveOlogSettingsData(ologSettings);
         checkList.hide();
 
