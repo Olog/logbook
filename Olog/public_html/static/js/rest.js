@@ -165,6 +165,7 @@ function loadLogsAutomatically(){
 
 	$('#load_logs').on('logsloaded', function() {
 		scrollLock = false;
+		$('.log').draggable();
 	});
 
 	// Automatically load new logs when at the end of the page
@@ -216,6 +217,7 @@ function getLog(id){
 			logData = savedLogs[id];
 		});
 	}
+
 
 	return [logData, logId];
 }
@@ -680,6 +682,8 @@ function prepareParentAndChildren(i, children, prepend, logOwners) {
 		$("#load_logs").append(html);
 
 	});
+
+    setLogDraggable();
 }
 
 /**

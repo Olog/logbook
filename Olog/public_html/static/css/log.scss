@@ -26,6 +26,7 @@
 		display:block;
 		font-size:$sm-font;
 		&.description{
+			overflow:hidden;
 			line-height:1.3;
 			color:$gray-900;
 			span.owner{
@@ -89,6 +90,18 @@
 		}
 	}
 	transition:background-color .25s;
+
+	&.ui-log-dragging{
+		border:2px solid desaturate($blue-200 ,15%);
+		background-color:lighten($blue-100, 10%) !important;
+		z-index:600;
+		box-shadow:3px 3px 1px 0px rgba(0,0,0,.4);
+		opacity:.9;
+		cursor:move;
+		span{
+			color:darken(mix($blue-200, $gray-500, 50%), 15%) !important;
+		}
+	}
 }
 
 .log_light {
@@ -351,7 +364,50 @@
 
 #load_log{
 	background-color:mix($blue-gray-500, $gray-100, 8%);
+	.view_log_panel{
+		position:absolute;
+		top:0;
+		left:0;
+		bottom:0;
+		right:0;
+		background-color:lighten($green-100, 30%);
+		opacity:.8;
+		padding-top:60px;
+		z-index:600;
+		p, i{
+			color:$green-200;
+			font-size:$lg-font;
+			padding:10px;
+			display:block;
+			text-align:center;
+		}
+	}
+	&.well_hover{
+		.view_log_panel{
+			display:block;
+		}
+	}
+
 }
+
+.container-right.well_hover{
+	#load_log{
+		display:block;
+		div:not(.view_log_panel){
+			display:none;
+		}
+	}
+	.view_log_panel{
+		display:block;
+	}
+}
+
+@media (max-width: 1023px) {
+	.view_log_panel{
+		display:none !important;
+	}
+}
+
 .log_properties, .log_attachments {
 	padding: 5px 10px;
 	margin: 0;

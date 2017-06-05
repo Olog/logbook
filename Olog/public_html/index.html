@@ -62,7 +62,7 @@
 		</div>
 	</nav>
 
-	<div class="container-fluid content-area">
+	<div class="container-fluid content-area" id="main-content-area">
 		<!-- Left navigation -->
 		<div class="row full-row">
 			<div class="col-lg-12 col-md-12 full-row">
@@ -71,6 +71,7 @@
 						<div class="log_title">
 							<h5>Filter Log Entries</h5>
 						</div>
+
 
 						<!--<i id="load_logbooks_chevron" class="glyphicon glyphicon-chevron-down margin-left toggle-filters disable_selecting_text"></i>Logbooks
                         <input class="filter_search" id="logbooks_filter_search" type="text" placeholder="Filter Logbooks ..." />-->
@@ -244,7 +245,12 @@
 				<a name="#view"></a>
 				<div class="container-right">
 					<div id="load_log" class="well container-scroll-last-one">
-
+						<div class="view_log_panel">
+							<i class="glyphicon glyphicon-folder-open"></i>
+							<p>
+								View Log Details
+							</p>
+						</div>
 						<div class="log_title">
 							<h5>
 								<span id="log_owner"></span> : <span id="log_date"></span>
@@ -399,6 +405,7 @@
 
 	<script src="static/js/configuration.js"></script>
 	<script src="static/js/helper.js"></script>
+	<script src="static/js/draggable_methods.js"></script>
 	<script src="static/js/multilist.js"></script>
 	<script src="static/js/common.js"></script>
 	<script src="static/js/rest.js"></script>

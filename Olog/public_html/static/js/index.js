@@ -328,6 +328,9 @@ $(document).ready(function(){
 
     //check if in readonly mode
     setReadOnly(inReadOnly);
+
+    setDroppableLogArea();
+
 });
 
 
@@ -400,6 +403,7 @@ function checkForNewLogs() {
 			$("#load_logs").prepend(searchLog);
 		});
 	}
+
 }
 
 /**
