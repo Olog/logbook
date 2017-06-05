@@ -11,11 +11,12 @@
  */
 function addToShortcuts(list, elem){
     var logid = elem.find('input[name="id"]').val();
-
+    var createdAt = elem.find('.log_start_date').text();
+    var namee = elem.find('.log_header').text() ;
     var template = getTemplate("template_shortcut");
     var html = Mustache.to_html(template, {
-        createdAt: elem.find('.log_start_date').text(),
-        name: elem.find('.log_header').text(),
+        createdAt:createdAt ,
+        name: namee,
         logid: logid
     });
 
@@ -26,11 +27,19 @@ function addToShortcuts(list, elem){
 
     if(ologSettings.logShortcuts !== undefined){
         if(ologSettings.logShortcuts[logid] === undefined){
-            ologSettings.logShortcuts[logid] = logid;
+            ologSettings.logShortcuts[logid] = {
+                logId: logid,
+                createdAt: createdAt,
+                name: namee
+            };
         }
     }else{
         ologSettings.logShortcuts = {};
-        ologSettings.logShortcuts[logid] = logid;
+        ologSettings.logShortcuts[logid] = {
+            logId: logid,
+            createdAt: createdAt,
+            name: namee
+        };
     }
 
     //save the log shortcut data
@@ -47,43 +56,15 @@ function addToShortcuts(list, elem){
 function loadShortcuts(list){
 
     if(ologSettings.logShortcuts !== undefined){
-        var log = "";
         list.find('li:not(.multilist_header)').remove();
-        $.each( ologSettings.logShortcuts, function( key, value ) {
+        $.each( ologSettings.logShortcuts, function( key, values ) {
             //loop through each log id and search for it on the page
-            log = $('.log input[name="id"][value="'+ key +'"]').first();
-            if(log.length > 0){
-                if($('.list6 a[log_attr="'+key+'"]').length <= 0){
-                    log = log.parent();
-                }
-
-            }else{
-                //get this log
-                var foundLog = false;
-                var page = 1;
-
-                while(foundLog !== true){
-
-                    //load logs until it appears
-                    page = page  + 1;
-                    loadLogs(page, false ,false);
-
-                    log = $('.log input[name="id"][value="'+ key +'"]').first();
-                    if(log.length > 0) {
-
-                        //exit loop
-                        foundLog = true;
-                        log = log.parent();
-                        break;
-                    }
-                }
-            }
-
             var template = getTemplate("template_shortcut");
+
             var html = Mustache.to_html(template, {
-                createdAt: log.find('.log_start_date').text(),
-                name: log.find('.log_header').text(),
-                logid: key
+                createdAt: values.createdAt,
+                name: values.name,
+                logid: values.logId
             });
 
             list.append(html);
