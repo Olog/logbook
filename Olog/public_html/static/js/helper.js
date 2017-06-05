@@ -368,7 +368,7 @@ function setReadOnly(set) {
  * returns the sort parameter for loading logs
  */
 function sortBy(){
-	if(sortByEventStart){
+	if(ologSettings.sortByEventStart !== undefined && ologSettings.sortByEventStart){
 		return "eventStart";
 	}else{
 		return "created";

@@ -28,7 +28,7 @@ and open the template in the editor.
 					{{#modified}}
 							<span class="muted log_row_date">
 								<span class="span-content"  title="Modified" data-toggle="tooltip" data-placement="bottom">
-									<i class="	glyphicon glyphicon-pencil"></i>
+									<i class="	glyphicon glyphicon-edit"></i>
 									{{modifiedOwner}} @ {{modifiedDate}}
 								</span>
 							</span>
@@ -76,7 +76,7 @@ and open the template in the editor.
 					{{#modified}}
 							<span class="muted log_row_date"  >
 								<span class="span-content"  title="Modified" data-toggle="tooltip" data-placement="bottom">
-									<i class="	glyphicon glyphicon-pencil"></i>
+									<i class="	glyphicon glyphicon-edit"></i>
 									{{modifiedOwner}} @ {{modifiedDate}}
 								</span>
 							</span>
@@ -174,17 +174,17 @@ and open the template in the editor.
 
 		<!-- If Log entry was modified, show pencil and date modified. -->
 		<script id="template_log_details_edited" type="text/template">
-			<i title="Modified date" class="glyphicon glyphicon-edit"></i> {{editedDate}}
+			<i class="glyphicon glyphicon-edit"  title="Modified At" data-toggle="tooltip" data-placement="bottom"></i> {{editedDate}}
 		</script>
 
 		<!-- If Log entry was modified, show event start date/time with clock -->
 		<script id="template_log_details_startdate" type="text/template">
-			<i title="Modified date" class="glyphicon glyphicon-time"></i> {{eventStartDate}}
+			<i  title="Event Start Time" data-toggle="tooltip" data-placement="bottom"class="glyphicon glyphicon-time"></i> {{eventStartDate}}
 		</script>
 
 		<!-- Show info about when log entry has been created. -->
 		<script id="template_log_details_created" type="text/template">
-			<i title="Created date" class="glyphicon glyphicon-pencil"></i> {{createdDate}}
+			<i  title="Created At" data-toggle="tooltip" data-placement="bottom" class="glyphicon glyphicon-pencil"></i> {{createdDate}}
 		</script>
 
 		<!-- Add new attachment button. Currently this is not used. -->

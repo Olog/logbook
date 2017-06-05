@@ -109,6 +109,9 @@ $(document).ready(function(){
         $('#startdate-sort').prop('checked', ologSettings.sortByEventStart);
         saveOlogSettingsData(ologSettings);
         checkList.hide();
+
+        //refresh to display the logs
+        location.reload();
     });
 
     // Select include
@@ -123,6 +126,9 @@ $(document).ready(function(){
 
         saveOlogSettingsData(ologSettings);
         checkList.hide();
+
+        //refresh to display the logs
+        location.reload();
     });
 
 	// Show log order flag

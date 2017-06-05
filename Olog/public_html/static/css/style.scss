@@ -265,7 +265,7 @@ pre{
 
 //bootstrap tooltip styling
 div.tooltip{
-	$col: mix(desaturate($green-100, 20%), $gray-200, 50%);
+	$col: mix(desaturate($blue-200, 20%), $gray-200, 50%);
 	.tooltip-inner{
 		color:darken($col, 42%);
 		background-color:lighten($col, 5%);
