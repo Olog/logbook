@@ -17,6 +17,7 @@
 	.multilist_header {
 		padding:8px 10px;
 		font-weight: bold;
+		font-size:$sm-font;
 		color: $gray-100;
 		background-color:$blue-gray-500 !important;
 		cursor: pointer;
@@ -165,6 +166,37 @@
       height:100%;
     }
   }
+
+	.list6{
+		span{
+			font-weight:bolder;
+			display:inline-block;
+			&.logcreatedat{
+				margin-left:5px;
+				font-size:$xsm-font;
+				font-weight:normal;
+				color:$pink-100;
+			}
+		}
+
+		&:hover{
+
+			.log_shortcut_select i{
+				display:inline-block;
+				&:hover{
+					background-color:$red-100 !important;
+				}
+			}
+		}
+	}
+
+	&.multilist-drop-hover{
+		.multilist_header{
+			color: $blue-gray-300;
+			background-color: mix($blue-gray-500, $green-100, 70%) !important;
+		}
+		border:1px solid $green-100;
+	}
 }
 
 #datepicker_from {

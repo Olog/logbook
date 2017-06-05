@@ -81,6 +81,13 @@ $(document).ready(function(){
 		}
 	});
 
+    // Hide Shortcuts for small screens
+    $('#load_shortcuts').on('dataloaded', function(e){
+        if($(window).width() < smallScreenResolutionWidth) {
+            closeFilterGroup($('#load_shortcuts'));
+        }
+    });
+
 	// Hide Tags for small screens
 	$('#load_tags').on('dataloaded', function(e){
 		if($(window).width() < smallScreenResolutionWidth) {

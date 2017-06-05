@@ -71,8 +71,9 @@ function loadTags(targetId, showByDefault, saveSelectedItemsIntoACookie, showSel
  * @param {type} page number of logs per page is defined in configuration, page
  * @param {type} ignorePreviousSearchString ignore attributes in previous search query
  * number is increased when user scrolls down the list
+ * @param activateLogsTrigger if loadlogs trigger should be activated
  */
-function loadLogs(page, ignorePreviousSearchString){
+function loadLogs(page, ignorePreviousSearchString, activateLogsTrigger=true){
 	// Remo all the logs if we are starting from the beginning
 	if(page === 1){
 		$(".log").remove();
@@ -126,7 +127,9 @@ function loadLogs(page, ignorePreviousSearchString){
 		});
 
 		// Trigger event when all the logs are loaded
-		$('#load_logs').trigger('logsloaded');
+		if(activateLogsTrigger){
+            $('#load_logs').trigger('logsloaded');
+        }
 	});
 
     if(ologSettings.includeStartDate){
@@ -166,6 +169,10 @@ function loadLogsAutomatically(){
 	$('#load_logs').on('logsloaded', function() {
 		scrollLock = false;
 		$('.log').draggable();
+
+		if($('#load_shortcuts').length > 0 && $('#load_shortcuts').attr('load_complete')){
+            //loadShortcuts($('#load_shortcuts'));
+        }
 	});
 
 	// Automatically load new logs when at the end of the page

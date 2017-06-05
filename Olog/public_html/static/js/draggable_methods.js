@@ -9,10 +9,10 @@
  */
 function setDroppableLogArea(){
     $("#load_log, .container-right").droppable({
-        accept: '.log:not(.log_history)',
+        accept: '.log:not(.log_history, .log-child)',
         hoverClass: 'well_hover',
+        tolerance: 'pointer',
         drop: function(event, ui) {
-            console.log('accepted');
             ui.draggable.trigger('click');
             ui.helper.hide();
         }
@@ -38,3 +38,20 @@ function setLogDraggable(){
     }
 
 }
+
+/**
+ * Sets a multilist to accept droppable log items
+ * @param listname The list element to set
+ */
+function setMultilistDroppable(listname){
+    $(listname).droppable({
+        accept: '.log:not(.log_history, .log-child)',
+        hoverClass: 'multilist-drop-hover',
+        tolerance: 'pointer',
+        drop: function(event, ui){
+            addToShortcuts($(this), ui.draggable);
+            ui.helper.hide();
+        }
+    })
+}
+

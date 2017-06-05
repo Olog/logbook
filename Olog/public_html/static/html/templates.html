@@ -143,6 +143,24 @@ and open the template in the editor.
 			</li>
 		</script>
 
+		<!-- Shortcut item -->
+		<script id="template_shortcut" type="text/template">
+			<li>
+				<span class="list6 multilist_item disable_selecting_text" >
+					<span class="logname">
+						{{name}}
+					</span>
+					<span class="logcreatedat">
+						<i class="glyphicon glyphicon-time"></i>
+						{{createdAt}}
+					</span>
+					<a href="#" read-only="false" log_attr="{{logid}}" class="log_shortcut_select">
+						<i class="glyphicon glyphicon-pushpin float_right multilist_icons"></i>
+					</a>
+				</span>
+			</li>
+		</script>
+
 		<!-- Create from filter item -->
 		<script id="template_created_from" type="text/template">
 			<li class="{{show}}"><span class="list3 multilist_item disable_selecting_text {{selected}} {{color}}"><input type="hidden" name="from" value="{{value}}" />{{name}}</span></li>

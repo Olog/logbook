@@ -331,6 +331,9 @@ $(document).ready(function(){
 
     setDroppableLogArea();
 
+    setMultilistDroppable('#load_shortcuts');
+
+    loadShortcuts($('#load_shortcuts'));
 });
 
 
