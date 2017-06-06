@@ -4,6 +4,9 @@
  * @author: Dena Mujtaba
  */
 
+//maximum number of pages to search through for logs that have been saved
+var max_search = 10;
+
 /**
  * add a log to the shortcuts list
  * @param list The multilist to add to
@@ -96,16 +99,25 @@ function removeFromShortcutEvents(){
  */
 function handleShortcutClick(){
     $('.list6').click(function(){
+        var foundLog = false;
+
         var logId = $(this).find('a.log_shortcut_select').attr('log_attr');
+
         var log = $('.log input[name="id"][value="'+ logId +'"]').first();
+
         if(log.length > 0) {
+
+            foundLog = true;
             log = log.parent();
+
         }else{
-            var foundLog = false;
-            var page = 1;
-
+            deleteFilterData();
+            var search_count = 0;
             while(foundLog !== true){
-
+                if(search_count > max_search) {
+                    break;
+                }
+                search_count +=1;
                 //load logs until it appears
                 page = page  + 1;
                 loadLogs(page, false ,false);
@@ -120,10 +132,19 @@ function handleShortcutClick(){
                 }
             }
         }
-        log.trigger('click');
-        var loadlogsarea = $('#load_logs');
-        loadlogsarea.animate(
-            {scrollTop: loadlogsarea.scrollTop()+log.offset().top - log.height()*3 }, 'slow'
-        );
+        if(foundLog){
+            log.trigger('click');
+            var loadlogsarea = $('#load_logs');
+            loadlogsarea.animate(
+                {scrollTop: loadlogsarea.scrollTop()+log.offset().top - log.height()*3 }, 'slow'
+            );
+        }else{
+
+            //display an alert that the log was not found
+            $('#modal_container').load(modalWindows + ' #shortcutErrorModal', function(response, status, xhr){
+                $('#shortcutErrorModal').modal('toggle');
+            });
+        }
+
     })
 }
