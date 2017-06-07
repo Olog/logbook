@@ -241,7 +241,7 @@ function handleTagClick(tag){
 
         case "to":
             $('span.list5 #datepicker_to').val();
-            $('span.list5').trigger('click');
+            //$('span.list5').trigger('click');
 
             break;
 
