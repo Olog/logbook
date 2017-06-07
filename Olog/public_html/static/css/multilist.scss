@@ -202,10 +202,21 @@
 				margin-left:5px;
 				font-size:$xsm-font;
 				font-weight:normal;
-				color:$pink-100;
+				color:$blue-200;
+				padding:2px 3px;
+				border:1px solid transparent;
+				$time : .5s;
+				text-decoration:underline;
+				transition: background-color $time, border $time,
+				color $time, border-radius $time;
 				&:hover{
+					text-decoration:none;
 					cursor:pointer;
-					text-decoration:underline;
+					$col: mix(desaturate($blue-200, 20%), $gray-200, 50%);
+					color:darken($col, 32%);
+					background-color:lighten($col, 5%);
+					border:1px solid $col;
+					@include border-radius(25px);
 				}
 			}
 		}

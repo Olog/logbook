@@ -265,10 +265,11 @@ pre{
 
 //bootstrap tooltip styling
 div.tooltip{
-	$col: mix(desaturate($blue-200, 20%), $gray-400, 50%);
+	opacity:.97 !important;
+	$col: mix(desaturate($blue-200, 20%), $gray-500, 50%);
 	.tooltip-inner{
 		color:darken($col, 42%);
-		background-color:lighten($col, 5%);
+		background-color:lighten($col, 15%);
 		border:1px solid darken($col, 32%);
 	}
 	&.tooltip-bottom .tooltip-arrow{

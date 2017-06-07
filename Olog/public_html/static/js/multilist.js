@@ -346,7 +346,7 @@ function singleselect(name){
 		if(clicked === false) {
 			$(e.target).addClass("multilist_clicked");
 			limit = false;
-			numberOfLogsPerLoad = 1000;
+			numberOfLogsPerLoad = 20;
 
 			// Set from
 			if(from !== undefined) {

@@ -14,7 +14,7 @@ var max_search = 10;
  */
 function addToShortcuts(list, elem){
     var logid = elem.find('input[name="id"]').first().val();
-    var createdAt = elem.find('.log_start_date').first().text();
+    var createdAt = elem.find('.log_createdat_date').first().text();
     var namee = elem.find('.log_header').first().text() ;
     var template = getTemplate("template_shortcut");
     var html = Mustache.to_html(template, {
@@ -47,7 +47,7 @@ function addToShortcuts(list, elem){
 
     //save the log shortcut data
     saveOlogSettingsData(ologSettings);
-    removeFromShortcutEvents();
+    setShortcutBtnEvents();
     handleShortcutClick();
 
 }
@@ -75,7 +75,7 @@ function loadShortcuts(list){
 
         //set readonly elems again
         setReadOnly(inReadOnly);
-        removeFromShortcutEvents();
+        setShortcutBtnEvents();
         handleShortcutClick();
     }
     list.attr('load_shortcuts', true);
@@ -85,7 +85,7 @@ function loadShortcuts(list){
 /**
  * Declared the event handler for removing items from the shortcuts list
  */
-function removeFromShortcutEvents(){
+function setShortcutBtnEvents(){
     $('.log_shortcut_select').click(function(e){
         var elem = $(this).parent().parent();
         delete ologSettings.logShortcuts[$(this).attr('log_attr')];
@@ -95,7 +95,31 @@ function removeFromShortcutEvents(){
         });
 
         e.stopPropagation();
-    })
+    });
+
+    $('.logcreatedat').click(function(e){
+
+        findInDateRange($(e.target), 1);
+        fromToChanged();
+
+        //find the log in the logs
+        //e.stopPropagation();
+    });
+}
+
+/**
+ * Enters the To- From range for a selected logbook date
+ * @elem Element to get data from
+ * @param days Number of days to search between
+ */
+function findInDateRange(elem, days){
+    var dat = new Date(elem.text());
+    var futureDate = new Date(dat.setDate(dat.getDate() + days));
+    var prevDate = new Date(dat.setDate(dat.getDate() - 2*days));
+
+    //set to the datepickers
+    $('#datepicker_from').val(moment(prevDate).format('MM/DD/YYYY HH:mm'));
+    $('#datepicker_to').val(moment(futureDate).format('MM/DD/YYYY HH:mm'));
 }
 
 /**
