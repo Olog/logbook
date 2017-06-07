@@ -163,12 +163,12 @@ and open the template in the editor.
 					<span class="logname">
 						{{name}}
 					</span>
-					<span class="logcreatedat">
+					<span class="logcreatedat"  log_attr="{{logid}}" data-class="red" data-toggle="tooltip" data-placement="bottom" title="View other logs around this time" >
 						<i class="glyphicon glyphicon-time"></i>
 						{{createdAt}}
 					</span>
-					<a href="#" log_attr="{{logid}}" class="log_shortcut_select">
-						<i class="glyphicon glyphicon-pushpin float_right multilist_icons"></i>
+					<a href="#" log_attr="{{logid}}" class="log_shortcut_select" >
+						<i class="glyphicon glyphicon-pushpin float_right multilist_icons"  data-toggle="tooltip" data-placement="bottom" title="Remove Shortcut"></i>
 					</a>
 				</span>
 			</li>

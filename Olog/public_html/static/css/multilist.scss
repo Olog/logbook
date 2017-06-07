@@ -71,12 +71,12 @@
 
 	}
 
+	$multilist-bg: $gray-200;
 	li{
-		background-color:$gray-200;
+		background-color:$multilist-bg;
 		&:hover{
 			background-color: $gray-400;
 		}
-
 	}
 	.multilist_item {
 		position:relative;
@@ -156,15 +156,42 @@
     }
   }
   .list5{
-    &:hover{
-      background-color:transparent;
-    }
-    input {
-      margin:0px;
-      width: 90%;
-      font-size:$sm-font;
-      height:100%;
-    }
+	padding:0;
+	.row{
+	  	display:block;
+		@include space-reset;
+		padding-top:5px;
+	}
+	&:hover{
+		background-color:$multilist-bg !important;
+	}
+	  &.multilist_clicked{
+		  background-color:$multilist-bg !important;
+	  }
+
+	.form-group{
+		margin:0;
+		label{
+			margin:3px;
+			color:$gray-800 !important;
+		}
+		input{
+			height:auto;
+			margin:0 auto;
+			width:95%;
+			@include border-radius(50px);
+			background-color:lighten(mix($pink-100, $gray-300, 50%), 7%);
+			border:1px solid mix($pink-100, $gray-400, 50%);
+			box-shadow:none;
+			outline:0;
+			padding:3px 5px;
+			font-size:$xsm-font;
+			color:mix($pink-100, $gray-950, 50%);
+		}
+	}
+	  .multilist_clicked{
+		  background-color:$multilist-bg !important;
+	  }
   }
 
 	.list6{
@@ -176,11 +203,14 @@
 				font-size:$xsm-font;
 				font-weight:normal;
 				color:$pink-100;
+				&:hover{
+					cursor:pointer;
+					text-decoration:underline;
+				}
 			}
 		}
 
 		&:hover{
-
 			.log_shortcut_select i{
 				display:inline-block;
 				&:hover{

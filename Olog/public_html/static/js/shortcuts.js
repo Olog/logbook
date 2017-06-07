@@ -90,7 +90,9 @@ function removeFromShortcutEvents(){
         var elem = $(this).parent().parent();
         delete ologSettings.logShortcuts[$(this).attr('log_attr')];
         saveOlogSettingsData(ologSettings);
-        elem.fadeOut();
+        elem.fadeOut('slow', function() {
+            $(this).remove();
+        });
 
         e.stopPropagation();
     })

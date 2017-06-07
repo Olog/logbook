@@ -265,7 +265,7 @@ pre{
 
 //bootstrap tooltip styling
 div.tooltip{
-	$col: mix(desaturate($blue-200, 20%), $gray-200, 50%);
+	$col: mix(desaturate($blue-200, 20%), $gray-400, 50%);
 	.tooltip-inner{
 		color:darken($col, 42%);
 		background-color:lighten($col, 5%);
@@ -677,7 +677,6 @@ div.tooltip{
 	-ms-user-select: none;
 	border:0;
 }
-
 
 .login_error, #new_logbook_error_block, #error_block {
 	margin-bottom:0;

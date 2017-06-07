@@ -236,9 +236,11 @@ function handleTagClick(tag){
 
         case "from":
             $('span.list3 input[value="'+txtValue+'"]').parent().trigger('click');
+            $('span.list5 #datepicker_from').val();
             break;
 
         case "to":
+            $('span.list5 #datepicker_to').val();
             $('span.list5').trigger('click');
 
             break;
