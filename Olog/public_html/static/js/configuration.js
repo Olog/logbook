@@ -165,6 +165,9 @@ var inReadOnly = false;
 // Place delete button into Log details and allow deleting if this property is set to true
 var allowDeletingLogs = false;
 
+//If tooltips explaining certain parts of the application should be shown
+var showTooltips = true;
+
 /**
  * Global variables needed by more than one page. SHOULD NOT BE CONFIGURED BY THE USER!
  */

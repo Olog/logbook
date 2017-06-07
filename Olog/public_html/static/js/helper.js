@@ -340,9 +340,12 @@ function isScrolledIntoView(elem)
  */
 function setTooltips(){
     //set all the tooltips for log spans
-    $('[data-toggle="tooltip"]').tooltip({
-        container: 'body',
-    });
+	if(showTooltips){
+        $('[data-toggle="tooltip"]').tooltip({
+            container: 'body',
+        });
+	}
+
 }
 
 /**
