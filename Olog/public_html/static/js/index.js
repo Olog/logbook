@@ -334,6 +334,7 @@ $(document).ready(function(){
     setMultilistDroppable('#load_shortcuts');
 
     loadShortcuts($('#load_shortcuts'));
+
 });
 
 
@@ -403,6 +404,8 @@ function checkForNewLogs() {
 			l("found: " + logs.length);
 			repeatLogs(logs, true);
 			startListeningForLogClicks();
+            startListeningForLogBtnClicks();
+
 			$("#load_logs").prepend(searchLog);
 		});
 	}

@@ -27,6 +27,7 @@ $(document).ready(function(){
 
         //Set include Attachments
 		ologSettings.includeLogAttachment = includeLogAttachment;
+
 		// Set logVersionOrder
 		ologSettings.logVersionOrder = logVersionOrder;
 	}
@@ -66,10 +67,17 @@ $(document).ready(function(){
 
 	// Delete cookie when Olog resizes
 	$(window).resize(function(e){
-
+        resizeWithCollapse();
 		if($.cookie(settingsCookieName) !== undefined && ologSettings.resize !== undefined) {
-			$.removeCookie(settingsCookieName);
-			l("reload");
+
+			//Reset whole cookie
+			//$.removeCookie(settingsCookieName);
+
+			//Reset the resize obj of the cookie
+            ologSettings.resize = undefined;
+			saveOlogSettingsData(ologSettings);
+
+            l("RELOAD");
 			window.location.reload();
 		}
 	});
@@ -158,7 +166,7 @@ function resizeManager() {
 			modify_right_pane_width: undefined
 		};
 
-		ologSettings.resize = dims;
+		//ologSettings.resize = dims;
 
 		// Set the rest of the sizes so we don't get into trouble
 		/*if($(middlePane).doesExist()){
@@ -365,6 +373,7 @@ function disableCreatingNewAndModifying() {
 	$('#delete_log_link').hide();
 	$('#new_logbook_multilist').hide().attr("disabled", true);
 	$('#new_tag_multilist').hide().attr("disabled", true);
+    $('.log-opt-btn.edit-log-btn').hide();
 }
 
 /**
@@ -380,6 +389,7 @@ function enableCreatingAndModifying() {
     $('#delete_log_link').show();
     $('#new_logbook_multilist').show().attr("disabled", false);
     $('#new_tag_multilist').show().attr("disabled", false);
+    $('.log-opt-btn.edit-log-btn').show();
 }
 
 /**

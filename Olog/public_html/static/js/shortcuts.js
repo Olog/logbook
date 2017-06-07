@@ -13,9 +13,9 @@ var max_search = 10;
  * @param elem The log element to add to the list
  */
 function addToShortcuts(list, elem){
-    var logid = elem.find('input[name="id"]').val();
-    var createdAt = elem.find('.log_start_date').text();
-    var namee = elem.find('.log_header').text() ;
+    var logid = elem.find('input[name="id"]').first().val();
+    var createdAt = elem.find('.log_start_date').first().text();
+    var namee = elem.find('.log_header').first().text() ;
     var template = getTemplate("template_shortcut");
     var html = Mustache.to_html(template, {
         createdAt:createdAt ,
@@ -86,11 +86,13 @@ function loadShortcuts(list){
  * Declared the event handler for removing items from the shortcuts list
  */
 function removeFromShortcutEvents(){
-    $('.log_shortcut_select').click(function(){
+    $('.log_shortcut_select').click(function(e){
         var elem = $(this).parent().parent();
         delete ologSettings.logShortcuts[$(this).attr('log_attr')];
         saveOlogSettingsData(ologSettings);
         elem.fadeOut();
+
+        e.stopPropagation();
     })
 }
 
@@ -111,7 +113,6 @@ function handleShortcutClick(){
             log = log.parent();
 
         }else{
-            deleteFilterData();
             var search_count = 0;
             while(foundLog !== true){
                 if(search_count > max_search) {

@@ -14,9 +14,6 @@
 	cursor: pointer;
 	border-top: 1px solid $gray-400;
 	position: relative;
-	&:hover {
-		background-color: lighten($blue-100, 25%);
-	}
 	img {
 		margin-bottom: 3px;
 	}
@@ -67,7 +64,38 @@
 					font-weight:bold;
 					text-transform:uppercase;
 					font-size:$xsm-font;
+					position:relative;
+					.log-options{
+						display:block;
+						height:15px;
+						margin-left:10px;
+						transition:width .5s;
+						width:0;
+						position:absolute;
+						left:100%;
+						top:40%;
+						transform:translateY(-50%);
+						overflow:hidden;
+						color:red;
+						.log-opt-btn{
+							$size:15px;
+							color:white;
+							@include border-radius(100%);
+							background-color:$gray-900;
+							width:$size;
+							height:$size;
+							display:inline-block;
+							padding:2px 3px;
+							font-size:$xxsm-font;
+							margin: 0 2px;
+							&:hover{
+								cursor:pointer;
+								background-color:mix($blue-200, $gray-600, 50%);
+							}
+						}
+					}
 				}
+
 			}
 		}
 		&.show_history{
@@ -90,7 +118,12 @@
 		}
 	}
 	transition:background-color .25s;
-
+	&:hover {
+		background-color: lighten($blue-100, 25%);
+		.log-options{
+			width:100px !important;
+		}
+	}
 	&.ui-log-dragging{
 		border:2px solid desaturate($blue-200 ,15%);
 		background-color:lighten($blue-100, 10%) !important;

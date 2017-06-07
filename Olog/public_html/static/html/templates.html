@@ -18,6 +18,14 @@ and open the template in the editor.
 				<span class="header">
 					<span title="Created" class="text-info log_header">
 						{{owner}}
+						<span class="log-options">
+							<span class="log-opt-btn pin-log-btn" log-id-attr="{{id}}" title="Pin Log to Shortcuts" data-toggle="tooltip" data-placement="bottom">
+								<i class="glyphicon glyphicon-pushpin"></i>
+							</span>
+							<a class="log-opt-btn print-log-btn" href="print_log.html?id={{id}}" target="_blank"  title="Print Log" data-toggle="tooltip" data-placement="bottom">
+								<i class="glyphicon glyphicon-print"></i>
+							</a>
+						</span>
 					</span>
 					{{#modified}}
 						<span class="muted log_header_right log_row_date"   title="Modified At" data-toggle="tooltip" data-placement="right">
@@ -68,6 +76,11 @@ and open the template in the editor.
 					<span class="header">
 					<span title="Created" class="text-info log_header">
 						{{owner}}
+						<span class="log-options">
+							<a class="log-opt-btn print-log-btn" href="print_log.html?id={{id}}" target="_blank"  title="Print Log" data-toggle="tooltip" data-placement="bottom">
+								<i class="glyphicon glyphicon-print"></i>
+							</a>
+						</span>
 					</span>
 					{{#modified}}
 						<span class="muted log_header_right log_row_date"  title="Modified At" data-toggle="tooltip" data-placement="right">
@@ -154,7 +167,7 @@ and open the template in the editor.
 						<i class="glyphicon glyphicon-time"></i>
 						{{createdAt}}
 					</span>
-					<a href="#" read-only="false" log_attr="{{logid}}" class="log_shortcut_select">
+					<a href="#" log_attr="{{logid}}" class="log_shortcut_select">
 						<i class="glyphicon glyphicon-pushpin float_right multilist_icons"></i>
 					</a>
 				</span>

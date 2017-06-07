@@ -4,18 +4,6 @@
  * @author: Dejan Dežman <dejan.dezman@cosylab.com>
  */
 
-// Create object for saving logs
-var savedLogs = {};
-
-// Array of all the Tags
-var savedTags = new Array();
-
-// Array of all the Logbooks
-var savedLogbooks = new Array();
-
-// Current page number (REST responses can be loaded page by page)
-var page = 1;
-
 /**
  * Get Logbooks from REST service
  * @param targetId id of the element Logbooks will be placed in
@@ -120,6 +108,7 @@ function loadLogs(page, ignorePreviousSearchString, activateLogsTrigger=true){
 		repeatLogs(logs, false);
 		appendAddMoreLog("load_logs");
 		startListeningForLogClicks();
+        startListeningForLogBtnClicks();
 		scrollToLastLog();
 
 		$('.log img').last().load(function(){
@@ -381,8 +370,12 @@ function setMarkdown(str){
         toolbar:false,
         status:false,
 		shortcuts: false,
-        forceSync: true
-    })
+        forceSync: true,
+        renderingConfig: {
+            codeSyntaxHighlighting: false
+        }
+    });
+
 	//display
     markdownRender.togglePreview(str);
 }
@@ -1799,6 +1792,8 @@ function startListeningForLogClicks(){
 			actionElement = $(e.target).parent().parent();
 			if(actionElement.hasClass('header') || actionElement.hasClass('description')){
 				actionElement = actionElement.parent();
+			}else if(actionElement.hasClass('log-options')){
+				actionElement = actionElement.parent().parent().parent();
 			}
 		}
 
@@ -1813,6 +1808,21 @@ function startListeningForLogClicks(){
 		var log = getLog(actionElement.find("input[name=id]").val());
 		showLog(log[0], log[1]);
 	});
+}
+
+/**
+ * Listen for log option btn clicks
+ */
+function startListeningForLogBtnClicks(){
+
+    $('.log .pin-log-btn').unbind('click');
+    $('.log .pin-log-btn').click(function(e){
+
+        addToShortcuts($('#load_shortcuts').first(),
+			$(e.target).parent().parent().parent().parent().parent());
+        e.stopPropagation();
+
+    });
 }
 
 /**

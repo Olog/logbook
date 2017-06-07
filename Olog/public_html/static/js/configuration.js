@@ -15,6 +15,7 @@ var version = "0.5";
 // For accessing the REST service
 var serviceurl = window.location.protocol + "//" + window.location.host + "/Olog/resources/";
 
+
 // For all the dates shown in client
 // Format docs can be found at http://momentjs.com/docs/#/displaying/format/
 var dateFormat = "M/D/YY, h:mm A";
@@ -158,6 +159,12 @@ var searchInputElements = {
 	default:{}
 };
 
+// If in read-only mode
+var inReadOnly = false;
+
+// Place delete button into Log details and allow deleting if this property is set to true
+var allowDeletingLogs = false;
+
 /**
  * Global variables needed by more than one page. SHOULD NOT BE CONFIGURED BY THE USER!
  */
@@ -204,14 +211,23 @@ var versionParameter = "version";
 // Default version order
 var logVersionOrder = true;
 
-// Place delete button into Log details and allow deleting if this property is set to true
-var allowDeletingLogs = false;
-
 // Global log id placeholder
 var globalLogId = undefined;
 
-// If in read-only mode
-var inReadOnly = false;
+/**
+ * REST Configs
+ */
+// Create object for saving logs
+var savedLogs = {};
+
+// Array of all the Tags
+var savedTags = new Array();
+
+// Array of all the Logbooks
+var savedLogbooks = new Array();
+
+// Current page number (REST responses can be loaded page by page)
+var page = 1;
 
 
 

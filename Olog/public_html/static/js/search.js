@@ -131,6 +131,7 @@ function searchForLogs(searchQuery, resetPageCouner) {
 		repeatLogs(logs, false);
 		appendAddMoreLog("load_logs");
 		startListeningForLogClicks();
+        startListeningForLogBtnClicks();
 		scrollToLastLog();
 
 		$('.log img').last().load(function(){

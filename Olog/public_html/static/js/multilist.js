@@ -67,6 +67,21 @@ function multiselect(name, saveSelectedItemsIntoACookie){
             saveSelectedItems($(e.target), saveSelectedItemsIntoACookie);
 		}
 	});
+}
+
+/**
+ * Moves the multilist collapse bar as the window resizes
+ */
+function resizeWithCollapse(){
+    var multilistcollapse = $('#min-multilists');
+
+    if(!multilistcollapse.hasClass('closed')){
+        if(multilistcollapse.hasClass('min-right')){
+            multilistcollapse.css('left', $('.container-resize3').offset().left - multilistcollapse.width());
+        }else{
+            multilistcollapse.css('left', $('.container-resize').offset().left - multilistcollapse.width());
+        }
+	}
 
 }
 
@@ -78,17 +93,26 @@ function setMultilstCollapseEvent(){
     var multilistcontainer = multilistcollapse.parent();
 
     var set = ologSettings.collapse_multilist;
+    //check if the user had already collapsed the list
     if(set === undefined){
         set = false;
     }
 
 	if(multilistcollapse.hasClass('min-right')){
 		//collapse the multilist to the right side
+		//newlog & modifylog pages
+
 		var containermodifyleft = $('.container-modify-left');
 		var resize3 = $('.container-resize3');
 
-        setCollapseMultilistRight(multilistcollapse, set, multilistcontainer,containermodifyleft, resize3 );
+		if(set){
+            //set the collapse handler and set the widths
+            setCollapseMultilistRight(multilistcollapse, set, multilistcontainer, containermodifyleft, resize3 );
+		}
+
+		//set click handler on collapse bar
         multilistcollapse.click( function() {
+
             setCollapseMultilistRight($(this), !($(this).hasClass('closed')), multilistcontainer,containermodifyleft, resize3 );
         })
 
@@ -100,7 +124,11 @@ function setMultilstCollapseEvent(){
         var resize =  $('.container-resize');
         var containerleft = $('.container-left').width();
 
-        setCollapseMultilistLeft(multilistcollapse, set, multilistcontainer, containermiddle, resize2, containerleft,resize );
+        if(set){
+            setCollapseMultilistLeft(multilistcollapse, set, multilistcontainer, containermiddle, resize2, containerleft,resize );
+        }else{
+            multilistcollapse.removeClass('closed').css('left', resize.offset().left - multilistcollapse.width());
+        }
 
         multilistcollapse.click( function(e){
 
@@ -120,7 +148,7 @@ function setMultilstCollapseEvent(){
  * Collapse the multilist to the right
  * @param elem Element to control the collapse
  * @param set Boolean to close=true/ open=false multilist
- * @param parent Outer elemet of multilist to resize
+ * @param parent Outer element of multilist to resize
  * @param containerchange section to change the width of after resizing
  * @param origleft original position to switch the middle area back to
  */
@@ -140,6 +168,7 @@ function setCollapseMultilistRight(elem, set, parent, containerchange, origleft)
         containerchange.width(origleft.offset().left);
 	}
 
+	ologSettings.resize = {};
     ologSettings.collapse_multilist = set;
     saveOlogSettingsData(ologSettings);
 }
@@ -156,6 +185,7 @@ function setCollapseMultilistRight(elem, set, parent, containerchange, origleft)
  */
 function setCollapseMultilistLeft(elem, set, parent, containerchange, resizediv, origleft, resize){
 	var that = elem;
+
 	if(set){
         parent.width(0);
         that.addClass('closed').css('left','' );
@@ -167,9 +197,12 @@ function setCollapseMultilistLeft(elem, set, parent, containerchange, resizediv,
         containerchange.width(resizediv.offset().left - origleft).css('left',origleft );
         that.removeClass('closed').css('left', origleft - that.width());
 
-        ologSettings.resize.middle_pane_left = origleft;
+        if(ologSettings.resize !== undefined){
+            ologSettings.resize.middle_pane_left = origleft;
+        }
     }
 
+    ologSettings.resize = {};
     ologSettings.collapse_multilist = set;
     saveOlogSettingsData(ologSettings);
 }
