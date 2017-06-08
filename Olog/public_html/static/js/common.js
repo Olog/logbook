@@ -78,7 +78,9 @@ $(document).ready(function(){
 			saveOlogSettingsData(ologSettings);
 
             l("RELOAD");
-			window.location.reload();
+            setTimeout(function(){
+                window.location.reload();
+            },25);
 		}
 	});
 
