@@ -353,7 +353,10 @@
 //.toggle-from {}
 
 @media (max-width: 1023px) {
-	#min-multilists {
+	.multilist-container {
+		width:100% !important;
+	}
+		#min-multilists {
 		display:none !important;
 	}
 

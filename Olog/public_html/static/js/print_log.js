@@ -7,7 +7,8 @@
 
 $(document).ready(function(){
 	var urlObject = $.url();
-	var id = urlObject.param("id");
+    var id = urlObject.param("id");
+    var viewonly = urlObject.param("viewonly");
 
 	if(id !== undefined) {
 		var log = getLog(id);
@@ -18,7 +19,10 @@ $(document).ready(function(){
 			$('#date_printed').html(new Date());
 			showLog(log[0], log[1]);
 			l(log[0]);
-			window.print();
+
+			if(viewonly === undefined){
+                window.print();
+            }
 		}
 	}
 });

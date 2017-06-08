@@ -48,10 +48,10 @@ $tag-colors: (
 /**
   Navigation Vars
  */
-$nav-bg: #3e3e3e;
-$nav-border:1px solid #222;
+$nav-bg: $gray-950;
+$nav-border:1px solid $blue-gray-700;
 $navbar-height:40px;
-$nav-font-color: $gray-500;
+$nav-font-color:$gray-200;
 /**
   Default Box Sizing
  */

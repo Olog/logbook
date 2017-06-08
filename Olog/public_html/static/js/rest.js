@@ -1794,7 +1794,9 @@ function startListeningForLogClicks(){
 				actionElement = actionElement.parent();
 			}else if(actionElement.hasClass('log-options')){
 				actionElement = actionElement.parent().parent().parent();
-			}
+			}else if(actionElement.hasClass('log-header')){
+                actionElement = actionElement.parent().parent();
+            }
 		}
 
 		var id = actionElement.find('[name=id]').val();
