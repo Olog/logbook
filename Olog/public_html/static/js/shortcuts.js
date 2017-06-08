@@ -13,7 +13,7 @@ var max_search = 10;
  * @param elem The log element to add to the list
  */
 function addToShortcuts(list, elem){
-    var logid = elem.find('input[name="id"]').first().val();
+    var logid = elem.find('input[name="rawIdVal"]').first().val();
     var createdAt = elem.find('.log_createdat_date').first().text();
     var namee = elem.find('.log_header').first().text() ;
     var template = getTemplate("template_shortcut");
@@ -131,7 +131,7 @@ function handleShortcutClick(){
 
         var logId = $(this).find('a.log_shortcut_select').attr('log_attr');
 
-        var log = $('.log input[name="id"][value="'+ logId +'"]').first();
+        var log = $('.log input[name="rawIdVal"][value="'+ logId +'"]').first();
 
         if(log.length > 0) {
 
@@ -149,7 +149,7 @@ function handleShortcutClick(){
                 page = page  + 1;
                 loadLogs(page, false ,false);
 
-                log = $('.log input[name="id"][value="'+ logId +'"]').first();
+                log = $('.log input[name="rawIdVal"][value="'+ logId +'"]').first();
                 if(log.length > 0) {
 
                     //exit loop

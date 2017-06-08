@@ -15,11 +15,12 @@ and open the template in the editor.
 		<script id="template_log" type="text/template">
 			<div class="log {{click}} {{color}}">
 				<input type="hidden" name="id" value="{{id}}" />
+				<input type="hidden" name="rawIdVal" value="{{rawId}}" />
 				<span class="header">
 					<span title="Created" class="text-info log_header">
 						{{owner}}
 						<span class="log-options">
-							<span class="log-opt-btn pin-log-btn" log-id-attr="{{id}}" title="Pin Log to Shortcuts" data-toggle="tooltip" data-placement="bottom">
+							<span class="log-opt-btn pin-log-btn" log-id-attr="{{rawId}}" title="Pin Log to Shortcuts" data-toggle="tooltip" data-placement="bottom">
 								<i class="glyphicon glyphicon-pushpin"></i>
 							</span>
 							<a class="log-opt-btn print-log-btn" href="print_log.html?id={{id}}" target="_blank"  title="Print Log" data-toggle="tooltip" data-placement="bottom">

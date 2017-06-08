@@ -39,7 +39,7 @@ $(document).ready(function(){
 	var checkboxSelectArea = $('#checkbox-select-area');
 	var checkList = checkboxSelectArea.find('.checkbox-list-area');
     checkboxSelectArea.click(function(e){
-        event.stopPropagation();
+        e.stopPropagation();
         checkList.show();
 
 	});
