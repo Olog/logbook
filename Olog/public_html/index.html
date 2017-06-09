@@ -258,130 +258,135 @@
 				<!-- Log view -->
 				<a name="#view"></a>
 				<div class="container-right">
-					<div id="load_log" class="well container-scroll-last-one">
-						<div class="view_log_panel">
+					<div id="load_log" class="well container-scroll-last-one log-tabs-opener">
+						<div class="view_log_panel" id="view_log_panel">
 							<i class="glyphicon glyphicon-folder-open"></i>
 							<p>
 								View Log Details
 							</p>
 						</div>
-						<div class="log_title">
-							<h5>
-								<span id="log_owner"></span> : <span id="log_date"></span>
+						<div class="log_tabs_area " id="logs-tabs-area"></div>
+						<div class="log_container_area">
+							<div class="log_window opened">
+								<div class="log_title">
+									<h5>
+										<span id="log_owner"></span> : <span id="log_date"></span>
 
-								<a class="log_show_details log_modify_link float_right float_right_padding " href="#view">
-									<i class="glyphicon glyphicon-info-sign"></i>
-									INFO
-								</a>
+										<a class="log_show_details log_modify_link float_right float_right_padding " href="#view">
+											<i class="glyphicon glyphicon-info-sign"></i>
+											INFO
+										</a>
 
 
-								<a id="print_log_link"  class="log_modify_link  float_right float_right_padding" target="_blank" href="print_log.html">
-									<i title="Print Log Entry" class="glyphicon glyphicon-print"></i>
-									PRINT
-								</a>
-								<a id="modify_log_link" class="log_modify_link float_right float_right_padding" read-only="false" href="modify_log.html">
-									<i title="Modify Log Entry" class="glyphicon glyphicon-pencil"></i>
-									EDIT
-								</a>
-								<a id="delete_log_link" class="log_modify_link float_right float_right_padding" read-only="false" href="#" onclick="showDeleteModal('deleteLogModal', globalLogId);">
-									<i title="Delete Log Entry" class="glyphicon glyphicon-remove-sign"></i>
-									DELETE
-								</a>
-							</h5>
-						</div>
+										<a id="print_log_link"  class="log_modify_link  float_right float_right_padding" target="_blank" href="print_log.html">
+											<i title="Print Log Entry" class="glyphicon glyphicon-print"></i>
+											PRINT
+										</a>
+										<a id="modify_log_link" class="log_modify_link float_right float_right_padding" read-only="false" href="modify_log.html">
+											<i title="Modify Log Entry" class="glyphicon glyphicon-pencil"></i>
+											EDIT
+										</a>
+										<a id="delete_log_link" class="log_modify_link float_right float_right_padding" read-only="false" href="#" onclick="showDeleteModal('deleteLogModal', globalLogId);">
+											<i title="Delete Log Entry" class="glyphicon glyphicon-remove-sign"></i>
+											DELETE
+										</a>
+									</h5>
+								</div>
 
-						<div class="log_details display_none">
-							<span class="arrow-pointer"></span>
-							<div class="log_details_row">
-								<i title="Logbooks" class="glyphicon glyphicon-book"></i>
-								<span id="load_log_logbooks"></span>
-							</div>
-							<div class="log_details_row">
-								<i title="Tags" class="glyphicon glyphicon-tags"></i>
-								<span id="load_log_tags"></span>
-							</div>
-							<div class="log_details_row">
+								<div class="log_details display_none">
+									<span class="arrow-pointer"></span>
+									<div class="log_details_row">
+										<i title="Logbooks" class="glyphicon glyphicon-book"></i>
+										<span id="load_log_logbooks"></span>
+									</div>
+									<div class="log_details_row">
+										<i title="Tags" class="glyphicon glyphicon-tags"></i>
+										<span id="load_log_tags"></span>
+									</div>
+									<div class="log_details_row">
 								<span class="info_group">
 									<i title="Level" class="glyphicon glyphicon-tasks"></i>
 									<span id="log_level"></span>
 								</span>
-								<span class="info_group">
+										<span class="info_group">
 									<span id="log_details_created"></span>
 								</span>
-								<span class="info_group">
+										<span class="info_group">
 									<span id="log_details_edited"></span>
 								</span>
-								<span class="info_group">
+										<span class="info_group">
 									<span id="log_details_startdate"></span>
 								</span>
-							</div>
-						</div>
-
-						<div class="log_body">
-							<!-- <textarea disabled="disabled" id="log_description"></textarea>-->
-							<textarea id="log_description" disabled></textarea>
-						</div>
-
-						<div class="log_attachments">
-							<div class="log_header_area">
-								<span class="log_view_details">Attachments</span>
-								<div id="attachments_size_dropdown" class="btn-group pull-right">
-									<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-										<i title="Image size" class="glyphicon glyphicon-picture"></i>
-										<span class="caret"></span>
-									</a>
-									<ul class="dropdown-menu">
-										<li><a href="#">small</a></li>
-										<li class="active"><a href="#">medium</a></li>
-										<li><a href="#">large</a></li>
-									</ul>
+									</div>
 								</div>
-							</div>
 
-							<div id="load_log_attachments">
+								<div class="log_body">
+									<!-- <textarea disabled="disabled" id="log_description"></textarea>-->
+									<textarea id="log_description" disabled></textarea>
+								</div>
 
-							</div>
-						</div>
+								<div class="log_attachments">
+									<div class="log_header_area">
+										<span class="log_view_details">Attachments</span>
+										<div id="attachments_size_dropdown" class="btn-group pull-right">
+											<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+												<i title="Image size" class="glyphicon glyphicon-picture"></i>
+												<span class="caret"></span>
+											</a>
+											<ul class="dropdown-menu">
+												<li><a href="#">small</a></li>
+												<li class="active"><a href="#">medium</a></li>
+												<li><a href="#">large</a></li>
+											</ul>
+										</div>
+									</div>
 
-						<div class="log_properties">
-							<span class="log_view_details">Properties</span>
-							<div>
-								<table class="table table-bordered">
-									<thead>
-									<tr class="property_header disable_selecting_text">
-										<th colspan="2"><i class="glyphicon glyphicon-chevron-right"></i> Property 1</th>
-									</tr>
-									</thead>
-									<tbody class="property_body">
-									<tr>
-										<td>key</td>
-										<td>value</td>
-									</tr>
-									<tr>
-										<td>key</td>
-										<td>value</td>
-									</tr>
-									</tbody>
-								</table>
-							</div>
-							<div>
-								<table class="table table-bordered">
-									<thead>
-									<tr class="property_header">
-										<th colspan="2"><i class="glyphicon glyphicon-chevron-right"></i> Property 1</th>
-									</tr>
-									</thead>
-									<tbody class="property_body">
-									<tr>
-										<td>key</td>
-										<td>value</td>
-									</tr>
-									<tr>
-										<td>key</td>
-										<td>value</td>
-									</tr>
-									</tbody>
-								</table>
+									<div id="load_log_attachments">
+
+									</div>
+								</div>
+
+								<div class="log_properties">
+									<span class="log_view_details">Properties</span>
+									<div>
+										<table class="table table-bordered">
+											<thead>
+											<tr class="property_header disable_selecting_text">
+												<th colspan="2"><i class="glyphicon glyphicon-chevron-right"></i> Property 1</th>
+											</tr>
+											</thead>
+											<tbody class="property_body">
+											<tr>
+												<td>key</td>
+												<td>value</td>
+											</tr>
+											<tr>
+												<td>key</td>
+												<td>value</td>
+											</tr>
+											</tbody>
+										</table>
+									</div>
+									<div>
+										<table class="table table-bordered">
+											<thead>
+											<tr class="property_header">
+												<th colspan="2"><i class="glyphicon glyphicon-chevron-right"></i> Property 1</th>
+											</tr>
+											</thead>
+											<tbody class="property_body">
+											<tr>
+												<td>key</td>
+												<td>value</td>
+											</tr>
+											<tr>
+												<td>key</td>
+												<td>value</td>
+											</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -424,6 +429,7 @@
 	<script src="static/js/common.js"></script>
 	<script src="static/js/shortcuts.js"></script>
 	<script src="static/js/rest.js"></script>
+	<script src="static/js/log_tabs.js"></script>
 	<script src="static/js/index.js"></script>
 	<script src="static/js/search.js"></script>
 	<script src="static/js/search_tags.js"></script>

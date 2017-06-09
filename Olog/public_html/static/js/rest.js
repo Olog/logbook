@@ -355,6 +355,7 @@ function showLog(log, id){
 	} else {
 		$('.log_properties').hide("fast");
 	}
+
 }
 
 /**
@@ -1808,7 +1809,10 @@ function startListeningForLogClicks(){
 
 		actionElement.toggleClass("log_click");
 		var log = getLog(actionElement.find("input[name=id]").val());
+
 		showLog(log[0], log[1]);
+
+        $('#logs-tabs-area').trigger('logOpened',[ log[0], log[1]]);
 	});
 }
 

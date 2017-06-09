@@ -47,12 +47,14 @@ $(document).ready(function(){
     $('html').click(function() {
         checkList.hide();
     });
+
+    var searchCheck = $('#search-checkbox');
 	// Select include history
-    $('#search-checkbox').prop('checked', ologSettings.includeHistory);
+    searchCheck.prop('checked', ologSettings.includeHistory);
 
     // Listen to include history checkbox change
-    $('#search-checkbox').unbind('change');
-    $('#search-checkbox').on('change', function(e) {
+    searchCheck.unbind('change');
+    searchCheck.on('change', function(e) {
         ologSettings.includeHistory = $(e.target).prop('checked');
         $('#search-order-block').toggle();
         saveOlogSettingsData(ologSettings);
@@ -60,12 +62,13 @@ $(document).ready(function(){
 
     });
 
+    var startDateOrderCheck = $('#startdate-order');
     // Select include
-    $('#startdate-order').prop('checked', ologSettings.includeStartDate);
+    startDateOrderCheck.prop('checked', ologSettings.includeStartDate);
 
     // Listen to include checkbox change
-    $('#startdate-order').unbind('change');
-    $('#startdate-order').on('change', function(e) {
+    startDateOrderCheck.unbind('change');
+    startDateOrderCheck.on('change', function(e) {
         ologSettings.includeStartDate = $(e.target).prop('checked');
         $('.log span.log_start_date').toggle();
         $('.log span.log_createdat_date').toggle();
@@ -74,12 +77,13 @@ $(document).ready(function(){
 
     });
 
+    var descriptionCheckToggle = $('#description-toggle');
     // Select include
-    $('#description-toggle').prop('checked', ologSettings.includeLogDescription);
+    descriptionCheckToggle.prop('checked', ologSettings.includeLogDescription);
 
     // Listen to include checkbox change
-    $('#description-toggle').unbind('change');
-    $('#description-toggle').on('change', function(e) {
+    descriptionCheckToggle.unbind('change');
+    descriptionCheckToggle.on('change', function(e) {
         ologSettings.includeLogDescription = $(e.target).prop('checked');
         $('.log span.description').toggleClass('noshow');
         saveOlogSettingsData(ologSettings);
@@ -87,27 +91,31 @@ $(document).ready(function(){
 
     });
 
+    var attachmentsToggle = $('#attachments-toggle');
     // Select include
-    $('#attachments-toggle').prop('checked', ologSettings.includeLogAttachment);
+    attachmentsToggle.prop('checked', ologSettings.includeLogAttachment);
 
     // Listen to include checkbox change
-    $('#attachments-toggle').unbind('change');
-    $('#attachments-toggle').on('change', function(e) {
+    attachmentsToggle.unbind('change');
+    attachmentsToggle.on('change', function(e) {
         ologSettings.includeLogAttachment = $(e.target).prop('checked');
         $('.log span.attachment').toggle();
         saveOlogSettingsData(ologSettings);
         checkList.hide();
     });
 
+
+	var createdAtToggleSort = $('#createdat-sort');
+	var startDateToggleSort = $('#startdate-sort');
     // Select include
-    $('#createdat-sort').prop('checked', !ologSettings.sortByEventStart);
+    createdAtToggleSort.prop('checked', !ologSettings.sortByEventStart);
 
     // Listen to include checkbox change
-    $('#createdat-sort').unbind('change');
-    $('#createdat-sort').on('change', function(e) {
+    createdAtToggleSort.unbind('change');
+    createdAtToggleSort.on('change', function(e) {
         ologSettings.sortByEventStart = !($(e.target).prop('checked'));
 
-        $('#startdate-sort').prop('checked', ologSettings.sortByEventStart);
+        startDateToggleSort.prop('checked', ologSettings.sortByEventStart);
         saveOlogSettingsData(ologSettings);
         checkList.hide();
 
@@ -116,14 +124,14 @@ $(document).ready(function(){
     });
 
     // Select include
-    $('#startdate-sort').prop('checked', ologSettings.sortByEventStart);
+    startDateToggleSort.prop('checked', ologSettings.sortByEventStart);
 
     // Listen to include checkbox change
-    $('#startdate-sort').unbind('change');
-    $('#startdate-sort').on('change', function(e) {
+    startDateToggleSort.unbind('change');
+    startDateToggleSort.on('change', function(e) {
         ologSettings.sortByEventStart = $(e.target).prop('checked');
 
-        $('#createdat-sort').prop('checked', !ologSettings.sortByEventStart);
+        createdAtToggleSort.prop('checked', !ologSettings.sortByEventStart);
 
         saveOlogSettingsData(ologSettings);
         checkList.hide();
@@ -136,12 +144,13 @@ $(document).ready(function(){
 	if(ologSettings.includeHistory) {
 		$('#search-order-block').show();
 
+		var searchOrder = $('#search-order');
 		// Select include history
-		$('#search-order').prop('checked', ologSettings.logVersionOrder);
+        searchOrder.prop('checked', ologSettings.logVersionOrder);
 
 		// Listen to change of log entry order
-		$('#search-order').unbind('change');
-		$('#search-order').on('change', function(e) {
+		searchOrder.unbind('change');
+		searchOrder.on('change', function(e) {
 			ologSettings.logVersionOrder = $(e.target).prop('checked');
 			saveOlogSettingsData(ologSettings);
             checkList.hide();
@@ -272,8 +281,9 @@ $(document).ready(function(){
 		}
 	});
 
-	$('#search-query').unbind("keyup");
-	$('#search-query').bind("keyup", function(event) {
+	var searchQuery = $('#search-query');
+	searchQuery.unbind("keyup");
+	searchQuery.bind("keyup", function(event) {
 		// Check if input is empty. If it is empty hide clean button,
 		// if it is not, show clean button
 		showHideSearchCleanButton($(event.target));

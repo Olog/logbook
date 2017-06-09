@@ -217,6 +217,9 @@ var logVersionOrder = true;
 // Global log id placeholder
 var globalLogId = undefined;
 
+// Logs that have been opened in tabs
+var tabbedLogs = {};
+
 /**
  * REST Configs
  */

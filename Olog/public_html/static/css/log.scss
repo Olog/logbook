@@ -631,6 +631,7 @@
 		margin:5px 10px;
 	}
 }
+
 @media (max-width: 1023px) {
 	.container-modify-left,.container-modify-right {
 		width:100% !important;
@@ -659,7 +660,6 @@
 	}
 
 }
-
 
 .fileinput-button {
 	position: relative;
@@ -697,6 +697,110 @@
 				color:$gray-400;
 			}
 		}
+	}
+}
+
+//styling for opening logs area
+.log-tabs-opener{
+
+	$tabs-height: 25px;
+	$tabs-bg-color: $gray-200;
+	$tab-col: lighten($blue-gray-500, 5%);
+	$active-tab-col: $blue-gray-700;
+	$ttime: .5s;
+	.log_tabs_area{
+		height:$tabs-height;
+		background-color:$tabs-bg-color;
+		padding:3px 0 0;
+		overflow:hidden;
+		display:flex;
+
+		&:empty{
+			height:0;
+			padding:0;
+		}
+		.log-tab{
+			overflow:hidden;
+			position:relative;
+			display:inline-block;
+			height:100%;
+			float:left;
+			padding:5px 10px;
+			font-size:$xsm-font;
+			text-align:center;
+			top: 50%;
+			transform: translateY(-50%);
+			margin:0 1px;
+
+			color: $gray-200;
+			background-color:$tab-col;
+			transition:background-color $ttime;
+			cursor:pointer;
+
+			&:first-child{
+				margin-left:0;
+			}
+			&:last-child{
+				margin-right:0;
+			}
+
+			span.close-tab{
+				position:absolute;
+				right:8px;
+				bottom:0;
+				display:block;
+				color:mix($pink-100, $gray-300, 15%);
+				font-size:$xsm-font;
+				padding:5px;
+				padding-bottom:1px;
+				background-color:$tab-col;
+				transition:background-color $ttime;
+				&:hover{
+					cursor:pointer;
+					color:mix($pink-100, $gray-300, 25%) !important;
+
+				}
+			}
+			&:before {
+				content: "";
+				position: absolute;
+				top: 0;
+				right: 0;
+				z-index:2;
+				border-width: 0 $tabs-height/2 $tabs-height/2 0;
+				border-style: solid;
+				border-color: $tab-col $tabs-bg-color;
+				transition:border-color $ttime;
+			}
+
+			&.opened{
+				background-color: $active-tab-col;
+
+				span.close-tab{
+					background-color:$active-tab-col;
+				}
+
+				&:before{
+					border-color: $active-tab-col $tabs-bg-color;
+				}
+			}
+
+		}
+	}
+
+	.log_container_area{
+		.log_window{
+			&.opened{
+				display:block;
+				h5{
+					font-weight:bold;
+					a{
+						font-weight:normal;
+					}
+				}
+			}
+		}
+
 	}
 }
 
