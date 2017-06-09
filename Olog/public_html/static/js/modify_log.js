@@ -28,8 +28,6 @@ $(document).ready(function(){
         }
     );
 
-	// Initialize tooltip
-	$('#tooltip').tooltip({placement: "bottom"});
 
 	// Get log id parameter from url
 	logId = $.url().param("id");
@@ -214,6 +212,10 @@ $(document).ready(function(){
 	startListeningForPasteEvents("#files");
 
     setMultilstCollapseEvent();
+
+    // Initialize tooltip
+    $('#tooltip').tooltip({placement: "bottom"});
+    setMarkdownTooltips();
 
 });
 

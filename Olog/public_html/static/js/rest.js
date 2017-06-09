@@ -367,6 +367,7 @@ function setMarkdown(str){
     $('.CodeMirror').remove();
     //create the SimpleMDE instance to render text from markdown
     var markdownRender = new SimpleMDE({
+        autoDownloadFontAwesome:false,
         element: document.getElementById(str),
         toolbar:false,
         status:false,

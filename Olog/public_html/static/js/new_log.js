@@ -24,9 +24,6 @@ $(document).ready(function(){
         }
     );
 
-	// Initialize tooltip
-	$('#tooltip').tooltip({placement: "bottom"});
-
 	// Wait for dataload
 	$('#load_tags_m').on('dataloaded', function(e){
 		autocompleteTags(savedTags);
@@ -148,6 +145,11 @@ $(document).ready(function(){
 	$('#log_body').focus();
 
     setMultilstCollapseEvent();
+
+    // Initialize tooltip
+    $('#tooltip').tooltip({placement: "bottom"});
+    setMarkdownTooltips();
+
 });
 
 /**

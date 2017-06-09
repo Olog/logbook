@@ -312,6 +312,7 @@ function escapeHTML(str){
 function createMarkdownTextarea(textarea){
     //set the markdown editor to the textarea
     new SimpleMDE({
+        autoDownloadFontAwesome:false,
 		element: document.getElementById(textarea),
         forceSync: true,
         toolbar: mdToolbar,
@@ -345,7 +346,19 @@ function setTooltips(){
             container: 'body',
         });
 	}
+}
 
+/**
+ * sets the tooltips in the markdown editor
+ */
+function setMarkdownTooltips(){
+    //set all the tooltips for log spans
+    if(showTooltips){
+        $('.editor-toolbar a.fa').tooltip({
+            container: 'body',
+            placement: "bottom"
+        });
+    }
 }
 
 /**

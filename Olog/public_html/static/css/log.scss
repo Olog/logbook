@@ -310,6 +310,53 @@
 				background-color:transparent;
 			}
 		}
+
+		////Map fontawessome classes to glyphicons
+		.fa{
+			&:before{
+				font-family:'Glyphicons Halflings';
+				display:inline-block;
+				content:"\e022";
+			}
+			&.fa-bold:before{
+				content:"\e048";
+			}
+			&.fa-italic:before{
+				content:"\e049";
+			}
+			&.fa-strikethrough:before{
+				text-decoration: line-through;
+				content:"\e047";
+			}
+			&.fa-header:before{
+				content:"\e180";
+				&.fa-header-smaller{
+					font-size:65%;
+				}
+			}
+			&.fa-list-ul:before{
+				content:"\e056";
+			}
+			&.fa-list-ol:before{
+				content:"\e153";
+			}
+			&.fa-link:before{
+				content:"\e144";
+			}
+			&.fa-picture-o:before{
+				content:"\e060";
+			}
+			&.fa-table:before{
+				content:"\e032";
+			}
+			&.fa-eye:before{
+				content:"\e105";
+			}
+			&.fa-question-circle:before{
+				content:"\e085";
+			}
+
+		}
 	}
 
 	.CodeMirror{
