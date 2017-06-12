@@ -75,13 +75,16 @@ function multiselect(name, saveSelectedItemsIntoACookie){
 function resizeWithCollapse(){
     var multilistcollapse = $('#min-multilists');
 
-    if(!multilistcollapse.hasClass('closed')){
-        if(multilistcollapse.hasClass('min-right')){
-            multilistcollapse.css('left', $('.container-resize3').offset().left - multilistcollapse.width());
-        }else{
-            multilistcollapse.css('left', $('.container-resize').offset().left - multilistcollapse.width());
+    if(multilistcollapse.length > 0){
+        if(!multilistcollapse.hasClass('closed')){
+            if(multilistcollapse.hasClass('min-right')){
+                multilistcollapse.css('left', $('.container-resize3').offset().left - multilistcollapse.width());
+            }else{
+                multilistcollapse.css('left', $('.container-resize').offset().left - multilistcollapse.width());
+            }
         }
 	}
+
 
 }
 

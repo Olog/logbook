@@ -103,7 +103,7 @@ $(document).ready(function(){
 		// Load properties
 		if(log[0].properties !== undefined && log[0].properties.length !== 0) {
 			// Load properties
-			$('.log_properties').find('div').remove();
+			$('#log_properties').find('div').remove();
 
 			var template = getTemplate("template_modify_log_property");
 			var html = "";
@@ -127,7 +127,7 @@ $(document).ready(function(){
 				attrIndexes.push(attrIndex);
 
 				html = Mustache.to_html(template, newProperty);
-				$('.log_properties').append(html);
+				$('#log_properties').append(html);
 			});
 
 			l(attrIndexes);
@@ -135,7 +135,7 @@ $(document).ready(function(){
 			startListeningForPropertyClicks();
 
 		} else {
-			$('.log_properties').hide("fast");
+			$('#log_properties').hide("fast");
 		}
 
 		// Fill in the modify form

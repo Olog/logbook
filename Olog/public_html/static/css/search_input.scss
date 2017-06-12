@@ -51,6 +51,20 @@ $input-split: 93%;
     height:100%;
     padding-right:0; //for the clear search btn
 
+    &::-webkit-scrollbar {
+      width: 7px;
+      height:9px;
+      background-color:transparent;
+    }
+
+    &::-webkit-scrollbar-track {
+      border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color:$blue-200;
+    }
+
     span{
 
       &.tag-wrapper{
@@ -175,6 +189,7 @@ $input-split: 93%;
     width:100%;
     left:0;
     border:1px solid $gray-700;
+    z-index:550;
 
     li{
       text-transform:capitalize;

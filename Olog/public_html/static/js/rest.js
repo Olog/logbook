@@ -345,15 +345,15 @@ function showLog(log, id){
 	}
 
 	// Load properties
-	$('.log_properties').find('div').remove();
+	$('#log_properties').find('div').remove();
 
 	if(log.properties.length !== 0) {
-		$('.log_properties').show("fast");
+		$('#log_properties').show("fast");
 		repeatProperties(log.properties);
 		startListeningForPropertyClicks();
 
 	} else {
-		$('.log_properties').hide("fast");
+		$('#log_properties').hide("fast");
 	}
 
 }
@@ -686,6 +686,10 @@ function prepareParentAndChildren(i, children, prepend, logOwners) {
 	});
 
     setLogDraggable();
+    if(inSelectMode){
+        $(this).addClass('selected').find('.glyphicon').addClass('glyphicon-check').removeClass('glyphicon-unchecked');
+        $('.log').addClass('select-mode');
+    }
 }
 
 /**
@@ -831,7 +835,7 @@ function repeatProperties(properties) {
 		});
 
 		html = Mustache.to_html(template, newProperty);
-		$('.log_properties').append(html);
+		$('#log_properties').append(html);
 	});
 }
 
@@ -1781,22 +1785,22 @@ function startListeningForLogClicks(){
 
 	// Select a log entry
 	$('.log').unbind('click');
-	$('.log').click(function(e){
+	$('.log').click(function(e, fromDrop){
 		$('.log').removeClass("log_click");
 
 		if($(e.target).is("div") && !$(e.target).hasClass("show_history")){
 			actionElement = $(e.target);
 
-		}else if($(e.target).parent().is("div") && !$(e.target).parent().hasClass("show_history")){
+		}else if($(e.target).parent().is("div") && !$(e.target).parent().hasClass("show_history") && !$(e.target).parent().hasClass('log-checkbox')){
 			actionElement = $(e.target).parent();
 
 		} else {
 			actionElement = $(e.target).parent().parent();
 			if(actionElement.hasClass('header') || actionElement.hasClass('description')){
 				actionElement = actionElement.parent();
-			}else if(actionElement.hasClass('log-options')){
+			}else if(actionElement.hasClass('log-options') || actionElement.hasClass('owner')){
 				actionElement = actionElement.parent().parent().parent();
-			}else if(actionElement.hasClass('log-header')){
+			}else if(actionElement.hasClass('log-header') || actionElement.hasClass('log_header')|| actionElement.hasClass('log-select-toggle') || actionElement.hasClass('log-checkbox')){
                 actionElement = actionElement.parent().parent();
             }
 		}
@@ -1813,7 +1817,9 @@ function startListeningForLogClicks(){
 
 		showLog(log[0], log[1]);
 
-        $('#logs-tabs-area').trigger('logOpened',[ log[0], log[1]]);
+		if(fromDrop){
+            $('#logs-tabs-area').trigger('logOpened',[ log[0], log[1]]);
+        }
 	});
 }
 
@@ -1829,6 +1835,11 @@ function startListeningForLogBtnClicks(){
 			$(e.target).parent().parent().parent().parent().parent());
         e.stopPropagation();
 
+    });
+
+    $('.log .newtab-log-btn').unbind('click');
+    $('.log .newtab-log-btn').click(function(e){
+		$(this).closest('.log').trigger('click', ['fromDrop']);
     });
 }
 

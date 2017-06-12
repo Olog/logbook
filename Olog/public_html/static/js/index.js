@@ -345,6 +345,48 @@ $(document).ready(function(){
 
     loadShortcuts($('#load_shortcuts'));
 
+    var logSelectCheck = $('.log-select-toggle');
+
+    // Listen to include checkbox change
+    logSelectCheck.unbind('change');
+    logSelectCheck.on('change', function(e) {
+        //$('.log').toggleClass('select-mode');
+
+        e.stopPropagation();
+    });
+
+    $('#print-selected-logs, #open-selected-logs').hide();
+    $('#select-logs').click(function(){
+    	if(inSelectMode){
+    		//turn off selectmode
+			inSelectMode = false;
+            $(this).removeClass('selected').find('.glyphicon').addClass('glyphicon-unchecked').removeClass('glyphicon-check');
+            $('.log').removeClass('select-mode');
+            $('.log .log-select-toggle').prop('checked',false);
+            $('#print-selected-logs').hide();
+            $('#open-selected-logs').hide();
+
+        }else{
+    		inSelectMode = true;
+            $(this).addClass('selected').find('.glyphicon').addClass('glyphicon-check').removeClass('glyphicon-unchecked');
+            $('.log').addClass('select-mode');
+            $('#print-selected-logs').show();
+            $('#open-selected-logs').show();
+        }
+	});
+
+	$('#print-selected-logs').click(function(e){
+        var result = $(".log input:checkbox:checked").toArray().map(function(a) {return a.value;}).join(",");
+        window.open('print_log.html?id='+result, '_blank');
+
+    });
+
+	$('#open-selected-logs').click(function(e){
+        $(".log input:checkbox:checked").each(function(e, val) {
+        	$(this).parent().parent().trigger('click', ['fromDrop']);
+        });
+
+	});
 });
 
 

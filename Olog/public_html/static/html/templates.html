@@ -13,7 +13,14 @@ and open the template in the editor.
 
 		<!-- Log entry template -->
 		<script id="template_log" type="text/template">
-			<div class="log {{click}} {{color}}">
+			<div class="log {{click}} {{color}} ">
+				<div  class="log-checkbox ">
+					<input id="log-checkbox-{{id}}" class="log-select-toggle" value="{{id}}" name="checkbox-{{id}}" type="checkbox">
+					<label for="log-checkbox-{{id}}">
+						&nbsp;
+					</label>
+				</div>
+
 				<input type="hidden" name="id" value="{{id}}" />
 				<input type="hidden" name="rawIdVal" value="{{rawId}}" />
 				<span class="header">
@@ -26,7 +33,7 @@ and open the template in the editor.
 							<a class="log-opt-btn print-log-btn" href="print_log.html?id={{id}}" target="_blank"  title="Print Log" data-toggle="tooltip" data-placement="bottom">
 								<i class="glyphicon glyphicon-print"></i>
 							</a>
-							<a class="log-opt-btn newtab-log-btn" href="print_log.html?id={{id}}&viewonly=true" target="_blank"  title="View in New Tab" data-toggle="tooltip" data-placement="bottom">
+							<a class="log-opt-btn newtab-log-btn" log-id-attr="{{rawId}}" href="#" title="View in New Tab" data-toggle="tooltip" data-placement="bottom">
 								<i class="glyphicon glyphicon-new-window"></i>
 							</a>
 						</span>
@@ -74,8 +81,14 @@ and open the template in the editor.
 
 		<!-- Log entry history template -->
 		<script id="template_log_history" type="text/template">
-			<div class="{{click}} {{parent_color}} child_{{rawId}} log_child" style="display: none">
+			<div class="{{click}} {{parent_color}} child_{{rawId}} log_child " style="display: none">
 				<div class="log log_history {{color}}">
+					<div class="log-checkbox ">
+						<input id="log-checkbox-{{id}}"  class="log-select-toggle" type="checkbox">
+						<label for="log-checkbox-{{id}}">
+							&nbsp;
+						</label>
+					</div>
 					<input type="hidden" name="id" value="{{id}}" />
 					<span class="header">
 					<span title="Created" class="text-info log_header">
@@ -435,6 +448,74 @@ and open the template in the editor.
 				</span>
 			</div>
 		</script>
+
+		<script id="print_log_template" type="text/template">
+		<div class="container" id="print_container">
+			<div class="log_print_title">
+				<h4>Log ID: <span id="log_id" unset-id="true">{{logId}}</span> Version: <span unset-id="true" id="log_version">{{logVersion}}</span></h4>
+			</div>
+			<div>
+				<p class="print-type">
+					<span class="bold">Owner</span>
+					<span id="log_owner" unset-id="true"></span>
+				</p>
+			</div>
+			<div>
+				<p class="print-type">
+					<span class="bold">Log created</span>
+					<span id="log_date" unset-id="true"></span>
+				</p>
+			</div>
+			<div>
+				<p class="print-type">
+					<span class="bold">Start Date</span>
+					<span id="log_details_startdate" unset-id="true"></span>
+				</p>
+			</div>
+			<div>
+				<p class="print-type">
+					<span class="bold">Level</span>
+					<span id="log_level" unset-id="true"></span>
+				</p>
+			</div>
+			<div>
+				<p class="print-type">
+					<span class="bold">Logbooks</span>
+					<span id="load_log_logbooks" unset-id="true"></span>
+				</p>
+			</div>
+			<div>
+				<p class="print-type">
+					<span class="bold">Tags</span>
+					<span id="load_log_tags" unset-id="true"></span>
+				</p>
+			</div>
+			<div class="log_print_description">
+				<span class="bold">Description</span>
+				<textarea id="log_description" unset-id="true" disabled></textarea>
+			</div>
+			<div>
+				<p  class="print-type">
+					<span class="bold">Attachments</span>
+					<span id="load_log_attachments" unset-id="true"></span>
+				</p>
+			</div>
+			<div>
+				<p  class="print-type">
+					<span class="bold">Properties</span>
+					<span class="log_properties"  id="log_properties" unset-id="true">
+
+					</span>
+				</p>
+			</div>
+			<div>
+				<p class="print-type">
+					<span class="bold">Date printed</span>
+					<span id="date_printed" unset-id="true" >{{datePrinted}}</span>
+				</p>
+			</div>
+		</div>
+	</script>
 
 	</body>
 </html>

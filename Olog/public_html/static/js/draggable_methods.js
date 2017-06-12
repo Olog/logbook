@@ -13,7 +13,7 @@ function setDroppableLogArea(){
         hoverClass: 'well_hover',
         tolerance: 'pointer',
         drop: function(event, ui) {
-            ui.draggable.trigger('click');
+            ui.draggable.trigger('click', ['fromDrop']);
             ui.helper.hide();
         }
     });
@@ -53,4 +53,5 @@ function setMultilistDroppable(listname){
         }
     })
 }
+
 

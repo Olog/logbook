@@ -239,6 +239,19 @@
 									</div>
 								</div>
 								<input autocomplete="off" type="hidden" placeholder="Search ..." id="search-query" class="search_input form-control" />
+
+								<div id="select-logs-area" class="select-logs-area">
+									<a class="btn btn-select-logs" id="select-logs">
+										<i class="glyphicon glyphicon-unchecked"></i>
+										Select
+									</a>
+										<a class="btn btn-print-selected" id="print-selected-logs">
+											<i class="glyphicon glyphicon-print"></i>
+											Print Selected Logs</a>
+										<a class="btn btn-select-logs" id="open-selected-logs">
+											<i class="glyphicon glyphicon-new-window"></i>
+											Open Selected Logs</a>
+								</div>
 							</div>
 							<div class="logs-area"  id="load_logs" >
 								<!-- Template -->
@@ -346,7 +359,7 @@
 									</div>
 								</div>
 
-								<div class="log_properties">
+								<div class="log_properties" id="log_properties">
 									<span class="log_view_details">Properties</span>
 									<div>
 										<table class="table table-bordered">

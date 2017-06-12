@@ -445,6 +445,31 @@ div.tooltip{
 			}
 		}
 
+		.select-logs-area{
+			display:flex;
+			bottom:0;
+			position:absolute;
+			width:100%;
+			background-color:$gray-300;
+			a{
+				padding: 2px 5px;
+				font-size:$xsm-font;
+				color:$gray-900;
+				background-color:transparent;
+				transition:color .5s;
+
+				&:hover{
+					cursor:pointer;
+					color:mix($pink-100, $gray-900, 60%);
+
+					&:first-child{
+						color:mix($green-100, $gray-900, 60%);
+					}
+				}
+
+			}
+
+		}
 	}
 
 	.logs-area{

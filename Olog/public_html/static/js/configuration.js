@@ -220,6 +220,8 @@ var globalLogId = undefined;
 // Logs that have been opened in tabs
 var tabbedLogs = {};
 
+//If the list of logs is in multi select mode
+var inSelectMode = false;
 /**
  * REST Configs
  */
