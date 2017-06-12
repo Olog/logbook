@@ -157,7 +157,7 @@ function loadLogsAutomatically(){
 
 	$('#load_logs').on('logsloaded', function() {
 		scrollLock = false;
-		$('.log').draggable();
+		setLogDraggable();
 
 		if($('#load_shortcuts').length > 0 && $('#load_shortcuts').attr('load_complete')){
             //loadShortcuts($('#load_shortcuts'));

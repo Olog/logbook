@@ -24,7 +24,7 @@ function setDroppableLogArea(){
  */
 function setLogDraggable(){
     if($(window).width() >= smallScreenResolutionWidth){
-        $('.log:not(.log_history, .log-child)').draggable({
+        $('.log:not(.log_history, .log_child)').draggable({
             appendTo: '#main-content-area',
             //containment: 'document',
             scroll: false,
