@@ -482,6 +482,25 @@ div.tooltip{
 		bottom:0;
 	}
 
+	.log_loading_area{
+		opacity:.65;
+		font-size:$xlg-font*1.5;
+		font-weight:bolder;
+		color:$blue-200;
+		text-align:center;
+		overflow:hidden;
+		height:auto;
+		display:block;
+		position:absolute;
+		left:0;
+		right:0;
+		bottom:0;
+		z-index:509;
+		padding-top:50%;
+		i.glyphicon{
+			@include animation-spin;
+		}
+	}
 	#log-scroll-up{
 		z-index:503;
 		position:absolute;

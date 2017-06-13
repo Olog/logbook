@@ -18,7 +18,7 @@
 
 //Custom styling to overwrite
 #ui-datepicker-div{
-  z-index:1000 !important; //overlap everything
+  z-index:1051 !important; //overlap everything
   border:1px solid $gray-700;
   @include border-radius(6px);
   outline:none;

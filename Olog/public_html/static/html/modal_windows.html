@@ -11,6 +11,35 @@ index.html document and shown to the user.
 			<!-- Modal windows
 			==================================================== -->
 
+
+			<!-- Add shortcut ============================================== -->
+			<div id="myShortcutModal" class="modal fade" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h3>New Shortcut</h3>
+						</div>
+						<div class="modal-body">
+							<div id="new_logbook_error_block" class="alert alert-danger">
+								<button type="button" class="close" id="new_logbook_error_x">&times;</button>
+								<h4>Error!</h4>
+								<span id="new_logbook_error_body"></span>
+							</div>
+							<div class="form-group">
+								<label>Shortcut Timestamp</label>
+								<input id="new_shortcut_timestamp" class="form-control" name="name" type="text" placeholder="Now">
+							</div>
+
+						</div>
+						<div class="modal-footer">
+							<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
+							<a id="new_logbook_create" onclick="createShortcutHandler()" href="#" class="btn btn-success">Create</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
 			<!-- Add logbook ============================================== -->
 			<div id="myModal" class="modal fade" role="dialog">
 				<div class="modal-dialog">

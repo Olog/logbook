@@ -10,17 +10,34 @@ var max_search = 10;
 /**
  * add a log to the shortcuts list
  * @param list The multilist to add to
- * @param elem The log element to add to the list
+ * @param elem The element to add to the list of shortcuts
+ * @param isTimestamp If it is a timestamp, not a log object
  */
-function addToShortcuts(list, elem){
-    var logid = elem.find('input[name="rawIdVal"]').first().val();
-    var createdAt = elem.find('.log_createdat_date').first().text();
-    var namee = elem.find('.log_header').first().text() ;
-    var template = getTemplate("template_shortcut");
+function addToShortcuts(list, elem, isTimestamp=false){
+    var logid = "";
+    var createdAt = "";
+    var namee = "" ;
+    var template = "";
+    var shortcuttype = "timestamp";
+
+    if(isTimestamp){
+        logid = elem;
+        createdAt = elem;
+        namee = "" ;
+        template = getTemplate("template_shortcut");
+    }else{
+        logid = elem.find('input[name="rawIdVal"]').first().val();
+        createdAt = elem.find('.log_createdat_date').first().text();
+        namee = elem.find('.log_header').first().text() ;
+        template = getTemplate("template_shortcut");
+        shortcuttype = "log";
+    }
+
     var html = Mustache.to_html(template, {
         createdAt:createdAt ,
         name: namee,
-        logid: logid
+        logid: logid,
+        shortcuttype: shortcuttype
     });
 
     list.append(html);
@@ -31,6 +48,7 @@ function addToShortcuts(list, elem){
     if(ologSettings.logShortcuts !== undefined){
         if(ologSettings.logShortcuts[logid] === undefined){
             ologSettings.logShortcuts[logid] = {
+                timestamp: isTimestamp,
                 logId: logid,
                 createdAt: createdAt,
                 name: namee
@@ -39,6 +57,7 @@ function addToShortcuts(list, elem){
     }else{
         ologSettings.logShortcuts = {};
         ologSettings.logShortcuts[logid] = {
+            timestamp: isTimestamp,
             logId: logid,
             createdAt: createdAt,
             name: namee
@@ -63,11 +82,16 @@ function loadShortcuts(list){
         $.each( ologSettings.logShortcuts, function( key, values ) {
             //loop through each log id and search for it on the page
             var template = getTemplate("template_shortcut");
+            var shortcutType = "log";
 
+            if(values.timestamp){
+                var shortcutType = "timestamp";
+            }
             var html = Mustache.to_html(template, {
                 createdAt: values.createdAt,
                 name: values.name,
-                logid: values.logId
+                logid: values.logId,
+                shortcuttype: shortcutType
             });
 
             list.append(html);
@@ -125,32 +149,32 @@ function findInDateRange(elem, days){
 /**
  * Set the click event handler on the shortcut items
  */
-function handleShortcutClick(){
-    $('.list6').click(function(){
+function handleShortcutClick() {
+    $('.list6[shortcut-type="log"]').click(function () {
         var foundLog = false;
 
         var logId = $(this).find('a.log_shortcut_select').attr('log_attr');
 
-        var log = $('.log input[name="rawIdVal"][value="'+ logId +'"]').first();
+        var log = $('.log input[name="rawIdVal"][value="' + logId + '"]').first();
 
-        if(log.length > 0) {
+        if (log.length > 0) {
 
             foundLog = true;
             log = log.parent();
 
-        }else{
+        } else {
             var search_count = 0;
-            while(foundLog !== true){
-                if(search_count > max_search) {
+            while (foundLog !== true) {
+                if (search_count > max_search) {
                     break;
                 }
-                search_count +=1;
+                search_count += 1;
                 //load logs until it appears
-                page = page  + 1;
-                loadLogs(page, false ,false);
+                page = page + 1;
+                loadLogs(page, false, false);
 
-                log = $('.log input[name="rawIdVal"][value="'+ logId +'"]').first();
-                if(log.length > 0) {
+                log = $('.log input[name="rawIdVal"][value="' + logId + '"]').first();
+                if (log.length > 0) {
 
                     //exit loop
                     foundLog = true;
@@ -159,19 +183,69 @@ function handleShortcutClick(){
                 }
             }
         }
-        if(foundLog){
+        if (foundLog) {
             log.trigger('click');
             var loadlogsarea = $('#load_logs');
             loadlogsarea.animate(
-                {scrollTop: loadlogsarea.scrollTop()+log.offset().top - log.height()*3 }, 'slow'
+                {scrollTop: loadlogsarea.scrollTop() + log.offset().top - log.height() * 3}, 'slow'
             );
-        }else{
+        } else {
 
             //display an alert that the log was not found
-            $('#modal_container').load(modalWindows + ' #shortcutErrorModal', function(response, status, xhr){
+            $('#modal_container').load(modalWindows + ' #shortcutErrorModal', function (response, status, xhr) {
                 $('#shortcutErrorModal').modal('toggle');
             });
         }
 
-    })
+    });
+
+    $('.list6[shortcut-type="timestamp"]').click(function (e) {
+        findInDateRange($(e.target), 1);
+        fromToChanged();
+    });
+}
+
+/**
+ * Function to handle the addition of a shortcut through a timestamp form
+ */
+function createShortcutHandler(){
+    //get the value from the datetimepicker
+    var timeVal = $('#new_shortcut_timestamp').val();
+
+    if(isValidShortcut(timeVal)){
+        addToShortcuts($('#load_shortcuts').first(), timeVal, true);
+        $('#myShortcutModal').modal("hide");
+
+    }
+}
+
+/**
+ * Check if a shortcut is value
+ * @param shortcut Timestamp for shortcut
+ * @returns {boolean}
+ */
+function isValidShortcut(shortcut){
+    var errorBlock = $('#new_logbook_error_block');
+    var errorX = $('#new_logbook_error_x');
+    var errorBody = $('#new_logbook_error_body');
+
+    errorX.click(function(e){
+        errorBlock.hide("fast");
+    });
+
+    var errorString = "";
+
+    // Check data
+    if(shortcut ===undefined || shortcut.length === 0 || shortcut === "") {
+        errorString += "Shortcut timestamp cannot be blank!<br/>";
+    }
+
+    if(errorString.length === 0) {
+        return true;
+
+    } else {
+        errorBody.html(errorString);
+        errorBlock.show("fast");
+        return false;
+    }
 }

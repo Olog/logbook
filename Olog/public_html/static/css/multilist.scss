@@ -221,6 +221,25 @@
 			}
 		}
 
+		&:before{
+			font-family: 'Glyphicons Halflings';
+			content:'\e022';
+			font-size:10px;
+			position:absolute;
+			display:block;
+			left:14px;
+			color:$gray-700;
+			top:50%;
+			vertical-align:center;
+			transform:translateY(-50%);
+		}
+
+		&[shortcut-type="timestamp"]{
+			&:before{
+				content:'\e023';
+			}
+		}
+
 		&:hover{
 			.log_shortcut_select i{
 				display:inline-block;
@@ -229,6 +248,7 @@
 				}
 			}
 		}
+
 	}
 
 	&.multilist-drop-hover{

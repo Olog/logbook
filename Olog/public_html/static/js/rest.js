@@ -119,7 +119,10 @@ function loadLogs(page, ignorePreviousSearchString, activateLogsTrigger=true){
 		if(activateLogsTrigger){
             $('#load_logs').trigger('logsloaded');
         }
-	});
+
+        $('#log-loading-icon').hide();
+
+    });
 
     if(ologSettings.includeStartDate){
         $('.log span.log_start_date').show();
@@ -146,12 +149,14 @@ function loadLogs(page, ignorePreviousSearchString, activateLogsTrigger=true){
         $('.log span.attachment').hide();
     }
     setTooltips();
+
 }
 
 /**
  * Load more logs when user scrolls to the ed of current Log list.
  */
 function loadLogsAutomatically(){
+    $('#log-loading-icon').hide();
 
 	var scrollLock = false;
 
@@ -174,6 +179,7 @@ function loadLogsAutomatically(){
 			if(!scrollLock) {
 				scrollLock = true;
 				page = page  + 1;
+				$('#log-loading-icon').show();
 				loadLogs(page, false);
 			}
 		}
@@ -706,12 +712,6 @@ function repeatLogs(data, prepend){
 	var logOwners = {};
 	l(data);
 
-	// HACK: Get owner of the first version of log entry
-	$.each(data, function(i, item) {
-		logOwners[item.id + "_" + item.version] = item.owner;
-	});
-	l(logOwners);
-
 	// If we are prepending new data, reverse the order of logs so the will be prepended correctly
 	if(prepend) {
 		data.reverse();
@@ -719,7 +719,9 @@ function repeatLogs(data, prepend){
 
 	// Go through all the logs
 	$.each(data, function(i, item) {
-		logIndex = i;
+        logOwners[item.id + "_" + item.version] = item.owner;
+
+        logIndex = i;
 		savedLogs[item.id + "_" + item.version] = item;
 		var currentLogId = item.id;
 
@@ -876,6 +878,17 @@ function showAddModal(modalId){
 			$('#' + modalId).find('input[name=name]').focus();
 		});
 	});
+	if(modalId === "myShortcutModal"){
+        // Set datepickers
+        $('#new_shortcut_timestamp').datetimepicker(
+            {
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: datePickerDateFormat,
+                firstDay: datePickerFirstName
+            }
+        );
+	}
 }
 
 /*

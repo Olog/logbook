@@ -75,6 +75,10 @@
 						<ul class="multilist" id="load_shortcuts">
 							<li class="multilist_header disable_selecting_text">
 								<i id="load_shortcuts_chevron" class="glyphicon glyphicon-chevron-right vertical-align toggle-from"></i> SHORTCUTS
+
+								<a class="multilist-add linkpart"  id="new_shortcut_modal" href="#" onclick="showAddModal('myShortcutModal');" read-only="false" >
+									<i class="glyphicon glyphicon-plus"></i>
+								</a>
 							</li>
 							<!-- Template -->
 						</ul>
@@ -255,7 +259,11 @@
 							</div>
 							<div class="logs-area"  id="load_logs" >
 								<!-- Template -->
+
 							</div>
+							<span id="log-loading-icon" class="log_loading_area">
+								<i class="glyphicon glyphicon-refresh"></i>
+								</span>
 							<span id="log-scroll-up" class="rescroll-btn">
 								<i class="glyphicon glyphicon-chevron-up"></i>
 							</span>

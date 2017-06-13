@@ -179,12 +179,11 @@ and open the template in the editor.
 		<!-- Shortcut item -->
 		<script id="template_shortcut" type="text/template">
 			<li>
-				<span class="list6 multilist_item disable_selecting_text" >
-					<span class="logname">
+				<span class="list6 multilist_item disable_selecting_text" shortcut-type="{{shortcuttype}}" >
+					<span class="logname" >
 						{{name}}
 					</span>
 					<span class="logcreatedat"  log_attr="{{logid}}" data-class="red" data-toggle="tooltip" data-placement="bottom" title="View logs around time" >
-						<i class="glyphicon glyphicon-pencil"></i>
 						{{createdAt}}
 					</span>
 					<a href="#" log_attr="{{logid}}" class="log_shortcut_select" >
