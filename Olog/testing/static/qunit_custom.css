@@ -11,11 +11,15 @@
     width:100%;
     position:relative;
 }
-#qunit_fixture{
+#qunit-fixture{
     height:100%;
     width:100%;
     position:relative;
-    display:block;
+    display:none;
+}
+
+.modal-backdrop{
+    display:none;
 }
 .row.qunit-container .multilist input{
     height:10px;

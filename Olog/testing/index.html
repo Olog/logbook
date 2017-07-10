@@ -19,6 +19,614 @@
     </div>
     <div class="row qunit-container ">
         <div id="qunit-fixture">
+            <div id="index_page">
+                <nav class="navbar navbar-inverse navbar-static-top">
+                    <div class="">
+                        <!-- mobile view collapsed section -->
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand brand" href="index.html">Olog <span class="version"></span></a>
+                        </div>
+                        <div class="collapse navbar-collapse">
+                            <ul class="nav navbar-nav nav-btn-group" read-only="false" id="top_nav_btns">
+                                <li>
+                                    <a href="#"  id="new_log"><i class="glyphicon glyphicon-plus"></i> Log Entry</a>
+                                </li>
+                                <li class="dropdown" id="add_btn_group">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                       aria-expanded="false">
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#" onclick="showAddModal('myModal');"><i class="glyphicon glyphicon-plus"></i> Logbook</a></li>
+                                        <li><a href="#" onclick="showAddModal('myTagModal');"><i class="glyphicon glyphicon-plus"></i> Tag</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <ul class="nav navbar-nav">
+                                <li>
+                                    <a href="#" id="read_only_mode">
+                                        <i class="glyphicon glyphicon-eye-open"></i> Read-Only Mode
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul id="top_container" class="nav navbar-nav navbar-right">
+                                <!-- Template -->
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+
+                <div class="container-fluid content-area" id="main-content-area">
+                    <!-- Left navigation -->
+                    <div class="row full-row">
+                        <div class="col-lg-12 col-md-12 full-row">
+                            <div class="container-left">
+                                <div id="load_filters" class="well container-scroll multilist-container">
+                                    <div class="log_title">
+                                        <h5>Filter Log Entries</h5>
+                                    </div>
+
+                                    <ul class="multilist" id="load_shortcuts">
+                                        <li class="multilist_header disable_selecting_text">
+                                            <i id="load_shortcuts_chevron" class="glyphicon glyphicon-chevron-right vertical-align toggle-from"></i> SHORTCUTS
+
+                                            <a class="multilist-add linkpart"  id="new_shortcut_modal" href="#" onclick="showAddModal('myShortcutModal');" read-only="false" >
+                                                <i class="glyphicon glyphicon-plus"></i>
+                                            </a>
+                                        </li>
+                                        <!-- Template -->
+                                    </ul>
+
+                                    <!--<i id="load_logbooks_chevron" class="glyphicon glyphicon-chevron-down margin-left toggle-filters disable_selecting_text"></i>Logbooks
+                                    <input class="filter_search" id="logbooks_filter_search" type="text" placeholder="Filter Logbooks ..." />-->
+                                    <ul class="multilist" id="load_logbooks">
+                                        <li class="multilist_header disable_selecting_text">
+                                            <i id="load_logbooks_chevron" class="glyphicon glyphicon-chevron-right vertical-align toggle-from"></i> LOGBOOKS
+                                            <a class="multilist-add linkpart"  id="new_logbook_multilist" href="#" onclick="showAddModal('myModal');" read-only="false" >
+                                                <i class="glyphicon glyphicon-plus"></i>
+                                            </a>
+                                        </li>
+                                        <li class="multilist_filter">
+                                            <i class="filters_filter glyphicon glyphicon-filter"></i>
+                                            <input class="filter_search form-control" id="logbooks_filter_search" type="text" placeholder="Filter Logbooks ..." />
+                                        </li>
+                                        <!-- Template -->
+                                    </ul>
+
+                                    <!--<i id="load_tags_chevron" class="icon-chevron-down margin-left toggle-filters disable_selecting_text"></i><input class="filter_search" id="tags_filter_search" type="text" placeholder="Filter Tags ..." />-->
+                                    <ul class="multilist" id="load_tags">
+                                        <li class="multilist_header disable_selecting_text">
+                                            <i id="load_tags_chevron" class="glyphicon glyphicon-chevron-right vertical-align toggle-from"></i> TAGS
+
+                                            <a class="multilist-add linkpart" id="new_tag_multilist" href="#" onclick="showAddModal('myTagModal');" read-only="false" >
+                                                <i class="glyphicon glyphicon-plus"></i>
+                                            </a>
+                                        </li>
+                                        <li class="multilist_filter display_none">
+                                            <i class="filters_filter glyphicon glyphicon-filter"></i>
+                                            <input class="filter_search form-control" id="tags_filter_search" type="text" placeholder="Filter Tags ..." />
+                                        </li>
+                                        <!-- Template -->
+                                    </ul>
+                                    <ul class="multilist" id="load_time_from">
+                                        <li class="multilist_header disable_selecting_text">
+                                            <i id="load_from_chevron" class="glyphicon glyphicon-chevron-right vertical-align toggle-from"></i> CREATED AT
+                                        </li>
+                                        <!-- Template -->
+                                    </ul>
+                                    <ul class="multilist" id="load_time_from_to">
+                                        <li class="multilist_header disable_selecting_text">
+                                            <i id="load_from_to_chevron" class="glyphicon glyphicon-chevron-right vertical-align toggle-from"></i> CREATED AT TIME RANGE
+                                        </li>
+                                        <li id="from_to_filter_li" class="display_none log_dark">
+								<span id="from_to_filter" class="list5 multilist_item disable_selecting_text">
+									<span class="row container-fluid">
+										<span class="form-group col-md-6">
+											<label>
+												From
+											</label>
+											<input type="text" id="datepicker_from" class="form-control"/>
+										</span>
+										<span class="form-group col-md-6">
+											<label>
+												To
+											</label>
+											<input type="text" id="datepicker_to" class="form-control" />
+										</span>
+									</span>
+
+								</span>
+                                        </li>
+                                    </ul>
+                                    <div id="min-multilists" class="min-left"></div>
+                                </div>
+
+                            </div>
+
+                            <div class="container-resize">
+                                <div id="container-resize"></div>
+                            </div>
+
+                            <!-- List of Logs -->
+                            <a name="#top"></a>
+                            <div class="container-middle">
+                                <div class="well container-scroll-middle">
+                                    <div class="log-content-area">
+                                        <div class="form-search-box" id="form-search-box">
+
+                                            <div class="checkbox-select-area" id="checkbox-select-area">
+                                                View Options
+                                                <i class="glyphicon glyphicon-th-list"></i>
+
+                                                <div class="checkbox-list-area">
+                                                    <div class="search-checkbox checkbox-title">
+                                                        <label>
+                                                            Log Details
+                                                        </label>
+                                                    </div>
+                                                    <div class="search-checkbox">
+                                                        <input id="search-checkbox" type="checkbox">
+                                                        <label for="search-checkbox">
+                                                            History
+                                                        </label>
+                                                    </div>
+                                                    <div id="search-order-block" class="search-checkbox">
+                                                        <input id="search-order" type="checkbox">
+                                                        <label for="search-order">
+                                                            Newest First
+                                                        </label>
+                                                    </div>
+                                                    <div class="search-checkbox">
+                                                        <input id="startdate-order" type="checkbox">
+                                                        <label for="startdate-order">
+                                                            Start Date
+                                                        </label>
+                                                    </div>
+                                                    <div class="search-checkbox">
+                                                        <input id="description-toggle" type="checkbox">
+                                                        <label for="description-toggle">
+                                                            Log Description
+                                                        </label>
+                                                    </div>
+                                                    <div class="search-checkbox">
+                                                        <input id="attachments-toggle" type="checkbox">
+                                                        <label for="attachments-toggle">
+                                                            Log Attachments
+                                                        </label>
+                                                    </div>
+                                                    <div class="search-checkbox checkbox-title">
+                                                        <label>
+                                                            Sort By
+                                                        </label>
+                                                    </div>
+                                                    <div class="search-checkbox">
+                                                        <input id="createdat-sort" type="checkbox">
+                                                        <label for="createdat-sort">
+                                                            Created At Date
+                                                        </label>
+                                                    </div>
+                                                    <div class="search-checkbox">
+                                                        <input id="startdate-sort" type="checkbox">
+                                                        <label for="startdate-sort">
+                                                            Event Start Date
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="input-group">
+                                                <div id="filter-search-input" class="filter-search-input">
+                                                    <div class="mock-input-wrap">
+                                                        <div class="mock-input">
+											<span class="tag-wrapper">
+											</span>
+                                                            <div class="type-area">
+                                                                <span class="input-type"></span>
+                                                                <input type="text" placeholder="Search..."/>
+                                                            </div>
+
+                                                        </div>
+                                                        <span class="glyphicon glyphicon-remove-sign clear-search" id="search-query-clean"></span>
+                                                    </div>
+                                                    <div class="mock-submit-btn">
+                                                        <button id="search-button" class="btn btn-success">
+                                                            <i class="glyphicon glyphicon-search"></i>
+                                                        </button>
+                                                    </div>
+                                                    <ul class="filter-options">
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <input autocomplete="off" type="hidden" placeholder="Search ..." id="search-query" class="search_input form-control" />
+
+                                            <div id="select-logs-area" class="select-logs-area">
+                                                <a class="btn btn-select-logs" id="select-logs">
+                                                    <i class="glyphicon glyphicon-unchecked"></i>
+                                                    Select
+                                                </a>
+                                                <a class="btn btn-print-selected" id="print-selected-logs">
+                                                    <i class="glyphicon glyphicon-print"></i>
+                                                    Print Selected Logs</a>
+                                                <a class="btn btn-select-logs" id="open-selected-logs">
+                                                    <i class="glyphicon glyphicon-new-window"></i>
+                                                    Open Selected Logs</a>
+                                            </div>
+                                        </div>
+                                        <div class="logs-area"  id="load_logs" >
+                                            <!-- Template -->
+
+                                        </div>
+                                        <span id="log-loading-icon" class="log_loading_area">
+								<i class="glyphicon glyphicon-refresh"></i>
+								</span>
+                                        <span id="log-scroll-up" class="rescroll-btn">
+								<i class="glyphicon glyphicon-chevron-up"></i>
+							</span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="container-resize2">
+                                <div id="container-resize2"></div>
+                            </div>
+
+                            <!-- Log view -->
+                            <a name="#view"></a>
+                            <div class="container-right">
+                                <div id="load_log" class="well container-scroll-last-one log-tabs-opener">
+                                    <div class="view_log_panel" id="view_log_panel">
+                                        <i class="glyphicon glyphicon-folder-open"></i>
+                                        <p>
+                                            View Log Details
+                                        </p>
+                                    </div>
+                                    <div class="log_tabs_area " id="logs-tabs-area"></div>
+                                    <div class="log_container_area">
+                                        <div class="log_window opened">
+                                            <div class="log_title">
+                                                <h5>
+                                                    <span id="log_owner"></span> : <span id="log_date"></span>
+
+                                                    <a class="log_show_details log_modify_link float_right float_right_padding " href="#view">
+                                                        <i class="glyphicon glyphicon-info-sign"></i>
+                                                        INFO
+                                                    </a>
+
+
+                                                    <a id="print_log_link"  class="log_modify_link  float_right float_right_padding" target="_blank" href="print_log.html">
+                                                        <i title="Print Log Entry" class="glyphicon glyphicon-print"></i>
+                                                        PRINT
+                                                    </a>
+                                                    <a id="modify_log_link" class="log_modify_link float_right float_right_padding" read-only="false" href="modify_log.html">
+                                                        <i title="Modify Log Entry" class="glyphicon glyphicon-pencil"></i>
+                                                        EDIT
+                                                    </a>
+                                                    <a id="delete_log_link" class="log_modify_link float_right float_right_padding" read-only="false" href="#" onclick="showDeleteModal('deleteLogModal', globalLogId);">
+                                                        <i title="Delete Log Entry" class="glyphicon glyphicon-remove-sign"></i>
+                                                        DELETE
+                                                    </a>
+                                                </h5>
+                                            </div>
+
+                                            <div class="log_details display_none">
+                                                <span class="arrow-pointer"></span>
+                                                <div class="log_details_row">
+                                                    <i title="Logbooks" class="glyphicon glyphicon-book"></i>
+                                                    <span id="load_log_logbooks"></span>
+                                                </div>
+                                                <div class="log_details_row">
+                                                    <i title="Tags" class="glyphicon glyphicon-tags"></i>
+                                                    <span id="load_log_tags"></span>
+                                                </div>
+                                                <div class="log_details_row">
+								<span class="info_group">
+									<i title="Level" class="glyphicon glyphicon-tasks"></i>
+									<span id="log_level"></span>
+								</span>
+                                                    <span class="info_group">
+									<span id="log_details_created"></span>
+								</span>
+                                                    <span class="info_group">
+									<span id="log_details_edited"></span>
+								</span>
+                                                    <span class="info_group">
+									<span id="log_details_startdate"></span>
+								</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="log_body">
+                                                <!-- <textarea disabled="disabled" id="log_description"></textarea>-->
+                                                <textarea id="log_description" disabled></textarea>
+                                            </div>
+
+                                            <div class="log_attachments">
+                                                <div class="log_header_area">
+                                                    <span class="log_view_details">Attachments</span>
+                                                    <div id="attachments_size_dropdown" class="btn-group pull-right">
+                                                        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                                                            <i title="Image size" class="glyphicon glyphicon-picture"></i>
+                                                            <span class="caret"></span>
+                                                        </a>
+                                                        <ul class="dropdown-menu">
+                                                            <li><a href="#">small</a></li>
+                                                            <li class="active"><a href="#">medium</a></li>
+                                                            <li><a href="#">large</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+
+                                                <div id="load_log_attachments">
+
+                                                </div>
+                                            </div>
+
+                                            <div class="log_properties" id="log_properties">
+                                                <span class="log_view_details">Properties</span>
+                                                <div>
+                                                    <table class="table table-bordered">
+                                                        <thead>
+                                                        <tr class="property_header disable_selecting_text">
+                                                            <th colspan="2"><i class="glyphicon glyphicon-chevron-right"></i> Property 1</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody class="property_body">
+                                                        <tr>
+                                                            <td>key</td>
+                                                            <td>value</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>key</td>
+                                                            <td>value</td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div>
+                                                    <table class="table table-bordered">
+                                                        <thead>
+                                                        <tr class="property_header">
+                                                            <th colspan="2"><i class="glyphicon glyphicon-chevron-right"></i> Property 1</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody class="property_body">
+                                                        <tr>
+                                                            <td>key</td>
+                                                            <td>value</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>key</td>
+                                                            <td>value</td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Back to top button -->
+                <div id="back_to_top_button" class="rescroll-btn">
+                    <i class="glyphicon glyphicon-chevron-up icon-white"></i>
+                </div>
+
+                <!-- Modal windows
+                ==================================================== -->
+                <div id="modal_container"></div>
+
+                <!-- Templates
+                ==================================================== -->
+                <div id="template_container"></div>
+            </div>
+            <div id="log_page">
+
+                <!-- Header
+                ==================================================== -->
+                <nav class="navbar navbar-inverse navbar-static-top">
+                    <div class="">
+                        <!-- mobile view collapsed section -->
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand brand" href="index.html">Olog <span class="version"></span></a>
+                        </div>
+                        <div class="collapse navbar-collapse">
+                            <ul class="nav navbar-nav nav-btn-group">
+                                <li>
+                                    <a href="#"  id="new_log"><i class="glyphicon glyphicon-plus"></i> Log Entry</a>
+                                </li>
+                                <li class="dropdown" id="add_btn_group">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                       aria-expanded="false">
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#" onclick="showAddModal('myModal');"><i class="glyphicon glyphicon-plus"></i> Logbook</a></li>
+                                        <li><a href="#" onclick="showAddModal('myTagModal');"><i class="glyphicon glyphicon-plus"></i> Tag</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <ul id="top_container" class="nav navbar-nav navbar-right">
+                                <!-- Template -->
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+
+
+                <div class="container-fluid content-area">
+                    <!-- Left navigation -->
+                    <div class="row full-row">
+                        <div class="col-lg-12 col-md-12 full-row">
+                            <!-- Left modify container -->
+                            <a name="#top"></a>
+                            <div class="container-modify-left">
+                                <div id="load_log_details" class="well container-scroll">
+
+                                    <div id="error_block" class="alert alert-danger">
+                                        <button type="button" class="close" id="error_x">&times;</button>
+                                        <h4>Error!</h4>
+                                        <span id="error_body"></span>
+                                    </div>
+
+                                    <form id="createForm" action="#" method="post">
+                                        <div class="log_title">
+                                            <h5>
+									<span id="back_button" class="btn">
+										<i title="Back" class="glyphicon glyphicon-arrow-left"></i>
+									</span>
+                                                New Log Entry
+                                                <i id="cancel_editing_x" class="glyphicon glyphicon-remove-sign float_right float_right_padding"></i>
+                                            </h5>
+                                        </div>
+
+                                        <div class="log_details">
+                                            <div class="form-group log_details_row">
+                                                <i title="Logbooks" class="glyphicon glyphicon-book"></i>
+                                                <input type="text" name="logbooks" id="logbooks_input" placeholder="Enter Logbooks ..." class="tm-input tm-input-warning tm-input-mini form-control" autocomplete="off" data-provide="typeahead" />
+                                            </div>
+                                            <div class="form-group log_details_row">
+                                                <i title="Tags" class="glyphicon glyphicon-tags"></i>
+                                                <input type="text" name="tags" id="tags_input" placeholder="Enter Tags ..." class="tm-input tm-input-info tm-input-mini form-control" autocomplete="off" data-provide="typeahead" />
+                                            </div>
+                                            <div class="form-group log_details_row">
+                                                <i title="Level" class="glyphicon glyphicon-tasks"></i>
+                                                <select name="level" id="level_input" class="form-control">
+                                                    <option value="Info">Info</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group log_details_row">
+                                                <label>
+                                                    <i class="glyphicon glyphicon-time"></i>&nbsp;
+                                                    Event Start Date
+                                                </label>
+                                                <input type="text" id="startdate_input" class="form-control" placeholder="Now"/>
+                                            </div>
+                                            <div id="log_details_edited"></div>
+                                        </div>
+
+                                        <div class="log_body">
+                                            <textarea rows="5" id="log_body" class="form-control"></textarea>
+                                        </div>
+
+                                        <div class="log_attachments">
+                                            <span class="log_view_details">Attachments</span>
+                                            <span class="btn btn-success fileinput-button">
+									<i class="glyphicon glyphicon-plus icon-white"></i>
+									<span>Add Files</span>
+									<input id="fileupload" class="new_attachment" type="file" name="files[]" multiple="multiple" />
+								</span>
+                                            <img class="upload-progress-loader" alt="Loading ..." src="static/img/loader.gif" />
+                                            <!-- <div id="list_add_attachments"</div>
+                                            <a id="add_attachment" href="#">Attach another file ...</a> -->
+
+                                            <!-- The global progress bar -->
+                                            <!--<div id="progress" class="progress progress-success progress-striped">
+                                                <div class="bar"></div>
+                                            </div> -->
+                                            <!-- The container for the uploaded files -->
+                                            <div id="files" class="files"></div>
+                                            <div class="clear"></div>
+                                        </div>
+
+                                        <a name="properties"></a>
+                                        <div class="log_properties">
+                                            <span class="log_view_details">Properties</span>
+                                            <a href="#properties" id="add_a_property">
+                                                <i class="glyphicon glyphicon-plus icon-white"></i>
+                                                Add Properties
+                                            </a>
+                                        </div>
+                                        <div class="float_right_padding log_edit_btn_options">
+                                            <input type="submit" class="btn float_right btn-success new_log_button" value="Create" />
+                                            <button class="btn float_right new_log_button" id="cancel_editing_button" type="button">Cancel</button>
+                                        </div>
+
+                                        <div class="clear"></div>
+                                    </form>
+
+                                    <div>
+                                        <div contenteditable="true" id="paste-area"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="container-resize3">
+                                <div id="container-resize3"></div>
+                            </div>
+
+                            <!-- Right modify container -->
+                            <div class="container-modify-right  ">
+                                <div class="well container-scroll-last-one multilist-container">
+                                    <div class="log_title">
+                                        <h5>Quickly add <a id="tooltip" href="#" data-toggle="tooltip" title="You can select Logbooks and Tags and quickly add them to the new Log entry.">metadata</a></h5>
+                                    </div>
+
+                                    <!--<i id="load_logbooks_chevron" class="icon-chevron-down margin-left toggle-filters disable_selecting_text"></i><input class="filter_search" id="logbooks_filter_search" type="text" placeholder="Filter Logbooks ..." />-->
+                                    <ul class="multilist" id="load_logbooks_m">
+                                        <li class="multilist_header disable_selecting_text">
+                                            <i id="load_from_chevron" class="glyphicon glyphicon-chevron-down  vertical-align toggle-from"></i> LOGBOOKS
+                                            <a class="multilist-add linkpart"  href="#" onclick="showAddModal('myModal');">
+                                                <i class="glyphicon glyphicon-plus"></i>
+                                            </a>
+                                        </li>
+                                        <li class="multilist_filter"><i class="filters_filter glyphicon glyphicon-filter"></i><input class="filter_search form-control" id="logbooks_filter_search" type="text" placeholder="Filter Logbooks ..." /></li>
+                                        <!-- Template -->
+                                    </ul>
+                                    <!--<i id="load_tags_chevron" class="icon-chevron-down margin-left toggle-filters disable_selecting_text"></i><input class="filter_search" id="tags_filter_search" type="text" placeholder="Filter Tags ..." />-->
+                                    <ul class="multilist" id="load_tags_m">
+                                        <li class="multilist_header disable_selecting_text"><i id="load_from_chevron" class="glyphicon glyphicon-chevron-down  vertical-align toggle-from"></i> TAGS
+                                            <a class="multilist-add linkpart"  href="#" onclick="showAddModal('myTagModal');">
+                                                <i class="glyphicon glyphicon-plus"></i>
+                                            </a>
+                                        </li>
+                                        <li class="multilist_filter"><i class="filters_filter glyphicon glyphicon-filter"></i><input class="filter_search form-control" id="tags_filter_search" type="text" placeholder="Filter Tags ..." /></li>
+                                        <!-- Template -->
+                                    </ul>
+                                    <div id="min-multilists" class="min-right"></div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Modal windows
+                ==================================================== -->
+                <div id="modal_container"></div>
+
+                <!-- Templates
+                ==================================================== -->
+                <div id="template_container"></div>
+            </div>
+            <div id="print_page">
+
+                <div id="print_items_container">
+
+                </div>
+
+
+                <!-- Templates
+                ==================================================== -->
+                <div id="template_container"></div>
+
+            </div>
         </div>
 
     </div>
@@ -38,14 +646,33 @@
     <script src="../public_html/static/js/configuration.js"></script>
     <script src="static/configuration.js"></script>
     <script src="../public_html/static/js/helper.js"></script>
+    <script src="../public_html/static/js/draggable_methods.js"></script>
     <script src="../public_html/static/js/multilist.js"></script>
     <script src="../public_html/static/js/common.js"></script>
+    <script src="../public_html/static/js/shortcuts.js"></script>
+
     <script src="../public_html/static/js/rest.js"></script>
+    <script src="../public_html/static/js/log_tabs.js"></script>
+
     <script src="../public_html/static/js/index.js"></script>
     <script src="../public_html/static/js/search.js"></script>
+    <script src="../public_html/static/js/search_tags.js"></script>
     <script src="../public_html/static/js/logbook.js"></script>
     <script src="../public_html/static/js/tag.js"></script>
     <script src ="static/qunit-2.3.2.js"></script>
+    <script src="tests/common_tests.js"></script>
+    <script src="tests/draggable_tests.js"></script>
+    <script src="tests/helper_tests.js"></script>
     <script src="tests/index_tests.js"></script>
+    <script src="tests/log_tab_tests.js"></script>
+    <script src="tests/log_tests.js"></script>
+    <script src="tests/logbook_tests.js"></script>
+    <script src="tests/logbook_tests.js"></script>
+    <script src="tests/multilist_tests.js"></script>
+    <script src="tests/print_log_tests.js"></script>
+    <script src="tests/rest_tests.js"></script>
+    <script src="tests/search_tests.js"></script>
+    <script src="tests/shortcuts_tests.js"></script>
+    <script src="tests/tags_tests.js"></script>
 </body>
 </html>
