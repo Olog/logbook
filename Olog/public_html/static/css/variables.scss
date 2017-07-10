@@ -1,0 +1,139 @@
+/*
+ * Color, Size, and mixins used by scss files
+ *
+ * @author: Dena Mujtaba
+ */
+
+$gray-050: #fbfbfb;
+$gray-100: #f5f5f5;
+$gray-200: #f2f2f2;
+$gray-300: #eeeeee;
+$gray-350: #e3e3e3;
+$gray-400: #dddddd;
+$gray-500: #cccccc;
+$gray-600: #bbbbbb;
+$gray-700: #aaaaaa;
+$gray-800: #999999;
+$gray-900: #7a7a7a;
+$gray-950: #474747;
+
+$red-100: #ff8077;
+$red-200: red;
+
+$pink-100: #da4f67;
+
+$blue-100: #82bcd9;
+$blue-200: #0088cc;
+$blue-300: desaturate($blue-200, 35%);
+
+$green-100: #5ab45a;
+$green-200: #468847;
+
+$yellow-100: #f0ad4e;
+
+$blue-gray-300: mix($blue-100, $gray-300, 50%);
+$blue-gray-500: mix($blue-100, $gray-950, 50%);
+$blue-gray-700: #5a6a77;
+$blue-green-200: adjust-hue(mix($blue-200, $green-200, 50%), 25%);
+
+/**
+ * Search Bar Tag Colors
+ */
+$tag-colors: (
+  'logbook': $green-200,
+  'tagt': $blue-200,
+  'timestamp': $pink-100
+);
+
+/**
+  Navigation Vars
+ */
+$nav-bg: $gray-950;
+$nav-border:1px solid $blue-gray-700;
+$navbar-height:40px;
+$nav-font-color:$gray-200;
+/**
+  Default Box Sizing
+ */
+$resize-bar-wid:5px;
+
+/**
+  Font Sizes
+ */
+$xlg-font: 24px;
+$lg-font: 20px;
+$md-font: 16px; //default
+$sm-font: 13px;
+$xsm-font: 11px;
+$xxsm-font: 9px;
+$search-height:115px;
+
+/**
+* Set the border radius for all browsers
+* param $radius size to set
+*/
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  border-radius: $radius;
+}
+
+/**
+* Reset padding and margin
+*/
+@mixin space-reset{
+  margin: 0;
+  padding: 0;
+}
+
+/**
+ * Get a color from a map
+ * @param $key Name of key from the map
+ * @param $mapname Name of map to select from
+ */
+@function get($key, $mapname) {
+  @if map-has-key($mapname, $key) {
+    @return map-get($mapname, $key);
+  }
+
+  @warn "Unknown `#{$key}` in #{$mapname}.";
+  @return null;
+}
+
+@mixin animation-spin{
+  -webkit-animation: spin 1s infinite linear;
+  -moz-animation: spin 1s infinite linear;
+  -o-animation: spin 1s infinite linear;
+  animation: spin 1s infinite linear;
+  -webkit-transform-origin: 50% 58%;
+  transform-origin:50% 58%;
+  -ms-transform-origin:50% 58%; /* IE 9 */
+}
+
+@-moz-keyframes spin {
+  from {
+    -moz-transform: rotate(0deg);
+  }
+  to {
+    -moz-transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

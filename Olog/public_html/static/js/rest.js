@@ -4,18 +4,6 @@
  * @author: Dejan Dežman <dejan.dezman@cosylab.com>
  */
 
-// Create object for saving logs
-var savedLogs = {};
-
-// Array of all the Tags
-var savedTags = new Array();
-
-// Array of all the Logbooks
-var savedLogbooks = new Array();
-
-// Current page number (REST responses can be loaded page by page)
-var page = 1;
-
 /**
  * Get Logbooks from REST service
  * @param targetId id of the element Logbooks will be placed in
@@ -34,6 +22,7 @@ function loadLogbooks(targetId, showByDefault, saveSelectedItemsIntoACookie, sho
 		startListeningForToggleFilterClicks();
 
 		$('#'+targetId).trigger('dataloaded', selectedElements);
+        setReadOnly(inReadOnly);
 
 	}).fail(function(){
 		$('#modal_container').load(modalWindows + ' #serverErrorModal', function(response, status, xhr){
@@ -60,7 +49,9 @@ function loadTags(targetId, showByDefault, saveSelectedItemsIntoACookie, showSel
 		startListeningForToggleFilterClicks();
 
 		$('#'+targetId).trigger('dataloaded', selectedElements);
-	});
+        setReadOnly(inReadOnly);
+
+    });
 }
 
 /**
@@ -68,8 +59,9 @@ function loadTags(targetId, showByDefault, saveSelectedItemsIntoACookie, showSel
  * @param {type} page number of logs per page is defined in configuration, page
  * @param {type} ignorePreviousSearchString ignore attributes in previous search query
  * number is increased when user scrolls down the list
+ * @param activateLogsTrigger if loadlogs trigger should be activated
  */
-function loadLogs(page, ignorePreviousSearchString){
+function loadLogs(page, ignorePreviousSearchString, activateLogsTrigger=true){
 	// Remo all the logs if we are starting from the beginning
 	if(page === 1){
 		$(".log").remove();
@@ -102,6 +94,11 @@ function loadLogs(page, ignorePreviousSearchString){
 		searchQuery += historyParameter + "=&";
 	}
 
+	//add the sort param into the search query
+    if(!("sort" in $.url(searchQuery).param())) {
+        searchQuery += 'sort=' + sortBy() + "&";
+    }
+
 	// Save query to global var
 	searchURL = searchQuery;
 	l(searchURL);
@@ -111,6 +108,7 @@ function loadLogs(page, ignorePreviousSearchString){
 		repeatLogs(logs, false);
 		appendAddMoreLog("load_logs");
 		startListeningForLogClicks();
+        startListeningForLogBtnClicks();
 		scrollToLastLog();
 
 		$('.log img').last().load(function(){
@@ -118,19 +116,57 @@ function loadLogs(page, ignorePreviousSearchString){
 		});
 
 		// Trigger event when all the logs are loaded
-		$('#load_logs').trigger('logsloaded');
-	});
+		if(activateLogsTrigger){
+            $('#load_logs').trigger('logsloaded');
+        }
+
+        $('#log-loading-icon').hide();
+
+    });
+
+    if(ologSettings.includeStartDate){
+        $('.log span.log_start_date').show();
+        $('.log span.log_createdat_date').hide();
+    }else{
+        // Select include
+        $('.log span.log_start_date').hide();
+        $('.log span.log_createdat_date').show();
+    }
+
+    if(ologSettings.includeLogDescription){
+        $('.log span.description').removeClass('noshow');
+        $('.log_history span.description').removeClass('noshow');
+    }else{
+        // Select include
+        $('.log span.description').addClass('noshow');
+        $('.log_history span.description').addClass('noshow');
+    }
+
+    if(ologSettings.includeLogAttachment){
+        $('.log span.attachment').show()
+    }else{
+        // Select include
+        $('.log span.attachment').hide();
+    }
+    setTooltips();
+
 }
 
 /**
  * Load more logs when user scrolls to the ed of current Log list.
  */
 function loadLogsAutomatically(){
+    $('#log-loading-icon').hide();
 
 	var scrollLock = false;
 
 	$('#load_logs').on('logsloaded', function() {
 		scrollLock = false;
+		setLogDraggable();
+
+		if($('#load_shortcuts').length > 0 && $('#load_shortcuts').attr('load_complete')){
+            //loadShortcuts($('#load_shortcuts'));
+        }
 	});
 
 	// Automatically load new logs when at the end of the page
@@ -143,10 +179,12 @@ function loadLogsAutomatically(){
 			if(!scrollLock) {
 				scrollLock = true;
 				page = page  + 1;
+				$('#log-loading-icon').show();
 				loadLogs(page, false);
 			}
 		}
 	});
+
 }
 
 /**
@@ -181,6 +219,7 @@ function getLog(id){
 			logData = savedLogs[id];
 		});
 	}
+
 
 	return [logData, logId];
 }
@@ -229,13 +268,16 @@ function getLogNew(id, myFunction){
 function showLog(log, id){
 	$('#load_log').show("fast");
 	globalLogId = id;
-
 	var desc = log.description;
 
-	$("#log_description").html(preHtmlEncode(desc));
+    //escape the text for any html elements entered
+	$("#log_description").text(escapeHTML(desc));
+	setMarkdown("log_description");
+
 	//$("#log_description").attr("rows", lines.length);
 
 	$("#log_owner").html(log.owner);
+	$("#log_date").html(formatDate(log.modifiedDate));
 	$("#log_date").html(formatDate(log.modifiedDate));
 	$("#log_level").html(log.level);
 
@@ -248,6 +290,7 @@ function showLog(log, id){
 
 	// Show date modified
 	if(log.createdDate !== log.modifiedDate){
+		//First set the log modified date
 		template = getTemplate("template_log_details_edited");
 
 		item = {
@@ -258,9 +301,21 @@ function showLog(log, id){
 
 		$('#log_details_edited').html(html);
 
-	} else {
+
+    } else {
 		$('#log_details_edited').html("");
 	}
+
+    //Then set the log event start date
+    template = getTemplate("template_log_details_startdate");
+
+    item = {
+        eventStartDate: formatDate(log.eventStart)
+    };
+
+    html = Mustache.to_html(template, item);
+
+    $('#log_details_startdate').html(html);
 
 	// Show date created
 	template = getTemplate("template_log_details_created");
@@ -296,16 +351,41 @@ function showLog(log, id){
 	}
 
 	// Load properties
-	$('.log_properties').find('div').remove();
+	$('#log_properties').find('div').remove();
 
 	if(log.properties.length !== 0) {
-		$('.log_properties').show("fast");
+		$('#log_properties').show("fast");
 		repeatProperties(log.properties);
 		startListeningForPropertyClicks();
 
 	} else {
-		$('.log_properties').hide("fast");
+		$('#log_properties').hide("fast");
 	}
+
+}
+
+/**
+ * Display textarea as markdown
+ * @param str element id to set mardown to
+ */
+function setMarkdown(str){
+	//remove any other markdown previews for this textarea
+    $('.CodeMirror').remove();
+    //create the SimpleMDE instance to render text from markdown
+    var markdownRender = new SimpleMDE({
+        autoDownloadFontAwesome:false,
+        element: document.getElementById(str),
+        toolbar:false,
+        status:false,
+		shortcuts: false,
+        forceSync: true,
+        renderingConfig: {
+            codeSyntaxHighlighting: false
+        }
+    });
+
+	//display
+    markdownRender.togglePreview(str);
 }
 
 /**
@@ -334,12 +414,12 @@ function startListeningForPropertyClicks() {
 		tbody.toggle();
 
 		if(tbody.is(':visible')) {
-			arrow.removeClass('icon-chevron-right');
-			arrow.addClass('icon-chevron-down');
+			arrow.removeClass('glyphicon-chevron-right');
+			arrow.addClass('glyphicon-chevron-down');
 
 		} else {
-			arrow.removeClass('icon-chevron-down');
-			arrow.addClass('icon-chevron-right');
+			arrow.removeClass('glyphicon-chevron-down');
+			arrow.addClass('glyphicon-chevron-right');
 		}
 	});
 }
@@ -496,6 +576,8 @@ function prepareParentAndChildren(i, children, prepend, logOwners) {
 		createdDate: formatDate(item.createdDate),
 		modifiedDate: formatDate(item.modifiedDate),
 		modified: false,
+		startdate: true,
+		eventStart: formatDate(item.eventStart),
 		id: item.id + '_' + item.version,
 		rawId: item.id,
 		attachments : [],
@@ -503,6 +585,7 @@ function prepareParentAndChildren(i, children, prepend, logOwners) {
 	};
 
 	// Was log entry modified?
+	//Set the modified date and event Start date
 	if(item.createdDate !== item.modifiedDate) {
 		newItem.modified = true;
 	}
@@ -607,6 +690,12 @@ function prepareParentAndChildren(i, children, prepend, logOwners) {
 		$("#load_logs").append(html);
 
 	});
+
+    setLogDraggable();
+    if(inSelectMode){
+        $(this).addClass('selected').find('.glyphicon').addClass('glyphicon-check').removeClass('glyphicon-unchecked');
+        $('.log').addClass('select-mode');
+    }
 }
 
 /**
@@ -623,12 +712,6 @@ function repeatLogs(data, prepend){
 	var logOwners = {};
 	l(data);
 
-	// HACK: Get owner of the first version of log entry
-	$.each(data, function(i, item) {
-		logOwners[item.id + "_" + item.version] = item.owner;
-	});
-	l(logOwners);
-
 	// If we are prepending new data, reverse the order of logs so the will be prepended correctly
 	if(prepend) {
 		data.reverse();
@@ -636,7 +719,9 @@ function repeatLogs(data, prepend){
 
 	// Go through all the logs
 	$.each(data, function(i, item) {
-		logIndex = i;
+        logOwners[item.id + "_" + item.version] = item.owner;
+
+        logIndex = i;
 		savedLogs[item.id + "_" + item.version] = item;
 		var currentLogId = item.id;
 
@@ -752,7 +837,7 @@ function repeatProperties(properties) {
 		});
 
 		html = Mustache.to_html(template, newProperty);
-		$('.log_properties').append(html);
+		$('#log_properties').append(html);
 	});
 }
 
@@ -789,11 +874,21 @@ function getTemplate(id){
 function showAddModal(modalId){
 	$('#modal_container').load(modalWindows + ' #' + modalId, function(response, status, xhr){
 		$('#' + modalId).modal('toggle');
-
 		$('#' + modalId).on('shown', function(){
 			$('#' + modalId).find('input[name=name]').focus();
 		});
 	});
+	if(modalId === "myShortcutModal"){
+        // Set datepickers
+        $('#new_shortcut_timestamp').datetimepicker(
+            {
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: datePickerDateFormat,
+                firstDay: datePickerFirstName
+            }
+        );
+	}
 }
 
 /*
@@ -855,7 +950,8 @@ function generateLogObject() {
 		"tags":[],
 		"properties":[],
 		"attachments":[],
-		"level":""
+		"level":"",
+		"eventStart":""
 	}];
 
 	// Set description
@@ -935,6 +1031,16 @@ function generateLogObject() {
 
 	// Set Level
 	log[0].level = $('#level_input').find(":selected").val();
+
+	var startDateInput = $('#startdate_input');
+
+	if(startDateInput.length > 0){
+		//input only present on the edit page
+		var dateVal = startDateInput.val();
+		if(dateVal){
+            log[0].eventStart = new Date(startDateInput.val()).toISOString();
+        }
+    }
 
 	return log;
 }
@@ -1089,6 +1195,9 @@ function modifyLog(log) {
 			403: function(){
 				showError("You do not have permission to modify this Log!", "#error_block", "#error_body", "#new_logbook_error_x");
 			},
+            404: function(){
+                showError("Something went wrong, this log could not be changed!", "#error_block", "#error_body", "#new_logbook_error_x");
+            },
 			500: function(){
 				showError("Something went wrong!", "#error_block", "#error_body", "#new_logbook_error_x");
 			}
@@ -1224,10 +1333,17 @@ function login() {
 				400: function(){
 					saveUserCredentials(username, password);
 					l("User logged in");
-				},
+                    window.location.href = firstPageName;
+                },
+                401: function(){
+                    $('#login_error').text('The username or password is incorrect!').show('fast').css('display', 'block');
+                },
 				404: function(){
-					$('#login_error').show('fast');
-				}
+					$('#login_error').text('The username or password is incorrect!').show('fast').css('display', 'block');
+				},
+                500: function(){
+                    $('#login_error').text('Something went wrong while trying to login.').show('fast').css('display', 'block');
+                }
 			},
 			error : function(xhr, ajaxOptions, thrownError) {
 
@@ -1236,8 +1352,8 @@ function login() {
 
 			}
 		});
-		window.location.href = firstPageName;
-	});
+
+    });
 }
 
 /**
@@ -1677,32 +1793,29 @@ function startListeningForLogClicks(){
 	// Toggle show details
 	$('.log_show_details').unbind('click');
 	$('.log_show_details').click(function(e){
-
-		if($('.log_details').is(':visible')) {
-			$('#show_details').text('Show details');
-			l("show details");
-
-		} else {
-			$('#show_details').text('Hide details');
-			l("hide details");
-		}
-
 		$('.log_details').toggle(400, 'swing');
 	});
 
 	// Select a log entry
 	$('.log').unbind('click');
-	$('.log').click(function(e){
+	$('.log').click(function(e, fromDrop){
 		$('.log').removeClass("log_click");
 
 		if($(e.target).is("div") && !$(e.target).hasClass("show_history")){
 			actionElement = $(e.target);
 
-		}else if($(e.target).parent().is("div") && !$(e.target).parent().hasClass("show_history")){
+		}else if($(e.target).parent().is("div") && !$(e.target).parent().hasClass("show_history") && !$(e.target).parent().hasClass('log-checkbox')){
 			actionElement = $(e.target).parent();
 
 		} else {
 			actionElement = $(e.target).parent().parent();
+			if(actionElement.hasClass('header') || actionElement.hasClass('description')){
+				actionElement = actionElement.parent();
+			}else if(actionElement.hasClass('log-options') || actionElement.hasClass('owner')){
+				actionElement = actionElement.parent().parent().parent();
+			}else if(actionElement.hasClass('log-header') || actionElement.hasClass('log_header')|| actionElement.hasClass('log-select-toggle') || actionElement.hasClass('log-checkbox')){
+                actionElement = actionElement.parent().parent();
+            }
 		}
 
 		var id = actionElement.find('[name=id]').val();
@@ -1714,8 +1827,33 @@ function startListeningForLogClicks(){
 
 		actionElement.toggleClass("log_click");
 		var log = getLog(actionElement.find("input[name=id]").val());
+
 		showLog(log[0], log[1]);
+
+		if(fromDrop){
+            $('#logs-tabs-area').trigger('logOpened',[ log[0], log[1]]);
+        }
 	});
+}
+
+/**
+ * Listen for log option btn clicks
+ */
+function startListeningForLogBtnClicks(){
+
+    $('.log .pin-log-btn').unbind('click');
+    $('.log .pin-log-btn').click(function(e){
+
+        addToShortcuts($('#load_shortcuts').first(),
+			$(e.target).parent().parent().parent().parent().parent());
+        e.stopPropagation();
+
+    });
+
+    $('.log .newtab-log-btn').unbind('click');
+    $('.log .newtab-log-btn').click(function(e){
+		$(this).closest('.log').trigger('click', ['fromDrop']);
+    });
 }
 
 /**

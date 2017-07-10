@@ -36,40 +36,137 @@ $(document).ready(function(){
 		}
 	);
 
-	// Select include hostory
-	$('#search-checkbox').prop('checked', ologSettings.includeHistory);
+	var checkboxSelectArea = $('#checkbox-select-area');
+	var checkList = checkboxSelectArea.find('.checkbox-list-area');
+    checkboxSelectArea.click(function(e){
+        e.stopPropagation();
+        checkList.show();
 
-	// Listen to include history chenckbox change
-	$('#search-checkbox').unbind('change');
-	$('#search-checkbox').on('change', function(e) {
-		ologSettings.includeHistory = $(e.target).prop('checked');
-		$('#search-order-block').toggle();
-		saveOlogSettingsData(ologSettings);
 	});
+
+    $('html').click(function() {
+        checkList.hide();
+    });
+
+    var searchCheck = $('#search-checkbox');
+	// Select include history
+    searchCheck.prop('checked', ologSettings.includeHistory);
+
+    // Listen to include history checkbox change
+    searchCheck.unbind('change');
+    searchCheck.on('change', function(e) {
+        ologSettings.includeHistory = $(e.target).prop('checked');
+        $('#search-order-block').toggle();
+        saveOlogSettingsData(ologSettings);
+        checkList.hide();
+
+    });
+
+    var startDateOrderCheck = $('#startdate-order');
+    // Select include
+    startDateOrderCheck.prop('checked', ologSettings.includeStartDate);
+
+    // Listen to include checkbox change
+    startDateOrderCheck.unbind('change');
+    startDateOrderCheck.on('change', function(e) {
+        ologSettings.includeStartDate = $(e.target).prop('checked');
+        $('.log span.log_start_date').toggle();
+        $('.log span.log_createdat_date').toggle();
+        saveOlogSettingsData(ologSettings);
+        checkList.hide();
+
+    });
+
+    var descriptionCheckToggle = $('#description-toggle');
+    // Select include
+    descriptionCheckToggle.prop('checked', ologSettings.includeLogDescription);
+
+    // Listen to include checkbox change
+    descriptionCheckToggle.unbind('change');
+    descriptionCheckToggle.on('change', function(e) {
+        ologSettings.includeLogDescription = $(e.target).prop('checked');
+        $('.log span.description').toggleClass('noshow');
+        saveOlogSettingsData(ologSettings);
+        checkList.hide();
+
+    });
+
+    var attachmentsToggle = $('#attachments-toggle');
+    // Select include
+    attachmentsToggle.prop('checked', ologSettings.includeLogAttachment);
+
+    // Listen to include checkbox change
+    attachmentsToggle.unbind('change');
+    attachmentsToggle.on('change', function(e) {
+        ologSettings.includeLogAttachment = $(e.target).prop('checked');
+        $('.log span.attachment').toggle();
+        saveOlogSettingsData(ologSettings);
+        checkList.hide();
+    });
+
+
+	var createdAtToggleSort = $('#createdat-sort');
+	var startDateToggleSort = $('#startdate-sort');
+    // Select include
+    createdAtToggleSort.prop('checked', !ologSettings.sortByEventStart);
+
+    // Listen to include checkbox change
+    createdAtToggleSort.unbind('change');
+    createdAtToggleSort.on('change', function(e) {
+        ologSettings.sortByEventStart = !($(e.target).prop('checked'));
+
+        startDateToggleSort.prop('checked', ologSettings.sortByEventStart);
+        saveOlogSettingsData(ologSettings);
+        checkList.hide();
+
+        //refresh to display the logs
+        location.reload();
+    });
+
+    // Select include
+    startDateToggleSort.prop('checked', ologSettings.sortByEventStart);
+
+    // Listen to include checkbox change
+    startDateToggleSort.unbind('change');
+    startDateToggleSort.on('change', function(e) {
+        ologSettings.sortByEventStart = $(e.target).prop('checked');
+
+        createdAtToggleSort.prop('checked', !ologSettings.sortByEventStart);
+
+        saveOlogSettingsData(ologSettings);
+        checkList.hide();
+
+        //refresh to display the logs
+        location.reload();
+    });
 
 	// Show log order flag
 	if(ologSettings.includeHistory) {
 		$('#search-order-block').show();
 
-		// Select include hostory
-		$('#search-order').prop('checked', ologSettings.logVersionOrder);
+		var searchOrder = $('#search-order');
+		// Select include history
+        searchOrder.prop('checked', ologSettings.logVersionOrder);
 
 		// Listen to change of log entry order
-		$('#search-order').unbind('change');
-		$('#search-order').on('change', function(e) {
+		searchOrder.unbind('change');
+		searchOrder.on('change', function(e) {
 			ologSettings.logVersionOrder = $(e.target).prop('checked');
 			saveOlogSettingsData(ologSettings);
-		});
+            checkList.hide();
+        });
 
 	// Do not show log order flag
 	} else {
 		$('#search-order-block').hide();
 	}
 
-	// Creante new Log
+
+	// Create new Log
 	$('#new_log').click(function(e){
 		window.location.href = "new_log.html";
 	});
+
 
 	// Load Logbooks
 	loadLogbooks("load_logbooks", true, true, true);
@@ -115,7 +212,8 @@ $(document).ready(function(){
 		var template = getTemplate('template_logged_out');
 		var html = Mustache.to_html(template, {"user": "Guest"});
 		$('#top_container').html(html);
-		login();
+        $('#top_nav_btns').remove();
+        login();
 		disableCreatingNewAndModifying();
 
 	// If user is not signed in, show sign out link
@@ -126,6 +224,7 @@ $(document).ready(function(){
 		var template = getTemplate('template_logged_in');
 		var html = Mustache.to_html(template, {"user": firstLetterToUppercase(credentials["username"])});
 		$('#top_container').html(html);
+
 		enableCreatingAndModifying();
 		
 		// Disable deleting if allowDeletingLogs is set to false
@@ -155,7 +254,7 @@ $(document).ready(function(){
 	}
 
 	// Check if there is someting in the search button and show/hide clean icon
-	showHideSearchCleanButton($('#search-query'));
+	//showHideSearchCleanButton($('#search-query'));
 
 	// Handle go to top button
 	$('#back_to_top_button').click(function(e){
@@ -168,21 +267,128 @@ $(document).ready(function(){
 
 		} else {
 			var element = $('input[value=' + id + ']');
-			l(element.offset().top);
 
-			$('html, body').animate({
-				scrollTop: element.parent().offset().top
-			}, 100);
+			if(element.offset() === undefined){
+				//immediately after page is loaded
+                window.location.href = firstPageName + "#top";
+            }else{
+                l(element.offset().top);
+
+                $('html, body').animate({
+                    scrollTop: element.parent().offset().top
+                }, 100);
+			}
 		}
 	});
 
-	$('#search-query').unbind("keyup");
-	$('#search-query').bind("keyup", function(event) {
+	var searchQuery = $('#search-query');
+	searchQuery.unbind("keyup");
+	searchQuery.bind("keyup", function(event) {
 		// Check if input is empty. If it is empty hide clean button,
 		// if it is not, show clean button
 		showHideSearchCleanButton($(event.target));
 	});
+
+
+    //set the scroll handler on the logs content area
+    var scrollbtn = $('#log-scroll-up');
+	var loadlogsarea = $('#load_logs');
+    scrollbtn.hide();
+
+    loadlogsarea.bind('scroll', function () {
+        var scrollTop = $(this).scrollTop();
+
+		if ( scrollTop > 100 ) {
+            scrollbtn.show().removeClass('scroll-back');
+            scrollbtn.find('.glyphicon').removeClass('glyphicon-arrow-left').addClass('glyphicon-chevron-up');
+        } else {
+            scrollbtn.hide();
+        }
+
+        var selectedLog = loadlogsarea.find('.log_click').first();
+        if(selectedLog.length > 0 && !isScrolledIntoView(selectedLog)){
+            //there is a log selected, show new btn
+            scrollbtn.show().addClass('scroll-back');
+            scrollbtn.find('.glyphicon').addClass('glyphicon-arrow-left').removeClass('glyphicon-chevron-up');
+        }
+	});
+
+	scrollbtn.on('click',function(){
+        var selectedLog = loadlogsarea.find('.log_click').first();
+        if($(this).hasClass('scroll-back')){
+			//scroll to the nearest log
+            loadlogsarea.animate({ scrollTop:loadlogsarea.scrollTop()+selectedLog.offset().top - selectedLog.height()*3 }, { duration: 'medium', easing: 'swing' });
+		}else{
+			//scroll to the top of the logs area
+            loadlogsarea.animate({
+                scrollTop: 20
+            }, 'slow');
+		}
+
+
+        if(selectedLog.length > 0 && !isScrolledIntoView(selectedLog)){
+        	//there is a log selected, show new btn
+			$(this).addClass('scroll-back');
+            $(this).find('.glyphicon').addClass('glyphicon-arrow-left').removeClass('glyphicon-chevron-up');
+        }
+	});
+
+    setMultilstCollapseEvent();
+    setTooltips();
+
+    //check if in readonly mode
+    setReadOnly(inReadOnly);
+
+    setDroppableLogArea();
+
+    setMultilistDroppable('#load_shortcuts');
+
+    loadShortcuts($('#load_shortcuts'));
+
+    var logSelectCheck = $('.log-select-toggle');
+
+    // Listen to include checkbox change
+    logSelectCheck.unbind('change');
+    logSelectCheck.on('change', function(e) {
+        //$('.log').toggleClass('select-mode');
+
+        e.stopPropagation();
+    });
+
+    $('#print-selected-logs, #open-selected-logs').hide();
+    $('#select-logs').click(function(){
+    	if(inSelectMode){
+    		//turn off selectmode
+			inSelectMode = false;
+            $(this).removeClass('selected').find('.glyphicon').addClass('glyphicon-unchecked').removeClass('glyphicon-check');
+            $('.log').removeClass('select-mode');
+            $('.log .log-select-toggle').prop('checked',false);
+            $('#print-selected-logs').hide();
+            $('#open-selected-logs').hide();
+
+        }else{
+    		inSelectMode = true;
+            $(this).addClass('selected').find('.glyphicon').addClass('glyphicon-check').removeClass('glyphicon-unchecked');
+            $('.log').addClass('select-mode');
+            $('#print-selected-logs').show();
+            $('#open-selected-logs').show();
+        }
+	});
+
+	$('#print-selected-logs').click(function(e){
+        var result = $(".log input:checkbox:checked").toArray().map(function(a) {return a.value;}).join(",");
+        window.open('print_log.html?id='+result, '_blank');
+
+    });
+
+	$('#open-selected-logs').click(function(e){
+        $(".log input:checkbox:checked").each(function(e, val) {
+        	$(this).parent().parent().trigger('click', ['fromDrop']);
+        });
+
+	});
 });
+
 
 /**
  * Check for new Log entries and load them if there are any.
@@ -205,7 +411,7 @@ function checkForNewLogs() {
 
 		// Generate a search query
 		if(searchURL === "") {
-			searchQuery = "page=1&limit=" + numberOfLogsPerLoad + '&start=' + lastLogSeconds + '&end=' + currentSeconds;
+			searchQuery = "page=1&limit=" + numberOfLogsPerLoad + '&start=' + lastLogSeconds + '&end=' + currentSeconds + '&';
 
 		} else {
 			var queryString = $.url(searchURL).param();
@@ -239,6 +445,10 @@ function checkForNewLogs() {
 				searchQuery += 'end=' + currentSeconds + '&';
 			}
 		}
+        //add the sort param into the search query
+        if(!("sort" in $.url(searchQuery).param())) {
+            searchQuery += 'sort=' + sortBy() + "&";
+        }
 
 		l("check: " + searchQuery);
 
@@ -246,9 +456,12 @@ function checkForNewLogs() {
 			l("found: " + logs.length);
 			repeatLogs(logs, true);
 			startListeningForLogClicks();
+            startListeningForLogBtnClicks();
+
 			$("#load_logs").prepend(searchLog);
 		});
 	}
+
 }
 
 /**
@@ -345,3 +558,4 @@ function deleteLogHandler() {
 	l(originalName);
 	deleteLog(originalName.split("_")[0]);
 }
+

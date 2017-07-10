@@ -264,24 +264,24 @@ function toggleChevron(element, openGroup) {
 
 	if(openGroup === undefined) {
 
-		if($(element).hasClass('icon-chevron-down')) {
-			$(element).removeClass('icon-chevron-down');
-			$(element).addClass('icon-chevron-right');
+		if($(element).hasClass('glyphicon-chevron-down')) {
+			$(element).removeClass('glyphicon-chevron-down');
+			$(element).addClass('glyphicon-chevron-right');
 
 		} else {
-			$(element).removeClass('icon-chevron-right');
-			$(element).addClass('icon-chevron-down');
+			$(element).removeClass('glyphicon-chevron-right');
+			$(element).addClass('glyphicon-chevron-down');
 		}
 
 	} else {
 
 		if(openGroup === false) {
-			$(element).removeClass('icon-chevron-down');
-			$(element).addClass('icon-chevron-right');
+			$(element).removeClass('glyphicon-chevron-down');
+			$(element).addClass('glyphicon-chevron-right');
 
 		} else {
-			$(element).removeClass('icon-chevron-right');
-			$(element).addClass('icon-chevron-down');
+			$(element).removeClass('glyphicon-chevron-right');
+			$(element).addClass('glyphicon-chevron-down');
 		}
 	}
 }
@@ -292,4 +292,101 @@ function toggleChevron(element, openGroup) {
  */
 function saveOlogSettingsData(dataToBeSaved) {
 	$.cookie(settingsCookieName, JSON.stringify(dataToBeSaved));
+}
+
+/**
+ * Use the browser's built-in functionality to quickly and safely escape
+ * the string
+ * @param str
+ */
+function escapeHTML(str){
+    var div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+}
+
+/**
+ * Set a textarea to edit markdown content
+ * @param textarea id of element to set editor to
+ */
+function createMarkdownTextarea(textarea){
+    //set the markdown editor to the textarea
+    new SimpleMDE({
+        autoDownloadFontAwesome:false,
+		element: document.getElementById(textarea),
+        forceSync: true,
+        toolbar: mdToolbar,
+        status: false
+    });
+}
+
+/**
+ * Check if an element is in the view after scrolling
+ * @param elem The element to view
+ * @returns {boolean}
+ */
+function isScrolledIntoView(elem)
+{
+    var docViewTop = $(window).scrollTop();
+    var docViewBottom = docViewTop + $(window).height();
+
+    var elemTop = elem.offset().top;
+    var elemBottom = elemTop + elem.height();
+
+    return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+}
+
+/**
+ * Sets the bootstrap tooltip for all elements with the attribute
+ */
+function setTooltips(){
+    //set all the tooltips for log spans
+	if(showTooltips){
+        $('[data-toggle="tooltip"]').tooltip({
+            container: 'body',
+        });
+	}
+}
+
+/**
+ * sets the tooltips in the markdown editor
+ */
+function setMarkdownTooltips(){
+    //set all the tooltips for log spans
+    if(showTooltips){
+        $('.editor-toolbar a.fa').tooltip({
+            container: 'body',
+            placement: "bottom"
+        });
+    }
+}
+
+/**
+ * Will change the page on/off from read-only mode
+ * @param set bool value to turn on/off
+ */
+function setReadOnly(set) {
+    var readOnlyElems = $('[read-only="false"]');
+    if(set){
+
+        $('#read_only_mode').show();
+
+        //if an element is already hidden, do not change its state
+    }else{
+
+        $('#read_only_mode').hide();
+        readOnlyElems.attr('read-only', 'true');
+    }
+
+}
+
+/**
+ * returns the sort parameter for loading logs
+ */
+function sortBy(){
+	if(ologSettings.sortByEventStart !== undefined && ologSettings.sortByEventStart){
+		return "eventStart";
+	}else{
+		return "created";
+	}
 }

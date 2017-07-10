@@ -1,0 +1,19 @@
+/**
+  All elements hidden by default
+
+  @author: Dena Mujtaba
+ */
+
+.display_none, .property_body, .login_error,
+#new_logbook_error_block, #error_block, #load_log,
+.log_attachments, #attachments_size_dropdown, #paste-area,
+.upload-progress-loader, .multilist_icons, .view_log_panel
+{
+  display: none;
+}
+
+[read-only="false"]{
+  display:none !important;
+  pointer-events:none !important;
+  opacity:0 !important;
+}

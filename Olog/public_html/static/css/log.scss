@@ -1,0 +1,922 @@
+/*
+ * Styles specific to logs
+ *
+ * @author: Dejan Dežman <dejan.dezman@cosylab.com>
+ */
+
+
+/**
+ Style log START
+*/
+.log {
+	padding:5px 0 0;
+	display: block;
+	cursor: pointer;
+	border-top: 1px solid $gray-400;
+	position: relative;
+	img {
+		margin-bottom: 3px;
+	}
+
+	span.header, span.description, span.attachment, div.show_history{
+		padding:2.5px 15px;
+		display:block;
+		font-size:$sm-font;
+		&.description{
+			overflow:hidden;
+			line-height:1.3;
+			color:$gray-900;
+			span.owner{
+				display:inline-block;
+				margin-right:5px;
+				font-size:$xsm-font;
+				color: $gray-950;
+				font-weight:bolder;
+				.log_start_date{
+					$col: mix(desaturate($pink-100, 3%), $gray-200, 70%);
+					color:darken($col, 15%);
+				}
+
+			}
+			&.noshow{
+				height:15px;
+				opacity:0;
+			}
+		}
+		&.header{
+			padding-bottom:0;
+			span{
+				color:$blue-300;
+				display:inline-block;
+				&.log_header_right{
+					float:right;
+					color:$green-100;
+				}
+				&.log_row_date{
+					float:right;
+					font-size:$xsm-font;
+
+					$col: mix(desaturate($green-100, 3%), $gray-200, 70%);
+					color:darken($col, 15%);
+				}
+
+				&[title="Created"]{
+					font-weight:bold;
+					text-transform:uppercase;
+					font-size:$xsm-font;
+					position:relative;
+					.log-options{
+						display:block;
+						height:15px;
+						margin-left:10px;
+						transition:width .5s;
+						width:0;
+						position:absolute;
+						left:100%;
+						top:40%;
+						transform:translateY(-50%);
+						overflow:hidden;
+						color:red;
+						.log-opt-btn{
+							$size:15px;
+							color:white;
+							@include border-radius(100%);
+							background-color:$gray-900;
+							width:$size;
+							height:$size;
+							display:inline-block;
+							padding:2px 3px;
+							font-size:$xxsm-font;
+							margin: 0 2px;
+							&:hover{
+								cursor:pointer;
+								background-color:mix($blue-200, $gray-600, 50%);
+							}
+						}
+					}
+				}
+
+			}
+		}
+		&.show_history{
+			width:100px;
+			margin:0 auto;
+			border-top-left-radius:5px;
+			border-top-right-radius:5px;
+			background-color:$gray-300;
+			padding: 2.5px 0;
+			text-align: center;
+			font-size:$xsm-font;
+			transition:background-color .3s;
+			&:hover{
+				background-color:$blue-gray-300;
+			}
+		}
+		&.attachment{
+			display:flex;
+			img{
+				@include border-radius(0);
+				margin-top:3px;
+				margin-bottom:0;
+			}
+		}
+	}
+	transition:background-color .25s;
+	&:hover {
+		background-color: lighten($blue-100, 25%);
+		div.show_history{
+			background-color:$blue-gray-300;
+		}
+		.log-options{
+			width:100px !important;
+		}
+	}
+	&.ui-log-dragging{
+		border:2px solid desaturate($blue-200 ,15%);
+		background-color:lighten($blue-100, 10%) !important;
+		z-index:600;
+		box-shadow:3px 3px 1px 0px rgba(0,0,0,.4);
+		opacity:.9;
+		cursor:move;
+		span{
+			color:darken(mix($blue-200, $gray-500, 50%), 15%) !important;
+		}
+	}
+
+	.log-checkbox{
+		display:none;
+		width:auto;
+		position:absolute;
+		left:-5px;
+		top:20%;
+		transform: translateY(-50%);
+		input[type=checkbox]{
+			position:absolute;
+			display:none;
+			&+label{
+				color:$gray-800;
+				margin:0;
+				width:100%;
+				height:100%;
+				display: inline-block;
+				cursor:pointer;
+				outline:none;
+				padding:.5px 10px;
+				font-weight:normal;
+				font-size:$xsm-font;
+				transition:background-color .4s;
+				&:hover{
+					color:mix($pink-100, $blue-gray-700, 50%);
+				}
+				&:before{
+					font-family: 'Glyphicons Halflings';
+					content: "\e157";
+					opacity:.5;
+				}
+			}
+			&:checked{
+				&+label{
+					color:$blue-green-200;
+					&:before{
+						font-family: 'Glyphicons Halflings';
+						content: "\e067";
+						opacity:1;
+					}
+					&:hover{
+						color:$blue-gray-500;
+					}
+				}
+			}
+		}
+	}
+
+	&.select-mode{
+		padding-left:10px;
+		.log-checkbox{
+			display:block;
+		}
+	}
+}
+
+.log_light {
+	background-color: white;
+}
+
+.log_dark {
+	background-color: $gray-050;
+}
+
+.log-last {
+	display: block;
+	cursor: pointer;
+	border-top: 1px solid $gray-400;
+	padding: 5px;
+	text-align:center;
+	font-size:$sm-font;
+	background-color:$gray-400;
+	color:white !important;
+	transition: background-color .5s;
+	&:hover {
+		background-color: $gray-600;
+		a{
+			text-decoration:none;
+			i{
+				@include animation-spin;
+			}
+		}
+	}
+}
+
+.log_child{
+	padding-left: 20px;
+}
+
+.log_history {
+	padding-left: 5px;
+	border-left: 3px solid $gray-600;
+
+	&.log_history_light {
+		background-color: $gray-100;
+	}
+	&.log_history_dark {
+		background-color: $gray-300;
+	}
+
+}
+.log_click{
+	background-color:lighten($green-100, 25%) !important;
+	border:1px solid $green-100;
+	border-bottom:0;
+
+	//select the log after this one
+	&+.log{
+		border-top:1px solid $green-200 !important;
+	}
+	span.header{
+		font-weight:bolder;
+
+		.log_header_right{
+			color:$green-200;
+		}
+		.log_start_date{
+			color:$pink-100 !important;
+		}
+	}
+	div.show_history{
+		$col:mix($green-100, $gray-300, 50%);
+		background-color: $col !important;
+		color:darken($col, 20%);
+		&:hover{
+			background-color: lighten($col, 10%) !important;
+		}
+	}
+
+	&.log_history{
+		//children logs
+		border-left:3px solid $green-200;
+	}
+}
+/* Style log END */
+
+/**
+ Log form elements
+ */
+.log_title {
+	padding: 9px 13px;
+	margin: 0;
+	color:lighten($blue-gray-700, 50%);
+	background-color:$blue-gray-700;
+	overflow:hidden;
+	box-shadow: 0 3px 3px -2px $gray-800;
+	-moz-box-shadow: 0 3px 3px -2px $gray-800;
+	-webkit-box-shadow: 0 3px 3px -1px $gray-800;
+
+	h5{
+		text-transform:capitalize;
+		font-weight:normal;
+		@include space-reset;
+
+		a{
+			text-decoration:none;
+			color:$blue-gray-300;
+			&:hover{
+				color:$blue-100;
+			}
+			&.log_modify_link{
+				display:block;
+				vertical-align:middle;
+				height:100%;
+				padding:0 12px;
+			}
+		}
+		span#back_button{
+			color:$blue-gray-300;
+			&:hover{
+				color:white;
+			}
+		}
+	}
+	#delete_log_link {
+		cursor: pointer;
+	}
+	#cancel_editing_x {
+		cursor: pointer;
+	}
+
+}
+
+.log_body {
+	padding: 10px;
+	padding-top:15px;
+	background-color:transparent;
+	//border-bottom: 1px solid $gray-400;
+	word-break:keep-all;
+
+	//Size ~14px font
+	font-size:$md-font/1.15;
+
+	.log_body textarea {
+		display: inline-block;
+		width: 100%;
+	}
+
+	.editor-toolbar{
+		$font-color: $gray-950;
+		@include border-radius(3px);
+		border-bottom-left-radius:0;
+		border-bottom-right-radius:0;
+		opacity:1;
+		background-color:$gray-300;
+		color:$font-color;
+		border:1px solid $gray-600;
+		z-index:502;
+		box-shadow:0px 5px 3px -2px rgba(0,0,0,.2);
+		&:before, &:after{
+			margin:0;
+		}
+		&:hover{
+			opacity:1;
+		}
+		i{
+			border-left:1px solid $font-color !important;
+			border-right:1px solid $font-color !important;
+		}
+		a{
+			color:$font-color !important;
+			&:hover{
+				color:$blue-200 !important;
+				border:1px solid transparent;
+				background-color:transparent;
+			}
+		}
+
+		&.disabled-for-preview{
+			a{
+				background-color:transparent;
+			}
+		}
+
+		////Map fontawessome classes to glyphicons
+		.fa{
+			&:before{
+				font-family:'Glyphicons Halflings';
+				display:inline-block;
+				content:"\e022";
+			}
+			&.fa-bold:before{
+				content:"\e048";
+			}
+			&.fa-italic:before{
+				content:"\e049";
+			}
+			&.fa-strikethrough:before{
+				text-decoration: line-through;
+				content:"\e047";
+			}
+			&.fa-header:before{
+				content:"\e180";
+				&.fa-header-smaller{
+					font-size:65%;
+				}
+			}
+			&.fa-list-ul:before{
+				content:"\e056";
+			}
+			&.fa-list-ol:before{
+				content:"\e153";
+			}
+			&.fa-link:before{
+				content:"\e144";
+			}
+			&.fa-picture-o:before{
+				content:"\e060";
+			}
+			&.fa-table:before{
+				content:"\e032";
+			}
+			&.fa-eye:before{
+				content:"\e105";
+			}
+			&.fa-question-circle:before{
+				content:"\e085";
+			}
+
+		}
+	}
+
+	.CodeMirror{
+		//height:45vh;
+		color:$gray-950;
+		@include border-radius(3px);
+		border:1px solid $gray-500;
+		border-top-left-radius:0;
+		border-top-right-radius:0;
+		//styling to overwrite markdown render
+
+		.editor-preview{
+			padding:15px 20px;
+			background-color:white;
+		}
+	}
+}
+
+.log_details {
+	position:relative;
+	margin: 0;
+	border-bottom: 1px solid $gray-400;
+	background-color: $gray-300;
+	.log_details_row{
+		padding:5px 10px;
+		display:block;
+		width:100%;
+		border-bottom:1px solid rgba(0,0,0,.15);
+		&:last-child{
+			border-bottom:0;
+		}
+		color:rgba(0,0,0,.65);
+		.info_group{
+			display:inline-block;
+			height:100%;
+			padding-left:5px;
+			&:first-child{
+				padding:0;
+			}
+		}
+	}
+
+	.form-group{
+		margin-bottom:5px;
+		padding-left:15px;
+		padding-top:5px;
+		input, select{
+			margin-left:5px;
+			width:25%;
+			display:inline-block;
+			background-color:transparent;
+			color:$blue-gray-700;
+			border:0;
+			outline:0;
+			box-shadow:none;
+			&:focus{
+				font-weight:bolder;
+			}
+			&.hasDatepicker{
+				border-bottom: 1px solid $blue-gray-700;
+				@include border-radius(0);
+			}
+		}
+		select{
+			border-bottom:1px solid $blue-gray-700;
+			@include border-radius(0);
+		}
+	}
+
+	//span pointer to the corresponding btn
+	.arrow-pointer{
+		$size : 10px;
+		display:block;
+		position:absolute;
+		border-left:$size solid transparent;
+		border-right:$size solid transparent;
+		border-bottom:$size solid $gray-300;
+		top:-8%;
+		right:35px;
+	}
+
+	border-bottom: 1px solid $gray-700;
+	box-shadow: 0 3px 3px -2px $gray-700;
+	-moz-box-shadow: 0 3px 3px -2px $gray-700;
+	-webkit-box-shadow: 0 3px 3px -2px $gray-700;
+}
+
+#load_log{
+	background-color:mix($blue-gray-500, $gray-100, 8%);
+	.view_log_panel{
+		position:absolute;
+		top:0;
+		left:0;
+		bottom:0;
+		right:0;
+		background-color:lighten($green-100, 30%);
+		opacity:.8;
+		padding-top:60px;
+		z-index:600;
+		p, i{
+			color:$green-200;
+			font-size:$lg-font;
+			padding:10px;
+			display:block;
+			text-align:center;
+		}
+	}
+	&.well_hover{
+		.view_log_panel{
+			display:block;
+		}
+	}
+
+}
+
+.container-right.well_hover{
+	#load_log{
+		display:block;
+		div:not(.view_log_panel){
+			display:none;
+		}
+	}
+	.view_log_panel{
+		display:block;
+	}
+}
+
+@media (max-width: 1023px) {
+	.view_log_panel{
+		display:none !important;
+	}
+}
+
+.log_properties, .log_attachments {
+	padding: 5px 10px;
+	margin: 0;
+	background-color: transparent;
+	display:block;
+	.log_view_details {
+		font-weight: bold;
+		font-size: 13px;
+		color: $blue-gray-700;
+		padding:5px 0;
+		display:inline-block;
+	}
+	$border-color: $gray-500;
+	table{
+		border:1px solid $border-color;
+		thead{
+			th{
+				color:$blue-gray-700;
+				background-color: $gray-300;
+				border:0;
+				border-bottom:1px solid $border-color;
+			}
+		}
+
+		tbody{
+			tr{
+				background-color:$gray-100;
+				&:nth-child(even){
+					background-color:$gray-300;
+				}
+				td{
+					border:0;
+					&:first-child{
+						border-right:1px solid $border-color;
+					}
+					input{
+						font-size:$sm-font;
+						color:$blue-gray-700;
+						display:inline-block;
+						vertical-align:center;
+						background-color:transparent;
+						border:0;
+						outline:0;
+						box-shadow:none;
+						&:focus{
+							border:0;
+							box-shadow:0;
+							box-shadow:none;
+
+						}
+					}
+				}
+			}
+		}
+	}
+	.new_property{
+		.new_property_header {
+			background-color: $gray-300;
+			th{
+				position:relative;
+			}
+			input{
+				display:inline-block;
+				width:95%;
+				vertical-align:center;
+				background-color:transparent;
+				border:0;
+				outline:0;
+				box-shadow:none;
+				&:focus{
+					border:0;
+					box-shadow:none;
+
+				}
+			}
+			.remove_property {
+				width:5%;
+				display:inline-block;
+				color:$pink-100;
+				cursor: pointer;
+				vertical-align:center;
+				position:absolute;
+				top:50%;
+				right:0;
+				transform:translateY(-50%);
+				&:hover{
+					color:$red-100;
+				}
+			}
+		}
+		table tr:last-child{
+			td{
+				padding:0;
+				border-right:0;
+				border-top:1px solid $border-color;
+				a{
+					padding:5px;
+					height:100%;
+					display:block;
+					text-align:center;
+					&:hover{
+						text-decoration:none;
+						background-color:$gray-500;
+						color:white;
+					}
+				}
+			}
+		}
+	}
+
+	.property_header {
+		cursor: pointer;
+	}
+	#load_log_attachments > a > img {
+		margin-bottom: 3px;
+	}
+
+	span.fileinput-button, #add_a_property{
+		$col: $blue-gray-700;
+		background-color:$col;
+		padding:4px 13px;
+		border:1px solid darken($col, 7%);
+		font-size:$sm-font;
+		color:white;
+		text-decoration:none;
+		margin-left:5px;
+		@include border-radius(3px);
+		&:hover{
+			background-color:darken($col, 7%);
+		}
+	}
+
+	//Where all the file uploads are displayed
+	#files, #list_existing_attachments{
+		display:block;
+		div{
+			float:left;
+			background-color:$gray-300;
+			border:1px solid $border-color;
+			border-radius:2px;
+			margin:12px 9px;
+			padding:5px 9px;
+			font-size: $sm-font * .75;
+			text-align:center;
+			p {
+				margin: 0;
+			}
+			canvas,img{
+				display:block;
+				margin:3px auto;
+			}
+
+			span, button{
+				display:block;
+				font-size: $sm-font * .75;
+				margin-top:0; //overwrite generated <br>
+				width:100%;
+				text-align:center;
+				padding-top:4px;
+			}
+			button{
+				padding:3px;
+			}
+		}
+	}
+
+	#cancel_editing_button {
+		margin-bottom: 5px;
+		padding-bottom: 5px;
+	}
+
+	#list_existing_attachments > div {
+		float:left;
+		margin: 20px;
+	}
+
+	.upload-progress {
+		opacity: 0.5;
+	}
+}
+
+.log_edit_btn_options{
+	display:block;
+	padding:5px;
+	button, input{
+		margin:5px 10px;
+	}
+}
+
+@media (max-width: 1023px) {
+	.container-modify-left,.container-modify-right {
+		width:100% !important;
+		float: none;
+		padding: 0px 20px 20px 20px;
+	}
+}
+
+@media (min-width: 1024px) {
+
+	.container-modify-left {
+		position: absolute;
+		left: 0;
+		left: auto;
+		top: 0;
+		width: 80%;
+		bottom: 0;
+	}
+
+	.container-modify-right {
+		position: absolute;
+		right: 0;
+		top: 0;
+		width: 20%;
+		bottom: 0;
+	}
+
+}
+
+.fileinput-button {
+	position: relative;
+	overflow: hidden;
+	input {
+		cursor: pointer;
+		direction: ltr;
+		font-size: 23px;
+		margin: 0;
+		opacity: 0;
+		position: absolute;
+		right: 0;
+		top: 0;
+		transform: translate(-300px, 0px) scale(4);
+	}
+}
+
+/* Paste area styles */
+#paste-area {
+	position: absolute;
+	left: -99em;
+}
+
+/* Override multiselection colors */
+.container-modify-right{
+	.multilist_item {
+		color: $green-200 !important;
+	}
+	.multilist_clicked, .multilist_clicked:hover {
+		background-color: $green-100 !important;
+		color: white !important;
+		a{
+			color:$green-200;
+			&:hover{
+				color:$gray-400;
+			}
+		}
+	}
+}
+
+//styling for opening logs area
+.log-tabs-opener{
+
+	$tabs-height: 25px;
+	$tabs-bg-color: $gray-200;
+	$tab-col: darken(mix($blue-200, $blue-gray-300, 30%), 19%);
+	$active-tab-col: $nav-bg;
+	$ttime: .5s;
+	.log_tabs_area{
+		height:$tabs-height;
+		background-color:$tabs-bg-color;
+		padding:3px 0 0;
+		overflow:hidden;
+		display:flex;
+
+		&:empty{
+			height:0;
+			padding:0;
+		}
+		.log-tab{
+			overflow:hidden;
+			position:relative;
+			display:inline-block;
+			height:100%;
+			float:left;
+			padding:5px 10px;
+			font-size:$xsm-font;
+			text-align:center;
+			top: 50%;
+			transform: translateY(-50%);
+			margin:0 1px;
+
+			color: $gray-200;
+			background-color:$tab-col;
+			transition:background-color $ttime;
+			cursor:pointer;
+
+			&:first-child{
+				margin-left:0;
+			}
+			&:last-child{
+				margin-right:0;
+			}
+
+			span.close-tab{
+				position:absolute;
+				right:8px;
+				bottom:0;
+				display:block;
+				color:mix($pink-100,$gray-500, 50%);
+				font-size:$xsm-font;
+				padding:5px;
+				padding-bottom:1px;
+				background-color:$tab-col;
+				transition:background-color $ttime;
+				&:hover{
+					cursor:pointer;
+					color:mix($pink-100, $gray-300, 35%) !important;
+
+				}
+			}
+			&:before {
+				content: "";
+				position: absolute;
+				top: 0;
+				right: 0;
+				z-index:2;
+				border-width: 0 $tabs-height/2 $tabs-height/2 0;
+				border-style: solid;
+				border-color: $tab-col $tabs-bg-color;
+				transition:border-color $ttime;
+			}
+
+			&.opened{
+				background-color: $active-tab-col;
+				span.close-tab{
+					background-color:$active-tab-col;
+				}
+
+				&:before{
+					border-color: $active-tab-col $tabs-bg-color;
+				}
+			}
+
+		}
+	}
+
+	.log_container_area{
+		.log_window{
+			&.opened{
+				display:block;
+				.log_title{
+					background-color:$nav-bg;
+				}
+				h5{
+					font-weight:bold;
+					a{
+						font-weight:normal;
+					}
+				}
+			}
+		}
+
+	}
+}
+
+
+

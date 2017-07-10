@@ -15,9 +15,10 @@ var version = "0.5";
 // For accessing the REST service
 var serviceurl = window.location.protocol + "//" + window.location.host + "/Olog/resources/";
 
+
 // For all the dates shown in client
 // Format docs can be found at http://momentjs.com/docs/#/displaying/format/
-var dateFormat = "M/D/YY, h:mm a";
+var dateFormat = "M/D/YY, h:mm A";
 
 // jQuery datepicker plugin has its onw date format so it is defined separately.
 // Format switches can be found at http://api.jqueryui.com/datepicker/
@@ -133,6 +134,40 @@ var smallScreenResolutionWidth = 1024;
 // Available Levels
 var levels = ["Info", "Problem", "Request", "Suggestion", "Urgent"];
 
+//Markdown toolbar sections
+var mdToolbar = [
+	"bold", "italic", "strikethrough",
+    "|",
+    "heading", "heading-smaller", "heading-bigger",
+    "|",
+    "unordered-list", "ordered-list", "link", "image", "table",
+	"|",
+	"preview", "guide"
+	];
+
+
+//Used to keep track of the search tags and information
+var searchInputElements = {
+    logbook:{},
+    tagt:{},
+    start:{},
+    end:{},
+    owner:{},
+    from:{},
+    to:{},
+    search:{},
+	default:{}
+};
+
+// If in read-only mode
+var inReadOnly = false;
+
+// Place delete button into Log details and allow deleting if this property is set to true
+var allowDeletingLogs = false;
+
+//If tooltips explaining certain parts of the application should be shown
+var showTooltips = true;
+
 /**
  * Global variables needed by more than one page. SHOULD NOT BE CONFIGURED BY THE USER!
  */
@@ -158,6 +193,18 @@ var ologSettings = {};
 // Should history be included by default
 var includeHistory = true;
 
+//If the StartDate should be displayed for logs
+var includeStartDate = true;
+
+//If the Log Descriptions should be displayed
+var includeLogDescription = true;
+
+//If the Attachments in Logs should be displayed
+var includeLogAttachment = true;
+
+//If logs should be sorted by event start date instead
+var sortByEventStart = false;
+
 // URL parameter for displaying log's history
 var historyParameter = "history";
 
@@ -167,8 +214,28 @@ var versionParameter = "version";
 // Default version order
 var logVersionOrder = true;
 
-// Place delete button into Log details and allow deleting if this property is set to true
-var allowDeletingLogs = false;
-
 // Global log id placeholder
 var globalLogId = undefined;
+
+// Logs that have been opened in tabs
+var tabbedLogs = {};
+
+//If the list of logs is in multi select mode
+var inSelectMode = false;
+/**
+ * REST Configs
+ */
+// Create object for saving logs
+var savedLogs = {};
+
+// Array of all the Tags
+var savedTags = new Array();
+
+// Array of all the Logbooks
+var savedLogbooks = new Array();
+
+// Current page number (REST responses can be loaded page by page)
+var page = 1;
+
+
+

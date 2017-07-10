@@ -14,8 +14,20 @@ $(document).ready(function(){
 	// Activate resize manager
 	resizeManager();
 
-	// Initialize tooltip
-	$('#tooltip').tooltip({placement: "bottom"});
+	var timenow = new Date(Date.now() - 20000);
+
+    // Set datepickers
+    $('#startdate_input').datetimepicker(
+        {
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: "D, d M yy",
+			timeFormat: "HH:mm:ss",
+            maxDateTime: timenow,
+            firstDay: datePickerFirstName
+        }
+    );
+
 
 	// Get log id parameter from url
 	logId = $.url().param("id");
@@ -91,7 +103,7 @@ $(document).ready(function(){
 		// Load properties
 		if(log[0].properties !== undefined && log[0].properties.length !== 0) {
 			// Load properties
-			$('.log_properties').find('div').remove();
+			$('#log_properties').find('div').remove();
 
 			var template = getTemplate("template_modify_log_property");
 			var html = "";
@@ -115,7 +127,7 @@ $(document).ready(function(){
 				attrIndexes.push(attrIndex);
 
 				html = Mustache.to_html(template, newProperty);
-				$('.log_properties').append(html);
+				$('#log_properties').append(html);
 			});
 
 			l(attrIndexes);
@@ -123,7 +135,7 @@ $(document).ready(function(){
 			startListeningForPropertyClicks();
 
 		} else {
-			$('.log_properties').hide("fast");
+			$('#log_properties').hide("fast");
 		}
 
 		// Fill in the modify form
@@ -144,6 +156,14 @@ $(document).ready(function(){
 			var html = Mustache.to_html(template, {"name": name, "selected":selected});
 			$('#level_input').append(html);
 		});
+
+		//set the date for the datetimepicker to set eventStart Date
+        var date = new Date(
+                log[0].eventStart
+        );
+
+        $('#startdate_input').datetimepicker('setDate', date);
+
 	});
 
 	// Listen for new Log form submit
@@ -156,10 +176,11 @@ $(document).ready(function(){
 		// Append id
 		var logParts = logId.split("_");
 		log[0].id = logParts[0];
-
 		if(isValidLog(log) === true) {
-			modifyLog(log);
-			$('#files div').addClass('upload-progress');
+
+            modifyLog(log);
+
+            $('#files div').addClass('upload-progress');
 			$('#files div p button').remove();
 			$('#files div button').remove();
 			$('.upload-progress-loader').show();
@@ -189,6 +210,13 @@ $(document).ready(function(){
 
 	// Start listening for Firefox paste events
 	startListeningForPasteEvents("#files");
+
+    setMultilstCollapseEvent();
+
+    // Initialize tooltip
+    $('#tooltip').tooltip({placement: "bottom"});
+    setMarkdownTooltips();
+
 });
 
 /**
@@ -257,7 +285,10 @@ function checkLogObject(log) {
  * @param {type} log object with log entry data
  */
 function fillInForm(log) {
-	$("#log_body").val(log.description);
+	$("#log_body").text(log.description);
+    //escape the text for any html elements entered
+    createMarkdownTextarea("log_body");
+
 	var notImages = new Array();
 
 	if(log.attachments.length !== 0) {

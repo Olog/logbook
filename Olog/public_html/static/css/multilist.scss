@@ -1,0 +1,383 @@
+/*
+ * CSS for multiselection list module.
+ *
+ * @author: Dejan Dežman <dejan.dezman@cosylab.com>
+ */
+
+.multilist {
+	list-style-type: none;
+	@include space-reset;
+	display: block;
+	//padding-bottom: 20px;
+	border-top:1px solid $blue-gray-700;
+
+	&:first-child{
+		border-top:0;
+	}
+	.multilist_header {
+		padding:8px 10px;
+		font-weight: bold;
+		font-size:$sm-font;
+		color: $gray-100;
+		background-color:$blue-gray-500 !important;
+		cursor: pointer;
+      .multilist-add{
+        float:right;
+        display:inline-block;
+        text-decoration:none;
+        padding:3px 5px;
+        font-size:$xsm-font;
+        background-color:$blue-gray-700;
+        @include border-radius(100%);
+        i{
+          color:white;
+        }
+        &:hover{
+          background-color:lighten($blue-gray-500, 5%);
+          cursor:pointer;
+        }
+      }
+	}
+
+	.multilist_filter {
+		background-color: $blue-gray-500 !important;
+		border-top:1px solid $blue-gray-700;
+		.filters_filter {
+			margin-left: 10px;
+		}
+		.filters_filter{
+			color:white;
+		}
+		input.filter_search {
+			display:inline-block;
+			margin: 5px;
+			border:1px solid $gray-900;
+			color:$green-200;
+			//need to set these to overwrite padding from bootstrap
+			padding-top:4px;
+			padding-bottom:4px;
+			font-size:$sm-font;
+			width: 70%;
+			height:100%;
+			@include border-radius(3px);
+			&:focus{
+				background-color:lighten($green-100, 50%);
+
+				//overwrite
+				outline:none;
+				box-shadow:none;
+			}
+		}
+
+	}
+
+	$multilist-bg: $gray-200;
+	li{
+		background-color:$multilist-bg;
+		&:hover{
+			background-color: $gray-400;
+		}
+	}
+	.multilist_item {
+		position:relative;
+		font-size:$sm-font;
+		padding-left: 32px;
+		padding-top: 3px;
+		padding-bottom: 3px;
+		display: block;
+		color: $gray-900;
+		cursor: pointer;
+		word-wrap: break-word;
+		overflow:hidden;
+		background-color:transparent !important;
+		.multilist_icons{
+			display:none;
+			z-index:506;
+		}
+		&:hover{
+			.multilist_icons.allow_display{
+				display:block;
+			}
+		}
+		a i.glyphicon:not(.linkpart){
+          padding:4px;
+          font-size:9px;
+          @include border-radius(100%);
+          color:white;
+          margin:0 5px 0 0;
+          background-color:$gray-900;
+          &:hover{
+            cursor:pointer;
+            &.glyphicon-pencil{
+              background-color: $blue-200;
+            }
+            &.glyphicon-trash{
+              background-color: $pink-100;
+            }
+          }
+		}
+	}
+	.multilist_clicked, .multilist_clicked:hover {
+		background-color:mix($pink-100, $gray-200, 50%) !important;
+		color: $gray-100;
+		$list-count: 1;
+		@each $type, $colorname  in $tag-colors {
+			$list-type : '';
+			@if $list-count != 1{
+				$list-type: $list-count;
+			}
+			&.list#{$list-type}{
+				$col: mix($colorname, $gray-200, 50%);
+				color:darken($col, 32%);
+				background-color:lighten($col, 5%) !important;
+			}
+			$list-count: $list-count + 1;
+		}
+
+	}
+
+	.list, .list2{
+		&:before{
+          font-family: 'Glyphicons Halflings';
+          content:'\e041';
+          font-size:10px;
+          position:absolute;
+          display:block;
+          left:14px;
+          top:50%;
+          vertical-align:center;
+          transform:translateY(-50%);
+		}
+	}
+
+  .list{
+    &:before{
+      content:'\e043';
+    }
+  }
+  .list5{
+	padding:0;
+	.row{
+	  	display:block;
+		@include space-reset;
+		padding-top:5px;
+	}
+	&:hover{
+		background-color:$multilist-bg !important;
+	}
+	  &.multilist_clicked{
+		  background-color:$multilist-bg !important;
+	  }
+
+	.form-group{
+		margin:0;
+		label{
+			margin:3px;
+			color:$gray-800 !important;
+		}
+		input{
+			height:auto;
+			margin:0 auto;
+			width:95%;
+			@include border-radius(50px);
+			background-color:lighten(mix($pink-100, $gray-300, 50%), 7%);
+			border:1px solid mix($pink-100, $gray-400, 50%);
+			box-shadow:none;
+			outline:0;
+			padding:3px 5px;
+			font-size:$xsm-font;
+			color:mix($pink-100, $gray-950, 50%);
+		}
+	}
+	  .multilist_clicked{
+		  background-color:$multilist-bg !important;
+	  }
+  }
+
+	.list6{
+		span{
+			font-weight:bolder;
+			display:inline-block;
+			&.logcreatedat{
+				margin-left:5px;
+				font-size:$xsm-font;
+				font-weight:normal;
+				color:$blue-200;
+				padding:2px 3px;
+				border:1px solid transparent;
+				$time : .5s;
+				text-decoration:underline;
+				transition: background-color $time, border $time,
+				color $time, border-radius $time;
+				&:hover{
+					text-decoration:none;
+					cursor:pointer;
+					$col: mix(desaturate($blue-200, 20%), $gray-200, 50%);
+					color:darken($col, 32%);
+					background-color:lighten($col, 5%);
+					border:1px solid $col;
+					@include border-radius(25px);
+				}
+			}
+		}
+
+		&:before{
+			font-family: 'Glyphicons Halflings';
+			content:'\e022';
+			font-size:10px;
+			position:absolute;
+			display:block;
+			left:14px;
+			color:$gray-700;
+			top:50%;
+			vertical-align:center;
+			transform:translateY(-50%);
+		}
+
+		&[shortcut-type="timestamp"]{
+			&:before{
+				content:'\e023';
+			}
+		}
+
+		&:hover{
+			.log_shortcut_select i{
+				display:inline-block;
+				&:hover{
+					background-color:$red-100 !important;
+				}
+			}
+		}
+
+	}
+
+	&.multilist-drop-hover{
+		.multilist_header{
+			color: $blue-gray-300;
+			background-color: mix($blue-gray-500, $green-100, 70%) !important;
+		}
+		border:1px solid $green-100;
+	}
+}
+
+#datepicker_from {
+	margin-bottom: 3px;
+}
+
+.vertical-align {
+	vertical-align: top;
+}
+
+.multilist-container{
+	position:relative;
+	height:100%;
+	#min-multilists{
+		$bgcolor: $gray-950;
+		$hovcolor: $blue-gray-700;
+		$wid: 5px;
+		z-index:510;
+		position:fixed;
+		width:$wid;
+		background-color:$bgcolor;
+		display:inline-block;
+		top:0;
+		bottom:0;
+		right:0;
+		transition:background-color .25s, width .2s;
+		cursor:pointer;
+		box-shadow:1px 0px 1px 1px rgba(0,0,0,.2);
+		$size: 15px;
+		opacity:.65;
+		border-right:1px solid $gray-950;
+		&:before{
+			width: 0;
+			height: 0;
+			content: '';
+			position:absolute;
+			top:50%;
+			opacity:.7;
+			right:0;
+			transform:translateY(-50%);
+			border-top: $size solid transparent;
+			border-bottom: $size solid transparent;
+			border-right: $size solid $bgcolor;
+			transition:border .5s, width .5s;
+		}
+		&:hover{
+			width:7px;
+			background-color:$hovcolor;
+			&:before{
+				$size:16px;
+				border-top: $size solid transparent;
+				border-bottom: $size solid transparent;
+				border-right: $size solid $hovcolor;
+			}
+		}
+		&.closed{
+			left:0;
+			z-index:505;
+			position:fixed;
+			&:before{
+				left:0;
+				right:auto;
+				border-right: 0;
+				border-left: $size solid $bgcolor;
+			}
+			&:hover{
+				&:before{
+					border-left: $size solid $hovcolor;
+				}
+			}
+		}
+		&.min-right{
+			border-right:1px solid $gray-950;
+			border-left:0;
+			right:auto;
+			box-shadow:-1px 0px 1px 1px rgba(0,0,0,.2);
+			&:before{
+				left:0;
+				right:auto;
+				border-right: 0;
+				border-left: $size solid $bgcolor;
+			}
+			&:hover{
+				&:before{
+					border-left: $size solid $hovcolor;
+				}
+			}
+
+			&.closed{
+				right:0;
+				left:auto;
+				border-left:1px solid $gray-950;
+				border-right:0;
+				&:before{
+					right:0;
+					left:auto;
+					border-left: 0;
+					border-right: $size solid $bgcolor;
+				}
+				&:hover{
+					&:before{
+						border-left: 0;
+						border-right: $size solid $hovcolor;
+					}
+				}
+			}
+		}
+
+	}
+}
+
+//.toggle-filters {}
+//.toggle-from {}
+
+@media (max-width: 1023px) {
+	.multilist-container {
+		width:100% !important;
+	}
+		#min-multilists {
+		display:none !important;
+	}
+
+}

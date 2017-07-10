@@ -9,8 +9,20 @@ $(document).ready(function(){
 	// Activate resize manager
 	resizeManager();
 
-	// Initialize tooltip
-	$('#tooltip').tooltip({placement: "bottom"});
+
+    var timenow = new Date(Date.now() - 20000);
+
+    // Set datepickers
+    $('#startdate_input').datetimepicker(
+        {
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: "D, d M yy",
+            timeFormat: "HH:mm:ss",
+            maxDateTime: timenow,
+            firstDay: datePickerFirstName
+        }
+    );
 
 	// Wait for dataload
 	$('#load_tags_m').on('dataloaded', function(e){
@@ -102,7 +114,9 @@ $(document).ready(function(){
 	// Initialize common Log functionality
 	initialize(null);
 
-	// Upload
+    createMarkdownTextarea("log_body");
+
+    // Upload
 	upload('fileupload');
 
 	// Start listening for Firefox paste events
@@ -129,6 +143,13 @@ $(document).ready(function(){
 
 	// Focus the textarea when starting to add new log entry
 	$('#log_body').focus();
+
+    setMultilstCollapseEvent();
+
+    // Initialize tooltip
+    $('#tooltip').tooltip({placement: "bottom"});
+    setMarkdownTooltips();
+
 });
 
 /**

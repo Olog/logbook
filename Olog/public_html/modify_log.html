@@ -4,12 +4,11 @@
 		<title>Olog</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" type="text/css" href="static/css/bootstrap.css">
-		<link rel="stylesheet" type="text/css" href="static/css/bootstrap-responsive.css">
+		<link rel="stylesheet" type="text/css"  href="static/css/lib/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="static/css/lib/jquery-ui-1.10.3.custom.min.css">
+		<link rel="stylesheet" type="text/css" href="static/css/lib/simplemde.min.css">
+		<link rel="stylesheet" type="text/css" href="static/css/lib/bootstrap-tagmanager.css">
 		<link rel="stylesheet" type="text/css" href="static/css/style.css">
-		<link rel="stylesheet" type="text/css" href="static/css/multilist.css">
-		<link rel="stylesheet" type="text/css" href="static/css/bootstrap-tagmanager.css">
-		<link rel="stylesheet" type="text/css" href="static/css/log.css">
 
 		<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 		<!--[if lt IE 9]>
@@ -22,131 +21,171 @@
 
 	<!-- Header
 	==================================================== -->
-	<div class="navbar navbar-inverse">
-		<div class="navbar-inner">
-			<div class="container">
-
-				<!-- <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+	<nav class="navbar navbar-inverse navbar-static-top">
+		<div class="">
+			<!-- mobile view collapsed section -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
-				</button> -->
-
-				<a class="brand" href="index.html">Olog <span class="version"></span></a>
-
-				<ul class="nav">
-					<li class="divider-vertical"></li>
+				</button>
+				<a class="navbar-brand brand" href="index.html">Olog <span class="version"></span></a>
+			</div>
+			<div class="collapse navbar-collapse">
+				<ul class="nav navbar-nav nav-btn-group">
+					<li>
+						<a href="#"  id="new_log"><i class="glyphicon glyphicon-plus"></i> Log Entry</a>
+					</li>
+					<li class="dropdown" id="add_btn_group">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+						   aria-expanded="false">
+							<span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu">
+							<li><a href="#" onclick="showAddModal('myModal');"><i class="glyphicon glyphicon-plus"></i> Logbook</a></li>
+							<li><a href="#" onclick="showAddModal('myTagModal');"><i class="glyphicon glyphicon-plus"></i> Tag</a></li>
+						</ul>
+					</li>
 				</ul>
-
-				<div class="btn-group">
-					<button id="new_log" class="btn btn-primary active"><i class="icon-plus icon-white"></i> Log Entry</button>
-					<button id="new_logbook_and_tag" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-						<span class="caret"></span>
-					</button>
-					<ul class="dropdown-menu">
-						<li><a onclick="showAddModal('myModal');"><i class="icon-plus"></i> Logbook</a></li>
-						<li><a onclick="showAddModal('myTagModal');"><i class="icon-plus"></i> Tag</a></li>
-					</ul>
-				</div>
-
-				<span id="top_container" class="pull-right btn-group">
+				<ul id="top_container" class="nav navbar-nav navbar-right">
 					<!-- Template -->
-				</span>
-
+				</ul>
 			</div>
 		</div>
-	</div>
+	</nav>
 
-	<!-- Left modify container -->
-	<a name="#top"></a>
-	<div class="container-modify-left">
-		<div id="load_log_details" class="well container-scroll">
+	<div class="container-fluid content-area">
+		<!-- Left navigation -->
+		<div class="row full-row">
+			<div class="col-lg-12 col-md-12 full-row">
+				<!-- Left modify container -->
+				<a name="#top"></a>
+				<div class="container-modify-left">
+					<div id="load_log_details" class="well container-scroll">
 
-			<div id="error_block" class="alert alert-error">
-				<button type="button" class="close" id="error_x">&times;</button>
-				<h4>Error!</h4>
-				<span id="error_body"></span>
+						<div id="error_block" class="alert alert-danger">
+							<button type="button" class="close" id="error_x">&times;</button>
+							<h4>Error!</h4>
+							<span id="error_body"></span>
+						</div>
+
+						<form id="modifyForm" action="#" method="post">
+							<input type="hidden" name="properties" value="" />
+
+							<div class="log_title">
+								<h5>
+									<span id="back_button" class="btn">
+										<i title="Back" class="glyphicon glyphicon-arrow-left"></i>
+									</span>
+									Modify Log Entry
+									<i id="cancel_editing_x" class="glyphicon glyphicon-remove-sign float_right float_right_padding"></i>
+								</h5>
+							</div>
+
+							<div class="log_details">
+								<div class="form-group log_details_row">
+									<i title="Logbooks" class="glyphicon glyphicon-book"></i>
+									<input type="text" name="logbooks" id="logbooks_input" placeholder="Enter Logbooks ..." class="tm-input tm-input-warning tm-input-mini form-control" autocomplete="off" data-provide="typeahead" />
+								</div>
+								<div class="form-group log_details_row">
+									<i title="Tags" class="glyphicon glyphicon-tags"></i>
+									<input type="text" name="tags" id="tags_input" placeholder="Enter Tags ..." class="tm-input tm-input-info tm-input-mini form-control" autocomplete="off" data-provide="typeahead" />
+								</div>
+								<div class="form-group log_details_row">
+									<i title="Level" class="glyphicon glyphicon-tasks"></i>
+									<select name="level" id="level_input" class="form-control">
+										<option value="Info">Info</option>
+									</select>
+								</div>
+								<div class="form-group log_details_row">
+									<label>
+										<i class="glyphicon glyphicon-time"></i>&nbsp;
+										Event Start Date
+									</label>
+									<input type="text" id="startdate_input" class="form-control" />
+								</div>
+
+								<div id="log_details_edited"></div>
+							</div>
+
+							<div class="log_body">
+								<textarea rows="5" id="log_body" class="form-control"></textarea>
+							</div>
+
+							<div class="log_attachments">
+								<span class="log_view_details">Attachments</span>
+								<div id="list_existing_attachments"></div>
+								<div class="clear"></div>
+								<!--<div id="list_add_attachments"></div>-->
+
+								<span class="btn btn-success fileinput-button">
+									<i class="glyphicon glyphicon-plus icon-white"></i>
+									<span>Add files</span>
+									<input id="fileupload2" class="new_attachment" type="file" name="files[]" multiple="multiple" />
+								</span>
+								<img class="upload-progress-loader" alt="Loading ..." src="static/img/loader.gif" />
+
+								<div id="files" class="files"></div>
+								<div class="clear"></div>
+							</div>
+
+							<div class="log_properties" id="log_properties">
+								<span class="log_view_details">Properties</span>
+							</div>
+							<div class="float_right_padding log_edit_btn_options">
+								<input type="submit" class="btn float_right btn-success new_log_button" value="Save" />
+								<button class="btn float_right new_log_button" id="cancel_editing_button" type="button">Cancel</button>
+							</div>
+
+							<div class="clear"></div>
+						</form>
+
+						<div>
+							<div contenteditable="true" id="paste-area"></div>
+						</div>
+					</div>
+				</div>
+
+				<div class="container-resize3">
+					<div id="container-resize3"></div>
+				</div>
+
+				<!-- Right modify container -->
+				<div class="container-modify-right  ">
+					<div class="well container-scroll-last-one multilist-container">
+						<div class="log_title">
+							<h5>Quickly add or remove <a id="tooltip" href="#" data-toggle="tooltip" title="You can select Logbooks and Tags and quickly add or remove them from the Log entry.">metadata</a></h5>
+						</div>
+
+						<!--<i id="load_logbooks_chevron" class="icon-chevron-down margin-left toggle-filters disable_selecting_text"></i><input class="filter_search" id="logbooks_filter_search" type="text" placeholder="Filter Logbooks ..." />-->
+						<ul class="multilist" id="load_logbooks_m">
+							<li class="multilist_header disable_selecting_text"><i id="load_logbooks_chevron" class="glyphicon glyphicon-chevron-down  vertical-align toggle-from"></i>
+								LOGBOOKS
+								<a class="multilist-add linkpart"  href="#" onclick="showAddModal('myModal');">
+									<i class="glyphicon glyphicon-plus"></i>
+								</a>
+							</li>
+							<li class="multilist_filter"><i class="filters_filter glyphicon glyphicon-filter"></i><input class="filter_search form-control" id="logbooks_filter_search" type="text" placeholder="Filter Logbooks ..." /></li>
+							<!-- Template -->
+						</ul>
+						<!--<i id="load_tags_chevron" class="icon-chevron-down margin-left toggle-filters disable_selecting_text"></i><input class="filter_search" id="tags_filter_search" type="text" placeholder="Filter Tags ..." />-->
+						<ul class="multilist" id="load_tags_m">
+							<li class="multilist_header disable_selecting_text"><i id="load_tags_chevron" class="glyphicon glyphicon-chevron-down  vertical-align toggle-from"></i>
+								TAGS
+								<a class="multilist-add linkpart"  href="#" onclick="showAddModal('myTagModal');">
+									<i class="glyphicon glyphicon-plus"></i>
+								</a>
+							</li>
+							<li class="multilist_filter"><i class="filters_filter glyphicon glyphicon-filter"></i><input class="filter_search form-control" id="tags_filter_search" type="text" placeholder="Filter Tags ..." /></li>
+							<!-- Template -->
+						</ul>
+						<div id="min-multilists" class="min-right"></div>
+
+					</div>
+				</div>
 			</div>
-
-			<form id="modifyForm" action="#" method="post">
-				<input type="hidden" name="properties" value="" />
-
-				<div class="log_title">
-					<h5><span id="back_button" class="btn"><i title="Back" class="icon-arrow-left"></i></span> Modify Log Entry<i id="cancel_editing_x" class="icon-remove-sign float_right float_right_padding"></i></h5>
-				</div>
-
-				<div class="log_details">
-					<i title="Logbooks" class="icon-book"></i> <input type="text" name="logbooks" id="logbooks_input" placeholder="Enter Logbooks ..." class="tm-input tm-input-warning tm-input-mini" data-provide="typeahead" />
-					<br/>
-					<i title="Tags" class="icon-tags"></i> <input type="text" name="tags" id="tags_input" placeholder="Enter Tags ..." class="tm-input tm-input-info tm-input-mini" data-provide="typeahead" />
-					<br />
-					<i title="Level" class="icon-tasks"></i>
-					<select name="level" id="level_input">
-						<option value="Info">Info</option>
-					</select>
-					<div id="log_details_edited"></div>
-				</div>
-
-				<div class="log_body">
-					<textarea rows="5" id="log_body"></textarea>
-				</div>
-
-				<div class="log_attachments">
-					<span class="log_view_details">Attachments</span>
-					<div id="list_existing_attachments"></div>
-					<div class="clear"></div>
-					<!--<div id="list_add_attachments"></div>-->
-
-					<span class="btn btn-success fileinput-button">
-						<i class="icon-plus icon-white"></i>
-						<span>Add files ...</span>
-						<input id="fileupload2" class="new_attachment" type="file" name="files[]" multiple="multiple" />
-					</span>
-					<img class="upload-progress-loader" alt="Loading ..." src="static/img/loader.gif" />
-
-					<div id="files" class="files"></div>
-					<div class="clear"></div>
-				</div>
-
-				<div class="log_properties">
-					<span class="log_view_details">Properties</span><br/>
-					<br/>
-				</div>
-
-				<button class="btn float_right new_log_button" id="cancel_editing_button" type="button">Cancel</button>
-				<input type="submit" class="btn float_right btn-primary new_log_button" value="Save" />
-				<div class="clear"></div>
-			</form>
-
-			<div>
-				<div contenteditable="true" id="paste-area"></div>
-			</div>
-		</div>
-	</div>
-
-	<div class="container-resize3">
-		<div id="container-resize3"></div>
-	</div>
-
-	<!-- Right modify container -->
-	<div class="container-modify-right">
-		<div class="well container-scroll-last-one">
-			<div class="log_title">
-				<h5>Quickly add or remove <a id="tooltip" href="#" data-toggle="tooltip" title="You can select Logbooks and Tags and quickly add or remove them from the Log entry.">metadata</a></h5>
-			</div>
-
-			<!--<i id="load_logbooks_chevron" class="icon-chevron-down margin-left toggle-filters disable_selecting_text"></i><input class="filter_search" id="logbooks_filter_search" type="text" placeholder="Filter Logbooks ..." />-->
-			<ul class="multilist" id="load_logbooks_m">
-				<li class="multilist_header disable_selecting_text"><i id="load_logbooks_chevron" class="icon-chevron-down vertical-align toggle-from"></i> LOGBOOKS</li>
-				<li class="multilist_filter"><i class="filters_filter icon-filter"></i><input class="filter_search" id="logbooks_filter_search" type="text" placeholder="Filter Logbooks ..." /></li>
-				<!-- Template -->
-			</ul>
-			<!--<i id="load_tags_chevron" class="icon-chevron-down margin-left toggle-filters disable_selecting_text"></i><input class="filter_search" id="tags_filter_search" type="text" placeholder="Filter Tags ..." />-->
-			<ul class="multilist" id="load_tags_m">
-				<li class="multilist_header disable_selecting_text"><i id="load_tags_chevron" class="icon-chevron-down vertical-align toggle-from"></i> TAGS</li>
-				<li class="multilist_filter"><i class="filters_filter icon-filter"></i><input class="filter_search" id="tags_filter_search" type="text" placeholder="Filter Tags ..." /></li>
-				<!-- Template -->
-			</ul>
 		</div>
 	</div>
 
@@ -163,11 +202,14 @@
 	<!-- Placed at the end of the document so the pages load faster -->
 	<script src="static/js/jquery-2.0.2.js"></script>
 	<script src="static/js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script src="static/js/jquery-ui-timepicker-addon.js"></script>
 	<script src="static/js/jquery.cookie.js"></script>
 	<script src="static/js/purl.js"></script>
-	<script src="static/js/bootstrap.js"></script>
+	<script src="static/js/bootstrap.min.js"></script>
+	<script src="static/js/bootstrap3-typeahead.min.js"></script>
 	<script src="static/js/moment.min.js"></script>
 	<script src="static/js/mustache.js"></script>
+	<script src="static/js/simplemde.min.js"></script>
 	<script src="static/js/bootstrap-tagmanager.js"></script>
 	<script src="static/js/configuration.js"></script>
 	<script src="static/js/helper.js"></script>

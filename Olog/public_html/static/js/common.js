@@ -19,6 +19,15 @@ $(document).ready(function(){
 		// Set includeHistory
 		ologSettings.includeHistory = includeHistory;
 
+        // Set include StartDate
+        ologSettings.includeStartDate = includeStartDate;
+
+        // Set include Description
+        ologSettings.includeLogDescription = includeLogDescription;
+
+        //Set include Attachments
+		ologSettings.includeLogAttachment = includeLogAttachment;
+
 		// Set logVersionOrder
 		ologSettings.logVersionOrder = logVersionOrder;
 	}
@@ -58,11 +67,20 @@ $(document).ready(function(){
 
 	// Delete cookie when Olog resizes
 	$(window).resize(function(e){
-
+        resizeWithCollapse();
 		if($.cookie(settingsCookieName) !== undefined && ologSettings.resize !== undefined) {
-			$.removeCookie(settingsCookieName);
-			l("reload");
-			window.location.reload();
+
+			//Reset whole cookie
+			//$.removeCookie(settingsCookieName);
+
+			//Reset the resize obj of the cookie
+            ologSettings.resize = undefined;
+			saveOlogSettingsData(ologSettings);
+
+            l("RELOAD");
+            setTimeout(function(){
+                window.location.reload();
+            },25);
 		}
 	});
 
@@ -72,6 +90,13 @@ $(document).ready(function(){
 			closeFilterGroup($('#load_logbooks'));
 		}
 	});
+
+    // Hide Shortcuts for small screens
+    $('#load_shortcuts').on('dataloaded', function(e){
+        if($(window).width() < smallScreenResolutionWidth) {
+            closeFilterGroup($('#load_shortcuts'));
+        }
+    });
 
 	// Hide Tags for small screens
 	$('#load_tags').on('dataloaded', function(e){
@@ -110,6 +135,8 @@ function resizeManager() {
 	var modifyLeftPane = ".container-modify-left";
 	var modifyRightPane = ".container-modify-right";
 
+	var multilistCollapse = $('#min-multilists');
+
 	// Resize left and middle section
 	$('.container-resize').draggable({axis: "x"});
 
@@ -140,6 +167,8 @@ function resizeManager() {
 			modify_right_pane_left: undefined,
 			modify_right_pane_width: undefined
 		};
+
+		//ologSettings.resize = dims;
 
 		// Set the rest of the sizes so we don't get into trouble
 		/*if($(middlePane).doesExist()){
@@ -176,6 +205,7 @@ function resizeManager() {
 		$('.container-resize').css({left: dims.middle_pane_left});
 		$('.container-resize2').css({left: dims.right_pane_left});
 		$('.container-resize3').css({left: dims.modify_right_pane_left});
+
 	}
 
 	// Drag left resizer
@@ -197,6 +227,9 @@ function resizeManager() {
 			return;
 		}
 
+        //set the multilist collapse
+        multilistCollapse.css('left', e.pageX - multilistCollapse.width());
+
 		var diff = oldWidth - e.pageX;
 
 		$(leftPane).width(e.pageX);
@@ -208,6 +241,9 @@ function resizeManager() {
 		// If middle pane exists, repair its width
 		$(middlePane).width($(middlePane).width() + diff);
 		dims.middle_pane_width = $(middlePane).width() + diff;
+
+        $(rightPane).width($(window).width() - dims.right_pane_left);
+        dims.right_pane_width = $(window).width() - dims.right_pane_left;
 
 		ologSettings.resize = dims;
 		saveOlogSettingsData(ologSettings);
@@ -221,7 +257,18 @@ function resizeManager() {
 	// Drag right resizer
 	$('.container-resize2').on('drag', function(e){
 		dims.left_pane_width = $(leftPane).width();
-		dims.middle_pane_left = dims.left_pane_width;
+
+		if(ologSettings.collapse_multilist){
+            dims.middle_pane_left = 0;
+
+            //limit the size
+            if($(middlePane).width() + 10 < dims.left_pane_width + minWidth && e.pageX < dims.middle_pane_width){
+				return;
+			}
+
+		}else{
+            dims.middle_pane_left = dims.left_pane_width;
+        }
 
 		//l(dims);
 
@@ -270,6 +317,10 @@ function resizeManager() {
 		if(dims.modify_right_pane_width < minWidth && e.pageX > dims.modify_right_pane_left) {
 			return;
 		}
+
+
+        //set the multilist collapse
+        multilistCollapse.css('left', e.pageX);
 
 		var diff = oldWidth - e.pageX;
 
@@ -322,6 +373,9 @@ function disableCreatingNewAndModifying() {
 	$('#new_logbook_and_tag').attr("disabled", true);
 	$('#modify_log_link').hide();
 	$('#delete_log_link').hide();
+	$('#new_logbook_multilist').hide().attr("disabled", true);
+	$('#new_tag_multilist').hide().attr("disabled", true);
+    $('.log-opt-btn.edit-log-btn').hide();
 }
 
 /**
@@ -333,6 +387,11 @@ function enableCreatingAndModifying() {
 	$('#new_log').attr("disabled", false);
 	$('#new_logbook_and_tag').removeClass("disabled");
 	$('#new_logbook_and_tag').attr("disabled", false);
+    $('#modify_log_link').show();
+    $('#delete_log_link').show();
+    $('#new_logbook_multilist').show().attr("disabled", false);
+    $('#new_tag_multilist').show().attr("disabled", false);
+    $('.log-opt-btn.edit-log-btn').show();
 }
 
 /**
@@ -351,6 +410,8 @@ function saveFilterData(dataToBeSaved) {
  */
 function deleteFilterData() {
 	$.removeCookie(filtersCookieName);
+    ologSettings.searchInputElements = undefined;
+    saveOlogSettingsData(ologSettings);
 }
 
 /**
@@ -370,13 +431,13 @@ function toggleChildren(rawId, element){
 
 	if($('.child_' + rawId).is(":hidden")) {
 		infoElement.text("Hide history");
-		iconElement.removeClass("icon-chevron-right");
-		iconElement.addClass("icon-chevron-down");
+		iconElement.removeClass("glyphicon-chevron-right");
+		iconElement.addClass("glyphicon-chevron-down");
 
 	} else {
 		infoElement.text("Show history");
-		iconElement.removeClass("icon-chevron-down");
-		iconElement.addClass("icon-chevron-right");
+		iconElement.removeClass("glyphicon-chevron-down");
+		iconElement.addClass("glyphicon-chevron-right");
 	}
 
 	// Slide up items that does not contain filters and are not selected

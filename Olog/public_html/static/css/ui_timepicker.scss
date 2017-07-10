@@ -1,0 +1,150 @@
+/*
+ * Styling for timepicker
+ *
+ * @author: Dena Mujtaba
+ */
+
+
+.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+.ui-timepicker-div dl { text-align: left; }
+.ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
+.ui-timepicker-div dl dd { margin: 0 10px 10px 65px; }
+.ui-timepicker-div td { font-size: 90%; }
+.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
+
+.ui-timepicker-rtl{ direction: rtl; }
+.ui-timepicker-rtl dl { text-align: right; }
+.ui-timepicker-rtl dl dd { margin: 0 65px 10px 10px; }
+
+//Custom styling to overwrite
+#ui-datepicker-div{
+  z-index:1051 !important; //overlap everything
+  border:1px solid $gray-700;
+  @include border-radius(6px);
+  outline:none;
+  box-shadow: 3px 4px 5px rgba(0,0,0,.5);
+  padding:3px 7px;
+  .ui-datepicker-header{
+    //heading containing arrows, month,year
+    background:none;
+    border:0;
+    //border-bottom:1px solid $blue-green-200;
+    border-radius:0;
+    a.ui-corner-all{
+      color:$gray-900;
+      &:hover{
+        cursor:pointer;
+        background:none;
+        border:0;
+      }
+    }
+    select{
+      border:0;
+      border-bottom:1px solid $blue-100;
+      font-size:$sm-font;
+      color:$gray-900;
+      font-weight:normal;
+      padding-left:5px;
+      padding-bottom:5px;
+      outline:0;
+    }
+
+  }
+  .ui-datepicker-calendar{
+    font-size:$sm-font; //overwrite
+
+    th{
+      padding:2px 5px;
+      background-color:mix(desaturate($blue-200, 20%), $gray-300, 70%);
+      color:white;
+      font-weight:normal;
+      font-size:$xsm-font;
+    }
+    td{
+      a{
+        background:none;
+        border:0;
+        font-size:$xsm-font;
+        background-color:$gray-300;
+        border:1px solid transparent;
+        margin:1px;
+        color:$gray-900;
+        text-align:left;
+
+        $time: .35s;
+        transition:
+                background-color $time,
+                color $time,
+                border $time,
+                border-radius $time,
+                text-align $time;
+
+        &:hover{
+          background-color:lighten($green-100, 30%);
+          color:$green-100;
+          border:1px solid $green-100;
+          @include border-radius(5px);
+          text-align:center;
+        }
+
+      }
+      &.ui-datepicker-current-day a{
+        $col: desaturate($pink-100, 10%);
+        background-color:lighten($col, 30%);
+        color:$col;
+        border:1px solid lighten($col, 15%);
+        text-align:center;
+      }
+      &.ui-datepicker-today a{
+        $col: desaturate($blue-200, 30%);
+        background-color:lighten($col, 50%);
+        color:$col;
+        border:1px solid lighten($col, 25%);
+      }
+    }
+  }
+
+  .ui-timepicker-div{
+    font-size:$sm-font;
+    color:$gray-900;
+    div.ui-slider{
+      border-radius:0;
+      .ui-slider-handle{
+        border-radius:0;
+        background:0;
+        background-color:$blue-100;
+        border:1px solid darken($blue-100, 30%);
+        &:focus{
+          outline:0;
+          background-color:lighten($green-100,10%);
+        }
+      }
+    }
+    dt{
+      font-size:$sm-font;
+      color:$gray-950;
+    }
+  }
+
+  .ui-datepicker-buttonpane{
+    button{
+      font-size:$sm-font;
+      background:none;
+      color:white;
+      border:0;
+      font-weight:normal;
+      background-color:$blue-gray-500;
+      &:hover{
+        cursor:pointer;
+        background-color:darken($blue-gray-500, 10%);
+      }
+      &.ui-datepicker-close{
+        background-color:lighten($green-100, 5%);
+        border:1px solid darken($green-100, 7%);
+        &:hover{
+          background-color:lighten($green-100, 15%);
+        }
+      }
+    }
+  }
+}

@@ -11,231 +11,335 @@ index.html document and shown to the user.
 			<!-- Modal windows
 			==================================================== -->
 
-			<!-- Add logbook ============================================== -->
-			<div id="myModal" class="modal hide fade">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h3>New Logbook</h3>
-				</div>
-				<div class="modal-body">
 
-					<div id="new_logbook_error_block" class="alert alert-error">
-						<button type="button" class="close" id="new_logbook_error_x">&times;</button>
-						<h4>Error!</h4>
-						<span id="new_logbook_error_body"></span>
+			<!-- Add shortcut ============================================== -->
+			<div id="myShortcutModal" class="modal fade" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h3>New Shortcut</h3>
+						</div>
+						<div class="modal-body">
+							<div id="new_logbook_error_block" class="alert alert-danger">
+								<button type="button" class="close" id="new_logbook_error_x">&times;</button>
+								<h4>Error!</h4>
+								<span id="new_logbook_error_body"></span>
+							</div>
+							<div class="form-group">
+								<label>Shortcut Timestamp</label>
+								<input id="new_shortcut_timestamp" class="form-control" name="name" type="text" placeholder="Now">
+							</div>
+
+						</div>
+						<div class="modal-footer">
+							<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
+							<a id="new_logbook_create" onclick="createShortcutHandler()" href="#" class="btn btn-success">Create</a>
+						</div>
 					</div>
-
-					<label>Name</label>
-					<input id="new_logbook_name" name="name" type="text" placeholder="Logbook name ...">
-
-					<label>Owner</label>
-					<input id="new_logbook_owner" name="owner" type="text" placeholder="Logbook owner ..."><br />
-
 				</div>
-				<div class="modal-footer">
-					<a id="new_logbook_create" onclick="createLogbookHandler()" href="#" class="btn btn-primary">Create</a>
-					<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
+			</div>
+
+			<!-- Add logbook ============================================== -->
+			<div id="myModal" class="modal fade" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h3>New Logbook</h3>
+						</div>
+						<div class="modal-body">
+							<div id="new_logbook_error_block" class="alert alert-danger">
+								<button type="button" class="close" id="new_logbook_error_x">&times;</button>
+								<h4>Error!</h4>
+								<span id="new_logbook_error_body"></span>
+							</div>
+
+							<div class="form-group">
+								<label>Name</label>
+								<input id="new_logbook_name" class="form-control" name="name" type="text" placeholder="Logbook name ...">
+							</div>
+
+							<div class="form-group">
+								<label>Owner</label>
+								<input id="new_logbook_owner" class="form-control" name="owner" type="text" placeholder="Logbook owner ..."><br />
+							</div>
+
+						</div>
+						<div class="modal-footer">
+							<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
+							<a id="new_logbook_create" onclick="createLogbookHandler()" href="#" class="btn btn-success">Create</a>
+						</div>
+					</div>
 				</div>
 			</div>
 
 			<!-- Edit logbook ============================================== -->
-			<div id="editLogbookModal" class="modal hide fade">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h3>Edit Logbook</h3>
-				</div>
-				<div class="modal-body">
+			<div id="editLogbookModal" class="modal fade" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h3>Edit Logbook</h3>
+						</div>
+						<div class="modal-body">
+							<div id="new_logbook_error_block" class="alert alert-danger">
+								<button type="button" class="close" id="new_logbook_error_x">&times;</button>
+								<h4>Error!</h4>
+								<span id="new_logbook_error_body"></span>
+							</div>
 
-					<div id="new_logbook_error_block" class="alert alert-error">
-						<button type="button" class="close" id="new_logbook_error_x">&times;</button>
-						<h4>Error!</h4>
-						<span id="new_logbook_error_body"></span>
+							<input id="new_logbook_name_original" name="name_original" type="hidden" />
+
+							<div class="form-group">
+								<label>Name</label>
+								<input id="new_logbook_name"  class="form-control" name="name" type="text" placeholder="Logbook name ..." />
+							</div>
+
+							<div class="form-group">
+								<label>Owner</label>
+								<input id="new_logbook_owner" class="form-control" name="owner" type="text" placeholder="Logbook owner ...">
+							</div>
+
+
+						</div>
+						<div class="modal-footer">
+							<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
+							<a href="#" onclick="modifyLogbookHandler()" class="btn btn-success">Save</a>
+						</div>
 					</div>
-
-					<label>Name</label>
-					<input id="new_logbook_name_original" name="name_original" type="hidden" />
-					<input id="new_logbook_name" name="name" type="text" placeholder="Logbook name ..." />
-
-					<label>Owner</label>
-					<input id="new_logbook_owner" name="owner" type="text" placeholder="Logbook owner ..."><br />
-
-				</div>
-				<div class="modal-footer">
-					<a href="#" onclick="modifyLogbookHandler()" class="btn btn-primary">Save</a>
-					<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
 				</div>
 			</div>
 
 			<!-- Delete log ============================================== -->
-			<div id="deleteLogModal" class="modal hide fade">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h3>Delete Log</h3>
-				</div>
-				<div class="modal-body">
+			<div id="deleteLogModal" class="modal fade" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h3>Delete Log</h3>
+						</div>
+						<div class="modal-body">
 
-					<div id="new_logbook_error_block" class="alert alert-error">
-						<button type="button" class="close" id="new_logbook_error_x">&times;</button>
-						<h4>Error!</h4>
-						<span id="new_logbook_error_body"></span>
+							<div id="new_logbook_error_block" class="alert alert-danger">
+								<button type="button" class="close" id="new_logbook_error_x">&times;</button>
+								<h4>Error!</h4>
+								<span id="new_logbook_error_body"></span>
+							</div>
+
+							<input id="name_original" type="hidden" name="name_original" value="" />
+							Are you sure you want to delete selected Log?
+						</div>
+						<div class="modal-footer">
+							<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
+							<a href="#" onclick="deleteLogHandler()" class="btn btn-success">Yes</a>
+						</div>
 					</div>
+				</div>
 
-					<input id="name_original" type="hidden" name="name_original" value="" />
-					Are you sure you want to delete selected Log?
-				</div>
-				<div class="modal-footer">
-					<a href="#" onclick="deleteLogHandler()" class="btn btn-primary">Yes</a>
-					<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
-				</div>
 			</div>
 
 			<!-- Delete logbook ============================================== -->
-			<div id="deleteLogbookModal" class="modal hide fade">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h3>Delete Logbook</h3>
-				</div>
-				<div class="modal-body">
+			<div id="deleteLogbookModal" class="modal fade" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h3>Delete Logbook</h3>
+						</div>
+						<div class="modal-body">
 
-					<div id="new_logbook_error_block" class="alert alert-error">
-						<button type="button" class="close" id="new_logbook_error_x">&times;</button>
-						<h4>Error!</h4>
-						<span id="new_logbook_error_body"></span>
+							<div id="new_logbook_error_block" class="alert alert-danger">
+								<button type="button" class="close" id="new_logbook_error_x">&times;</button>
+								<h4>Error!</h4>
+								<span id="new_logbook_error_body"></span>
+							</div>
+
+							<input id="name_original" type="hidden" name="name_original" value="" />
+							Are you sure you want to delete selected Logbook?
+						</div>
+						<div class="modal-footer">
+							<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
+							<a href="#" onclick="deleteLogbookHandler()" class="btn btn-success">Yes</a>
+						</div>
 					</div>
-
-					<input id="name_original" type="hidden" name="name_original" value="" />
-					Are you sure you want to delete selected Logbook?
-				</div>
-				<div class="modal-footer">
-					<a href="#" onclick="deleteLogbookHandler()" class="btn btn-primary">Yes</a>
-					<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
 				</div>
 			</div>
 
 			<!-- Add Tag ============================================== -->
-			<div id="myTagModal" class="modal hide fade">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h3>New Tag</h3>
-				</div>
-				<div class="modal-body">
+			<div id="myTagModal" class="modal fade" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h3>New Tag</h3>
+						</div>
+						<div class="modal-body">
 
-					<div id="new_logbook_error_block" class="alert alert-error">
-						<button type="button" class="close" id="new_logbook_error_x">&times;</button>
-						<h4>Error!</h4>
-						<span id="new_logbook_error_body"></span>
+							<div id="new_logbook_error_block" class="alert alert-danger">
+								<button type="button" class="close" id="new_logbook_error_x">&times;</button>
+								<h4>Error!</h4>
+								<span id="new_logbook_error_body"></span>
+							</div>
+							<div class="form-group">
+								<label>Name</label>
+								<input id="new_tag_name" class="form-control"  name="name" type="text" placeholder="Tag name ...">
+							</div>
+
+
+						</div>
+						<div class="modal-footer">
+							<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
+							<a onclick="createTagHandler()" href="#" class="btn btn-success">Create</a>
+						</div>
 					</div>
-
-					<label>Name</label>
-					<input id="new_tag_name" name="name" type="text" placeholder="Tag name ...">
-
-				</div>
-				<div class="modal-footer">
-					<a onclick="createTagHandler()" href="#" class="btn btn-primary">Create</a>
-					<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
 				</div>
 			</div>
 
 			<!-- Edit Tag ============================================== -->
-			<div id="editTagModal" class="modal hide fade">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h3>Edit Tag</h3>
-				</div>
-				<div class="modal-body">
+			<div id="editTagModal" class="modal fade" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h3>Edit Tag</h3>
+						</div>
+						<div class="modal-body">
 
-					<div id="new_logbook_error_block" class="alert alert-error">
-						<button type="button" class="close" id="new_logbook_error_x">&times;</button>
-						<h4>Error!</h4>
-						<span id="new_logbook_error_body"></span>
+							<div id="new_logbook_error_block" class="alert alert-danger">
+								<button type="button" class="close" id="new_logbook_error_x">&times;</button>
+								<h4>Error!</h4>
+								<span id="new_logbook_error_body"></span>
+							</div>
+							<input id="new_tag_name_original" name="name_original" type="hidden" />
+
+							<div class="form-group">
+								<label>Name</label>
+								<input id="new_tag_name"  class="form-control" name="name" type="text" placeholder="Tag name ...">
+							</div>
+
+						</div>
+						<div class="modal-footer">
+							<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
+							<a onclick="modifyTagHandler()" href="#" class="btn btn-success">Save</a>
+						</div>
 					</div>
-
-					<label>Name</label>
-					<input id="new_tag_name_original" name="name_original" type="hidden" />
-					<input id="new_tag_name" name="name" type="text" placeholder="Tag name ...">
-
-				</div>
-				<div class="modal-footer">
-					<a onclick="modifyTagHandler()" href="#" class="btn btn-primary">Save</a>
-					<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
 				</div>
 			</div>
 
 			<!-- Delete Tag ============================================== -->
-			<div id="deleteTagModal" class="modal hide fade">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h3>Delete Tag</h3>
-				</div>
-				<div class="modal-body">
+			<div id="deleteTagModal" class="modal fade" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h3>Delete Tag</h3>
+						</div>
+						<div class="modal-body">
 
-					<div id="new_logbook_error_block" class="alert alert-error">
-						<button type="button" class="close" id="new_logbook_error_x">&times;</button>
-						<h4>Error!</h4>
-						<span id="new_logbook_error_body"></span>
+							<div id="new_logbook_error_block" class="alert alert-danger">
+								<button type="button" class="close" id="new_logbook_error_x">&times;</button>
+								<h4>Error!</h4>
+								<span id="new_logbook_error_body"></span>
+							</div>
+
+							<input id="name_original" type="hidden" name="name_original" value="" />
+							Are you sure you want to delete selected Tag?
+						</div>
+						<div class="modal-footer">
+							<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
+							<a onclick="deleteTagHandler()" href="#" class="btn btn-success">Yes</a>
+						</div>
 					</div>
-
-					<input id="name_original" type="hidden" name="name_original" value="" />
-					Are you sure you want to delete selected Tag?
 				</div>
-				<div class="modal-footer">
-					<a onclick="deleteTagHandler()" href="#" class="btn btn-primary">Yes</a>
-					<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
+
+			</div>
+
+			<!-- Cancel adding or editing log ============================================== -->
+			<div id="cancelEditingLogModal" class="modal fade" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h3>Delete Draft</h3>
+						</div>
+						<div class="modal-body">
+							<input type="hidden" name="id" value="" />
+							Are you sure you want to delete a draft and return to a home page?
+						</div>
+						<div class="modal-footer">
+							<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
+							<button type="button" onclick="deleteDraftAndReturnToHomePage()" class="btn btn-success">Yes</button>
+						</div>
+					</div>
 				</div>
 			</div>
 
 			<!-- Cancel adding or editing log ============================================== -->
-			<div id="cancelEditingLogModal" class="modal hide fade">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h3>Delete Draft</h3>
-				</div>
-				<div class="modal-body">
-					<input type="hidden" name="id" value="" />
-					Are you sure you want to delete a draft and return to a home page?
-				</div>
-				<div class="modal-footer">
-					<button type="button" onclick="deleteDraftAndReturnToHomePage()" class="btn btn-primary">Yes</button>
-					<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
-				</div>
-			</div>
+			<div id="deleteExistingAttachmentModal" class="modal fade" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h3>Delete Attachment</h3>
+						</div>
+						<div class="modal-body">
 
-			<!-- Cancel adding or editing log ============================================== -->
-			<div id="deleteExistingAttachmentModal" class="modal hide fade">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h3>Delete Attachment</h3>
-				</div>
-				<div class="modal-body">
+							<div id="new_logbook_error_block" class="alert alert-danger">
+								<button type="button" class="close" id="new_logbook_error_x">&times;</button>
+								<h4>Error!</h4>
+								<span id="new_logbook_error_body"></span>
+							</div>
 
-					<div id="new_logbook_error_block" class="alert alert-error">
-						<button type="button" class="close" id="new_logbook_error_x">&times;</button>
-						<h4>Error!</h4>
-						<span id="new_logbook_error_body"></span>
+							<input type="hidden" name="url" id="url" value="" />
+							<input type="hidden" name="element" id="element" value="" />
+							Are you sure you want to delete this attachment?
+						</div>
+						<div class="modal-footer">
+							<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
+							<button type="button" onclick="deleteAttachmentHandler()" class="btn btn-success">Yes</button>
+						</div>
 					</div>
-
-					<input type="hidden" name="url" id="url" value="" />
-					<input type="hidden" name="element" id="element" value="" />
-					Are you sure you want to delete this attachment?
-				</div>
-				<div class="modal-footer">
-					<button type="button" onclick="deleteAttachmentHandler()" class="btn btn-primary">Yes</button>
-					<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
 				</div>
 			</div>
 
 			<!-- Server error modal ============================================== -->
-			<div id="serverErrorModal" class="modal hide fade">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h3>Server Error!</h3>
+			<div id="serverErrorModal" class="modal fade" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h3>Server Error!</h3>
+						</div>
+						<div class="modal-body">
+							There was a problem connecting to the server. Check server status and reload the page!
+						</div>
+						<div class="modal-footer">
+							<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Close</a>
+						</div>
+					</div>
 				</div>
-				<div class="modal-body">
-					There was a problem connecting to the server. Check server status and reload the page!
+
+			</div>
+
+			<!-- Log Not Found Modal ============================================== -->
+			<div id="shortcutErrorModal" class="modal fade" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h3>Log Not Found</h3>
+						</div>
+						<div class="modal-body">
+							This log could not be accessed.
+							It may have been deleted or you may need to clear the filters in the search bar to view it.
+						</div>
+						<div class="modal-footer">
+							<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Close</a>
+						</div>
+					</div>
 				</div>
-				<div class="modal-footer">
-					<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Close</a>
-				</div>
+
 			</div>
 	</body>
 </html>

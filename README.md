@@ -4,7 +4,8 @@ Olog is a lightweight web client for [olog-service](https://github.com/Olog/olog
 ## Technologies and plugins used
 
  * HTML5
- * [Bootstrap 2.3.2](http://twitter.github.io/bootstrap/)
+ * [Bootstrap 3.3.7](http://http://getbootstrap.com/)
+ * [Bootstrap3 Typeahead 4.0.2](https://github.com/bassjobsen/Bootstrap-3-Typeahead)
  * [jQuery 2.0.2](http://jquery.com/)
  * [jQuery UI 1.10.3](http://jqueryui.com/)
  * [jQuery UI timepicker 1.3.1](http://trentrichardson.com/examples/timepicker/)
@@ -14,6 +15,8 @@ Olog is a lightweight web client for [olog-service](https://github.com/Olog/olog
  * [jquery.cookie 1.3.1](https://github.com/carhartl/jquery-cookie)
  * [Purl (A JavaScript URL parser) 2.3.1](https://github.com/allmarkedup/purl)
  * [jQuery File Upload Plugin 5.31.6](https://github.com/blueimp/jQuery-File-Upload)
+ * [Qunit 2.3.2](http://qunitjs.com/)
+ * [SimpleMDE - Markdown Editor 1.11.2](https://github.com/NextStepWebs/simplemde-markdown-editor)
 
 ## Installation instructions
 

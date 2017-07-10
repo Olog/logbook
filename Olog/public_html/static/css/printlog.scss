@@ -1,0 +1,129 @@
+/**
+ All styles for print_log
+
+  @author: Dena Mujtaba
+ */
+
+#print_container{
+  @include border-radius(5px);
+
+  div{
+    border-left:2px solid $blue-gray-700;
+    border-right:2px solid $blue-gray-700;
+
+    &:last-child{
+      border-bottom:1px solid $blue-gray-700;
+    }
+  }
+  .log_print_title{
+    margin-top:20px;
+    display:block;
+    text-align:center;
+    h4{
+      border:1px solid $blue-gray-700;
+      border-left:0;
+      border-right:0;
+      background-color:$blue-gray-700;
+      padding:15px;
+      color:white;
+    }
+  }
+  h4,p{
+    margin:0;
+  }
+
+  p.print-type{
+    padding: 7px 15px;
+    span {
+      padding:1px 15px;
+      color:$blue-gray-700;
+
+      display:block;
+      &:first-child {
+        border-bottom:1px solid $gray-500;
+        margin-bottom:5px;
+        padding:0;
+        text-transform:uppercase;
+        font-size:$md-font;
+        color:$gray-950;
+      }
+
+      &.tm-tag{
+        margin-bottom:2px;
+        border-bottom:0;
+        display:inline-block;
+        padding:2px 9px;
+        border:1px solid $gray-600;
+        span{
+          margin-bottom:0;
+          border-bottom:0;
+          font-size:$sm-font;
+        }
+        &.tm-tag-warning{
+          $col: mix(get('logbook', $tag-colors), $gray-200, 50%);
+          color:darken($col, 32%);
+          border:1px solid darken($col, 5%);
+          background-color:lighten($col, 5%);
+        }
+        &.tm-tag-info{
+          $col: mix(get('tagt', $tag-colors), $gray-200, 50%);
+          color:darken($col, 32%);
+          border:1px solid darken($col, 5%);
+          background-color:lighten($col, 5%);
+        }
+      }
+    }
+  }
+
+  .log_print_description{
+    textarea{
+      display:none;
+    }
+    padding: 7px 15px;
+    span:first-child {
+        display:block;
+        text-transform:uppercase;
+        font-size:$md-font;
+        color:$gray-950;
+      }
+
+    .CodeMirror{
+      min-height:auto;
+      border: 0;
+      overflow:visible;
+      display:block;
+    }
+
+    .CodeMirror-vscrollbar{
+      display:none !important;
+    }
+    .CodeMirror-scroll{
+      display:none;
+    }
+
+    .editor-preview{
+      height:auto;
+      padding:10px;
+      background-color:$gray-100;
+      border:1px solid $gray-400;
+      @include border-radius(5px);
+      position:relative;
+
+    }
+  }
+
+  .log_properties div{
+    border:0;
+    table tbody{
+      display:block;
+      tr{
+        display:block;
+        td{
+          float:left;
+          width:50%;
+          display:inline-block;
+        }
+      }
+    }
+  }
+}

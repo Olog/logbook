@@ -55,6 +55,7 @@ function initialize(logId) {
 	$('#back_button').click(function(e){
 		showCancelEditingLogModal(logId);
 	});
+
 }
 
 /**
@@ -133,6 +134,13 @@ function isValidLog(log) {
 		errorString += "At least one Logbook should be selected!<br />";
 	}
 
+	// Check that the eventStart date is before the current dateTime
+	if (log[0]["eventStart"] !== ""){
+		var datetest =  new Date(log[0]["eventStart"]);
+		if(datetest >= new Date()){
+			errorString += "The event start cannot be a future date<br />";
+		}
+	}
 	// Check if user is logged in
 	if (getUserCreadentials() === null) {
 		errorString += "User is not logged in!<br />";
