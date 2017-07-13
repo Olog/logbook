@@ -61,7 +61,10 @@ function loadTags(targetId, showByDefault, saveSelectedItemsIntoACookie, showSel
  * number is increased when user scrolls down the list
  * @param activateLogsTrigger if loadlogs trigger should be activated
  */
-function loadLogs(page, ignorePreviousSearchString, activateLogsTrigger=true){
+function loadLogs(page, ignorePreviousSearchString, activateLogsTrigger){
+    if(activateLogsTrigger === undefined) {
+        activateLogsTrigger = true;
+    }
 	// Remo all the logs if we are starting from the beginning
 	if(page === 1){
 		$(".log").remove();

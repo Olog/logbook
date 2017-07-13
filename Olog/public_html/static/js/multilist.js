@@ -245,7 +245,10 @@ function setItemSelected(name, elem){
  * @param saveSelectedItemsIntoACookie Bool to save
  * @param triggerEvent if we should trigger dataselected on the element
  */
-function saveSelectedItems(e, saveSelectedItemsIntoACookie, triggerEvent=true){
+function saveSelectedItems(e, saveSelectedItemsIntoACookie, triggerEvent){
+    if(triggerEvent === undefined) {
+        triggerEvent = true;
+    }
 
 	if(triggerEvent){
         // Trigger event and set cookie with data

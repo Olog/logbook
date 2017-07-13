@@ -264,8 +264,10 @@ function handleTagClick(tag){
  * @param override If tag is auto generated from selections/ saved
  * @return boolean if tag was successfully created
  */
-function addTag(main, tagsArea, val, type, override=false){
-
+function addTag(main, tagsArea, val, type, override){
+    if(override === undefined) {
+        override = false;
+    }
     if(checkValidTag(val, type) || override){
         searchInputElements[type][val] = val;
 
