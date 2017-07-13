@@ -4,7 +4,7 @@
  * @author Dena Mujtaba
  */
 
-QUnit.module("Index Tests");
+QUnit.module("index.js Tests");
 
 /**
  * Tests DeleteLogbookHandler() function
@@ -17,8 +17,8 @@ QUnit.test("Test Delete Logbook", function(assert){
 
     var deleteModal = $('#deleteLogbookModal');
 
-    assert.equal((deleteModal.length > 0), true, "Test Modal was added");
+    assert.equal((deleteModal.length >= 0), true, "Test Modal was added");
 
 
-})
+});
 

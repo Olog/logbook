@@ -13,13 +13,16 @@ var max_search = 10;
  * @param elem The element to add to the list of shortcuts
  * @param isTimestamp If it is a timestamp, not a log object
  */
-function addToShortcuts(list, elem, isTimestamp=false){
+function addToShortcuts(list, elem){
     var logid = "";
     var createdAt = "";
     var namee = "" ;
     var template = "";
     var shortcuttype = "timestamp";
 
+    if(isTimestamp === undefined){
+        isTimestamp = false;
+    }
     if(isTimestamp){
         logid = elem;
         createdAt = elem;

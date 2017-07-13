@@ -15,7 +15,6 @@ var version = "0.5";
 // For accessing the REST service
 var serviceurl = window.location.protocol + "//" + window.location.host + "/Olog/resources/";
 
-
 // For all the dates shown in client
 // Format docs can be found at http://momentjs.com/docs/#/displaying/format/
 var dateFormat = "M/D/YY, h:mm A";
