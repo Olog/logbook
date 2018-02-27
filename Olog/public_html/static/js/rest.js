@@ -1121,11 +1121,10 @@ function createLog(log) {
 		error : function(xhr, ajaxOptions, thrownError) {
 
 		},
-		success : function(xml) {
+		success : function(data) {
 			l("Log sent to the server");
 
-			$log = $(xml).find("log");
-			logId = $log.attr('id');
+			logId = data.log[0].id;
 		}
 	});
 
